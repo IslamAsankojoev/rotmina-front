@@ -1,0 +1,1 @@
+export { leftMenu } from './menus'
