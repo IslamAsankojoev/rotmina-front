@@ -34,14 +34,14 @@ const libreCaslonText = Libre_Caslon_Text({
 
 const variantStyles: Record<string, string> = {
   text_main: clsx('text-[18px]', `${arima.className}`),
-  text_mini_footer: clsx('text-[14px]', `${arima.className}`),
+  text_mini_footer: clsx('text-[12px] md:text-[14px]', `${arima.className}`),
   text_mobile_footer: clsx('text-[12px]', `${arima.className}`),
   text_1: clsx('text-[20px]', `${arima.className}`),
   text_mobile_categories: clsx('text-[24px]', `${arima.className}`),
   text_categories: clsx('text-[32px]', `${arima.className}`),
-  text_title: clsx('text-[48px]', `${libreCaslonText.className} italic`),
+  text_title: clsx('text-[36px] md:text-[48px]', `${libreCaslonText.className} italic`),
   text_mobile_title: clsx('text-[36px]', `${libreCaslonText.className}`),
-  text_pageTitle: clsx('text-[80px]', `${libreCaslonText.className}`),
+  text_pageTitle: clsx('text-[36px] md:text-[80px]', `${libreCaslonText.className}`),
   text_mobile_title2: clsx('text-[32px]', `${libreCaslonText.className}`),
 }
 

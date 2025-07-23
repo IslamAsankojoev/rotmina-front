@@ -1,9 +1,10 @@
+'use client'
 import { Button } from '@/shadcn/components/ui/button'
 import { Input } from '@/shadcn/components/ui/input'
 import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
 import { Libre_Caslon_Text } from 'next/font/google'
 
-import { Typography, leftMenu } from '../shared'
+import { Typography, leftMenu, useScreenSize } from '../shared'
 
 const libreCaslonText = Libre_Caslon_Text({
   weight: ['400', '700'],
@@ -11,6 +12,7 @@ const libreCaslonText = Libre_Caslon_Text({
 })
 
 export const Footer = () => {
+  const { md } = useScreenSize()
   return (
     <footer className="bg-blackish py-16">
       <div className="container flex flex-col md:flex-row justify-between gap-6">
@@ -64,16 +66,16 @@ export const Footer = () => {
           </div>
           <div className="flex justify-between gap-6">
             <div>
-              <Instagram strokeWidth={0.75} size={35} color="white" />
+              <Instagram strokeWidth={0.75} size={md ? 35 : 24} color="white" />
             </div>
             <div>
-              <Smartphone strokeWidth={0.75} size={35} color="white" />
+              <Smartphone strokeWidth={0.75} size={md ? 35 : 24} color="white" />
             </div>
             <div>
-              <Facebook strokeWidth={0.75} size={35} color="white" />
+              <Facebook strokeWidth={0.75} size={md ? 35 : 24} color="white" />
             </div>
             <div>
-              <Mail strokeWidth={0.75} size={35} color="white" />
+              <Mail strokeWidth={0.75} size={md ? 35 : 24} color="white" />
             </div>
           </div>
         </div>

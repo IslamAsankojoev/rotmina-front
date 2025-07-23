@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import {
@@ -12,8 +12,9 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
-import { Typography } from '@/src/shared'
+import { Typography, useScreenSize } from '@/src/shared'
 import clsx from 'clsx'
+import { SlidersHorizontal } from 'lucide-react'
 
 interface ProductFilterProps {
   colors?: string[]
@@ -27,7 +28,7 @@ export function ProductFilter({
   const [open, setOpen] = useState(false)
   const [selectedColors, setSelectedColors] = useState<string[]>([])
   const [selectedSizes, setSelectedSizes] = useState<string[]>([])
-
+  const { md } = useScreenSize()
   const handleColorChange = (value: string[]) => {
     setSelectedColors(value)
   }
@@ -38,10 +39,12 @@ export function ProductFilter({
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Typography variant="text_main" className="cursor-pointer">
-          FILTER
-        </Typography>
+      <PopoverTrigger asChild className="cursor-pointer">
+        {md ? (
+          <Typography variant="text_main">FILTER</Typography>
+        ) : (
+          <SlidersHorizontal strokeWidth={0.75} />
+        )}
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="flex flex-col gap-4">

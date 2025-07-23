@@ -29,6 +29,7 @@ import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
 import { EffectCoverflow, Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import Link from 'next/link'
 
 const slides = [
   { src: SlideImage1, alt: 'CLOTHES 1', price: 'Price' },
@@ -248,10 +249,11 @@ export default function Home() {
             title: 'purse (21)',
           },
         ].map((category, index) => (
-          <div
+          <Link
+            href={`/category/${category.title.toLowerCase()}`}
             key={index}
             className={clsx(
-              'relative h-96 w-full saturate-0 md:h-[600px]',
+              'relative h-96 w-full saturate-0 md:h-[600px] block',
               index === 4 && 'col-span-2 md:col-span-2 lg:col-span-4',
             )}
           >
@@ -266,7 +268,7 @@ export default function Home() {
                 {category.title}
               </Typography>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
       <div className="container mt-24 flex flex-col gap-8">
