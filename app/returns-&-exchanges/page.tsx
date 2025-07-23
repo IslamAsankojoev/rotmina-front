@@ -1,0 +1,38 @@
+'use client'
+
+import React from 'react'
+
+import ReturnsImage from '@/public/assets/returnsAndExchanges.png'
+import { ReturnForm } from '@/src/features'
+import { Typography } from '@/src/shared'
+import Image from 'next/image'
+
+const ReturnsAndExchanges = () => {
+  return (
+    <>
+      <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36" />
+      <div className="max-w-[1334px] md:container mb-24 md:my-24">
+        <div className="flex flex-col md:flex-row">
+          <div className="flex-3 bg-[#EFEFEF] p-4 md:p-14">
+            <Typography variant="text_title" className="mb-4">
+              Returns & Exchanges
+            </Typography>
+            <ReturnForm />
+          </div>
+          <div className="flex min-h-full flex-2 items-center justify-center">
+            <div className="relative h-full min-h-[500px] w-full md:min-h-[600px]">
+              <Image
+                src={ReturnsImage}
+                alt="product-image"
+                fill
+                objectFit="cover"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default ReturnsAndExchanges

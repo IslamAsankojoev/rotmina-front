@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
 import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
+import { Typography, useScreenSize } from '@/src/shared'
 import clsx from 'clsx'
 import {
   Facebook,
@@ -19,7 +20,24 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Typography, leftMenu, useScreenSize } from '../shared'
+const leftMenu = [
+  {
+    title: 'My Story',
+    href: '/my-story',
+  },
+  {
+    title: 'Shop',
+    href: '/shop',
+  },
+  {
+    title: 'Gift Card',
+    href: '/gift-card',
+  },
+  {
+    title: 'Personal Stylist',
+    href: '/personal-stylist',
+  },
+]
 
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
@@ -27,7 +45,7 @@ export const Header = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      setScrolled(window.scrollY > 5)
     }
 
     window.addEventListener('scroll', handleScroll)

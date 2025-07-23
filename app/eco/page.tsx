@@ -9,7 +9,7 @@ import Image from 'next/image'
 const ECO = () => {
   return (
     <>
-      <div className="relative container mt-36 flex w-full flex-col justify-end">
+      <div className="relative container mt-24 md:mt-36 flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },

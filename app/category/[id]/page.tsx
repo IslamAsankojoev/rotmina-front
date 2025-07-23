@@ -14,7 +14,7 @@ const Category = () => {
   return (
     <>
       <div
-        className="relative mt-36 flex h-[390px] w-full flex-col justify-end"
+        className="relative mt-24 md:mt-36 flex h-[390px] w-full flex-col justify-end"
         style={{
           backgroundImage: `url(${CategoryImage.src})`,
           backgroundSize: 'cover',
