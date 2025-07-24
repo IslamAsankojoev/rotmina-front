@@ -64,13 +64,13 @@ export const Header = () => {
           <div className="h-12 w-12 md:hidden" />
           <nav className="hidden gap-6 md:flex">
             {leftMenu.map((item) => (
-              <a
+              <Link
                 key={item.title}
                 href={item.href}
                 className="text-lg uppercase hover:underline"
               >
                 <Typography variant="text_main">{item.title}</Typography>
-              </a>
+              </Link>
             ))}
           </nav>
           <Link href="/" className="flex items-center">
@@ -88,15 +88,15 @@ export const Header = () => {
               <div className="text-lg font-medium">
                 <Image src={Leaf} width={24} height={24} alt="leaf" />
               </div>
-              <div className="text-lg font-medium uppercase">
+              <Link href="/account" className="text-lg font-medium uppercase">
                 <Typography variant="text_main">Account</Typography>
-              </div>
-              <div className="text-lg font-medium uppercase">
+              </Link>
+              <Link href='/wishlist' className="text-lg font-medium uppercase">
                 <Typography variant="text_main">Wishlist</Typography>
-              </div>
-              <div className="text-lg font-medium uppercase">
+              </Link>
+              <Link href='/cart' className="text-lg font-medium uppercase">
                 <Typography variant="text_main">Cart</Typography>
-              </div>
+              </Link>
               <div className="text-lg font-medium uppercase">
                 <Typography variant="text_main">He</Typography>
               </div>
