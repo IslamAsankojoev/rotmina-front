@@ -20,6 +20,8 @@ import {
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { MiniCart } from '../features'
+
 const leftMenu = [
   {
     title: 'My Story',
@@ -91,12 +93,10 @@ export const Header = () => {
               <Link href="/account" className="text-lg font-medium uppercase">
                 <Typography variant="text_main">Account</Typography>
               </Link>
-              <Link href='/wishlist' className="text-lg font-medium uppercase">
+              <Link href="/wishlist" className="text-lg font-medium uppercase">
                 <Typography variant="text_main">Wishlist</Typography>
               </Link>
-              <Link href='/cart' className="text-lg font-medium uppercase">
-                <Typography variant="text_main">Cart</Typography>
-              </Link>
+              <MiniCart />
               <div className="text-lg font-medium uppercase">
                 <Typography variant="text_main">He</Typography>
               </div>

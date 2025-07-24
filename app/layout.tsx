@@ -1,4 +1,3 @@
-import { Footer, Header } from '@/src/widgets'
 import type { Metadata } from 'next'
 import { Arima } from 'next/font/google'
 import 'swiper/css'
@@ -26,13 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${arima.className} antialiased`}>
-        <main className='flex min-h-screen flex-col justify-between'>
-          <Header />
-          {children}
-          <Footer />
-        </main>
-      </body>
+      <body className={`${arima.className} antialiased`}>{children}</body>
     </html>
   )
 }
