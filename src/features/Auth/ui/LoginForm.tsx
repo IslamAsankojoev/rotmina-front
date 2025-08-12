@@ -10,7 +10,8 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { Typography } from '@/src/shared'
+import { api } from '@/src/app'
+import { Typography, useAuth } from '@/src/shared'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -21,6 +22,7 @@ import { LoginSchema } from '../model/validation'
 
 export const LoginForm = () => {
   const router = useRouter()
+  const { login } = useAuth()
   const form = useForm<z.infer<typeof LoginSchema>>({
     defaultValues: {
       email: '',
@@ -29,21 +31,20 @@ export const LoginForm = () => {
   })
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    fetch('http://localhost:1337/api/auth/local', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    login.mutate(
+      {
         identifier: data.email,
         password: data.password,
-      }),
-      credentials: 'include',
-    }).then((res) => {
-      if (res.ok) {
-        router.push('/account')
-      }
-    })
+      },
+      {
+        onSuccess: () => {
+          // router.push('/account')
+        },
+        onError: (error) => {
+          console.error(error)
+        },
+      },
+    )
   }
 
   return (

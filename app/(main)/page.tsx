@@ -27,16 +27,15 @@ import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
-import { EffectCoverflow, Navigation } from 'swiper/modules'
-import { Swiper, SwiperSlide } from 'swiper/react'
 import Link from 'next/link'
+import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 
 const slides = [
-  { src: SlideImage1, alt: 'CLOTHES 1', price: 'Price' },
-  { src: SlideImage2, alt: 'CLOTHES 2', price: 'Price' },
-  { src: SlideImage3, alt: 'CLOTHES 3', price: 'Price' },
-  { src: SlideImage4, alt: 'CLOTHES 4', price: 'Price' },
-  { src: SlideImage5, alt: 'CLOTHES 5', price: 'Price' },
+  { src: SlideImage1.src, alt: 'CLOTHES 1', price: 'Price' },
+  { src: SlideImage2.src, alt: 'CLOTHES 2', price: 'Price' },
+  { src: SlideImage3.src, alt: 'CLOTHES 3', price: 'Price' },
+  { src: SlideImage4.src, alt: 'CLOTHES 4', price: 'Price' },
+  { src: SlideImage5.src, alt: 'CLOTHES 5', price: 'Price' },
 ]
 
 export default function Home() {
@@ -100,58 +99,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex w-full items-center justify-center overflow-x-hidden">
-        <div className="relative w-full max-w-[1600px] px-0">
-          <Swiper
-            modules={[EffectCoverflow, Navigation]}
-            effect="coverflow"
-            grabCursor={true}
-            centeredSlides={true}
-            slidesPerView={5}
-            spaceBetween={20}
-            loop={true}
-            coverflowEffect={{
-              rotate: 80,
-              depth: -100,
-              modifier: 0.2,
-              scale: 1.2,
-            }}
-            style={{ paddingBottom: 80 }}
-          >
-            {slides.map((slide, index) => (
-              <SwiperSlide
-                key={index}
-                className="flex flex-col items-center justify-end"
-              >
-                <div
-                  className="overflow-hidden rounded-lg border-2 border-white bg-white"
-                  style={{ width: 380, height: 540 }}
-                >
-                  <Image
-                    src={slide.src}
-                    alt={slide.alt}
-                    width={380}
-                    height={540}
-                    style={{
-                      objectFit: 'cover',
-                      width: '100%',
-                      height: '100%',
-                    }}
-                  />
-                </div>
-                <div className="mt-6 flex flex-row items-center justify-between">
-                  <span className="text-base font-normal tracking-widest text-stone-700">
-                    {slide.alt}
-                  </span>
-                  <span className="mt-1 text-base font-light text-stone-400">
-                    {slide.price}
-                  </span>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-      </div>
+      <PanoramaSlider slides={slides} />
       <div className="container mt-24">
         <Typography variant="text_title">
           Rothmina - Between Beauty and Ethics

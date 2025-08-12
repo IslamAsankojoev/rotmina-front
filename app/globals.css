@@ -130,3 +130,52 @@
   margin-inline: auto;
 }
 
+.panorama-swiper {
+  padding: 50px 0;
+  overflow: hidden;
+  perspective: 1200px; /* задаём 3D‑контекст */
+}
+
+.panorama-swiper .swiper-wrapper,
+.panorama-swiper .swiper-slide {
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.panorama-swiper .swiper-slide.slide-card {
+  width: 320px; /* подберите под свои изображения */
+  will-change: transform;
+}
+
+.panorama-swiper .slide-card .img-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.panorama-swiper .slide-card .meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  color: #fff;
+  margin-top: 12px;
+  opacity: 0.8;
+}
+
+/* не режем 3D ни на одном уровне Swiper */
+.panorama-swiper,
+.panorama-swiper .swiper,
+.panorama-swiper .swiper-wrapper,
+.panorama-swiper .swiper-slide {
+  overflow: visible !important;
+}
+
+/* 3D-контекст */
+.panorama-swiper {
+  perspective: 1200px;
+  perspective-origin: 50% 45%;   /* приподнимаем «горизонт» — меньше риска реза снизу */
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+.panorama-swiper .swiper-wrapper { transform-style: preserve-3d; }
