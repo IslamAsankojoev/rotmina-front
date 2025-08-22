@@ -16,12 +16,6 @@ import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
 import { Typography } from '@/src/shared'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@radix-ui/react-accordion'
 import clsx from 'clsx'
 import Image from 'next/image'
 import 'swiper/css'
@@ -29,6 +23,7 @@ import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
 import Link from 'next/link'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shadcn/components/ui/accordion'
 
 const slides = [
   { src: SlideImage1.src, alt: 'CLOTHES 1', price: 'Price' },
@@ -260,13 +255,17 @@ export default function Home() {
               <div
                 key={index}
                 className={clsx(
-                  'm-4 w-96 flex-1 border-b-2 p-6 text-center',
+                  'm-4 w-96 flex-1 border-b-2 p-2 text-center',
                   index === 2 && 'border-b-0',
                 )}
               >
                 <AccordionItem value={collection.id}>
-                  <AccordionTrigger>{collection.title}</AccordionTrigger>
-                  <AccordionContent className="flex flex-col items-center justify-center">
+                  <AccordionTrigger className='p-0 justify-center'>
+                    <Typography variant="text_pageTitle" className='!text-2xl text-center'>
+                      {collection.title}
+                    </Typography>
+                  </AccordionTrigger>
+                  <AccordionContent className="flex flex-col items-center justify-center mt-4">
                     <Typography variant="text_main">
                       {collection.description}
                     </Typography>

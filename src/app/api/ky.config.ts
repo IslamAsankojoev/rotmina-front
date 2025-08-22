@@ -9,5 +9,11 @@ export const api = ky.create({
         console.log('ky beforeRequest')
       },
     ],
+    afterResponse: [
+      async (request, options, response) => {
+        if(response.status === 401) {
+        }
+      },
+    ],
   },
 })
