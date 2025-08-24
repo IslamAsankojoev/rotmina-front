@@ -1,17 +1,40 @@
 import ky from 'ky'
+import { clearAuthCookies } from './cookie-utils'
+import { globalAuthConfig } from './auth-config'
 
 export const api = ky.create({
   prefixUrl: `http://localhost:1337/api`,
   credentials: 'include',
   hooks: {
     beforeRequest: [
-      () => {
-        console.log('ky beforeRequest')
+      (request, options) => {
+        if (options.method && ['post', 'put', 'patch'].includes(options.method.toLowerCase())) {
+          if (!options.headers) {
+            options.headers = new Headers()
+          }
+          
+          const headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+          if (!headers.has('Content-Type') && !headers.has('content-type')) {
+            headers.set('Content-Type', 'application/json')
+            options.headers = headers
+          }
+        }
       },
     ],
     afterResponse: [
       async (request, options, response) => {
-        if(response.status === 401) {
+        if (response.status === 401) {
+          clearAuthCookies()
+          
+          // if (globalAuthConfig.onUnauthorized) {
+          //   globalAuthConfig.onUnauthorized()
+          // }
+          
+          // if (globalAuthConfig.autoRedirect && typeof window !== 'undefined') {
+          //   setTimeout(() => {
+          //     window.location.href = globalAuthConfig.redirectUrl
+          //   }, 0)
+          // }
         }
       },
     ],

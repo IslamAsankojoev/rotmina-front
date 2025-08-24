@@ -4,11 +4,12 @@ import React from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import { OrderList } from '@/src/features'
-import { Breadcrumbs, useAuth, useUser } from '@/src/shared'
+import { Breadcrumbs, Typography, useAuth, useUser } from '@/src/shared'
 
 const Account = () => {
   const { user } = useUser()
   const { logout } = useAuth()
+  
   return (
     <>
       <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36">

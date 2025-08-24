@@ -24,5 +24,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [...authRoutes, ...protectedRoutes],
+  matcher: ['/login', '/signup', '/reset-password', '/account', '/cart', '/checkout', '/orders'],
 }

@@ -4,15 +4,21 @@ import { AuthService } from '@/src/features/Auth/model/api'
 import { User } from '@/src/features/Auth/model/type'
 import { useQuery } from '@tanstack/react-query'
 
-export const useUser = () => {
+interface UseUserProps {
+  allPopulates?: boolean
+}
+
+export const useUser = ({ allPopulates = false }: UseUserProps = {}) => {
   const user = useQuery<User>({
-    queryKey: ['user'],
+    queryKey: ['user', allPopulates],
     queryFn: async () => {
-      const response = await AuthService.me()
+      const response = allPopulates
+        ? await AuthService.meWithAllPopulates()
+        : await AuthService.me()
       const user = await response.json<User>()
       return user
     },
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   })
 
   return {
