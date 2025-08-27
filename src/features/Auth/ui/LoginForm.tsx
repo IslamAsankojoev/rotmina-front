@@ -10,18 +10,15 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { api } from '@/src/app'
 import { Typography, useAuth } from '@/src/shared'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { LoginSchema } from '../model/validation'
 
 export const LoginForm = () => {
-  const router = useRouter()
   const { login } = useAuth()
   const form = useForm<z.infer<typeof LoginSchema>>({
     defaultValues: {

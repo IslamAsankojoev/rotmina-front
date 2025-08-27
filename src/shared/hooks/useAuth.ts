@@ -1,7 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-
 import { AuthService } from '@/src/features/Auth/model/api'
 import { AuthCredentials } from '@/src/features/Auth/model/type'
 import { useMutation } from '@tanstack/react-query'

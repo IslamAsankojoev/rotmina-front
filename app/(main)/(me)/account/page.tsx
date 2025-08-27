@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import { OrderList } from '@/src/features'
-import { Breadcrumbs, Typography, useAuth, useUser } from '@/src/shared'
+import { Breadcrumbs, useAuth, useUser } from '@/src/shared'
 
 const Account = () => {
   const { user } = useUser()
