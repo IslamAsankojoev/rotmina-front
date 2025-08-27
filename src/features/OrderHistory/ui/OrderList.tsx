@@ -13,7 +13,7 @@ export const OrderList = () => {
   const orders = user.data?.orders || []
 
   if (!user.data) {
-    return <div>Loading...</div>
+    return <div>Загрузка...</div>
   }
 
   if (orders.length === 0) {

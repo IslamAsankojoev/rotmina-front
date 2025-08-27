@@ -1,46 +1,6 @@
 ---
-description: Strapi v5 Backend MCP rules
-alwaysApply: false
+description: 'Strapi rules'
 globs:
-  # где лежит спека, из которой брать модели (любой из путей, если есть)
-  - docs/openapi.json
-  - src/extensions/documentation/documentation/**/full_documentation.json
-alwaysApply: true
-
-# Что это за источник
-- This server represents the BACKEND (Strapi v5). It is NOT a design or frontend asset source.
-- Treat it as a read-only API used to discover and consume domain MODELS (content-types) and their fields/relations.
-
-# Откуда брать модели (schema)
-- Prefer extracting models from the OpenAPI spec (components.schemas.*).
-- Consider only public REST resources that map to Strapi content-types (/api/<collectionType> and /api/<singleType>).
-- Do NOT depend on /admin or /content-type-builder endpoints (these are private/admin-only).
-
-# Безопасность и методы
-- Allowed HTTP methods by default: GET, HEAD, OPTIONS.
-- Do NOT perform POST, PUT, PATCH, DELETE unless an explicit allowlist is configured.
-- Use the provided Authorization: Bearer <token> ONLY against the base URL (e.g., http://localhost:1337).
-
-# Разрешённые пути (allowlist)
-- Allow:   /api/**
-- Block:   /admin/**, /content-type-builder/**, /upload/** (mutations), /users-permissions/** (mutations)
-
-# Как формировать запросы для чтения
-- For collections: use pagination (pagination[page], pagination[pageSize]) with sane caps (pageSize ≤ 50).
-- For relations: use populate with a shallow depth (≤ 2) and only required fields.
-- For filtering: use filters[field][$eq|$in|$containsi|$between] as supported by Strapi v5.
-- For sorting: use sort=field:asc|desc.
-- Select fields explicitly when possible via fields[]= to reduce payload.
-
-# Как использовать модели во фронтенде
-- Derive TypeScript types/interfaces from the model schemas (components.schemas.*) rather than inventing shapes.
-- When suggesting frontend calls, reference the exact endpoint, method=GET, params (filters/pagination/sort/populate), and the expected response shape from the spec.
-- Do NOT generate or suggest any admin/permission-changing requests.
-
-# Приватные данные
-- Never log or echo tokens/credentials in code examples.
-- Assume different envs (DEV/PROD). Default to DEV base URL from env (STRAPI_BASE_URL), token from env (STRAPI_TOKEN).
-
-# Ограничения
-- No schema migrations, role/permission edits, or file uploads through this MCP.
-- If a model/field is absent in the spec, do not guess—ask for the spec update or show a safe fallback query with minimal fields.
+alwaysApply: false
+---
+Если работа косается данных и типов всегда смотри в схему Strapi.

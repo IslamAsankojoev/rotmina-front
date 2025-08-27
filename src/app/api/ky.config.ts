@@ -1,6 +1,4 @@
 import ky from 'ky'
-import { clearAuthCookies } from './cookie-utils'
-import { globalAuthConfig } from './auth-config'
 
 export const api = ky.create({
   prefixUrl: `http://localhost:1337/api`,
@@ -24,17 +22,6 @@ export const api = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
-          clearAuthCookies()
-          
-          // if (globalAuthConfig.onUnauthorized) {
-          //   globalAuthConfig.onUnauthorized()
-          // }
-          
-          // if (globalAuthConfig.autoRedirect && typeof window !== 'undefined') {
-          //   setTimeout(() => {
-          //     window.location.href = globalAuthConfig.redirectUrl
-          //   }, 0)
-          // }
         }
       },
     ],

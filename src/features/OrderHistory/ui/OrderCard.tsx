@@ -12,7 +12,7 @@ import {
   TableRow,
 } from '@/shadcn/components/ui/table'
 import { Typography } from '@/src/shared'
-import { Order } from '@/src/features/Auth/model/type'
+import { Order } from '@/src/features/OrderHistory/model/types'
 import Image from 'next/image'
 
 interface OrderCardProps {
@@ -25,7 +25,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
       <TableCell className="p-0" colSpan={4}>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value={`order-${order.id}`} className="w-full">
-            <AccordionTrigger className="flex w-full items-center justify-between">
+            <AccordionTrigger className="flex w-full items-center justify-between cursor-pointer">
               <Table>
                 <TableBody className="w-full">
                   <TableRow className="w-full uppercase">
@@ -54,7 +54,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       className="mb-2 flex flex-col justify-between"
                     >
                       <Image
-                        src={item.variant?.product?.gallery?.[0]?.url || ShirtImage.src}
+                        src={
+                          item.variant?.images?.[0]?.url || 
+                          item.variant?.product?.gallery?.[0]?.url || 
+                          ShirtImage.src
+                        }
                         alt={item.title_snapshot}
                         width={190}
                         height={260}
