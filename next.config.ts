@@ -1,13 +1,21 @@
-const internalApi = process.env.API_INTERNAL_URL || 'http://backend:1337';
+import type { NextConfig } from 'next'
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
+  env: {
+    API_INTERNAL_URL: process.env.API_INTERNAL_URL,
+  },
   async rewrites() {
     return [
-      { source: '/api/:path*',     destination: `${internalApi}/api/:path*` },
-      { source: '/uploads/:path*', destination: `${internalApi}/uploads/:path*` },
-    ];
+      {
+        source: '/api/:path*',
+        destination: `${process.env.API_INTERNAL_URL}/api/:path*`,
+      },
+      {
+        source: '/uploads/:path*',
+        destination: `${process.env.API_INTERNAL_URL}/uploads/:path*`,
+      },
+    ]
   },
-};
+}
 
-module.exports = nextConfig;
+export default nextConfig
