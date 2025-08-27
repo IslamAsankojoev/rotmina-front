@@ -1,7 +1,7 @@
 import ky from 'ky'
 
 export const api = ky.create({
-  prefixUrl: `${process.env.API_INTERNAL_URL}/api`,
+  prefixUrl: `/api`,
   credentials: 'include',
   hooks: {
     beforeRequest: [
