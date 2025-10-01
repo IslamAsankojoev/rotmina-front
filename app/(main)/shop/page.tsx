@@ -1,0 +1,35 @@
+import React from 'react'
+
+import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
+import { Breadcrumbs, Typography } from '@/src/shared'
+import { ArrowDownUp } from 'lucide-react'
+import { ProductGrid } from '@/src/entities/Product'
+
+const Shop = () => {
+  return (
+    <>
+      <div className="container my-12 flex justify-between md:my-26 pt-24 md:pt-36">
+        <Breadcrumbs
+          links={[
+            { title: 'HOME', href: '/' },
+            { title: 'SHOP', href: '/shop' },
+          ]}
+        />
+        <div className="flex gap-4">
+          <ProductFilter />
+          <div className="flex gap-2">
+            <Typography variant="text_main" className="hidden md:inline">SORT BY:</Typography>
+            <ArrowDownUp strokeWidth={0.75} className="inline md:hidden" />
+            <ProductSort />
+          </div>
+        </div>
+      </div>
+      <div className="container mt-8 mb-24">
+        <ProductGrid />
+        <ProductPagination />
+      </div>
+    </>
+  )
+}
+
+export default Shop

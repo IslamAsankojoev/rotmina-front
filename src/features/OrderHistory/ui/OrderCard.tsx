@@ -70,10 +70,10 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       >
                         <span>{item.title_snapshot}</span>
                         <span>SKU: {item.sku_snapshot}</span>
-                        <span>Price: ${(parseFloat(item.price_snapshot) / 100).toFixed(2)}</span>
+                        <span>Price: ${item.price_snapshot}</span>
                         <span>Amount: {item.quantity}</span>
                         <span>
-                          Total: ${item.subtotal.toFixed(2)}
+                          Total: ${item.subtotal}
                         </span>
                       </Typography>
                     </div>

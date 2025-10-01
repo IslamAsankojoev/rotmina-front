@@ -27,23 +27,25 @@ import { Breadcrumbs, Typography } from '@/src/shared'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
-
-const product = {
-  id: '1',
-  name: 'Dress #1',
-  price: 100,
-  image: ProductFullImage,
-  shortDescription:
-    'Text about clothes bla bla Text about clothes blaText about clothes bla bla   bla   about clothes bla bla   bla   ',
-  description:
-    'Full description of the product goes here. It can include details about the fabric, care instructions, and other relevant information that helps customers make an informed decision.',
-  sizes: ['S', 'M', 'L', 'XL'],
-  colors: ['#000', '#fff', '#f00'],
-}
+import { useParams } from 'next/navigation'
+import { ProductService } from '@/src/entities/Product'
+import { useQuery } from '@tanstack/react-query'
+import { ProductVariant, Size } from '@/src/entities/Product/model/types'
+import { Color } from '@/src/entities/Product/model/types'
 
 const Product = () => {
   const [selectedColor, setSelectedColor] = React.useState<string | null>(null)
   const [selectedSize, setSelectedSize] = React.useState<string | null>(null)
+  const params = useParams()
+  const id = params.id as string
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['product', id],
+    queryFn: () => ProductService.getProduct(id),
+  })
+
+  const colors = data?.data?.variants?.map((variant: ProductVariant) => variant.color)
+  const sizes = data?.data?.variants?.map((variant: ProductVariant) => variant.size)
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
@@ -52,24 +54,27 @@ const Product = () => {
   const handleSizeChange = (size: string) => {
     setSelectedSize(size)
   }
+  
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
 
   return (
     <>
       <div className="relative container mt-24 md:mt-36 flex w-full flex-col justify-end">
-        <Breadcrumbs
+        {/* <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
             { title: 'SHIRT', href: '/category/shirt' },
             { title: product.name, href: '/product/dress#1' },
           ]}
-        />
+        /> */}
       </div>
       <div className="container">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12">
           <div className="flex-1">
             <div className="relative h-[500px] w-full md:h-[900px]">
               <Image
-                src={product.image}
+                src={data?.data?.gallery?.[0]?.url || ''}
                 alt="product-image"
                 fill
                 objectFit="cover"
@@ -78,11 +83,11 @@ const Product = () => {
           </div>
           <div className="flex-1 md:p-8">
             <Typography variant="text_pageTitle">
-              <h1>{product.name}</h1>
+              <h1>{data?.data?.title}</h1>
             </Typography>
-            <Typography variant="text_main">{product.price} $</Typography>
+            <Typography variant="text_main">{data?.data?.variants?.[0]?.price} $</Typography>
             <Typography variant="text_main" className="mt-4">
-              {product.shortDescription}
+              {data?.data?.description}
             </Typography>
             <div className="mt-6 flex flex-col gap-10">
               <div className="flex justify-between">
@@ -97,22 +102,22 @@ const Product = () => {
                       value={selectedSize || ''}
                       onValueChange={handleSizeChange}
                     >
-                      {product.sizes.map((size) => (
+                      {sizes?.map((size: Size) => (
                         <ToggleGroupItem
-                          key={size}
-                          value={size}
+                          key={size.id}
+                          value={size.id.toString()}
                           className="cursor-pointer"
                         >
                           <Typography
                             variant="text_main"
                             className={clsx(
                               'uppercase',
-                              selectedSize === size
+                              selectedSize === size.id.toString()
                                 ? 'text-black'
                                 : 'text-greyy',
                             )}
                           >
-                            {size}
+                            {size.name}
                           </Typography>
                         </ToggleGroupItem>
                       ))}
@@ -142,23 +147,23 @@ const Product = () => {
                     value={selectedColor || ''}
                     onValueChange={handleColorChange}
                   >
-                    {product.colors.map((color) => (
+                    {colors?.map((color: Color) => (
                       <ToggleGroupItem
-                        key={color}
-                        value={color}
+                        key={color?.id}
+                        value={color?.id.toString()}
                         className="bg-transparent"
                       >
                         <div
                           className={clsx(
                             'flex h-7 w-7 items-center justify-center rounded-full border-1',
-                            selectedColor?.includes(color)
+                            selectedColor?.includes(color?.id.toString())
                               ? 'border-black'
                               : 'border-transparent',
                           )}
                         >
                           <div
                             style={{
-                              backgroundColor: color,
+                              backgroundColor: color?.hex,
                             }}
                             className="h-6 w-6 cursor-pointer rounded-full"
                           />
@@ -187,7 +192,7 @@ const Product = () => {
               </TabsList>
               <TabsContent value="description">
                 <Typography variant="text_main">
-                  {product.description}
+                  {data?.data?.description}
                 </Typography>
               </TabsContent>
               <TabsContent value="shipping">
@@ -260,24 +265,24 @@ const Product = () => {
         <div className="my-24 flex flex-col gap-8">
           <Typography variant="text_title">You might also like</Typography>
           <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
-            {products.map((product) => (
+              {data?.data?.variants?.map((variant: ProductVariant) => (
               <Link
-                href={`/product/${product.id}`}
-                key={product.id}
+                href={`/product/${variant.id}`}
+                key={variant.id}
                 className={clsx(
                   'relative col-span-6 flex h-[300px] w-full flex-col items-center gap-4 border p-4 md:col-span-4 md:h-full md:min-h-[544px] lg:col-span-3',
                 )}
               >
                 <Image
-                  src={product.image.src}
-                  alt={product.name}
+                  src={variant.images[0].url}
+                  alt={data?.data?.title}
                   objectFit="cover"
                   fill
                 />
                 <div className="absolute bottom-4 flex w-full justify-between gap-2 px-4">
-                  <Typography variant="text_main">{product.name}</Typography>
+                  <Typography variant="text_main">{data?.data?.title}</Typography>
                   <Typography variant="text_main">
-                    ${product.price.toFixed(2)}
+                    ${variant.price.toFixed(2)}
                   </Typography>
                 </div>
               </Link>

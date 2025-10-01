@@ -5,7 +5,12 @@ import { useEffect, useState } from 'react'
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
 import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
-import { Typography, useScreenSize } from '@/src/shared'
+import {
+  LanguageSwitcher,
+  Typography,
+  useLangCurrancy,
+  useScreenSize,
+} from '@/src/shared'
 import clsx from 'clsx'
 import {
   Facebook,
@@ -44,6 +49,7 @@ const leftMenu = [
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const { md } = useScreenSize()
+  const { lang, currency, setLang, setCurrency } = useLangCurrancy()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,9 +103,7 @@ export const Header = () => {
                 <Typography variant="text_main">Wishlist</Typography>
               </Link>
               <MiniCart />
-              <div className="text-lg font-medium uppercase">
-                <Typography variant="text_main">He</Typography>
-              </div>
+              <LanguageSwitcher />
             </div>
           </div>
           <div className="flex items-center gap-4 md:hidden">
@@ -123,7 +127,7 @@ export const Header = () => {
                       <div>
                         <ShoppingBasket size={35} strokeWidth={0.75} />
                       </div>
-                      <div className="text-2xl font-medium uppercase">He</div>
+                      <LanguageSwitcher />
                     </div>
                     <nav className="mt-6 flex flex-col items-center gap-10">
                       {leftMenu.map((item) => (

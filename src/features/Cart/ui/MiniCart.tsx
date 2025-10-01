@@ -28,7 +28,7 @@ export const MiniCart = () => {
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger>
+      <PopoverTrigger className='cursor-pointer'>
         <Typography className="uppercase">Cart</Typography>
       </PopoverTrigger>
       <PopoverContent
