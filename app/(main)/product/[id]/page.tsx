@@ -23,7 +23,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
-import { Breadcrumbs, Typography } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -38,6 +38,7 @@ const Product = () => {
   const [selectedSize, setSelectedSize] = React.useState<string | null>(null)
   const params = useParams()
   const id = params.id as string
+  const { getPrice, currency } = useLangCurrancy()
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['product', id],
@@ -85,7 +86,7 @@ const Product = () => {
             <Typography variant="text_pageTitle">
               <h1>{data?.data?.title}</h1>
             </Typography>
-            <Typography variant="text_main">{data?.data?.variants?.[0]?.price} $</Typography>
+            <Typography variant="text_main">{getPrice(data?.data?.variants?.[0]?.price)} {currency}</Typography>
             <Typography variant="text_main" className="mt-4">
               {data?.data?.description}
             </Typography>
@@ -282,7 +283,7 @@ const Product = () => {
                 <div className="absolute bottom-4 flex w-full justify-between gap-2 px-4">
                   <Typography variant="text_main">{data?.data?.title}</Typography>
                   <Typography variant="text_main">
-                    ${variant.price.toFixed(2)}
+                    ${getPrice(variant.price)}
                   </Typography>
                 </div>
               </Link>
@@ -295,30 +296,3 @@ const Product = () => {
 }
 
 export default Product
-
-const products = [
-  {
-    id: '1',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '2',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '3',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '4',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-]

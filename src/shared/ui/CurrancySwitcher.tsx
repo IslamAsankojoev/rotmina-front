@@ -1,5 +1,3 @@
-'use client'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,31 +6,30 @@ import {
   DropdownMenuTrigger,
 } from '@/shadcn/components/ui/dropdown-menu'
 
-import { Code } from '../constants'
+import { Currency } from '../constants'
 import { useLangCurrancy } from '../hooks'
 import { Typography } from './Typography'
 
-export function LanguageSwitcher() {
-  const { lang, setLang } = useLangCurrancy()
-
+export const CurrancySwitcher = () => {
+  const { currency, setCurrency } = useLangCurrancy()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Typography className="uppercase cursor-pointer" variant="text_main">
-          {lang}
+        <Typography className="cursor-pointer uppercase" variant="text_main">
+          {currency}
         </Typography>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit rounded-none min-w-fit">
         <DropdownMenuRadioGroup
-          value={lang}
-          onValueChange={(value) => setLang(value as Code)}
+          value={currency}
+          onValueChange={(value) => setCurrency(value as Currency)}
+          className='w-fit'
         >
-          <DropdownMenuRadioItem className="uppercase" value={Code.EN}>
-            {Code.EN}
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem className="uppercase" value={Code.HE}>
-            {Code.HE}
-          </DropdownMenuRadioItem>
+          {Object.keys(Currency).map((key) => (
+            <DropdownMenuRadioItem className="uppercase" value={key} key={key}>
+              {key}
+            </DropdownMenuRadioItem>
+          ))}
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

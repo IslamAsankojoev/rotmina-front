@@ -6,9 +6,9 @@ import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
 import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
 import {
+  CurrancySwitcher,
   LanguageSwitcher,
   Typography,
-  useLangCurrancy,
   useScreenSize,
 } from '@/src/shared'
 import clsx from 'clsx'
@@ -49,7 +49,6 @@ const leftMenu = [
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const { md } = useScreenSize()
-  const { lang, currency, setLang, setCurrency } = useLangCurrancy()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,12 +103,13 @@ export const Header = () => {
               </Link>
               <MiniCart />
               <LanguageSwitcher />
+              <CurrancySwitcher />
             </div>
           </div>
           <div className="flex items-center gap-4 md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Menu size={48} strokeWidth={0.75} />
+                <Menu size={48} strokeWidth={0.75} className="cursor-pointer" />
               </SheetTrigger>
               <SheetContent side="full-right" className="p-4">
                 <div className="flex h-full flex-col justify-between">
@@ -119,19 +119,20 @@ export const Header = () => {
                         <Image src={Leaf} width={35} height={35} alt="leaf" />
                       </div>
                       <div>
-                        <User size={35} strokeWidth={0.75} />
+                        <User size={35} strokeWidth={0.75} className="cursor-pointer" />
                       </div>
                       <div>
-                        <Star size={35} strokeWidth={0.75} />
+                        <Star size={35} strokeWidth={0.75} className="cursor-pointer" />
                       </div>
                       <div>
-                        <ShoppingBasket size={35} strokeWidth={0.75} />
+                        <ShoppingBasket size={35} strokeWidth={0.75} className="cursor-pointer" />
                       </div>
                       <LanguageSwitcher />
+                      <CurrancySwitcher />
                     </div>
                     <nav className="mt-6 flex flex-col items-center gap-10">
                       {leftMenu.map((item) => (
-                        <a
+                        <Link
                           key={item.title}
                           href={item.href}
                           className="text-lg uppercase hover:underline"
@@ -139,22 +140,22 @@ export const Header = () => {
                           <Typography variant="text_main">
                             {item.title}
                           </Typography>
-                        </a>
+                        </Link>
                       ))}
                     </nav>
                   </div>
                   <div className="flex justify-between gap-4">
                     <div>
-                      <Instagram strokeWidth={0.75} size={23} />
+                      <Instagram strokeWidth={0.75} size={23} className="cursor-pointer" />
                     </div>
                     <div>
-                      <Smartphone strokeWidth={0.75} size={23} />
+                      <Smartphone strokeWidth={0.75} size={23} className="cursor-pointer" />
                     </div>
                     <div>
-                      <Facebook strokeWidth={0.75} size={23} />
+                      <Facebook strokeWidth={0.75} size={23} className="cursor-pointer" />
                     </div>
                     <div>
-                      <Mail strokeWidth={0.75} size={23} />
+                      <Mail strokeWidth={0.75} size={23} className="cursor-pointer" />
                     </div>
                   </div>
                 </div>

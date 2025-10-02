@@ -1,14 +1,45 @@
-import { create } from 'zustand'
-import { Code, Currency } from '../constants'
+'use client'
 
-export const useLangCurrancy = create<{
-  lang: Code
-  currency: Currency
-  setLang: (lang: Code) => void
-  setCurrency: (currency: Currency) => void
-}>((set) => ({
-  lang: Code.EN,
-  currency: Currency.USD,
-  setLang: (lang) => set({ lang }),
-  setCurrency: (currency) => set({ currency }),
-}))
+import { useEffect } from 'react'
+
+import { langCurrancyStore } from '@/src/app'
+import { parse } from 'cookie'
+
+export const useLangCurrancy = () => {
+  const {
+    lang,
+    currency,
+    exchangeRates,
+    setLang,
+    setCurrency,
+    setExchangeRates,
+  } = langCurrancyStore()
+
+  const getPrice = (price: number | undefined) => {
+    if (!price) return 0
+    const exchangeRate = exchangeRates.find((rate) => rate.currency === currency)
+    return (price * (exchangeRate?.rate || 1)).toFixed(0)
+  }
+
+  useEffect(() => {
+    const cookies = parse(document.cookie)
+    if (cookies.rates) {
+      try {
+        const ratesData = JSON.parse(cookies.rates)
+        setExchangeRates(ratesData)
+      } catch (error) {
+        console.error('Error parsing rates cookie:', error)
+      }
+    }
+  }, [setExchangeRates])
+
+  return {
+    lang,
+    currency,
+    exchangeRates,
+    setLang,
+    setCurrency,
+    setExchangeRates,
+    getPrice,
+  }
+}
