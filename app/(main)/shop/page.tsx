@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
@@ -25,7 +25,9 @@ const Shop = () => {
         </div>
       </div>
       <div className="container mt-8 mb-24">
-        <ProductGrid />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductGrid />
+        </Suspense>
         <ProductPagination />
       </div>
     </>

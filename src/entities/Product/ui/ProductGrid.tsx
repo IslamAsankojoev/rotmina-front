@@ -1,4 +1,5 @@
 'use client'
+export const dynamic = 'force-dynamic'
 
 import { Typography } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
