@@ -4,14 +4,9 @@ COPY package*.json ./
 RUN npm install --legacy-peer-deps
 
 FROM node:18 AS builder
-# Добавляем возможность передавать переменную окружения API_INTERNAL_URL
-ARG API_INTERNAL_URL
-ENV API_INTERNAL_URL=${API_INTERNAL_URL}
 WORKDIR /app
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-# Выводим значение API_INTERNAL_URL для проверки
-RUN echo "API_INTERNAL_URL: ${API_INTERNAL_URL}"
 RUN npm run build
 
 FROM node:18 AS runner
