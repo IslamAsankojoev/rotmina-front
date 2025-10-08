@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   env: {
     API_INTERNAL_URL: process.env.API_INTERNAL_URL,
   },
+  images: {
+    domains: ['api.rotmina.com'],
+  },
   async rewrites() {
     return [
       {
