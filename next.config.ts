@@ -6,7 +6,13 @@ const nextConfig: NextConfig = {
     API_INTERNAL_URL: process.env.API_INTERNAL_URL,
   },
   images: {
-    domains: ['api.rotmina.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.rotmina.com',
+        pathname: '/uploads/**',
+      },
+    ],
   },
   async rewrites() {
     return [
