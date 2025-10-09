@@ -25,6 +25,7 @@ import { ProductService } from '@/src/entities/Product'
 import { ProductVariant, Size } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { Typography, useLangCurrancy } from '@/src/shared'
+import { useAddToCart, useCartActions } from '@/src/app/store'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -38,6 +39,8 @@ const Product = () => {
   const params = useParams()
   const id = params.id as string
   const { getPrice, currency } = useLangCurrancy()
+  const { addProductToCart } = useAddToCart()
+  const { openCart } = useCartActions()
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['product', id],
@@ -155,6 +158,21 @@ const Product = () => {
       return selectedVariant.images
     }
     return data?.data?.gallery || []
+  }
+
+  // Добавление товара в корзину
+  const handleAddToCart = () => {
+    if (!selectedVariant || !data?.data) return
+
+    addProductToCart(
+      selectedVariant,
+      data.data.title,
+      data.data.slug,
+      1
+    )
+    
+    // Открываем корзину после добавления
+    openCart()
   }
 
   if (isLoading) return <div>Loading...</div>
@@ -293,6 +311,8 @@ const Product = () => {
               variant="outline-minimal"
               size="lg"
               className="mt-10 uppercase"
+              onClick={handleAddToCart}
+              disabled={!selectedVariant}
             >
               Add to Cart
             </Button>

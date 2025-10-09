@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
+import { useAddGiftCard, useCartActions } from '@/src/app/store'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -16,9 +17,22 @@ import { giftCardValidationSchema } from '../model/validation'
 
 export const GiftCardForm = () => {
   const form = useForm<z.infer<typeof giftCardValidationSchema>>({})
+  const { addGiftCardToCart } = useAddGiftCard()
+  const { openCart } = useCartActions()
 
   const onSubmit = (data: z.infer<typeof giftCardValidationSchema>) => {
-    console.log('Gift Card Form submitted:', data)
+    addGiftCardToCart(
+      data.amount,
+      data.recipientsEmail,
+      data.recipientsName,
+      data.personalMessage
+    )
+    
+    // Открываем корзину после добавления
+    openCart()
+    
+    // Сбрасываем форму
+    form.reset()
   }
 
   return (
