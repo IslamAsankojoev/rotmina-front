@@ -39,7 +39,7 @@ export function ProductFilter({
   const availableColors =
     colors.length > 0
       ? colors
-      : []
+      : defaultColors.map((color) => ({ code: color, slug: color, hex: color }))
   const availableSizes =
     sizes.length > 0
       ? sizes

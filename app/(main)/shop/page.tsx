@@ -15,20 +15,24 @@ const Shop = () => {
             { title: 'SHOP', href: '/shop' },
           ]}
         />
-        <div className="flex gap-4">
-          <ProductFilter />
-          <div className="flex gap-2">
-            <Typography variant="text_main" className="hidden md:inline">SORT BY:</Typography>
-            <ArrowDownUp strokeWidth={0.75} className="inline md:hidden" />
-            <ProductSort />
+        <Suspense fallback={<div>Loading filters...</div>}>
+          <div className="flex gap-4">
+            <ProductFilter />
+            <div className="flex gap-2">
+              <Typography variant="text_main" className="hidden md:inline">SORT BY:</Typography>
+              <ArrowDownUp strokeWidth={0.75} className="inline md:hidden" />
+              <ProductSort />
+            </div>
           </div>
-        </div>
+        </Suspense>
       </div>
       <div className="container mt-8 mb-24">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Loading products...</div>}>
           <ProductGrid />
         </Suspense>
-        <ProductPagination />
+        <Suspense fallback={<div>Loading pagination...</div>}>
+          <ProductPagination />
+        </Suspense>
       </div>
     </>
   )

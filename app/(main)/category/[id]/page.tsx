@@ -1,8 +1,6 @@
 import React from 'react'
 
 import CategoryImage from '@/public/assets/categories/shirt.png'
-import FullShirtImage from '@/public/assets/products/full-shirt-image.jpg'
-import ShirtImage from '@/public/assets/products/shirt.png'
 import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { ArrowDownUp } from 'lucide-react'
@@ -49,78 +47,3 @@ const Category = () => {
 }
 
 export default Category
-
-const products = [
-  {
-    id: '1',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '2',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '3',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '4',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '5',
-    name: 'FullShirt',
-    image: FullShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '6',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '7',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '8',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '9',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '10',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '11',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-  {
-    id: '12',
-    name: 'Shirt',
-    image: ShirtImage,
-    price: 29.99,
-  },
-]
