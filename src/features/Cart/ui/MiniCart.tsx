@@ -104,7 +104,6 @@ export const MiniCart = () => {
     </Popover>
   )
 }
-
 type giftCardType = z.infer<typeof giftCardValidationSchema> & {
   image: string | StaticImageData
 }
@@ -170,3 +169,4 @@ const products: productType[] = [
 ]
 
 const cartItems = [...giftCards, ...products]
+
