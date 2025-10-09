@@ -20,8 +20,18 @@ export const ProductService = {
     if (params?.pageSize) searchParams.append('pagination[pageSize]', params.pageSize.toString())
     if (params?.search) searchParams.append('filters[title][$containsi]', params.search)
     if (params?.inStock) searchParams.append('filters[stock][$gt]', '0')
-    if (params?.colors) searchParams.append('filters[color][slug][$eq]', params.colors)
-    if (params?.sizes) searchParams.append('filters[size][slug][$eq]', params.sizes)
+    if (params?.colors) {
+      const colors = params.colors.split(',').map(c => c.trim())
+      colors.forEach(color => {
+        searchParams.append('filters[variants][color][slug][$eq]', color)
+      })
+    }
+    if (params?.sizes) {
+      const sizes = params.sizes.split(',').map(s => s.trim())
+      sizes.forEach(size => {
+        searchParams.append('filters[variants][size][slug][$eq]', size)
+      })
+    }
     if (params?.sort) {
       searchParams.append('sort', `${params.sort.field}:${params.sort.order}`)
     }

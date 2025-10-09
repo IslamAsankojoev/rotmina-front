@@ -1,34 +1,14 @@
 'use client'
 export const dynamic = 'force-dynamic'
 
-import { Typography } from '@/src/shared'
-import { useQuery } from '@tanstack/react-query'
+import { Typography, useProducts } from '@/src/shared'
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
 
-import { ProductService } from '../model'
 
 export const ProductGrid = () => {
-  const params = useSearchParams()
-  const page = params.get('page')
-  const pageSize = params.get('pageSize')
-  const search = params.get('search')
-  const colors = params.get('colors')
-  const sizes = params.get('sizes')
-  const sort = params.get('sort')
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['products', page, pageSize, search, colors, sizes, sort],
-    queryFn: () => ProductService.getProducts({
-      page: page ? parseInt(page) : undefined,
-      pageSize: pageSize ? parseInt(pageSize) : undefined,
-      search: search ? search : undefined,
-      colors: colors ? colors : undefined,
-      sizes: sizes ? sizes : undefined,
-    }),
-  })
+  const { data, isLoading, error } = useProducts()
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>

@@ -15,15 +15,20 @@ import SlideImage5 from '@/public/assets/products/e90bf2efd413950c0e86d922d5e451
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/shadcn/components/ui/accordion'
 import { Typography } from '@/src/shared'
+import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import clsx from 'clsx'
 import Image from 'next/image'
+import Link from 'next/link'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
-import Link from 'next/link'
-import PanoramaSlider from '@/src/widgets/PanoramaSlider'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shadcn/components/ui/accordion'
 
 const slides = [
   { src: SlideImage1.src, alt: 'CLOTHES 1', price: 'Price' },
@@ -36,12 +41,21 @@ const slides = [
 export default function Home() {
   return (
     <section>
-      <div className="relative flex h-screen w-full items-center justify-center">
+      <div className="relative hidden md:flex h-screen w-full items-center justify-center">
         <Image
           src={Hero}
           fill
           objectFit="cover"
           objectPosition="top"
+          alt="hero"
+        />
+      </div>
+      <div className="relative flex md:hidden h-screen w-full items-center justify-center">
+        <Image
+          src={Hero}
+          fill
+          objectFit="cover"
+          objectPosition="80% 0%"
           alt="hero"
         />
       </div>
@@ -100,7 +114,7 @@ export default function Home() {
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
-      <div className="relative my-24 flex h-[620px] w-full items-center justify-center">
+      <div className="relative md:my-24 my-10 flex h-[400px] md:h-[620px] w-full items-center justify-center">
         <Image
           src={NatureImage}
           fill
@@ -196,7 +210,7 @@ export default function Home() {
             href={`/category/${category.title.toLowerCase()}`}
             key={index}
             className={clsx(
-              'relative h-96 w-full saturate-0 md:h-[600px] block',
+              'relative block h-96 w-full saturate-0 md:h-[600px]',
               index === 4 && 'col-span-2 md:col-span-2 lg:col-span-4',
             )}
           >
@@ -260,12 +274,15 @@ export default function Home() {
                 )}
               >
                 <AccordionItem value={collection.id}>
-                  <AccordionTrigger className='p-0 justify-center'>
-                    <Typography variant="text_pageTitle" className='!text-2xl text-center'>
+                  <AccordionTrigger className="justify-center p-0">
+                    <Typography
+                      variant="text_pageTitle"
+                      className="text-center !text-2xl"
+                    >
                       {collection.title}
                     </Typography>
                   </AccordionTrigger>
-                  <AccordionContent className="flex flex-col items-center justify-center mt-4">
+                  <AccordionContent className="mt-4 flex flex-col items-center justify-center">
                     <Typography variant="text_main">
                       {collection.description}
                     </Typography>

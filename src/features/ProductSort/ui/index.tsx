@@ -9,36 +9,37 @@ import {
   PopoverTrigger,
 } from '@/shadcn/components/ui/popover'
 import { RadioGroup, RadioGroupItem } from '@/shadcn/components/ui/radio-group'
-import { Typography } from '@/src/shared'
+import { Typography, useProducts } from '@/src/shared'
 import clsx from 'clsx'
 
-interface ProductFilterProps {
+interface ProductSortProps {
   fields?: string[]
 }
 
 export function ProductSort({
   fields = ['Popularity', 'Price up', 'price down', 'sale'],
-}: ProductFilterProps) {
+}: ProductSortProps) {
   const [open, setOpen] = useState(false)
-  const [sort, setSort] = useState<string>(fields[0])
+  const { currentSort, updateSort } = useProducts()
 
   const handleSortChange = (value: string) => {
-    setSort(value)
+    updateSort(value)
+    setOpen(false)
   }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Typography variant="text_main" className="cursor-pointer md:inline">
-          {sort}
+          {currentSort}
         </Typography>
       </PopoverTrigger>
       <PopoverContent>
         <div className="flex flex-col gap-4">
           <RadioGroup
-            defaultValue={fields[0]}
+            defaultValue={currentSort}
             onValueChange={handleSortChange}
-            value={sort}
+            value={currentSort}
           >
             {fields.map((field) => (
               <div className="flex items-center gap-3" key={field}>
@@ -47,7 +48,7 @@ export function ProductSort({
                   htmlFor={field}
                   className={clsx(
                     'cursor-pointer uppercase',
-                    sort === field ? 'text-black' : 'text-greyy',
+                    currentSort === field ? 'text-black' : 'text-greyy',
                   )}
                 >
                   {field}

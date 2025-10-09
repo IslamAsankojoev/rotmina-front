@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { Button } from '@/shadcn/components/ui/button'
+// import { Button } from '@/shadcn/components/ui/button'
 import {
   Popover,
   PopoverContent,
@@ -12,7 +12,12 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
-import { Typography, useScreenSize } from '@/src/shared'
+import {
+  Typography,
+  useColorsAndSizes,
+  useProducts,
+  useScreenSize,
+} from '@/src/shared'
 import clsx from 'clsx'
 import { SlidersHorizontal } from 'lucide-react'
 
@@ -22,19 +27,47 @@ interface ProductFilterProps {
 }
 
 export function ProductFilter({
-  colors = ['#000', '#eee', '#f00', '#0f0', '#00f'],
-  sizes = ['XS', 'S', 'M'],
+  colors: defaultColors = [],
+  sizes: defaultSizes = [],
 }: ProductFilterProps) {
   const [open, setOpen] = useState(false)
-  const [selectedColors, setSelectedColors] = useState<string[]>([])
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
   const { md } = useScreenSize()
+  const { colors, sizes, isLoading } = useColorsAndSizes()
+  const { selectedColors, selectedSizes, updateFilters } = useProducts()
+
+  // Используем данные из API или значения по умолчанию
+  const availableColors =
+    colors.length > 0
+      ? colors
+      : []
+  const availableSizes =
+    sizes.length > 0
+      ? sizes
+      : defaultSizes.map((size) => ({ slug: size.toLowerCase(), name: size }))
+
   const handleColorChange = (value: string[]) => {
-    setSelectedColors(value)
+    updateFilters({ colors: value })
   }
 
   const handleSizeChange = (value: string[]) => {
-    setSelectedSizes(value)
+    updateFilters({ sizes: value })
+  }
+
+  // const handleApply = () => {
+  //   setOpen(false)
+  // }
+
+  // const handleReset = () => {
+  //   resetFilters()
+  //   setOpen(false)
+  // }
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center gap-2">
+        <Typography variant="text_main">Loading...</Typography>
+      </div>
+    )
   }
 
   return (
@@ -58,23 +91,23 @@ export function ProductFilter({
               value={selectedColors}
               onValueChange={handleColorChange}
             >
-              {colors.map((color) => (
+              {availableColors.map((color) => (
                 <ToggleGroupItem
-                  key={color}
-                  value={color}
+                  key={color.slug}
+                  value={color.slug}
                   className="bg-transparent"
                 >
                   <div
                     className={clsx(
                       'flex h-7 w-7 items-center justify-center rounded-full border-1',
-                      selectedColors.includes(color)
+                      selectedColors.includes(color.slug)
                         ? 'border-black'
                         : 'border-transparent',
                     )}
                   >
                     <div
                       style={{
-                        backgroundColor: color,
+                        backgroundColor: color.hex,
                       }}
                       className="h-6 w-6 cursor-pointer rounded-full"
                     />
@@ -93,24 +126,31 @@ export function ProductFilter({
               value={selectedSizes}
               onValueChange={handleSizeChange}
             >
-              {sizes.map((size) => (
+              {availableSizes.map((size) => (
                 <ToggleGroupItem
-                  key={size}
-                  value={size}
+                  key={size.slug}
+                  value={size.slug}
                   className="cursor-pointer"
                 >
                   <Typography variant="text_main" className="uppercase">
-                    {size}
+                    {size.name || size.slug.toUpperCase()}
                   </Typography>
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
           </div>
-          <Button variant="link" onClick={() => setOpen(false)}>
-            <Typography variant="text_main" className="uppercase">
-              Apply
-            </Typography>
-          </Button>
+          {/* <div className="flex gap-2">
+            <Button variant="link" onClick={handleApply}>
+              <Typography variant="text_main" className="uppercase">
+                Apply
+              </Typography>
+            </Button>
+            <Button variant="link" onClick={handleReset}>
+              <Typography variant="text_main" className="uppercase">
+                Reset
+              </Typography>
+            </Button>
+          </div> */}
         </div>
       </PopoverContent>
     </Popover>

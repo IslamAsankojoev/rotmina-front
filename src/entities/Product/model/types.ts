@@ -138,7 +138,7 @@ export interface ProductFilters {
 }
 
 // Типы для сортировки товаров
-export type ProductSortField = 'title' | 'price' | 'createdAt' | 'updatedAt'
+export type ProductSortField = 'title' | 'createdAt' | 'updatedAt'
 export type ProductSortOrder = 'asc' | 'desc'
 
 export interface ProductSortOptions {
