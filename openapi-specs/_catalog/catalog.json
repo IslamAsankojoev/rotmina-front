@@ -58,6 +58,31 @@
         "operationId": "color/delete/colors_by_id"
       },
       {
+        "path": "/gift-cards",
+        "method": "get",
+        "operationId": "gift-card/get/gift_cards"
+      },
+      {
+        "path": "/gift-cards",
+        "method": "post",
+        "operationId": "gift-card/post/gift_cards"
+      },
+      {
+        "path": "/gift-cards/{id}",
+        "method": "get",
+        "operationId": "gift-card/get/gift_cards_by_id"
+      },
+      {
+        "path": "/gift-cards/{id}",
+        "method": "put",
+        "operationId": "gift-card/put/gift_cards_by_id"
+      },
+      {
+        "path": "/gift-cards/{id}",
+        "method": "delete",
+        "operationId": "gift-card/delete/gift_cards_by_id"
+      },
+      {
         "path": "/global",
         "method": "get",
         "operationId": "global/get/global"
@@ -121,6 +146,31 @@
         "path": "/order-items/{id}",
         "method": "delete",
         "operationId": "order-item/delete/order_items_by_id"
+      },
+      {
+        "path": "/personal-stylists",
+        "method": "get",
+        "operationId": "personal-stylist/get/personal_stylists"
+      },
+      {
+        "path": "/personal-stylists",
+        "method": "post",
+        "operationId": "personal-stylist/post/personal_stylists"
+      },
+      {
+        "path": "/personal-stylists/{id}",
+        "method": "get",
+        "operationId": "personal-stylist/get/personal_stylists_by_id"
+      },
+      {
+        "path": "/personal-stylists/{id}",
+        "method": "put",
+        "operationId": "personal-stylist/put/personal_stylists_by_id"
+      },
+      {
+        "path": "/personal-stylists/{id}",
+        "method": "delete",
+        "operationId": "personal-stylist/delete/personal_stylists_by_id"
       },
       {
         "path": "/products",

@@ -3,61 +3,11 @@
 import React from 'react'
 
 import PersonalStylistImage from '@/public/assets/personal-stylist.png'
-import { Button } from '@/shadcn/components/ui/button'
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/shadcn/components/ui/tabs'
-import { useAddPersonalStylist, useCartActions } from '@/src/app/store'
-import {
-  Breadcrumbs,
-  PERSONAL_STYLIST_PRICES,
-  Typography,
-  VIRTUAL_SESSION,
-  useLangCurrancy,
-} from '@/src/shared'
-import clsx from 'clsx'
+import { PersonalStylistForm } from '@/src/features'
+import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'
 
 const PersonalStylist = () => {
-  const { getPrice, currency } = useLangCurrancy()
-  const [selectedProduct, setSelectedProduct] = React.useState<number | null>(
-    null,
-  )
-
-  const [sessionType, setSessionType] = React.useState<'virtual' | 'in-person'>(
-    'virtual',
-  )
-
-  const { addStylistToCart } = useAddPersonalStylist()
-  const { openCart } = useCartActions()
-
-  const handleProductSelect = (productId: number) => {
-    setSelectedProduct(productId)
-  }
-
-  const handleAddToCart = () => {
-    if (sessionType === 'virtual') {
-      addStylistToCart(
-        'virtual',
-        VIRTUAL_SESSION.durationInMinutes,
-        VIRTUAL_SESSION.price,
-      )
-    } else if (selectedProduct) {
-      const durations = PERSONAL_STYLIST_PRICES.map(
-        (item) => item.durationInMinutes,
-      )
-      const prices = PERSONAL_STYLIST_PRICES.map((item) => item.price)
-      const duration = durations[selectedProduct - 1] || 120
-      const price = prices[selectedProduct - 1] || 250
-      addStylistToCart('in-person', duration, price)
-    }
-
-    openCart()
-  }
-
   return (
     <>
       <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36">
@@ -157,64 +107,7 @@ const PersonalStylist = () => {
               desire to guide you toward feeling whole, confident and empowered
               - radiating that energy wherever you go.
             </Typography>
-            <Tabs
-              defaultValue="online"
-              className="mt-10"
-              onValueChange={(value) =>
-                setSessionType(value as 'virtual' | 'in-person')
-              }
-            >
-              <TabsList>
-                <TabsTrigger value="online" className="uppercase">
-                  Online
-                </TabsTrigger>
-                <TabsTrigger value="at-your-home" className="uppercase">
-                  At your home
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="online">
-                <Typography variant="text_main">
-                  <span className="font-bold">Duration:</span>{' '}
-                  {VIRTUAL_SESSION.duration}
-                </Typography>
-                <Typography variant="text_main" className="mt-2">
-                  <span className="font-bold">Price:</span>{' '}
-                  {getPrice(VIRTUAL_SESSION.price)} {currency}
-                </Typography>
-              </TabsContent>
-              <TabsContent value="at-your-home">
-                <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4">
-                  {PERSONAL_STYLIST_PRICES.map((item, index) => (
-                    <div
-                      key={index}
-                      className={clsx(
-                        'flex cursor-pointer flex-col items-center justify-center',
-                        selectedProduct === item.id
-                          ? 'text-black'
-                          : 'text-greyy',
-                      )}
-                      onClick={() => handleProductSelect(item.id)}
-                    >
-                      <Typography variant="text_main">
-                        {item.duration}
-                      </Typography>
-                      <Typography variant="text_main">
-                        {getPrice(item.price)} {currency}
-                      </Typography>
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-            <Button
-              variant="outline-minimal"
-              size="lg"
-              className="my-10 uppercase"
-              onClick={handleAddToCart}
-              disabled={sessionType === 'in-person' && !selectedProduct}
-            >
-              Add to Cart
-            </Button>
+            <PersonalStylistForm />
           </div>
         </div>
       </div>

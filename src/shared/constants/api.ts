@@ -13,4 +13,11 @@ export const apiMap = {
   postProduct: 'products',
   putProduct: 'products/:id',
   deleteProduct: 'products/:id',
+
+  // Personal Stylist
+  getPersonalStylists: 'personal-stylists',
+  getPersonalStylist: 'personal-stylists/:id',
+  postPersonalStylist: 'personal-stylists',
+  putPersonalStylist: 'personal-stylists/:id',
+  deletePersonalStylist: 'personal-stylists/:id',
 }
