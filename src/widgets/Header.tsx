@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { MiniCart } from '../features'
 
@@ -46,9 +47,34 @@ const leftMenu = [
   },
 ]
 
+const rightMenu = [
+  {
+    title: 'About',
+    href: '/about',
+  },
+  {
+    title: 'Contact',
+    href: '/contact',
+  },
+  {
+    title: 'Eco',
+    href: '/eco',
+  },
+  {
+    title: 'Returns & Exchanges',
+    href: '/returns-&-exchanges',
+  },
+  {
+    title: 'International Shipping',
+    href: '/international-shipping',
+  },
+]
+
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { md } = useScreenSize()
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -62,6 +88,11 @@ export const Header = () => {
     }
   }, [])
 
+  const handleNavigation = (href: string) => {
+    router.push(href)
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}
@@ -71,13 +102,13 @@ export const Header = () => {
           <div className="h-12 w-12 md:hidden" />
           <nav className="hidden gap-6 md:flex">
             {leftMenu.map((item) => (
-              <Link
+              <button
                 key={item.title}
-                href={item.href}
+                onClick={() => handleNavigation(item.href)}
                 className="text-lg uppercase hover:underline"
               >
                 <Typography variant="text_main">{item.title}</Typography>
-              </Link>
+              </button>
             ))}
           </nav>
           <Link href="/" className="flex items-center">
@@ -95,19 +126,25 @@ export const Header = () => {
               <div className="text-lg font-medium">
                 <Image src={Leaf} width={24} height={24} alt="leaf" />
               </div>
-              <Link href="/account" className="text-lg font-medium uppercase">
+              <button 
+                onClick={() => handleNavigation('/account')} 
+                className="text-lg font-medium uppercase hover:underline"
+              >
                 <Typography variant="text_main">Account</Typography>
-              </Link>
-              <Link href="/wishlist" className="text-lg font-medium uppercase">
+              </button>
+              <button 
+                onClick={() => handleNavigation('/wishlist')} 
+                className="text-lg font-medium uppercase hover:underline"
+              >
                 <Typography variant="text_main">Wishlist</Typography>
-              </Link>
+              </button>
               <MiniCart />
               <LanguageSwitcher />
               <CurrancySwitcher />
             </div>
           </div>
           <div className="flex items-center gap-4 md:hidden">
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Menu size={48} strokeWidth={0.75} className="cursor-pointer" />
               </SheetTrigger>
@@ -118,45 +155,56 @@ export const Header = () => {
                       <div className="text-lg font-medium">
                         <Image src={Leaf} width={35} height={35} alt="leaf" />
                       </div>
-                      <div>
+                      <button onClick={() => handleNavigation('/account')}>
                         <User size={35} strokeWidth={0.75} className="cursor-pointer" />
-                      </div>
-                      <div>
+                      </button>
+                      <button onClick={() => handleNavigation('/wishlist')}>
                         <Star size={35} strokeWidth={0.75} className="cursor-pointer" />
-                      </div>
-                      <div>
+                      </button>
+                      <button onClick={() => handleNavigation('/cart')}>
                         <ShoppingBasket size={35} strokeWidth={0.75} className="cursor-pointer" />
-                      </div>
+                      </button>
                       <LanguageSwitcher />
                       <CurrancySwitcher />
                     </div>
                     <nav className="mt-6 flex flex-col items-center gap-10">
                       {leftMenu.map((item) => (
-                        <Link
+                        <button
                           key={item.title}
-                          href={item.href}
+                          onClick={() => handleNavigation(item.href)}
                           className="text-lg uppercase hover:underline"
                         >
                           <Typography variant="text_main">
                             {item.title}
                           </Typography>
-                        </Link>
+                        </button>
+                      ))}
+                      {rightMenu.map((item) => (
+                        <button
+                          key={item.title}
+                          onClick={() => handleNavigation(item.href)}
+                          className="text-lg uppercase hover:underline"
+                        >
+                          <Typography variant="text_main">
+                            {item.title}
+                          </Typography>
+                        </button>
                       ))}
                     </nav>
                   </div>
                   <div className="flex justify-between gap-4">
-                    <div>
+                    <button onClick={() => window.open('https://instagram.com/rotmina', '_blank')}>
                       <Instagram strokeWidth={0.75} size={23} className="cursor-pointer" />
-                    </div>
-                    <div>
+                    </button>
+                    <button onClick={() => window.open('tel:+1234567890', '_self')}>
                       <Smartphone strokeWidth={0.75} size={23} className="cursor-pointer" />
-                    </div>
-                    <div>
+                    </button>
+                    <button onClick={() => window.open('https://facebook.com/rotmina', '_blank')}>
                       <Facebook strokeWidth={0.75} size={23} className="cursor-pointer" />
-                    </div>
-                    <div>
+                    </button>
+                    <button onClick={() => window.open('mailto:info@rotmina.com', '_self')}>
                       <Mail strokeWidth={0.75} size={23} className="cursor-pointer" />
-                    </div>
+                    </button>
                   </div>
                 </div>
               </SheetContent>
