@@ -105,7 +105,7 @@ export const Header = () => {
               <button
                 key={item.title}
                 onClick={() => handleNavigation(item.href)}
-                className="text-lg uppercase hover:underline"
+                className="text-lg uppercase hover:underline cursor-pointer"
               >
                 <Typography variant="text_main">{item.title}</Typography>
               </button>
@@ -128,13 +128,13 @@ export const Header = () => {
               </div>
               <button 
                 onClick={() => handleNavigation('/account')} 
-                className="text-lg font-medium uppercase hover:underline"
+                className="text-lg font-medium uppercase hover:underline cursor-pointer"
               >
                 <Typography variant="text_main">Account</Typography>
               </button>
               <button 
                 onClick={() => handleNavigation('/wishlist')} 
-                className="text-lg font-medium uppercase hover:underline"
+                className="text-lg font-medium uppercase hover:underline cursor-pointer"
               >
                 <Typography variant="text_main">Wishlist</Typography>
               </button>
@@ -172,7 +172,7 @@ export const Header = () => {
                         <button
                           key={item.title}
                           onClick={() => handleNavigation(item.href)}
-                          className="text-lg uppercase hover:underline"
+                          className="text-lg uppercase hover:underline cursor-pointer"
                         >
                           <Typography variant="text_main">
                             {item.title}
@@ -183,7 +183,7 @@ export const Header = () => {
                         <button
                           key={item.title}
                           onClick={() => handleNavigation(item.href)}
-                          className="text-lg uppercase hover:underline"
+                          className="text-lg uppercase hover:underline cursor-pointer"
                         >
                           <Typography variant="text_main">
                             {item.title}
