@@ -29,20 +29,10 @@ export const LoginForm = () => {
   })
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    login.mutate(
-      {
-        identifier: data.email,
-        password: data.password,
-      },
-      {
-        onSuccess: () => {
-          // router.push('/account')
-        },
-        onError: (error) => {
-          console.error(error)
-        },
-      },
-    )
+    login.mutate({
+      identifier: data.email,
+      password: data.password,
+    })
   }
 
   return (

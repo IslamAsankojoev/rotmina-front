@@ -1,4 +1,5 @@
 import ky from 'ky'
+import { handleStrapiErrorSync } from '@/src/shared/utils/errorHandling'
 
 export const api = ky.create({
   prefixUrl: `/api`,
@@ -22,7 +23,23 @@ export const api = ky.create({
     afterResponse: [
       async (request, options, response) => {
         if (response.status === 401) {
+          // Обработка ошибки аутентификации
+          // Можно добавить редирект на страницу входа
         }
+      },
+    ],
+    beforeError: [
+      (error) => {
+        // Обрабатываем ошибки перед их выбрасыванием
+        const processedError = handleStrapiErrorSync(error, {
+          showToast: false, // Не показываем toast здесь, это будет делаться в компонентах
+          logError: true,
+        })
+        
+        // Добавляем обработанную ошибку к оригинальной
+        error.processedError = processedError
+        
+        return error
       },
     ],
   },

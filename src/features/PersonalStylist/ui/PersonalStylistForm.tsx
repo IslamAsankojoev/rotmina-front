@@ -10,7 +10,7 @@ import {
   TabsTrigger,
 } from '@/shadcn/components/ui/tabs'
 import { useAddPersonalStylist, useCartActions } from '@/src/app/store'
-import { Typography, useLangCurrancy } from '@/src/shared'
+import { Typography, useLangCurrancy, useAsyncErrorHandler } from '@/src/shared'
 import { getGroupedPersonalStylists } from '../model/api'
 import type { PersonalStylist, SessionType } from '../model/type'
 import clsx from 'clsx'
@@ -24,27 +24,22 @@ export const PersonalStylistForm = () => {
     'at-your-home': PersonalStylist[]
   }>({ online: [], 'at-your-home': [] })
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   const { addStylistToCart } = useAddPersonalStylist()
   const { openCart } = useCartActions()
+  const { withErrorHandling } = useAsyncErrorHandler()
 
   useEffect(() => {
-    const fetchPersonalStylists = async () => {
-      try {
-        setLoading(true)
-        const data = await getGroupedPersonalStylists()
-        setPersonalStylists(data)
-      } catch (err) {
-        setError('Ошибка загрузки данных')
-        console.error('Error fetching personal stylists:', err)
-      } finally {
-        setLoading(false)
-      }
-    }
+    const fetchPersonalStylists = withErrorHandling(async () => {
+      setLoading(true)
+      const data = await getGroupedPersonalStylists()
+      setPersonalStylists(data)
+    }, 'Ошибка загрузки данных')
 
-    fetchPersonalStylists()
-  }, [])
+    fetchPersonalStylists().finally(() => {
+      setLoading(false)
+    })
+  }, [withErrorHandling])
 
   const handleProductSelect = (productId: string) => {
     setSelectedProduct(productId)
@@ -85,16 +80,6 @@ export const PersonalStylistForm = () => {
     return (
       <div className="mt-10">
         <Typography variant="text_main">Загрузка...</Typography>
-      </div>
-    )
-  }
-
-  if (error) {
-    return (
-      <div className="mt-10">
-        <Typography variant="text_main" className="text-red-500">
-          {error}
-        </Typography>
       </div>
     )
   }

@@ -5,6 +5,7 @@ import { AuthCredentials, NewPasswordCredentials, ResetPasswordCredentials, Sign
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
+import { createAsyncErrorHandler } from '@/src/shared/utils/errorHandling'
 
 export const useAuth = () => {
   const router = useRouter()
@@ -14,8 +15,9 @@ export const useAuth = () => {
       AuthService.signup(credentials),
     onSuccess: async () => {
       router.push('/login')
-      toast.success('Account created successfully, please confirm your email')
+      toast.success('Аккаунт успешно создан, подтвердите email')
     },
+    onError: createAsyncErrorHandler(),
   })
 
   const login = useMutation({
@@ -24,6 +26,7 @@ export const useAuth = () => {
     onSuccess: async () => {
       router.push('/account')
     },
+    onError: createAsyncErrorHandler(),
   })
 
   const logout = useMutation({
@@ -31,22 +34,25 @@ export const useAuth = () => {
     onSuccess: async () => {
       router.push('/login')
     },
+    onError: createAsyncErrorHandler(),
   })
 
   const resetPassword = useMutation({
     mutationFn: async (credentials: ResetPasswordCredentials) =>
       AuthService.resetPassword(credentials),
     onSuccess: async () => {
-      toast.success('Email sent successfully')
+      toast.success('Email успешно отправлен')
     },
+    onError: createAsyncErrorHandler(),
   })
 
   const newPassword = useMutation({
     mutationFn: async (credentials: NewPasswordCredentials) =>
       AuthService.newPassword(credentials),
     onSuccess: async () => {
-      toast.success('Password updated successfully')
+      toast.success('Пароль успешно обновлен')
     },
+    onError: createAsyncErrorHandler(),
   })
 
   return {
