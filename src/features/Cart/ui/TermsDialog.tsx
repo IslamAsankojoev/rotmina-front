@@ -12,7 +12,7 @@ export const TermsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="cursor-pointer uppercase hover:underline">
+        <button className="cursor-pointer uppercase underline">
           terms of the agreement.
         </button>
       </DialogTrigger>

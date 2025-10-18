@@ -47,7 +47,7 @@ export default function CartPage() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
   )
-  const [termsChecked, setTermsChecked] = useState(false)
+  const [termsChecked, setTermsChecked] = useState(true)
   const [termsError, setTermsError] = useState(false)
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
     updateQuantity(itemId, newQuantity)
