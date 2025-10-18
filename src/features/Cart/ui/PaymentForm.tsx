@@ -14,17 +14,16 @@ import { paymentFormSchema } from '../model/scheme'
 
 interface PaymentFormProps {
   onSubmit: (data: z.infer<typeof paymentFormSchema>) => void
-  termsChecked: boolean
 }
 
-export const PaymentForm = ({ onSubmit, termsChecked }: PaymentFormProps) => {
+export const PaymentForm = ({ onSubmit }: PaymentFormProps) => {
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
-      cardNumber: '',
-      nameOnCard: '',
-      phone: '',
-      expirationDate: '',
-      cvv: '',
+      cardNumber: '4012888811110001',
+      nameOnCard: 'John Doe',
+      phone: '+1234567890',
+      expirationDate: '12/25',
+      cvv: '123',
     },
   })
 
@@ -42,7 +41,7 @@ export const PaymentForm = ({ onSubmit, termsChecked }: PaymentFormProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="CARD NUMBER" {...field} />
+                  <Input placeholder="CARD NUMBER" maxLength={16} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +73,7 @@ export const PaymentForm = ({ onSubmit, termsChecked }: PaymentFormProps) => {
           />
           <FormField
             control={form.control}
-            name="phone"
+            name="expirationDate"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -86,11 +85,11 @@ export const PaymentForm = ({ onSubmit, termsChecked }: PaymentFormProps) => {
           />
           <FormField
             control={form.control}
-            name="expirationDate"
+            name="cvv"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="CVV" {...field} />
+                  <Input placeholder="CVV" maxLength={3} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

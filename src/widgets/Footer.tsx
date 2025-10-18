@@ -31,6 +31,25 @@ const leftMenu = [
   },
 ]
 
+const rightMenu = [
+  {
+    title: 'Terms of conditions',
+    href: '/terms-of-conditions',
+  },
+  {
+    title: 'Privacy Policy',
+    href: '/privacy-policy',
+  },
+  {
+    title: 'Shipping & Returns',
+    href: '/international-shipping',
+  },
+  {
+    title: 'Payment & Delivery',
+    href: '/returns-&-exchanges',
+  },
+]
+
 export const Footer = () => {
   const { md } = useScreenSize()
   return (
@@ -74,16 +93,13 @@ export const Footer = () => {
               </a>
             </div>
             <div className="flex flex-col gap-2 text-white">
-              <Typography variant="text_mini_footer">
-                Terms of conditions
-              </Typography>
-              <Typography variant="text_mini_footer">Privacy Policy</Typography>
-              <Typography variant="text_mini_footer">
-                Shipping & Returns
-              </Typography>
-              <Typography variant="text_mini_footer">
-                Payment & Delivery
-              </Typography>
+              {rightMenu.map((item) => (
+                <a key={item.title} href={item.href} className="text-white hover:underline">
+                  <Typography variant="text_mini_footer">
+                    {item.title}
+                  </Typography>
+                </a>
+              ))}
             </div>
           </div>
           <div className="flex justify-between gap-6">

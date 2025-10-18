@@ -13,31 +13,38 @@ import { Typography, useAuth } from '@/src/shared'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
-import { ResetPasswordSchema } from '../model/validation'
+import { NewPasswordSchema } from '../model/validation'
+import { useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/shadcn/components/ui/spinner'
 
-export const ResetPasswordForm = () => {
-  const { resetPassword, loading } = useAuth()
-  const form = useForm<z.infer<typeof ResetPasswordSchema>>({
+export const NewPasswordForm = () => {
+  const { newPassword, loading } = useAuth()
+  const searchParams = useSearchParams()
+  const code = searchParams.get('code') || ''
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
     defaultValues: {
-      email: '',
+      password: '',
+      passwordConfirmation: '',
+      code: code,
     },
-    resolver: zodResolver(ResetPasswordSchema),
+    resolver: zodResolver(NewPasswordSchema),
   })
 
-  const onSubmit = (data: z.infer<typeof ResetPasswordSchema>) => {
-    resetPassword.mutate({
-      email: data.email,
+  const onSubmit = (data: z.infer<typeof NewPasswordSchema>) => {
+    newPassword.mutate({
+      password: data.password,
+      passwordConfirmation: data.passwordConfirmation,
+      code: data.code,
     })
   }
 
   return (
     <>
       <div className="w-full max-w-[800px] bg-white p-4 py-15 md:p-15">
-        <Typography variant="text_title">Reset password</Typography>
+        <Typography variant="text_title">New password</Typography>
         <Typography variant="text_main" className="my-4">
-          Enter your email and we’ll send you a link to reset your password
+          Enter your new password
         </Typography>
         <Form {...form}>
           <form
@@ -46,11 +53,23 @@ export const ResetPasswordForm = () => {
           >
             <FormField
               control={form.control}
-              name="email"
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder="PASSWORD" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="passwordConfirmation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="CONFIRM PASSWORD" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +83,7 @@ export const ResetPasswordForm = () => {
               disabled={loading}
             >
               {loading && <Spinner />}
-              Send email
+              Reset password
             </Button>
           </form>
         </Form>

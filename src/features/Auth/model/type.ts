@@ -5,6 +5,13 @@ export type AuthCredentials = {
   password: string
 }
 
+export type SignupCredentials = {
+  email: string
+  password: string
+  username: string
+  surname: string
+}
+
 export type User = {
   id: number
   documentId: string
@@ -19,4 +26,15 @@ export type User = {
   phone: null | string
   orders?: Order[]
   addresses?: Address[]
+}
+
+
+export type ResetPasswordCredentials = {
+  email: string
+}
+
+export type NewPasswordCredentials = {
+  password: string
+  passwordConfirmation: string
+  code: string
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Arima } from 'next/font/google'
+import { Toaster } from "@/shadcn/components/ui/sonner"
+
 import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
@@ -25,7 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${arima.className} antialiased`}>{children}</body>
+      <body className={`${arima.className} antialiased`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

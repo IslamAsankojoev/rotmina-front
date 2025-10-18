@@ -10,15 +10,19 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { Typography } from '@/src/shared'
+import { Typography, useAuth } from '@/src/shared'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { SigninSchema } from '../model/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Spinner } from '@/shadcn/components/ui/spinner'
 
 export const SignupForm = () => {
+  const { signup, loading } = useAuth()
+
   const form = useForm<z.infer<typeof SigninSchema>>({
     defaultValues: {
       name: '',
@@ -26,10 +30,16 @@ export const SignupForm = () => {
       email: '',
       password: '',
     },
+    resolver: zodResolver(SigninSchema),
   })
 
   const onSubmit = (data: z.infer<typeof SigninSchema>) => {
-    console.log('Form submitted:', data)
+    signup.mutate({
+      email: data.email,
+      password: data.password,
+      username: data.name,
+      surname: data.surname,
+    })
   }
 
   return (
@@ -59,7 +69,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder="SURNAME" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -102,7 +112,9 @@ export const SignupForm = () => {
               className="uppercase"
               variant="outline-minimal"
               size="lg"
+              disabled={loading}
             >
+              {loading && <Spinner />}
               Sign up
             </Button>
           </form>

@@ -17,9 +17,10 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { LoginSchema } from '../model/validation'
+import { Spinner } from '@/shadcn/components/ui/spinner'
 
 export const LoginForm = () => {
-  const { login } = useAuth()
+  const { login, loading } = useAuth()
   const form = useForm<z.infer<typeof LoginSchema>>({
     defaultValues: {
       email: '',
@@ -78,7 +79,7 @@ export const LoginForm = () => {
               )}
             />
             <Link
-              href="/forgot-password"
+              href="/reset-password"
               className="text-right uppercase underline"
             >
               Forgot your password?
@@ -87,8 +88,8 @@ export const LoginForm = () => {
               <Typography variant="text_main" className="mb-2 uppercase">
                 Don not have an account?
               </Typography>
-              <Link href="/signin" className="underline">
-                SIGN IN
+              <Link href="/signup" className="underline">
+                SIGN UP
               </Link>
             </div>
             <Button
@@ -96,7 +97,9 @@ export const LoginForm = () => {
               className="uppercase"
               variant="outline-minimal"
               size="lg"
+              disabled={loading}
             >
+              {loading && <Spinner />}
               Log in
             </Button>
           </form>

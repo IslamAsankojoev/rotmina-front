@@ -173,7 +173,6 @@ export default function CartPage() {
             <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
               <PaymentForm
                 onSubmit={handleSubmitPayment}
-                termsChecked={termsChecked}
               />
               <div className="flex flex-col gap-4 p-20">
                 <div className="flex items-center gap-4">
