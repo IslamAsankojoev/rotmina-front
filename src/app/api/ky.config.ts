@@ -1,5 +1,11 @@
-import ky from 'ky'
+import ky, { type HTTPError } from 'ky'
 import { handleStrapiErrorSync } from '@/src/shared/utils/errorHandling'
+import type { ProcessedError } from '@/src/shared/types/errors'
+
+// Интерфейс для расширенной ошибки с обработанной информацией
+interface ExtendedHTTPError extends HTTPError {
+  processedError?: ProcessedError
+}
 
 export const api = ky.create({
   prefixUrl: `/api`,
@@ -37,9 +43,10 @@ export const api = ky.create({
         })
         
         // Добавляем обработанную ошибку к оригинальной
-        error.processedError = processedError
+        const extendedError = error as ExtendedHTTPError
+        extendedError.processedError = processedError
         
-        return error
+        return extendedError
       },
     ],
   },
