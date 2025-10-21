@@ -1,10 +1,5 @@
 'use client'
 
-import Category5 from '@/public/assets/categories/2afe5f5b71f73390cec6bdb007042cbf16a7e828.png'
-import Category3 from '@/public/assets/categories/4d77feb8a8bc3a48a8ff7c28c7be0bade782e636.png'
-import Category2 from '@/public/assets/categories/45c6ee3baa7cfe714a16d0ec8c735e9822509e2c.png'
-import Category1 from '@/public/assets/categories/409941fd2c0eb047fc4dc9e1a518a56f1806505e.png'
-import Category4 from '@/public/assets/categories/cd9e611bd25c47e728ec91588bc388c57b34c5f3.png'
 import CollectionImage from '@/public/assets/collection.png'
 import NatureImage from '@/public/assets/nature.webp'
 import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.png'
@@ -25,10 +20,10 @@ import { Typography } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'next/link'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
+import { Categories } from '@/src/features'
 
 const slides = [
   { src: SlideImage1.src, alt: 'CLOTHES 1', price: 'Price' },
@@ -183,51 +178,7 @@ export default function Home() {
       <div className="container mt-24 flex flex-col gap-8">
         <Typography variant="text_title">Categories</Typography>
       </div>
-      <div className="my-10 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {[
-          {
-            src: Category3,
-            title: 'SHIRT (21)',
-          },
-          {
-            src: Category1,
-            title: 'JAcket (21)',
-          },
-          {
-            src: Category4,
-            title: 'Vest (21)',
-          },
-          {
-            src: Category2,
-            title: 'Pants (21)',
-          },
-          {
-            src: Category5,
-            title: 'purse (21)',
-          },
-        ].map((category, index) => (
-          <Link
-            href={`/category/${category.title.toLowerCase()}`}
-            key={index}
-            className={clsx(
-              'relative block h-96 w-full saturate-0 md:h-[600px]',
-              index === 4 && 'col-span-2 md:col-span-2 lg:col-span-4',
-            )}
-          >
-            <Image
-              src={category.src}
-              alt={`Category ${index + 1}`}
-              fill
-              objectFit="cover"
-            />
-            <div className="bg-opacity-50 absolute inset-0 flex items-center justify-center">
-              <Typography variant="text_categories" className="text-white">
-                {category.title}
-              </Typography>
-            </div>
-          </Link>
-        ))}
-      </div>
+      <Categories />
       <div className="container mt-24 flex flex-col gap-8">
         <Typography variant="text_title">Collections</Typography>
       </div>

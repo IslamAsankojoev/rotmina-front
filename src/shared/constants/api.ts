@@ -24,4 +24,8 @@ export const apiMap = {
   postPersonalStylist: 'personal-stylists',
   putPersonalStylist: 'personal-stylists/:id',
   deletePersonalStylist: 'personal-stylists/:id',
+
+  // Category
+  getCategories: 'categories',
+  getCategory: 'categories/:id',
 }
