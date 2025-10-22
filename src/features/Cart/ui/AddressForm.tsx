@@ -9,17 +9,34 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
+import { Label } from '@/shadcn/components/ui/label'
+import { RadioGroup, RadioGroupItem } from '@/shadcn/components/ui/radio-group'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useQuery } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 
+import { AddressService } from '../../Address'
 import { addressFormSchema } from '../model'
 
 interface AddressFormProps {
   onSubmit: (data: z.infer<typeof addressFormSchema>) => void
+  setShippingAddress: (address: string) => void
 }
 
-export const AddressForm = ({ onSubmit }: AddressFormProps) => {
+export const AddressForm = ({
+  onSubmit,
+  setShippingAddress,
+}: AddressFormProps) => {
+  const {
+    data: addresses,
+    isLoading: isLoadingAddresses,
+    error: errorAddresses,
+  } = useQuery({
+    queryKey: ['addresses'],
+    queryFn: () => AddressService.getMyAddresses(),
+  })
+
   const form = useForm<z.infer<typeof addressFormSchema>>({
     defaultValues: {
       name: '',
@@ -34,6 +51,9 @@ export const AddressForm = ({ onSubmit }: AddressFormProps) => {
   const handleSubmit = form.handleSubmit((data) => {
     onSubmit(data)
   })
+
+  if (isLoadingAddresses) return <div>Loading...</div>
+  if (errorAddresses) return <div>Error: {errorAddresses.message}</div>
 
   return (
     <div>
@@ -111,6 +131,26 @@ export const AddressForm = ({ onSubmit }: AddressFormProps) => {
               </FormItem>
             )}
           />
+
+          <RadioGroup
+            defaultValue="comfortable"
+            disabled={isLoadingAddresses}
+            onValueChange={(value) => {
+              setShippingAddress(value)
+            }}
+          >
+            {addresses?.data.map((address) => (
+              <div key={address.id} className="flex items-center gap-3">
+                <RadioGroupItem
+                  value={address?.documentId || ''}
+                  id={address.documentId || ''}
+                />
+                <Label htmlFor={address?.documentId || ''}>
+                  {address.label}
+                </Label>
+              </div>
+            ))}
+          </RadioGroup>
 
           <Button
             type="submit"

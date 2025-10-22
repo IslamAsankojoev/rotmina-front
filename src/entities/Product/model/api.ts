@@ -3,8 +3,6 @@ import { apiMap } from '@/src/shared'
 import type {
   ProductResponse,
   ProductListResponse,
-  CreateProductRequest,
-  UpdateProductRequest,
   GetProductsParams,
   ProductVariant,
   CreateVariantRequest,
@@ -61,21 +59,6 @@ export const ProductService = {
     
     const url = `${apiMap.getProduct.replace(':id', id)}?${searchParams.toString()}`
     return api.get(url).json()
-  },
-
-  // Создание товара
-  postProduct: (data: CreateProductRequest): Promise<ProductResponse> => {
-    return api.post(apiMap.postProduct, { json: { data } }).json()
-  },
-
-  // Обновление товара
-  putProduct: (id: string, data: UpdateProductRequest): Promise<ProductResponse> => {
-    return api.put(apiMap.putProduct.replace(':id', id), { json: { data } }).json()
-  },
-
-  // Удаление товара
-  deleteProduct: (id: string): Promise<void> => {
-    return api.delete(apiMap.deleteProduct.replace(':id', id)).json()
   },
 }
 

@@ -5,7 +5,7 @@ export const addressFormSchema = z.object({
   surname: z.string().min(1, 'Surname is required'),
   email: z.string().email('Invalid email address'),
   phone: z.string().min(1, 'Phone number is required'),
-  address: z.string().min(1, 'Address is required'),
+  address: z.string(),
   zipCode: z.string().min(1, 'Zipcode is required'),
 })
 

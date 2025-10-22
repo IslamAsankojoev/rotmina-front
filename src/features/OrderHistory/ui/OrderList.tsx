@@ -7,18 +7,19 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { Typography, useUser } from '@/src/shared'
+import { Typography } from '@/src/shared'
 import { OrderCard } from './OrderCard'
+import { OrderService } from '@/src/entities/Order'
+import { useQuery } from '@tanstack/react-query'
+import { Order } from '../model'
 
 export const OrderList = () => {
-  const { user } = useUser({ allPopulates: true })
-  const orders = user.data?.orders || []
+  const { data: orders } = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => OrderService.getMyOrders(),
+  })
 
-  if (!user.data) {
-    return <div>Загрузка...</div>
-  }
-
-  if (orders.length === 0) {
+  if (!orders || orders.data.length === 0) {
     return (
       <div className="text-center py-8">
         <Typography variant="text_main" className="text-greyy">
@@ -39,8 +40,8 @@ export const OrderList = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orders.map((order) => (
-          <OrderCard key={order.id} order={order} />
+        {orders?.data.map((order) => (
+          <OrderCard key={order.id} order={order as Order} />
         ))}
       </TableBody>
     </Table>

@@ -9,11 +9,15 @@ import { Label } from '@/shadcn/components/ui/label'
 import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
 import { useCartActions, useCartInfo } from '@/src/app'
+import { CreateOrderRequest, OrderService, OrderItem } from '@/src/entities/Order'
 import { AddressForm, CartItem, PaymentForm, TermsDialog } from '@/src/features'
+import { AddressService } from '@/src/features/Address'
 import { addressFormSchema, paymentFormSchema } from '@/src/features/Cart/model'
 import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import z from 'zod'
 
 enum CartSteps {
@@ -42,13 +46,17 @@ const paymentMethods = [
 export default function CartPage() {
   const [currentStep, setCurrentStep] = useState(CartSteps.CART_SHIPPINGINFO)
   const { items, totalItems, totalPrice } = useCartInfo()
-  const { updateQuantity, removeItem } = useCartActions()
+  const { updateQuantity, removeItem, clearCart } = useCartActions()
   const { getPrice, currency } = useLangCurrancy()
+  const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
   )
   const [termsChecked, setTermsChecked] = useState(true)
   const [termsError, setTermsError] = useState(false)
+  const [shippingAddress, setShippingAddress] = useState<string | null>(null)
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false)
+
   const handleQuantityChange = (itemId: string, newQuantity: number) => {
     updateQuantity(itemId, newQuantity)
   }
@@ -58,17 +66,135 @@ export default function CartPage() {
   }
 
   const handleSubmitAddress = (data: z.infer<typeof addressFormSchema>) => {
-    console.log('Form submitted:', data)
-    setCurrentStep(CartSteps.CART_PAYMENTMETHODS)
+    const address = `${data.address}`
+    if (!!data.address) {
+      AddressService.addAddress(address)
+      .then((res) => {
+        if (res.success) {
+          toast.success('Адрес успешно добавлен')
+          setCurrentStep(CartSteps.CART_PAYMENTMETHODS)
+        } else {
+          toast.error(res.message)
+        }
+      })
+       .catch(() => {
+         toast.error('Произошла ошибка при добавлении адреса')
+       })
+    } else {
+      setCurrentStep(CartSteps.CART_PAYMENTMETHODS)
+    } 
   }
 
-  const handleSubmitPayment = (data: z.infer<typeof paymentFormSchema>) => {
-    console.log('Form submitted:', data)
+  const handleSubmitPayment = async (
+    _data: z.infer<typeof paymentFormSchema>,
+  ) => {
     if (!termsChecked) {
       setTermsError(true)
       return
     }
     setTermsError(false)
+
+    if (!shippingAddress) {
+      toast.error('Адрес доставки не заполнен')
+      return
+    }
+
+    if (items.length === 0) {
+      toast.error('Корзина пуста')
+      return
+    }
+
+    setIsCreatingOrder(true)
+
+    try {
+      // Преобразуем все товары из корзины в элементы заказа
+      const orderItems: OrderItem[] = []
+      
+      for (const item of items) {
+        if (item.type === 'product') {
+          orderItems.push({
+            id: item.id,
+            type: 'product' as const,
+            variant: {
+              id: item.variant.id,
+              documentId: item.variant.documentId,
+              sku: item.variant.sku,
+              price: item.variant.price,
+              stock: item.variant.stock,
+              is_active: item.variant.is_active,
+              images: item.variant.images || null,
+              size: {
+                id: item.variant.size.id,
+                documentId: item.variant.size.documentId,
+                name: item.variant.size.name,
+                sort_order: item.variant.size.sort_order,
+                slug: item.variant.size.slug,
+              },
+              color: {
+                id: item.variant.color.id,
+                documentId: item.variant.color.documentId,
+                name: item.variant.color.name,
+                code: item.variant.color.code,
+                slug: item.variant.color.slug,
+                hex: item.variant.color.hex,
+              }
+            },
+            productTitle: item.productTitle,
+            productSlug: item.productSlug,
+            quantity: item.quantity,
+            price: item.price,
+          })
+        } else if (item.type === 'giftcard') {
+          orderItems.push({
+            id: item.id,
+            type: 'giftcard' as const,
+            amount: item.amount,
+            recipientEmail: item.recipientEmail,
+            recipientName: item.recipientName,
+            message: item.message,
+            quantity: item.quantity,
+            price: item.price,
+          })
+        } else if (item.type === 'personalStylist') {
+          orderItems.push({
+            id: item.id,
+            type: 'personalStylist' as const,
+            sessionType: item.sessionType,
+            duration: item.duration,
+            quantity: item.quantity,
+            price: item.price,
+          })
+        }
+      }
+
+      // Создаем заказ
+      const orderData: CreateOrderRequest = {
+        payment_method: paymentMethod,
+        // payment_details: {
+        //   card_number: data.cardNumber,
+        //   name_on_card: data.nameOnCard,
+        //   expiration_date: data.expirationDate,
+        //   cvv: data.cvv,
+        // },
+        totalPrice,
+        payment_status: 'unpaid',
+        notes: 'Заказ создан через веб-сайт',
+        addressId: shippingAddress,
+        items: orderItems,
+      }
+
+      await OrderService.createOrder(orderData)
+
+      toast.success('Заказ успешно создан!')
+
+      // Перенаправляем на страницу успеха или истории заказов
+      router.push('/account')
+    } catch (error) {
+      console.error('Ошибка при создании заказа:', error)
+      toast.error('Произошла ошибка при создании заказа. Попробуйте еще раз.')
+    } finally {
+      setIsCreatingOrder(false)
+    }
   }
 
   return (
@@ -104,7 +230,7 @@ export default function CartPage() {
         </div>
         {currentStep === CartSteps.CART_SHIPPINGINFO && (
           <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
-            <AddressForm onSubmit={handleSubmitAddress} />
+            <AddressForm onSubmit={handleSubmitAddress} setShippingAddress={setShippingAddress} />
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between pt-8">
@@ -173,6 +299,7 @@ export default function CartPage() {
             <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
               <PaymentForm
                 onSubmit={handleSubmitPayment}
+                isLoading={isCreatingOrder}
               />
               <div className="flex flex-col gap-4 p-20">
                 <div className="flex items-center gap-4">
@@ -236,7 +363,10 @@ export default function CartPage() {
                       </Typography>
                     </div>
                     {termsError && (
-                      <Typography variant="text_mini_footer" className="text-red-500">
+                      <Typography
+                        variant="text_mini_footer"
+                        className="text-red-500"
+                      >
                         You must agree to the terms and conditions
                       </Typography>
                     )}

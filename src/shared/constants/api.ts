@@ -14,9 +14,6 @@ export const apiMap = {
   // Product
   getProducts: 'products',
   getProduct: 'products/:id',
-  postProduct: 'products',
-  putProduct: 'products/:id',
-  deleteProduct: 'products/:id',
 
   // Personal Stylist
   getPersonalStylists: 'personal-stylists',
@@ -36,4 +33,13 @@ export const apiMap = {
   // Gift Card
   getGiftCards: 'gift-cards',
   getGiftCardByCode: 'gift-cards/code/:id',
+
+  // Order
+  getMyOrders: 'orders/my-orders',
+  getOrder: 'orders/:id',
+  createOrder: 'orders/make-order',
+
+  // Address
+  getMyAddresses: 'my-addresses',
+  addAddress: 'addresses',
 }

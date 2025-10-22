@@ -6,6 +6,7 @@ export type OrderItem = {
   price_snapshot: string
   quantity: number
   subtotal: number
+  type: 'product' | 'giftcard' | 'personalStylist'
   variant?: {
     id: number
     documentId: string

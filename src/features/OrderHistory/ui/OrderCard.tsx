@@ -14,14 +14,27 @@ import {
   TableRow,
 } from '@/shadcn/components/ui/table'
 import { Typography } from '@/src/shared'
-import { Order } from '@/src/features/OrderHistory/model/types'
+import { Order, OrderItem } from '@/src/features/OrderHistory/model/types'
 import Image from 'next/image'
+import GiftCardImage from '@/public/assets/gift-card.png'
+import PersonalStylistImage from '@/public/assets/personal-stylist.png'
 
 interface OrderCardProps {
   order: Order
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
+
+  const getImage = (item: OrderItem) => {
+    if(item.type === 'product') {
+      return item.variant?.images?.[0]?.url || 
+      ShirtImage.src
+    }
+    if(item.type === 'giftcard') return GiftCardImage.src
+    if(item.type === 'personalStylist') return PersonalStylistImage.src
+    return ShirtImage.src
+  }
+
   return (
     <TableRow key={order.id} className="w-full">
       <TableCell className="p-0" colSpan={4}>
@@ -56,11 +69,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       className="mb-2 flex flex-col justify-between"
                     >
                       <Image
-                        src={
-                          item.variant?.images?.[0]?.url || 
-                          item.variant?.product?.gallery?.[0]?.url || 
-                          ShirtImage.src
-                        }
+                        src={getImage(item)}
                         alt={item.title_snapshot}
                         width={190}
                         height={260}

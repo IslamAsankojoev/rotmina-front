@@ -16,9 +16,10 @@ import { paymentFormSchema } from '../model/scheme'
 
 interface PaymentFormProps {
   onSubmit: (data: z.infer<typeof paymentFormSchema>) => void
+  isLoading?: boolean
 }
 
-export const PaymentForm = ({ onSubmit }: PaymentFormProps) => {
+export const PaymentForm = ({ onSubmit, isLoading = false }: PaymentFormProps) => {
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
       cardNumber: '4012888811110001',
@@ -103,8 +104,9 @@ export const PaymentForm = ({ onSubmit }: PaymentFormProps) => {
             className="uppercase"
             variant="outline-minimal"
             size="lg"
+            disabled={isLoading}
           >
-            Pay
+            {isLoading ? 'Создание заказа...' : 'Pay'}
           </Button>
         </form>
       </Form>
