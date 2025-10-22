@@ -28,4 +28,12 @@ export const apiMap = {
   // Category
   getCategories: 'categories',
   getCategory: 'categories/:id',
+
+  // Collection
+  getCollections: 'collections',
+  getCollection: 'collections/:id',
+
+  // Gift Card
+  getGiftCards: 'gift-cards',
+  getGiftCardByCode: 'gift-cards/code/:id',
 }

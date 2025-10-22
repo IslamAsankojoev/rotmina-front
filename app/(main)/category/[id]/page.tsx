@@ -6,7 +6,13 @@ import { Breadcrumbs, Typography } from '@/src/shared'
 import { ArrowDownUp } from 'lucide-react'
 import { ProductGrid } from '@/src/entities/Product'
 
-const Category = () => {
+interface CategoryPageProps {
+  params: {
+    id: string
+  }
+}
+
+const Category = ({ params }: CategoryPageProps) => {
   return (
     <>
       <div
@@ -39,7 +45,7 @@ const Category = () => {
         </div>
       </div>
       <div className="container mt-8 mb-24">
-        <ProductGrid />
+        <ProductGrid categoryId={params.id} />
         <ProductPagination />
       </div>
     </>

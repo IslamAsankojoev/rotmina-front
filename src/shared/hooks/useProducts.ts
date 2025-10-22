@@ -12,6 +12,7 @@ interface ProductParams {
   colors?: string
   sizes?: string
   sort?: string
+  category?: string
 }
 
 interface UseProductsReturn {
@@ -42,7 +43,7 @@ interface UseProductsReturn {
   resetAll: () => void
 }
 
-export const useProducts = (): UseProductsReturn => {
+export const useProducts = (categoryId?: string): UseProductsReturn => {
   const router = useRouter()
   const params = useSearchParams()
   
@@ -96,7 +97,7 @@ export const useProducts = (): UseProductsReturn => {
 
   // Запрос данных
   const { data, isLoading, error } = useQuery({
-    queryKey: ['products', urlPage, urlPageSize, urlSearch, urlColors, urlSizes, urlSort],
+    queryKey: ['products', urlPage, urlPageSize, urlSearch, urlColors, urlSizes, urlSort, categoryId],
     queryFn: () => ProductService.getProducts({
       page: urlPage ? parseInt(urlPage) : 1,
       pageSize: urlPageSize ? parseInt(urlPageSize) : 12,
@@ -104,6 +105,7 @@ export const useProducts = (): UseProductsReturn => {
       colors: urlColors || undefined,
       sizes: urlSizes || undefined,
       sort: urlSort ? getSortOptions(urlSort) : { field: 'createdAt', order: 'desc' },
+      category: categoryId || undefined,
     }),
   })
 

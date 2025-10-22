@@ -7,8 +7,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 
-export const ProductGrid = () => {
-  const { data, isLoading, error } = useProducts()
+interface ProductGridProps {
+  categoryId?: string
+}
+
+export const ProductGrid = ({ categoryId }: ProductGridProps) => {
+  const { data, isLoading, error } = useProducts(categoryId)
 
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>

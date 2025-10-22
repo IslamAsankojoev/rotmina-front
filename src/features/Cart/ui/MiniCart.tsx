@@ -32,6 +32,12 @@ export const MiniCart = () => {
     removeItem(itemId)
   }
 
+  console.log('to create order', JSON.stringify({
+    items,
+    totalItems,
+    totalPrice,
+  }))
+
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger className="cursor-pointer">

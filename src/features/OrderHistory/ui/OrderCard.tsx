@@ -1,3 +1,5 @@
+'use client'
+
 import ShirtImage from '@/public/assets/products/shirt.png'
 import {
   Accordion,

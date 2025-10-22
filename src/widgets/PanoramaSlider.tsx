@@ -46,7 +46,7 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
   }, [])
 
   return (
-    <div className="panorama-unclip relative overflow-hidden">
+    <div className="panorama-unclip relative">
       <Swiper
         className="panorama-swiper"
         modules={[Pagination]}

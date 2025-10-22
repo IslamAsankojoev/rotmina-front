@@ -51,7 +51,7 @@ export const PersonalStylistForm = () => {
       if (onlineStylist) {
         addStylistToCart(
           'virtual',
-          onlineStylist.hours * 60, // Конвертируем часы в минуты
+          onlineStylist.minutes,
           onlineStylist.price,
         )
       }
@@ -62,7 +62,7 @@ export const PersonalStylistForm = () => {
       if (selectedStylist) {
         addStylistToCart(
           'in-person',
-          selectedStylist.hours * 60, // Конвертируем часы в минуты
+          selectedStylist.minutes,
           selectedStylist.price
         )
       }
@@ -71,9 +71,9 @@ export const PersonalStylistForm = () => {
     openCart()
   }
 
-  const formatDuration = (hours: number): string => {
-    if (hours === 1) return '1 hour'
-    return `${hours} hours`
+  const formatDuration = (minutes: number): string => {
+    if (minutes / 60 === 1) return '1 hour'
+    return `${minutes / 60} hours`
   }
 
   if (loading) {
@@ -106,7 +106,7 @@ export const PersonalStylistForm = () => {
             <>
               <Typography variant="text_main">
                 <span className="font-bold">Duration:</span>{' '}
-                {formatDuration(personalStylists.online[0].hours)}
+                {formatDuration(personalStylists.online[0].minutes)}
               </Typography>
               <Typography variant="text_main" className="mt-2">
                 <span className="font-bold">Price:</span>{' '}
@@ -132,7 +132,7 @@ export const PersonalStylistForm = () => {
                   onClick={() => handleProductSelect(stylist.id)}
                 >
                   <Typography variant="text_main">
-                    {formatDuration(stylist.hours)}
+                    {formatDuration(stylist.minutes)}
                   </Typography>
                   <Typography variant="text_main">
                     {getPrice(stylist.price)} {currency}

@@ -1,6 +1,5 @@
 'use client'
 
-import CollectionImage from '@/public/assets/collection.png'
 import NatureImage from '@/public/assets/nature.webp'
 import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.png'
 import SlideImage2 from '@/public/assets/products/773b68776a32f6687e77b6124a9960ad5d456cda.png'
@@ -10,20 +9,13 @@ import SlideImage5 from '@/public/assets/products/e90bf2efd413950c0e86d922d5e451
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/shadcn/components/ui/accordion'
+import { Categories, Collections } from '@/src/features'
 import { Typography } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
-import clsx from 'clsx'
 import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
-import { Categories } from '@/src/features'
 
 const slides = [
   { src: SlideImage1.src, alt: 'CLOTHES 1', price: 'Price' },
@@ -36,7 +28,7 @@ const slides = [
 export default function Home() {
   return (
     <section>
-      <div className="relative hidden md:flex h-screen w-full items-center justify-center">
+      <div className="relative hidden h-screen w-full items-center justify-center md:flex">
         <Image
           src={Hero}
           fill
@@ -45,7 +37,7 @@ export default function Home() {
           alt="hero"
         />
       </div>
-      <div className="relative flex md:hidden h-screen w-full items-center justify-center">
+      <div className="relative flex h-screen w-full items-center justify-center md:hidden">
         <Image
           src={Hero}
           fill
@@ -103,13 +95,15 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <PanoramaSlider slides={slides} />
+      <div className="overflow-x-hidden overflow-y-auto">
+        <PanoramaSlider slides={slides} />
+      </div>
       <div className="container mt-24">
         <Typography variant="text_title">
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
-      <div className="relative md:my-24 my-10 flex h-[400px] md:h-[620px] w-full items-center justify-center">
+      <div className="relative my-10 flex h-[400px] w-full items-center justify-center md:my-24 md:h-[620px]">
         <Image
           src={NatureImage}
           fill
@@ -182,75 +176,7 @@ export default function Home() {
       <div className="container mt-24 flex flex-col gap-8">
         <Typography variant="text_title">Collections</Typography>
       </div>
-      <div className="mb-20 flex flex-col gap-4 md:flex-row">
-        <div className="relative order-2 flex h-96 w-full items-center justify-center md:order-1 md:h-[700px] md:flex-1">
-          <Image
-            src={CollectionImage}
-            objectFit="cover"
-            objectPosition="center"
-            alt="hero"
-            fill
-          />
-        </div>
-        <div className="order-1 flex items-center justify-center md:order-2 md:flex-1">
-          <Accordion type="single" collapsible>
-            {[
-              {
-                id: 'collection-1',
-                title: 'Collection 1',
-                image: CollectionImage.src,
-                description:
-                  'Explore our exclusive collection that blends elegance with sustainability.',
-              },
-              {
-                id: 'collection-2',
-                title: 'Collection 2',
-                image: CollectionImage.src,
-                description:
-                  'Discover timeless pieces crafted with care for the environment.',
-              },
-              {
-                id: 'collection-3',
-                title: 'Collection 3',
-                image: CollectionImage.src,
-                description:
-                  'Experience the harmony of style and ethics in our latest collection.',
-              },
-            ].map((collection, index) => (
-              <div
-                key={index}
-                className={clsx(
-                  'm-4 w-96 flex-1 border-b-2 p-2 text-center',
-                  index === 2 && 'border-b-0',
-                )}
-              >
-                <AccordionItem value={collection.id}>
-                  <AccordionTrigger className="justify-center p-0">
-                    <Typography
-                      variant="text_pageTitle"
-                      className="text-center !text-2xl"
-                    >
-                      {collection.title}
-                    </Typography>
-                  </AccordionTrigger>
-                  <AccordionContent className="mt-4 flex flex-col items-center justify-center">
-                    <Typography variant="text_main">
-                      {collection.description}
-                    </Typography>
-                    <Image
-                      src={collection.image}
-                      alt={collection.title}
-                      width={200}
-                      height={200}
-                      className="mt-4 rounded-lg"
-                    />
-                  </AccordionContent>
-                </AccordionItem>
-              </div>
-            ))}
-          </Accordion>
-        </div>
-      </div>
+      <Collections />
     </section>
   )
 }

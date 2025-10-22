@@ -52,8 +52,8 @@ const Product = () => {
     if (!data?.data?.variants) return []
     const uniqueColors = new Map()
     data.data.variants.forEach((variant: ProductVariant) => {
-      if (!uniqueColors.has(variant.color.id)) {
-        uniqueColors.set(variant.color.id, variant.color)
+      if (!uniqueColors.has(variant?.color?.id)) {
+        uniqueColors.set(variant?.color?.id, variant?.color)
       }
     })
     return Array.from(uniqueColors.values())
@@ -65,14 +65,14 @@ const Product = () => {
     
     const colorId = parseInt(selectedColor)
     const sizesForColor = data.data.variants
-      .filter((variant: ProductVariant) => variant.color.id === colorId)
+      .filter((variant: ProductVariant) => variant?.color?.id === colorId)
       .map((variant: ProductVariant) => variant.size)
     
     // Убираем дубликаты размеров
     const uniqueSizes = new Map()
     sizesForColor.forEach((size: Size) => {
-      if (!uniqueSizes.has(size.id)) {
-        uniqueSizes.set(size.id, size)
+      if (!uniqueSizes.has(size?.id)) {
+        uniqueSizes.set(size?.id, size)
       }
     })
     return Array.from(uniqueSizes.values())
@@ -83,8 +83,8 @@ const Product = () => {
     if (!data?.data?.variants) return []
     const uniqueSizes = new Map()
     data.data.variants.forEach((variant: ProductVariant) => {
-      if (!uniqueSizes.has(variant.size.id)) {
-        uniqueSizes.set(variant.size.id, variant.size)
+      if (!uniqueSizes.has(variant?.size?.id)) {
+        uniqueSizes.set(variant?.size?.id, variant?.size)
       }
     })
     return Array.from(uniqueSizes.values())
@@ -93,7 +93,7 @@ const Product = () => {
   // Автоматически выбираем первый цвет при загрузке
   React.useEffect(() => {
     if (colors.length > 0 && !selectedColor) {
-      setSelectedColor(colors[0].id.toString())
+      setSelectedColor(colors[0]?.id?.toString())
     }
   }, [colors, selectedColor])
 
@@ -103,7 +103,7 @@ const Product = () => {
 
     const variant = data.data.variants.find(
       (variant: ProductVariant) => 
-        variant.color.id === parseInt(colorId) && variant.size.id === parseInt(sizeId)
+        variant?.color?.id === parseInt(colorId) && variant?.size?.id === parseInt(sizeId)
     )
     
     setSelectedVariant(variant || null)
@@ -112,7 +112,7 @@ const Product = () => {
   // Автоматически выбираем первый доступный размер при выборе цвета
   React.useEffect(() => {
     if (availableSizes.length > 0 && !selectedSize) {
-      setSelectedSize(availableSizes[0].id.toString())
+      setSelectedSize(availableSizes[0]?.id?.toString())
     }
   }, [availableSizes, selectedSize])
 
@@ -141,13 +141,13 @@ const Product = () => {
   // Проверяем, доступен ли размер для выбранного цвета
   const isSizeAvailable = (sizeId: number) => {
     if (!selectedColor) return false
-    return availableSizes.some((size: Size) => size.id === sizeId)
+    return availableSizes.some((size: Size) => size?.id === sizeId)
   }
 
   // Получаем цену для выбранной комбинации цвета и размера
   const getCurrentPrice = () => {
     if (selectedVariant) {
-      return selectedVariant.price
+      return selectedVariant?.price
     }
     return data?.data?.variants?.[0]?.price || 0
   }
@@ -155,7 +155,7 @@ const Product = () => {
   // Получаем изображения для выбранного варианта или основного товара
   const getCurrentImages = () => {
     if (selectedVariant && selectedVariant.images && selectedVariant.images.length > 0) {
-      return selectedVariant.images
+      return selectedVariant?.images
     }
     return data?.data?.gallery || []
   }
@@ -165,7 +165,7 @@ const Product = () => {
     if (!selectedVariant || !data?.data) return
 
     addProductToCart(
-      selectedVariant,
+      selectedVariant || null,
       data.data.title,
       data.data.slug,
       1
@@ -202,8 +202,8 @@ const Product = () => {
             </div>
           </div>
           <div className="flex-1 md:p-8">
-            <Typography variant="text_pageTitle">
-              <h1>{data?.data?.title}</h1>
+            <Typography variant="text_pageTitle" tag="h1">
+              {data?.data?.title}
             </Typography>
             <Typography variant="text_main">
               {getPrice(getCurrentPrice())} {currency}
@@ -262,13 +262,13 @@ const Product = () => {
                       onValueChange={handleSizeChange}
                     >
                       {allSizes?.map((size: Size) => {
-                        const isAvailable = isSizeAvailable(size.id)
-                        const isSelected = selectedSize === size.id.toString()
+                        const isAvailable = isSizeAvailable(size?.id)
+                        const isSelected = selectedSize === size?.id?.toString()
                         
                         return (
                           <ToggleGroupItem
-                            key={size.id}
-                            value={size.id.toString()}
+                            key={size?.id}
+                            value={size?.id?.toString()}
                             disabled={!isAvailable}
                             className={clsx(
                               'cursor-pointer',
@@ -286,7 +286,7 @@ const Product = () => {
                                   : 'text-greyy opacity-50',
                               )}
                             >
-                              {size.name}
+                              {size?.name}
                             </Typography>
                           </ToggleGroupItem>
                         )
@@ -402,14 +402,14 @@ const Product = () => {
           <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
             {data?.data?.variants?.map((variant: ProductVariant) => (
               <Link
-                href={`/product/${variant.id}`}
+                href={`/product/${variant?.id}`}
                 key={variant.id}
                 className={clsx(
                   'relative col-span-6 flex h-[300px] w-full flex-col items-center gap-4 border p-4 md:col-span-4 md:h-full md:min-h-[544px] lg:col-span-3',
                 )}
               >
                 <Image
-                  src={variant.images[0].url}
+                  src={getCurrentImages()[0]?.url || ''}
                   alt={data?.data?.title}
                   objectFit="cover"
                   fill
@@ -419,7 +419,7 @@ const Product = () => {
                     {data?.data?.title}
                   </Typography>
                   <Typography variant="text_main">
-                    ${getPrice(variant.price)}
+                    ${getPrice(variant?.price)}
                   </Typography>
                 </div>
               </Link>

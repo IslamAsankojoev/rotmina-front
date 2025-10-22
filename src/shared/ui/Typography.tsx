@@ -8,6 +8,7 @@ import { Arima, Libre_Caslon_Text } from 'next/font/google'
 
 interface TypographyProps extends HTMLProps<HTMLParagraphElement> {
   children: React.ReactNode
+  tag?: 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
   variant?:
     | 'text_main'
     | 'text_mini_footer'
@@ -49,14 +50,16 @@ export const Typography: FC<TypographyProps> = ({
   children,
   variant = 'text_main',
   className = '',
+  tag = 'p',
   ...props
 }) => {
   const styles = variantStyles
   const classNames = cn(styles[variant], className)
+  const Tag = tag
 
   return (
-    <p className={classNames} {...props}>
+    <Tag className={classNames} {...props}>
       {children}
-    </p>
+    </Tag>
   )
 }

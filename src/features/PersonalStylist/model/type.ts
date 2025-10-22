@@ -4,7 +4,7 @@ export type SessionType = 'online' | 'at-your-home'
 
 export interface PersonalStylist {
   id: string
-  hours: number
+  minutes: number
   price: number
   sessionType: SessionType
   createdAt: string
@@ -30,7 +30,7 @@ export interface PersonalStylistFilters {
     min?: number
     max?: number
   }
-  hours?: {
+  minutes?: {
     min?: number
     max?: number
   }

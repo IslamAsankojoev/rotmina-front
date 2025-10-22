@@ -20,7 +20,7 @@ export const getPersonalStylists = async (
 
   // Добавляем фильтры
   if (params?.filters) {
-    const { sessionType, price, hours } = params.filters
+    const { sessionType, price, minutes } = params.filters
 
     if (sessionType) {
       searchParams.append('filters[sessionType][$eq]', sessionType)
@@ -34,12 +34,12 @@ export const getPersonalStylists = async (
       searchParams.append('filters[price][$lte]', price.max.toString())
     }
 
-    if (hours?.min !== undefined) {
-      searchParams.append('filters[hours][$gte]', hours.min.toString())
+    if (minutes?.min !== undefined) {
+      searchParams.append('filters[minutes][$gte]', minutes.min.toString())
     }
 
-    if (hours?.max !== undefined) {
-      searchParams.append('filters[hours][$lte]', hours.max.toString())
+    if (minutes?.max !== undefined) {
+      searchParams.append('filters[minutes][$lte]', minutes.max.toString())
     }
   }
 
@@ -76,7 +76,7 @@ export const getPersonalStylistById = async (id: string): Promise<PersonalStylis
 // Получить Personal Stylist сгруппированные по типу сессии
 export const getGroupedPersonalStylists = async (): Promise<GroupedPersonalStylists> => {
   const response = await getPersonalStylists({
-    fields: ['id', 'hours', 'price', 'sessionType'],
+    fields: ['id', 'minutes', 'price', 'sessionType'],
     sort: ['price:asc']
   })
 
@@ -96,7 +96,7 @@ export const getGroupedPersonalStylists = async (): Promise<GroupedPersonalStyli
 export const getOnlinePersonalStylists = async (): Promise<PersonalStylist[]> => {
   const response = await getPersonalStylists({
     filters: { sessionType: 'online' },
-    fields: ['id', 'hours', 'price', 'sessionType'],
+    fields: ['id', 'minutes', 'price', 'sessionType'],
     sort: ['price:asc']
   })
   return response.data
@@ -106,7 +106,7 @@ export const getOnlinePersonalStylists = async (): Promise<PersonalStylist[]> =>
 export const getAtHomePersonalStylists = async (): Promise<PersonalStylist[]> => {
   const response = await getPersonalStylists({
     filters: { sessionType: 'at-your-home' },
-    fields: ['id', 'hours', 'price', 'sessionType'],
+    fields: ['id', 'minutes', 'price', 'sessionType'],
     sort: ['price:asc']
   })
   return response.data
