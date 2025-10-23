@@ -9,7 +9,7 @@ import { Label } from '@/shadcn/components/ui/label'
 import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
 import { useCartActions, useCartInfo } from '@/src/app'
-import { CreateOrderRequest, OrderService, OrderItem } from '@/src/entities/Order'
+import { CreateOrderRequest, OrderService, CreateOrderItem } from '@/src/entities/Order'
 import { AddressForm, CartItem, PaymentForm, TermsDialog } from '@/src/features'
 import { AddressService } from '@/src/features/Address'
 import { addressFormSchema, paymentFormSchema } from '@/src/features/Cart/model'
@@ -46,7 +46,7 @@ const paymentMethods = [
 export default function CartPage() {
   const [currentStep, setCurrentStep] = useState(CartSteps.CART_SHIPPINGINFO)
   const { items, totalItems, totalPrice } = useCartInfo()
-  const { updateQuantity, removeItem, clearCart } = useCartActions()
+  const { updateQuantity, removeItem } = useCartActions()
   const { getPrice, currency } = useLangCurrancy()
   const router = useRouter()
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
@@ -108,7 +108,7 @@ export default function CartPage() {
 
     try {
       // Преобразуем все товары из корзины в элементы заказа
-      const orderItems: OrderItem[] = []
+      const orderItems: CreateOrderItem[] = []
       
       for (const item of items) {
         if (item.type === 'product') {

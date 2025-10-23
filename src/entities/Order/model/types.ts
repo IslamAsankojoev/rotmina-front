@@ -21,14 +21,15 @@ export interface Image {
 
 // Типы для адреса
 export interface Address {
-  name: string
-  surname: string
-  email: string
-  phone: string
-  address: string
-  zipCode: string
-  city?: string
-  country?: string
+  id: number
+  documentId: string
+  label: string
+  country: string
+  city: string
+  street: string
+  house: string
+  apartment: string
+  is_default: boolean
 }
 
 // Типы для деталей платежа
@@ -39,68 +40,117 @@ export interface PaymentDetails {
   cvv?: string
 }
 
-// Типы для элемента заказа - товар
-export interface ProductOrderItem {
-  id: string
-  type: "product",
-  variant: {
+// Типы для элемента заказа
+export interface OrderItem {
+  id: number
+  documentId: string
+  title_snapshot: string
+  sku_snapshot: string
+  price_snapshot: string
+  quantity: number
+  subtotal: number
+  type: 'product' | 'giftcard' | 'personalStylist'
+  variant?: {
+    id: number
+    documentId: string
+    sku: string
+    price: number
+    stock: number
+    color?: {
       id: number
       documentId: string
-      sku: string
-      price: number,
-      stock: number,
-      is_active: boolean,
-      images: Image[] | null,
-      size: {
-          id?: number,
-          documentId: string,
-          name: string,
-          sort_order: number,
-          slug: string,
-      },
-      color: {
-          id?: number,
-          documentId: string,
-          name: string,
-          code: string,
-          slug: string,
-          hex: string,
-      }
-  },
-  productTitle: string,
-  productSlug: string,
-  quantity: number,
-  price: number,
+      name: string
+      code: string
+      slug: string
+    }
+    size?: {
+      id: number
+      documentId: string
+      name: string
+      sort_order: number
+      slug: string
+    }
+    is_active: boolean
+    images?: Array<{
+      id: number
+      documentId: string
+      name: string
+      alternativeText?: string
+      caption?: string
+      width?: number
+      height?: number
+      url: string
+      previewUrl?: string
+      ext?: string
+      mime?: string
+      size?: number
+    }>
+    product?: {
+      id: number
+      documentId: string
+      title: string
+      slug: string
+      description: string
+      gallery?: Array<{
+        id: number
+        documentId: string
+        name: string
+        alternativeText?: string
+        caption?: string
+        width?: number
+        height?: number
+        url: string
+        previewUrl?: string
+        ext?: string
+        mime?: string
+        size?: number
+      }>
+    }
+  }
 }
 
-// Типы для элемента заказа - подарочная карта
-export interface GiftCardOrderItem {
+// Типы для создания заказа (данные из корзины)
+export interface CreateOrderItem {
   id: string
-  type: 'giftcard'
-  amount: number
+  type: 'product' | 'giftcard' | 'personalStylist'
+  variant?: {
+    id: number
+    documentId: string
+    sku: string
+    price: number
+    stock: number
+    is_active: boolean
+    images: Image[] | null
+    size: {
+      id: number
+      documentId: string
+      name: string
+      sort_order: number
+      slug: string
+    }
+    color: {
+      id: number
+      documentId: string
+      name: string
+      code: string
+      slug: string
+      hex: string
+    }
+  }
+  productTitle?: string
+  productSlug?: string
+  amount?: number
   recipientEmail?: string
   recipientName?: string
   message?: string
+  sessionType?: 'virtual' | 'in-person'
+  duration?: number
   quantity: number
   price: number
 }
 
-// Типы для элемента заказа - персональный стилист
-export interface PersonalStylistOrderItem {
-  id: string
-  type: 'personalStylist'
-  sessionType: 'virtual' | 'in-person'
-  duration: number
-  quantity: number
-  price: number
-}
-
-// Объединенный тип для всех элементов заказа
-export type OrderItem = ProductOrderItem | GiftCardOrderItem | PersonalStylistOrderItem
-
-// Типы для создания заказа
 export interface CreateOrderRequest {
-  items: OrderItem[]
+  items: CreateOrderItem[]
   addressId: string
   payment_method: 'card' | 'cash'
   payment_details?: PaymentDetails
@@ -112,17 +162,18 @@ export interface CreateOrderRequest {
 export interface Order {
   id: number
   documentId: string
-  items: OrderItem[]
-  shipping_address: Address
-  billing_address: Address
-  payment_method: string
+  number: number
+  order_status: 'Delivered' | 'Pending' | 'Cancelled'
   total_amount: number
-  order_status: string
+  payment_method: 'cash' | 'card'
+  payment_status: 'unpaid' | 'paid' | 'refunded' | 'partially_refunded'
+  shipment_tracking?: number
   notes?: string
+  order_items?: OrderItem[]
+  shipping_address?: Address
+  billing_address?: Address
   createdAt: string
   updatedAt: string
-  number: string
-  payment_status: string
 }
 
 // Типы для ответа API
@@ -139,19 +190,7 @@ export interface OrderResponse {
 }
 
 export interface OrderListResponse {
-  data: Array<{
-    id: number
-    documentId: string
-    items: OrderItem[]
-    shipping_address: Address
-    billing_address: Address
-    payment_method: string
-    total_amount: number
-    order_status: string
-    notes?: string
-    createdAt: string
-    updatedAt: string
-  }>
+  data: Order[]
   meta: {
     pagination: {
       page: number

@@ -1,5 +1,7 @@
 'use client'
 
+import GiftCardImage from '@/public/assets/gift-card.png'
+import PersonalStylistImage from '@/public/assets/personal-stylist.png'
 import ShirtImage from '@/public/assets/products/shirt.png'
 import {
   Accordion,
@@ -13,25 +15,22 @@ import {
   TableCell,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { Typography } from '@/src/shared'
 import { Order, OrderItem } from '@/src/features/OrderHistory/model/types'
+import { Typography, useLangCurrancy } from '@/src/shared'
 import Image from 'next/image'
-import GiftCardImage from '@/public/assets/gift-card.png'
-import PersonalStylistImage from '@/public/assets/personal-stylist.png'
 
 interface OrderCardProps {
   order: Order
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
-
+  const { getPrice, currency } = useLangCurrancy()
   const getImage = (item: OrderItem) => {
-    if(item.type === 'product') {
-      return item.variant?.images?.[0]?.url || 
-      ShirtImage.src
+    if (item.type === 'product') {
+      return item.variant?.images?.[0]?.url || ShirtImage.src
     }
-    if(item.type === 'giftcard') return GiftCardImage.src
-    if(item.type === 'personalStylist') return PersonalStylistImage.src
+    if (item.type === 'giftcard') return GiftCardImage.src
+    if (item.type === 'personalStylist') return PersonalStylistImage.src
     return ShirtImage.src
   }
 
@@ -40,7 +39,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
       <TableCell className="p-0" colSpan={4}>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value={`order-${order.id}`} className="w-full">
-            <AccordionTrigger className="flex w-full items-center justify-between cursor-pointer">
+            <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between">
               <Table>
                 <TableBody className="w-full">
                   <TableRow className="w-full uppercase">
@@ -54,7 +53,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       {order.order_status}
                     </TableCell>
                     <TableCell className="text-right">
-                      ${(order.total_amount / 100).toFixed(2)}
+                      {getPrice(Number(order.total_amount))} {currency}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -62,36 +61,40 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </AccordionTrigger>
             <AccordionContent>
               {order.order_items && order.order_items.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
                   {order.order_items.map((item) => (
                     <div
                       key={item.id}
                       className="mb-2 flex flex-col justify-between"
                     >
-                      <Image
-                        src={getImage(item)}
-                        alt={item.title_snapshot}
-                        width={190}
-                        height={260}
-                        objectFit="cover"
-                      />
+                      <div className="relative h-[260px] w-[190px]">
+                        <Image
+                          src={getImage(item)}
+                          alt={item.title_snapshot}
+                          fill
+                          objectFit="cover"
+                        />
+                      </div>
                       <Typography
-                        variant="text_main"
-                        className="mt-2 flex flex-col gap-2"
+                        variant="text_mini_footer"
+                        className="mt-2 flex flex-col gap-2 overflow-hidden p-2"
                       >
                         <span>{item.title_snapshot}</span>
                         <span>SKU: {item.sku_snapshot}</span>
-                        <span>Price: ${item.price_snapshot}</span>
+                        <span>
+                          Price: {getPrice(Number(item.price_snapshot))}{' '}
+                          {currency}
+                        </span>
                         <span>Amount: {item.quantity}</span>
                         <span>
-                          Total: ${item.subtotal}
+                          Total: {getPrice(item.subtotal)} {currency}
                         </span>
                       </Typography>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-4">
+                <div className="py-4 text-center">
                   <Typography variant="text_main" className="text-greyy">
                     Детали заказа недоступны
                   </Typography>
