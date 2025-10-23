@@ -37,6 +37,7 @@ export const OrderList = () => {
           <TableHead className="w-[200px] text-greyy">date</TableHead>
           <TableHead className="w-[200px] text-greyy">status</TableHead>
           <TableHead className='text-right text-greyy'>total cost</TableHead>
+          <TableHead className='text-right text-greyy'>actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

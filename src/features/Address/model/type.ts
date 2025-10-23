@@ -1,13 +1,9 @@
 export type Address = {
   id?: number
   documentId?: string
-  label: string
-  country: string
+  address: string
   city: string
-  street: string
-  house: string
-  apartment: string
-  is_default: boolean
+  zip_code: string
   createdAt?: string
   updatedAt?: string
   publishedAt?: string

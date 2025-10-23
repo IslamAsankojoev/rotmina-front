@@ -9,6 +9,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/shadcn/components/ui/accordion'
+import { Button } from '@/shadcn/components/ui/button'
 import {
   Table,
   TableBody,
@@ -18,6 +19,7 @@ import {
 import { Order, OrderItem } from '@/src/features/OrderHistory/model/types'
 import { Typography, useLangCurrancy } from '@/src/shared'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface OrderCardProps {
   order: Order
@@ -25,6 +27,7 @@ interface OrderCardProps {
 
 export const OrderCard = ({ order }: OrderCardProps) => {
   const { getPrice, currency } = useLangCurrancy()
+  const router = useRouter()
   const getImage = (item: OrderItem) => {
     if (item.type === 'product') {
       return item.variant?.images?.[0]?.url || ShirtImage.src
@@ -36,16 +39,14 @@ export const OrderCard = ({ order }: OrderCardProps) => {
 
   return (
     <TableRow key={order.id} className="w-full">
-      <TableCell className="p-0" colSpan={4}>
+      <TableCell className="p-0" colSpan={5}>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value={`order-${order.id}`} className="w-full">
             <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between">
               <Table>
                 <TableBody className="w-full">
                   <TableRow className="w-full uppercase">
-                    <TableCell className="w-[200px]">
-                      № {order.number}
-                    </TableCell>
+                    <TableCell className="w-[200px]">№ {order.id}</TableCell>
                     <TableCell className="w-[200px]">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
@@ -54,6 +55,18 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                     </TableCell>
                     <TableCell className="text-right">
                       {getPrice(Number(order.total_amount))} {currency}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          router.push(`/order/${order.documentId}`)
+                        }}
+                      >
+                        Pay
+                      </Button>
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -75,21 +88,40 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                           objectFit="cover"
                         />
                       </div>
-                      <Typography
-                        variant="text_mini_footer"
-                        className="mt-2 flex flex-col gap-2 overflow-hidden p-2"
-                      >
-                        <span>{item.title_snapshot}</span>
-                        <span>SKU: {item.sku_snapshot}</span>
-                        <span>
-                          Price: {getPrice(Number(item.price_snapshot))}{' '}
-                          {currency}
-                        </span>
-                        <span>Amount: {item.quantity}</span>
-                        <span>
-                          Total: {getPrice(item.subtotal)} {currency}
-                        </span>
-                      </Typography>
+                      <div className="flex flex-col gap-2 overflow-hidden">
+                        <Typography
+                          variant="text_mini_footer"
+                          className="mt-2 font-bold"
+                        >
+                          <span>{item.title_snapshot}</span>
+                        </Typography>
+                        <Typography variant="text_mini_footer">
+                          <span className="text-greyy mr-2 uppercase">
+                            SKU:
+                          </span>
+                          {item.sku_snapshot}
+                        </Typography>
+                        <Typography variant="text_mini_footer">
+                          <span className="text-greyy mr-2 uppercase">
+                            Price:
+                          </span>
+                          {getPrice(Number(item.price_snapshot))} {currency}
+                        </Typography>
+                        <Typography variant="text_mini_footer">
+                          <span className="text-greyy mr-2 uppercase">
+                            Amount:
+                          </span>{' '}
+                          {item.quantity}
+                        </Typography>
+                        <Typography variant="text_mini_footer">
+                          <span>
+                            <span className="text-greyy mr-2 uppercase">
+                              Total:
+                            </span>{' '}
+                            {getPrice(item.subtotal)} {currency}
+                          </span>
+                        </Typography>
+                      </div>
                     </div>
                   ))}
                 </div>

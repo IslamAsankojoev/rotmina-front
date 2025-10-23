@@ -40,7 +40,7 @@ const variantStyles: Record<string, string> = {
   text_1: clsx('text-[20px]', `${arima.className}`),
   text_mobile_categories: clsx('text-[24px]', `${arima.className}`),
   text_categories: clsx('text-[32px]', `${arima.className}`),
-  text_title: clsx('text-[36px] md:text-[48px]', `${libreCaslonText.className} italic`),
+  text_title: clsx('text-[36px] md:text-[48px]', `${libreCaslonText.className}`),
   text_mobile_title: clsx('text-[36px]', `${libreCaslonText.className}`),
   text_pageTitle: clsx('text-[36px] md:text-[80px]', `${libreCaslonText.className}`),
   text_mobile_title2: clsx('text-[32px]', `${libreCaslonText.className}`),

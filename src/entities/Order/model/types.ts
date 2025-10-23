@@ -1,3 +1,6 @@
+import { GiftCard, PersonalStylist } from "@/src/features"
+import { ProductVariant } from "../../Product"
+
 // Типы для изображений
 export interface Image {
   id: number
@@ -50,7 +53,9 @@ export interface OrderItem {
   quantity: number
   subtotal: number
   type: 'product' | 'giftcard' | 'personalStylist'
-  variant?: {
+  gift_card?: GiftCard
+  personal_stylist?: PersonalStylist
+  variant?: ProductVariant & {
     id: number
     documentId: string
     sku: string
@@ -157,6 +162,17 @@ export interface CreateOrderRequest {
   totalPrice: number
   notes?: string
   payment_status: 'unpaid' | 'paid' | 'failed'
+  currency_code: string
+}
+
+export interface PayOrderRequest {
+  orderId: string
+  txn_currency_code: string
+  card_number: string
+  expire_month: string
+  expire_year: string
+  cvv: string
+  items: CreateOrderItem[]
 }
 
 export interface Order {
@@ -174,19 +190,26 @@ export interface Order {
   billing_address?: Address
   createdAt: string
   updatedAt: string
+  currency_code: string
 }
 
-// Типы для ответа API
-export interface OrderResponse {
+export interface OrderResponseStrapi {
   data: Order
   meta: {
-    pagination?: {
+    pagination: {
       page: number
       pageSize: number
       pageCount: number
       total: number
     }
   }
+}
+
+// Типы для ответа API
+export interface OrderResponse {
+  data: Order
+  success: boolean
+  message: string
 }
 
 export interface OrderListResponse {

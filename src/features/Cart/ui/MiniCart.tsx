@@ -32,12 +32,6 @@ export const MiniCart = () => {
     removeItem(itemId)
   }
 
-  console.log('to create order', JSON.stringify({
-    items,
-    totalItems,
-    totalPrice,
-  }))
-
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChange}>
       <PopoverTrigger className="cursor-pointer">
@@ -45,7 +39,7 @@ export const MiniCart = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex h-[770px] w-[540px] max-w-full flex-col justify-between gap-4 overflow-hidden p-8"
+        className="flex h-[690px] w-[540px] max-w-full flex-col justify-between gap-4 overflow-hidden p-8"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -60,7 +54,7 @@ export const MiniCart = () => {
               color="black"
             />
           </div>
-          <ScrollArea className="h-[500px] w-full">
+          <ScrollArea className="h-[400px] w-full">
             <div className="flex flex-col overflow-hidden">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8">

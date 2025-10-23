@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/account', request.url))
   }
 
-  const exchangeRates = await fetch('http://31.97.79.157:7185/api/ExchangeRates')
+  const exchangeRates = await fetch('http://31.97.79.157:7186/api/ExchangeRates')
   const exchangeRatesData = await exchangeRates.json()
 
   const response = NextResponse.next({
@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
     },
   })
   
-  response.cookies.set('rates', JSON.stringify(exchangeRatesData), {
+  response.cookies.set('rates', JSON.stringify(exchangeRatesData || [{"currency":"GBP","rate":4.3881},{"currency":"CHF","rate":4.138},{"currency":"EUR","rate":3.8206},{"currency":"USD","rate":3.298},{"currency":"AUD","rate":2.1411},{"currency":"CAD","rate":2.3524}]), {
     maxAge: 60 * 60 * 24, // 24 часа
     httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
