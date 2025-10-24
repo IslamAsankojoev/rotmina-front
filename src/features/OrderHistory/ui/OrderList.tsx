@@ -23,7 +23,7 @@ export const OrderList = () => {
     queryKey: ['orders'],
     queryFn: () => OrderService.getMyOrders(),
   })
-  const { data: paymentStatuses, isLoading: isPaymentStatusLoading } = useQuery({
+  const { data: paymentStatuses } = useQuery({
     queryKey: ['paymentStatuses', user?.data?.id?.toString()],
     queryFn: () => OrderService.getOrderPaymentStatus(user?.data?.id?.toString() || ''),
     enabled: !!user?.data?.id,

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import CategoryImage from '@/public/assets/categories/shirt.png'
@@ -5,14 +7,10 @@ import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { ArrowDownUp } from 'lucide-react'
 import { ProductGrid } from '@/src/entities/Product'
+import { useParams } from 'next/navigation'
 
-interface CategoryPageProps {
-  params: {
-    id: string
-  }
-}
-
-const Category = ({ params }: CategoryPageProps) => {
+const Category = () => {
+  const params = useParams() as { id: string }
   return (
     <>
       <div

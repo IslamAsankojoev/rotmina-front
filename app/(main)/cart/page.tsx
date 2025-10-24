@@ -17,10 +17,8 @@ import {
   OrderForm,
 } from '@/src/features'
 import { Address } from '@/src/features/Address'
-import { orderFormSchema } from '@/src/features/Cart/model'
 import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import { toast } from 'sonner'
-import z from 'zod'
 
 export default function CartPage() {
   const { items, totalItems, totalPrice } = useCartInfo()
@@ -39,7 +37,7 @@ export default function CartPage() {
     removeItem(itemId)
   }
 
-  const handleSubmitOrder = async (data: z.infer<typeof orderFormSchema>) => {
+  const handleSubmitOrder = async () => {
     if (!shippingAddress) {
       toast.error('Shipping address is not filled')
       return
