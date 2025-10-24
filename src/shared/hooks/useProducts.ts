@@ -16,18 +16,18 @@ interface ProductParams {
 }
 
 interface UseProductsReturn {
-  // Данные
+  // Data
   data: ProductListResponse | undefined
   isLoading: boolean
   error: Error | null
   
-  // Состояние фильтров
+  // Filter state
   selectedColors: string[]
   selectedSizes: string[]
   currentSort: string
   currentPage: number
   
-  // Методы для управления состоянием
+  // Methods for state management
   setSelectedColors: (colors: string[]) => void
   setSelectedSizes: (sizes: string[]) => void
   setCurrentSort: (sort: string) => void

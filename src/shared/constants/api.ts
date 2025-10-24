@@ -38,8 +38,8 @@ export const apiMap = {
   getMyOrders: 'orders/my-orders',
   getOrder: 'orders/:id',
   createOrder: 'orders/make-order',
-  payOrder: 'orders/:id/pay',
-
+  payOrder: 'pay-service/create',
+  getOrderPaymentStatus: 'pay-service/receipts',
   // Address
   getMyAddresses: 'my-addresses',
   addAddress: 'addresses/add-address',

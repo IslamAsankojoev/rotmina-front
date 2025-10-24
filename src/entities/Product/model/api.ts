@@ -10,7 +10,7 @@ import type {
 } from './types'
 
 export const ProductService = {
-  // Получение списка товаров
+  // Get products list
   getProducts: (params?: GetProductsParams): Promise<ProductListResponse> => {
     const searchParams = new URLSearchParams()
     if (params?.category) searchParams.append('filters[category][documentId][$eq]', params.category)
@@ -36,7 +36,7 @@ export const ProductService = {
     if (params?.populate) {
       params.populate.forEach(field => searchParams.append('populate', field))
     } else {
-      // По умолчанию загружаем основные поля
+      // Load main fields by default
       searchParams.append('populate', 'gallery')
       searchParams.append('populate', 'variants')
       searchParams.append('populate', 'variants.color')
@@ -48,7 +48,7 @@ export const ProductService = {
     return api.get(url).json()
   },
 
-  // Получение товара по ID
+  // Get product by ID
   getProduct: (id: string): Promise<ProductResponse> => {
     const searchParams = new URLSearchParams()
     searchParams.append('populate', 'gallery')
@@ -63,7 +63,7 @@ export const ProductService = {
 }
 
 export const VariantService = {
-  // Получение вариантов товара
+  // Get product variants
   getVariants: (productId?: string): Promise<{ data: ProductVariant[] }> => {
     const searchParams = new URLSearchParams()
     if (productId) {
@@ -77,7 +77,7 @@ export const VariantService = {
     return api.get(url).json()
   },
 
-  // Получение варианта по ID
+  // Get variant by ID
   getVariant: (id: string): Promise<{ data: ProductVariant }> => {
     const searchParams = new URLSearchParams()
     searchParams.append('populate', 'color')
@@ -88,17 +88,17 @@ export const VariantService = {
     return api.get(url).json()
   },
 
-  // Создание варианта
+  // Create variant
   postVariant: (data: CreateVariantRequest): Promise<{ data: ProductVariant }> => {
     return api.post('variants', { json: { data } }).json()
   },
 
-  // Обновление варианта
+  // Update variant
   putVariant: (id: string, data: UpdateVariantRequest): Promise<{ data: ProductVariant }> => {
     return api.put(`variants/${id}`, { json: { data } }).json()
   },
 
-  // Удаление варианта
+  // Delete variant
   deleteVariant: (id: string): Promise<void> => {
     return api.delete(`variants/${id}`).json()
   },

@@ -16,7 +16,7 @@ interface ProductPaginationProps {
 export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) => {
   const { currentPage, updatePage, data } = useProducts()
   
-  // Получаем общее количество страниц из данных или используем переданное значение
+  // Get total pages from data or use passed value
   const totalPagesFromData = data?.meta?.pagination?.pageCount || totalPages
   
   const handlePageChange = (page: number) => {
@@ -24,8 +24,8 @@ export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) =>
   }
 
   const handleLoadMore = () => {
-    // Логика для загрузки дополнительных товаров
-    // Можно реализовать бесконечную прокрутку или увеличить pageSize
+    // Logic for loading additional products
+    // Can implement infinite scroll or increase pageSize
     console.log('Load more products')
   }
 

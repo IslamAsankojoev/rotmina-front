@@ -34,7 +34,7 @@ export const PersonalStylistForm = () => {
       setLoading(true)
       const data = await getGroupedPersonalStylists()
       setPersonalStylists(data)
-    }, 'Ошибка загрузки данных')
+    }, 'Error loading data')
 
     fetchPersonalStylists().finally(() => {
       setLoading(false)
@@ -47,7 +47,7 @@ export const PersonalStylistForm = () => {
 
   const handleAddToCart = () => {
     if (sessionType === 'online') {
-      const onlineStylist = personalStylists.online[0] // Берем первый доступный online stylist
+      const onlineStylist = personalStylists.online[0] // Take first available online stylist
       if (onlineStylist) {
         addStylistToCart(
           'virtual',
@@ -79,7 +79,7 @@ export const PersonalStylistForm = () => {
   if (loading) {
     return (
       <div className="mt-10">
-        <Typography variant="text_main">Загрузка...</Typography>
+        <Typography variant="text_main">Loading...</Typography>
       </div>
     )
   }
@@ -115,7 +115,7 @@ export const PersonalStylistForm = () => {
             </>
           ) : (
             <Typography variant="text_main">
-              Online сессии временно недоступны
+              Online sessions are temporarily unavailable
             </Typography>
           )}
         </TabsContent>
@@ -142,7 +142,7 @@ export const PersonalStylistForm = () => {
             </div>
           ) : (
             <Typography variant="text_main">
-              At-your-home сессии временно недоступны
+              At-your-home sessions are temporarily unavailable
             </Typography>
           )}
         </TabsContent>

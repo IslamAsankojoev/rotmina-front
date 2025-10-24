@@ -18,14 +18,15 @@ import { useCartInfo } from '@/src/app'
 import { OrderService } from '@/src/entities/Order'
 import { TermsDialog } from '@/src/features'
 import { paymentFormSchema } from '@/src/features/Cart/model'
-import { Breadcrumbs, Typography, useLangCurrancy, useUser } from '@/src/shared'
+import { Breadcrumbs, PAYMENT_ERROR_CODES, PAYMENT_ERROR_CODES_ENUM, Typography, useLangCurrancy, useUser } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
 
 enum PaymentMethods {
   CARD = 'card',
@@ -47,6 +48,7 @@ const paymentMethods = [
 
 export default function OrderPage() {
   const { id } = useParams()
+  const router = useRouter()
   const { user } = useUser()
   const { data: order } = useQuery({
     queryKey: ['order', id],
@@ -69,13 +71,13 @@ export default function OrderPage() {
     switch (item?.type) {
       case 'giftcard':
         code = `GIFT-${item?.price_snapshot}`
-        name = `Подарочная карта на ${item?.price_snapshot} руб.`
+        name = `Gift card for ${item?.price_snapshot} rub.`
         unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
         break
 
       case 'personalStylist':
         code = `STYLIST-${item?.personal_stylist?.minutes}`
-        name = `Персональный стилист (${item?.personal_stylist?.sessionType} minutes)`
+        name = `Personal stylist (${item?.personal_stylist?.sessionType} minutes)`
         unit_price = parseFloat(
           item?.personal_stylist?.price?.toString() || '0',
         )
@@ -83,13 +85,13 @@ export default function OrderPage() {
 
       case 'product':
         code = item?.variant?.sku || `PRODUCT-${item?.variant?.id || 'unknown'}`
-        name = item.variant?.product?.title || 'Продукт'
+        name = item.variant?.product?.title || 'Product'
         unit_price = parseFloat(item?.variant?.price?.toString() || '0')
         break
 
       default:
         code = `UNKNOWN-${item?.type}`
-        name = 'Неизвестный товар'
+        name = 'Unknown product'
         unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
     }
 
@@ -99,10 +101,10 @@ export default function OrderPage() {
       unit_price: unit_price,
       unit_type: 1,
       units_number: item?.quantity,
-      currency_code: order?.data?.currency_code || 'RUB',
-      attributes: [],
+      currency_code: order?.data?.currency_code || 'ILS',
+      attributes: [] as Array<{ name: string; value: string }>,
     }
-  })
+  }) || []
 
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
@@ -115,7 +117,7 @@ export default function OrderPage() {
     resolver: zodResolver(paymentFormSchema),
   })
 
-  const onSubmit = (data: z.infer<typeof paymentFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
     setIsLoading(true)
     if (!termsChecked) {
       setTermsError(true)
@@ -125,9 +127,9 @@ export default function OrderPage() {
     setTermsError(false)
 
     const paymentData = {
-      orderId: order?.data?.id,
-      clientId: user?.data?.id,
-      txn_currency_code: order?.data?.currency_code || 'RUB',
+      orderId: order?.data?.id?.toString() || '',
+      clientId: user?.data?.id?.toString() || '',
+      txn_currency_code: order?.data?.currency_code || 'ILS',
       card_number: data.cardNumber,
       expire_month: data.expirationDate.split('/')[0],
       expire_year: data.expirationDate.split('/')[1],
@@ -135,7 +137,42 @@ export default function OrderPage() {
       items: orderItems,
     }
 
-    console.log(paymentData)
+    const response = await OrderService.payOrder(paymentData)
+
+    if (response.data.transaction_result.processor_response_code === '000') {
+      toast.success('Payment successful')
+      router.push(`/account`)
+    } else {
+      switch (response.data.transaction_result.processor_response_code) {
+        case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
+          form.setError('cardNumber', {
+            message: 'Wrong card number',
+          })
+          break
+        case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
+          form.setError('expirationDate', {
+            message: 'Wrong expiration date',
+          })
+          break
+        case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
+          form.setError('cvv', {
+            message: 'Wrong CVV',
+          })
+          break
+        case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
+          form.setError('expirationDate', {
+            message: 'Expired card',
+          })
+          break
+        case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
+          toast.error(PAYMENT_ERROR_CODES[response.data.transaction_result.processor_response_code], { position: 'top-center' })
+          break
+        default:
+          toast.error(PAYMENT_ERROR_CODES[response.data.transaction_result.processor_response_code], { position: 'top-center' })
+          break
+      }
+    }
+
     setIsLoading(false)
   }
 
@@ -202,7 +239,6 @@ export default function OrderPage() {
                       <FormControl>
                         <Input
                           placeholder="CARD NUMBER"
-                          maxLength={16}
                           {...field}
                         />
                       </FormControl>

@@ -1,7 +1,8 @@
 import { GiftCard, PersonalStylist } from "@/src/features"
 import { ProductVariant } from "../../Product"
+import { PAYMENT_ERROR_CODES } from "@/src/shared"
 
-// Типы для изображений
+// Types for images
 export interface Image {
   id: number
   documentId: string
@@ -22,7 +23,7 @@ export interface Image {
   publishedAt: string
 }
 
-// Типы для адреса
+// Types for address
 export interface Address {
   id: number
   documentId: string
@@ -35,7 +36,7 @@ export interface Address {
   is_default: boolean
 }
 
-// Типы для деталей платежа
+// Types for payment details
 export interface PaymentDetails {
   card_number?: string
   name_on_card?: string
@@ -43,7 +44,7 @@ export interface PaymentDetails {
   cvv?: string
 }
 
-// Типы для элемента заказа
+// Types for order item
 export interface OrderItem {
   id: number
   documentId: string
@@ -114,7 +115,7 @@ export interface OrderItem {
   }
 }
 
-// Типы для создания заказа (данные из корзины)
+// Types for creating order (cart data)
 export interface CreateOrderItem {
   id: string
   type: 'product' | 'giftcard' | 'personalStylist'
@@ -167,12 +168,24 @@ export interface CreateOrderRequest {
 
 export interface PayOrderRequest {
   orderId: string
+  clientId: string
   txn_currency_code: string
   card_number: string
   expire_month: string
   expire_year: string
   cvv: string
-  items: CreateOrderItem[]
+  items: Array<{
+    code: string
+    name: string
+    unit_price: number
+    unit_type: number
+    units_number: number
+    currency_code: string
+    attributes: Array<{
+      name: string
+      value: string
+    }>
+  }>
 }
 
 export interface Order {
@@ -205,7 +218,7 @@ export interface OrderResponseStrapi {
   }
 }
 
-// Типы для ответа API
+// Types for API response
 export interface OrderResponse {
   data: Order
   success: boolean
@@ -222,4 +235,74 @@ export interface OrderListResponse {
       total: number
     }
   }
+}
+
+
+export interface PayOrderResponse {
+  success: boolean
+  data: {
+      error_code: number
+      message: string
+      transaction_result: {
+          processor_response_code: keyof typeof PAYMENT_ERROR_CODES,
+          transaction_id: string
+          transaction_resource: number
+          Responsecvv: string
+          Responseid: string
+          amount: number
+          DBFIsForeign: string
+          auth_number: string
+          card_type: string
+          card_type_name: string
+          currency_code: string
+          expiry_month: string
+          expiry_year: string
+          payment_plan: string
+          credit_card_owner_id: string
+          card_issuer: string
+          token: string
+          last_4: string
+          card_mask: string
+          card_locality: string
+          txn_type: string
+          tranmode: string
+      },
+      original_request: {
+          terminal_name: string
+          txn_currency_code: string
+          pan_entry_mode: string
+          card_number: string
+          expire_month: number
+          expire_year: number
+          cvv: string
+          payment_plan: number
+          response_language: string
+          activate_3ds: string
+          items: {
+            code: string
+            name: string
+            type: string
+            unit_price: number
+            unit_type: number
+            price_type: string
+            units_number: number
+            currency_code: string
+            discount_type: string
+            discount: number
+            vat_percent: number
+            attributes: Array<{
+              name: string
+              value: string
+            }>
+          }[]
+      }
+  }
+}
+
+export interface OrderPaymentStatus {
+  id: number
+  clientId: number
+  orderId: number
+  processor_response_code: keyof typeof PAYMENT_ERROR_CODES,
+  transaction_id: string
 }

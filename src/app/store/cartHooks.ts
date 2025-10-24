@@ -1,9 +1,9 @@
-// Пример использования cart store
+// Example usage of cart store
 
 import { useCartStore } from '@/src/app/store'
 import { ProductVariant } from '@/src/entities/Product/model/types'
 
-// Пример добавления товара в корзину
+// Example of adding product to cart
 export const useAddToCart = () => {
   const addProduct = useCartStore((state) => state.addProduct)
   
@@ -19,7 +19,7 @@ export const useAddToCart = () => {
   return { addProductToCart }
 }
 
-// Пример добавления подарочной карты
+// Example of adding gift card
 export const useAddGiftCard = () => {
   const addGiftCard = useCartStore((state) => state.addGiftCard)
   
@@ -35,7 +35,7 @@ export const useAddGiftCard = () => {
   return { addGiftCardToCart }
 }
 
-// Пример добавления персонального стилиста
+// Example of adding personal stylist
 export const useAddPersonalStylist = () => {
   const addPersonalStylist = useCartStore((state) => state.addPersonalStylist)
   
@@ -51,7 +51,7 @@ export const useAddPersonalStylist = () => {
   return { addStylistToCart }
 }
 
-// Пример получения информации о корзине
+// Example of getting cart info
 export const useCartInfo = () => {
   const items = useCartStore((state) => state.items)
   const totalItems = useCartStore((state) => state.totalItems)
@@ -66,7 +66,7 @@ export const useCartInfo = () => {
   }
 }
 
-// Пример управления корзиной
+// Example of cart management
 export const useCartActions = () => {
   const updateQuantity = useCartStore((state) => state.updateQuantity)
   const removeItem = useCartStore((state) => state.removeItem)

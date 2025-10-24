@@ -35,7 +35,7 @@ export function ProductFilter({
   const { colors, sizes, isLoading } = useColorsAndSizes()
   const { selectedColors, selectedSizes, updateFilters } = useProducts()
 
-  // Используем данные из API или значения по умолчанию
+  // Use data from API or default values
   const availableColors =
     colors.length > 0
       ? colors

@@ -8,7 +8,7 @@ export default function WishlistPage() {
           Wishlist
         </Typography>
         <Typography variant="text_main" className="text-gray-600">
-          Ваш список желаний пуст. Добавьте товары, которые вам нравятся!
+          Your wishlist is empty. Add items you like!
         </Typography>
       </div>
     </div>

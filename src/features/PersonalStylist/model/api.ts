@@ -7,18 +7,18 @@ import type {
   GroupedPersonalStylists,
 } from './type'
 
-// Получить список всех Personal Stylist
+// Get list of all Personal Stylists
 export const getPersonalStylists = async (
   params?: PersonalStylistQueryParams
 ): Promise<PersonalStylistResponse> => {
   const searchParams = new URLSearchParams()
 
-  // Добавляем поля
+  // Add fields
   if (params?.fields) {
     searchParams.append('fields', params.fields.join(','))
   }
 
-  // Добавляем фильтры
+  // Add filters
   if (params?.filters) {
     const { sessionType, price, minutes } = params.filters
 
@@ -43,7 +43,7 @@ export const getPersonalStylists = async (
     }
   }
 
-  // Добавляем пагинацию
+  // Add pagination
   if (params?.pagination) {
     const { page, pageSize } = params.pagination
     if (page !== undefined) {
@@ -54,7 +54,7 @@ export const getPersonalStylists = async (
     }
   }
 
-  // Добавляем сортировку
+  // Add sorting
   if (params?.sort) {
     searchParams.append('sort', params.sort.join(','))
   }
@@ -65,7 +65,7 @@ export const getPersonalStylists = async (
   return api.get(url).json<PersonalStylistResponse>()
 }
 
-// Получить Personal Stylist по ID
+// Get Personal Stylist by ID
 export const getPersonalStylistById = async (id: string): Promise<PersonalStylist> => {
   const response = await api.get(apiMap.getPersonalStylist.replace(':id', id)).json<{
     data: PersonalStylist
@@ -73,7 +73,7 @@ export const getPersonalStylistById = async (id: string): Promise<PersonalStylis
   return response.data
 }
 
-// Получить Personal Stylist сгруппированные по типу сессии
+// Get Personal Stylists grouped by session type
 export const getGroupedPersonalStylists = async (): Promise<GroupedPersonalStylists> => {
   const response = await getPersonalStylists({
     fields: ['id', 'minutes', 'price', 'sessionType'],
@@ -92,7 +92,7 @@ export const getGroupedPersonalStylists = async (): Promise<GroupedPersonalStyli
   return grouped
 }
 
-// Получить только Online сессии
+// Get only Online sessions
 export const getOnlinePersonalStylists = async (): Promise<PersonalStylist[]> => {
   const response = await getPersonalStylists({
     filters: { sessionType: 'online' },
@@ -102,7 +102,7 @@ export const getOnlinePersonalStylists = async (): Promise<PersonalStylist[]> =>
   return response.data
 }
 
-// Получить только At-your-home сессии
+// Get only At-your-home sessions
 export const getAtHomePersonalStylists = async (): Promise<PersonalStylist[]> => {
   const response = await getPersonalStylists({
     filters: { sessionType: 'at-your-home' },

@@ -1,4 +1,4 @@
-// Типы для Personal Stylist
+// Types for Personal Stylist
 
 export type SessionType = 'online' | 'at-your-home'
 
@@ -46,7 +46,7 @@ export interface PersonalStylistQueryParams {
   sort?: string[]
 }
 
-// Типы для группировки по типу сессии
+// Types for grouping by session type
 export interface GroupedPersonalStylists {
   online: PersonalStylist[]
   'at-your-home': PersonalStylist[]

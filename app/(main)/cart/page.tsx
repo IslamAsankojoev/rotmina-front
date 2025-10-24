@@ -41,19 +41,19 @@ export default function CartPage() {
 
   const handleSubmitOrder = async (data: z.infer<typeof orderFormSchema>) => {
     if (!shippingAddress) {
-      toast.error('Адрес доставки не заполнен')
+      toast.error('Shipping address is not filled')
       return
     }
 
     if (items.length === 0) {
-      toast.error('Корзина пуста')
+      toast.error('Cart is empty')
       return
     }
 
     setIsCreatingOrder(true)
 
     try {
-      // Преобразуем все товары из корзины в элементы заказа
+      // Convert all cart items to order items
       const orderItems: CreateOrderItem[] = []
 
       for (const item of items) {
@@ -113,12 +113,12 @@ export default function CartPage() {
         }
       }
 
-      // Создаем заказ
+      // Create order
       const orderData: CreateOrderRequest = {
         payment_method: 'card',
         totalPrice,
         payment_status: 'unpaid',
-        notes: 'Заказ создан через веб-сайт',
+        notes: 'Order created through website',
         addressId: shippingAddress?.documentId || '',
         items: orderItems,
         currency_code: currency,
@@ -132,8 +132,8 @@ export default function CartPage() {
         toast.error(orderSuccess.message)
       }
     } catch (error) {
-      console.error('Ошибка при создании заказа:', error)
-      toast.error('Произошла ошибка при создании заказа. Попробуйте еще раз.')
+      console.error('Error creating order:', error)
+      toast.error('An error occurred while creating the order. Please try again.')
     } finally {
       setIsCreatingOrder(false)
     }

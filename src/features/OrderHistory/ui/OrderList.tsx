@@ -7,23 +7,41 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { Typography } from '@/src/shared'
+import { Typography, useUser } from '@/src/shared'
 import { OrderCard } from './OrderCard'
-import { OrderService } from '@/src/entities/Order'
+import { OrderPaymentStatus, OrderService } from '@/src/entities/Order'
 import { useQuery } from '@tanstack/react-query'
 import { Order } from '../model'
 
+export interface OrderWithPaymentStatus extends Order {
+  paymentStatus: OrderPaymentStatus
+}
+
 export const OrderList = () => {
+  const { user } = useUser()
   const { data: orders } = useQuery({
     queryKey: ['orders'],
     queryFn: () => OrderService.getMyOrders(),
   })
+  const { data: paymentStatuses, isLoading: isPaymentStatusLoading } = useQuery({
+    queryKey: ['paymentStatuses', user?.data?.id?.toString()],
+    queryFn: () => OrderService.getOrderPaymentStatus(user?.data?.id?.toString() || ''),
+    enabled: !!user?.data?.id,
+  })
+
+  const orderWithPaymentStatus = orders?.data.map((order) => {
+    const paymentStatus = paymentStatuses?.find((status) => status.orderId === order.id)
+    return {
+      ...order,
+      paymentStatus: paymentStatus,
+    }
+  }) || []
 
   if (!orders || orders.data.length === 0) {
     return (
       <div className="text-center py-8">
         <Typography variant="text_main" className="text-greyy">
-          У вас пока нет заказов
+          You don&apos;t have any orders yet
         </Typography>
       </div>
     )
@@ -41,8 +59,8 @@ export const OrderList = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {orders?.data.map((order) => (
-          <OrderCard key={order.id} order={order as Order} />
+        {orderWithPaymentStatus?.map((order) => (
+          <OrderCard key={order.id} order={order as OrderWithPaymentStatus} />
         ))}
       </TableBody>
     </Table>

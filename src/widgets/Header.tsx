@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
 
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
@@ -76,7 +76,10 @@ export const Header = () => {
   const { md } = useScreenSize()
   const router = useRouter()
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const windowScroll = window.scrollY
+    setScrolled(windowScroll > 5)
+
     const handleScroll = () => {
       setScrolled(window.scrollY > 5)
     }

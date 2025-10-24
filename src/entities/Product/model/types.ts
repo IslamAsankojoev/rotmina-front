@@ -1,4 +1,4 @@
-// Базовые типы для изображений
+// Basic types for images
 export interface Image {
   id: number
   documentId: string
@@ -19,7 +19,7 @@ export interface Image {
   publishedAt: string
 }
 
-// Тип для цвета
+// Type for color
 export interface Color {
   id: number
   documentId: string
@@ -32,7 +32,7 @@ export interface Color {
   hex: string
 }
 
-// Тип для размера
+// Type for size
 export interface Size {
   id: number
   documentId: string
@@ -44,7 +44,7 @@ export interface Size {
   publishedAt: string
 }
 
-// Тип для варианта товара
+// Type for product variant
 export interface ProductVariant {
   id: number
   documentId: string
@@ -60,7 +60,7 @@ export interface ProductVariant {
   publishedAt: string
 }
 
-// Основной тип товара
+// Main product type
 export interface Product {
   id: number
   documentId: string
@@ -74,7 +74,7 @@ export interface Product {
   publishedAt: string
 }
 
-// Типы для API ответов
+// Types for API responses
 export interface ProductResponse {
   data: Product
   meta: {
@@ -104,7 +104,7 @@ export interface CreateProductRequest {
   title: string
   slug: string
   description: string
-  gallery?: number[] // ID изображений
+  gallery?: number[] // Image IDs
 }
 
 export interface UpdateProductRequest extends Partial<CreateProductRequest> {
@@ -117,17 +117,17 @@ export interface CreateVariantRequest {
   price: number
   stock: number
   is_active: boolean
-  color: number // ID цвета
-  size: number // ID размера
-  product: number // ID товара
-  images?: number[] // ID изображений
+  color: number // Color ID
+  size: number // Size ID
+  product: number // Product ID
+  images?: number[] // Image IDs
 }
 
 export interface UpdateVariantRequest extends Partial<CreateVariantRequest> {
   id: number
 }
 
-// Типы для фильтрации товаров
+// Types for product filtering
 export interface ProductFilters {
   category?: string
   colors?: string
@@ -137,7 +137,7 @@ export interface ProductFilters {
   sort?: ProductSortOptions
 }
 
-// Типы для сортировки товаров
+// Types for product sorting
 export type ProductSortField = 'title' | 'createdAt' | 'updatedAt'
 export type ProductSortOrder = 'asc' | 'desc'
 
@@ -146,13 +146,13 @@ export interface ProductSortOptions {
   order: ProductSortOrder
 }
 
-// Типы для пагинации
+// Types for pagination
 export interface PaginationParams {
   page?: number
   pageSize?: number
 }
 
-// Типы для запроса товаров с параметрами
+// Types for product request with parameters
 export interface GetProductsParams extends ProductFilters, PaginationParams {
   sort?: ProductSortOptions
   populate?: string[]

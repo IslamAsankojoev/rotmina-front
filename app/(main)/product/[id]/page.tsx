@@ -47,7 +47,7 @@ const Product = () => {
     queryFn: () => ProductService.getProduct(id),
   })
 
-  // Получаем уникальные цвета из вариантов
+  // Get unique colors from variants
   const colors = React.useMemo(() => {
     if (!data?.data?.variants) return []
     const uniqueColors = new Map()
@@ -59,7 +59,7 @@ const Product = () => {
     return Array.from(uniqueColors.values())
   }, [data?.data?.variants])
 
-  // Получаем размеры для выбранного цвета
+  // Get sizes for selected color
   const availableSizes = React.useMemo(() => {
     if (!selectedColor || !data?.data?.variants) return []
     
@@ -68,7 +68,7 @@ const Product = () => {
       .filter((variant: ProductVariant) => variant?.color?.id === colorId)
       .map((variant: ProductVariant) => variant.size)
     
-    // Убираем дубликаты размеров
+    // Remove duplicate sizes
     const uniqueSizes = new Map()
     sizesForColor.forEach((size: Size) => {
       if (!uniqueSizes.has(size?.id)) {
@@ -78,7 +78,7 @@ const Product = () => {
     return Array.from(uniqueSizes.values())
   }, [selectedColor, data?.data?.variants])
 
-  // Получаем все размеры для отображения (включая недоступные)
+  // Get all sizes for display (including unavailable)
   const allSizes = React.useMemo(() => {
     if (!data?.data?.variants) return []
     const uniqueSizes = new Map()
@@ -90,14 +90,14 @@ const Product = () => {
     return Array.from(uniqueSizes.values())
   }, [data?.data?.variants])
 
-  // Автоматически выбираем первый цвет при загрузке
+  // Automatically select first color on load
   React.useEffect(() => {
     if (colors.length > 0 && !selectedColor) {
       setSelectedColor(colors[0]?.id?.toString())
     }
   }, [colors, selectedColor])
 
-  // Обновляем выбранный вариант при изменении цвета или размера
+  // Update selected variant when color or size changes
   const updateSelectedVariant = React.useCallback((colorId: string, sizeId: string) => {
     if (!data?.data?.variants) return
 
@@ -109,14 +109,14 @@ const Product = () => {
     setSelectedVariant(variant || null)
   }, [data?.data?.variants])
 
-  // Автоматически выбираем первый доступный размер при выборе цвета
+  // Automatically select first available size when color is selected
   React.useEffect(() => {
     if (availableSizes.length > 0 && !selectedSize) {
       setSelectedSize(availableSizes[0]?.id?.toString())
     }
   }, [availableSizes, selectedSize])
 
-  // Обновляем выбранный вариант при изменении цвета или размера
+  // Update selected variant when color or size changes
   React.useEffect(() => {
     if (selectedColor && selectedSize) {
       updateSelectedVariant(selectedColor, selectedSize)
@@ -125,26 +125,26 @@ const Product = () => {
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
-    // Сбрасываем выбранный размер при смене цвета
+    // Reset selected size when color changes
     setSelectedSize(null)
     setSelectedVariant(null)
   }
 
   const handleSizeChange = (size: string) => {
     setSelectedSize(size)
-    // Обновляем выбранный вариант при выборе размера
+    // Update selected variant when size is selected
     if (selectedColor) {
       updateSelectedVariant(selectedColor, size)
     }
   }
 
-  // Проверяем, доступен ли размер для выбранного цвета
+  // Check if size is available for selected color
   const isSizeAvailable = (sizeId: number) => {
     if (!selectedColor) return false
     return availableSizes.some((size: Size) => size?.id === sizeId)
   }
 
-  // Получаем цену для выбранной комбинации цвета и размера
+  // Get price for selected color and size combination
   const getCurrentPrice = () => {
     if (selectedVariant) {
       return selectedVariant?.price
@@ -152,7 +152,7 @@ const Product = () => {
     return data?.data?.variants?.[0]?.price || 0
   }
 
-  // Получаем изображения для выбранного варианта или основного товара
+  // Get images for selected variant or main product
   const getCurrentImages = () => {
     if (selectedVariant && selectedVariant.images && selectedVariant.images.length > 0) {
       return selectedVariant?.images
@@ -160,7 +160,7 @@ const Product = () => {
     return data?.data?.gallery || []
   }
 
-  // Добавление товара в корзину
+  // Add product to cart
   const handleAddToCart = () => {
     if (!selectedVariant || !data?.data) return
 
@@ -171,7 +171,7 @@ const Product = () => {
       1
     )
     
-    // Открываем корзину после добавления
+    // Open cart after adding
     openCart()
   }
 

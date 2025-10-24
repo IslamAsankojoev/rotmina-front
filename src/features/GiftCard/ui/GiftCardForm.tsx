@@ -28,10 +28,10 @@ export const GiftCardForm = () => {
       data.personalMessage
     )
     
-    // Открываем корзину после добавления
+    // Open cart after adding
     openCart()
     
-    // Сбрасываем форму
+    // Reset form
     form.reset()
   }
 

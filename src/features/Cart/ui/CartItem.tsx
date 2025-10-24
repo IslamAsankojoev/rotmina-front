@@ -22,7 +22,7 @@ interface CartItemProps {
 export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps) => {
   const { getPrice, currency } = useLangCurrancy()
 
-  // Компонент для отображения товара
+  // Component for displaying product
   const ProductItem = ({ item }: { item: ProductCartItem }) => (
     <div className="flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
@@ -44,7 +44,7 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
           {getPrice(item?.variant?.price)} {currency} each
         </Typography>
 
-        {/* Управление количеством */}
+        {/* Quantity management */}
         <div className="flex items-center gap-2">
           <Button
             variant="outline"
@@ -82,7 +82,7 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
     </div>
   )
 
-  // Компонент для отображения подарочной карты
+  // Component for displaying gift card
   const GiftCardItem = ({ item }: { item: GiftCardCartItem }) => (
     <div className="flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
@@ -130,7 +130,7 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
     </div>
   )
 
-  // Компонент для отображения персонального стилиста
+  // Component for displaying personal stylist
   const PersonalStylistItem = ({ item }: { item: PersonalStylistCartItem }) => (
     <div className="flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
@@ -173,7 +173,7 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
     </div>
   )
 
-  // Функция для рендеринга элемента корзины
+  // Function for rendering cart item
   const renderCartItem = (item: CartItemType) => {
     switch (item?.type) {
       case 'product':

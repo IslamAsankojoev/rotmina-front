@@ -16,18 +16,43 @@ import {
   TableCell,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { Order, OrderItem } from '@/src/features/OrderHistory/model/types'
+import { OrderItem } from '@/src/features/OrderHistory/model/types'
 import { Typography, useLangCurrancy } from '@/src/shared'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
+import { OrderWithPaymentStatus } from './OrderList'
+
 interface OrderCardProps {
-  order: Order
+  order: OrderWithPaymentStatus
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
   const { getPrice, currency } = useLangCurrancy()
   const router = useRouter()
+
+  const renderPayButtonOrStatus = () => {
+    if (order.paymentStatus?.processor_response_code === '000') {
+      return (
+        <Typography variant="text_main" className="text-greyy min-w-[40px]">
+          Paid
+        </Typography>
+      )
+    }
+    return (
+      <Button
+        variant="default"
+        size="sm"
+        onClick={(e) => {
+          e.stopPropagation()
+          router.push(`/order/${order.documentId}`)
+        }}
+      >
+        Pay
+      </Button>
+    )
+  }
+
   const getImage = (item: OrderItem) => {
     if (item.type === 'product') {
       return item.variant?.images?.[0]?.url || ShirtImage.src
@@ -51,22 +76,14 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="w-[200px]">
-                      {order.order_status}
+                      {order.order_status}{' '}
+                      {order.paymentStatus?.processor_response_code}
                     </TableCell>
                     <TableCell className="text-right">
                       {getPrice(Number(order.total_amount))} {currency}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button
-                        variant="default"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          router.push(`/order/${order.documentId}`)
-                        }}
-                      >
-                        Pay
-                      </Button>
+                      {renderPayButtonOrStatus()}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -128,7 +145,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
               ) : (
                 <div className="py-4 text-center">
                   <Typography variant="text_main" className="text-greyy">
-                    Детали заказа недоступны
+                    Order details are not available
                   </Typography>
                 </div>
               )}

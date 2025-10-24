@@ -77,7 +77,7 @@ export const MiniCart = () => {
             </div>
           </ScrollArea>
 
-          {/* Итого */}
+          {/* Total */}
           {items.length > 0 && (
             <div className="flex items-center justify-between border-t pt-4">
               <Typography variant="text_title">Total:</Typography>

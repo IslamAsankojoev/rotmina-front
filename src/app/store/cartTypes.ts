@@ -1,33 +1,33 @@
 import { ProductVariant } from '@/src/entities/Product/model/types'
 
-// Базовый тип для элемента корзины
+// Base type for cart item
 export interface BaseCartItem {
-  id: string // уникальный ID элемента в корзине
+  id: string // unique ID for cart item
   type: 'product' | 'giftcard' | 'personalStylist'
   price: number
   createdAt: Date
 }
 
-// Товар в корзине
+// Cart item for product
 export interface ProductCartItem extends BaseCartItem {
   type: 'product'
   variant: ProductVariant
   productTitle: string
   productSlug: string
-  quantity: number // можно регулировать
+  quantity: number // can be adjusted
 }
 
-// Подарочная карта в корзине
+// Cart item for gift card
 export interface GiftCardCartItem extends BaseCartItem {
   type: 'giftcard'
-  amount: number // сумма подарочной карты
+  amount: number // amount of gift card
   recipientEmail?: string
   recipientName?: string
   message?: string
   quantity: 1 // всегда 1
 }
 
-// Персональный стилист в корзине
+// Cart item for personal stylist
 export interface PersonalStylistCartItem extends BaseCartItem {
   type: 'personalStylist'
   sessionType: 'virtual' | 'in-person'
@@ -39,7 +39,7 @@ export interface PersonalStylistCartItem extends BaseCartItem {
 // Объединенный тип для всех элементов корзины
 export type CartItem = ProductCartItem | GiftCardCartItem | PersonalStylistCartItem
 
-// Состояние корзины
+// Cart state
 export interface CartState {
   items: CartItem[]
   totalItems: number
@@ -47,7 +47,7 @@ export interface CartState {
   isOpen: boolean
 }
 
-// Действия для управления корзиной
+// Actions for managing cart
 export interface CartActions {
   // Добавление элементов
   addProduct: (variant: ProductVariant, productTitle: string, productSlug: string, quantity?: number) => void

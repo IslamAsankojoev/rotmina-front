@@ -264,10 +264,23 @@ export const PAYMENT_ERROR_CODES = {
   '998': 'Transactions file failure. Please contact Tranzila support.',
 } as const
 
-// Коды успешных операций
+// Success operation codes
 export const SUCCESS_CODES = ['000', '001', '002', '003'] as const
 
-// Функция для получения сообщения об ошибке по коду
+// Function to get error message by code
 export const getPaymentErrorMessage = (code: string): string => {
   return PAYMENT_ERROR_CODES[code as keyof typeof PAYMENT_ERROR_CODES] || `Payment error (code: ${code})`
+}
+
+export enum PAYMENT_ERROR_CODES_ENUM {
+  SUCCESS = '000',
+  BLOCKED_CARD = '001',
+  STOLEN_CARD = '002',
+  CONTACT_CREDIT_COMPANY = '003',
+  REFUSAL = '004',
+  FORGED_CARD = '005',
+  WRONG_CARD_NUMBER = '447',
+  WRONG_EXPIRATION_DATE = '416',
+  WRONG_CVV = '006',
+  EXPIRED_CARD = '415',
 }

@@ -26,7 +26,7 @@ export async function middleware(request: NextRequest) {
   })
   
   response.cookies.set('rates', JSON.stringify(exchangeRatesData || [{"currency":"GBP","rate":4.3881},{"currency":"CHF","rate":4.138},{"currency":"EUR","rate":3.8206},{"currency":"USD","rate":3.298},{"currency":"AUD","rate":2.1411},{"currency":"CAD","rate":2.3524}]), {
-    maxAge: 60 * 60 * 24, // 24 часа
+    maxAge: 60 * 60 * 24, // 24 hours
     httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax'
