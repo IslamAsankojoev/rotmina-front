@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useEffect } from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import {
@@ -63,6 +63,9 @@ export const AddressForm = ({
     onError: (error) => {
       toast.error(error.message)
     },
+    onSettled: () => {
+      setShippingAddress(addresses?.data[addresses?.data?.length - 1] || null)
+    },
   })
 
   const { mutate: deleteAddress } = useMutation({
@@ -79,6 +82,12 @@ export const AddressForm = ({
   const onSubmit = form.handleSubmit((data) => {
     addAddress(data)
   })
+
+  useEffect(() => {
+    if (addresses?.data?.length && addresses?.data?.length > 0) {
+      setShippingAddress(addresses?.data[0] || null)
+    }
+  }, [addresses, setShippingAddress])
 
   if (isLoadingAddresses) return <div>Loading...</div>
   if (errorAddresses) return <div>Error: {errorAddresses.message}</div>

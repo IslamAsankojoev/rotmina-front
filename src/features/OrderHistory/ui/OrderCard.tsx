@@ -76,8 +76,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       {new Date(order.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="w-[200px]">
-                      {order.order_status}{' '}
-                      {order.paymentStatus?.processor_response_code}
+                      {order.order_status}
                     </TableCell>
                     <TableCell className="text-right">
                       {getPrice(Number(order.total_amount))} {currency}

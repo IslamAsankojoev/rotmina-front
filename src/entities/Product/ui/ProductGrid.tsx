@@ -34,7 +34,7 @@ export const ProductGrid = ({ categoryId }: ProductGridProps) => {
           )}
         >
           <Image
-            src={product?.gallery?.[0]?.url}
+            src={product?.variants[0]?.images[0]?.url}
             alt={product?.title}
             objectFit="cover"
             fill

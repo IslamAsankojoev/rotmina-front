@@ -35,7 +35,7 @@ export const OrderList = () => {
       ...order,
       paymentStatus: paymentStatus,
     }
-  }) || []
+  }).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) || []
 
   if (!orders || orders.data.length === 0) {
     return (

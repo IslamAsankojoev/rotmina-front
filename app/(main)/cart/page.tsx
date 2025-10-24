@@ -39,7 +39,7 @@ export default function CartPage() {
 
   const handleSubmitOrder = async () => {
     if (!shippingAddress) {
-      toast.error('Shipping address is not filled')
+      toast.error('Please add a shipping address')
       return
     }
 

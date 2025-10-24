@@ -71,13 +71,13 @@ export default function OrderPage() {
     switch (item?.type) {
       case 'giftcard':
         code = `GIFT-${item?.price_snapshot}`
-        name = `Gift card for ${item?.price_snapshot} rub.`
+        name = `Gift card for ${item.gift_card?.recipientsName}.`
         unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
         break
 
       case 'personalStylist':
         code = `STYLIST-${item?.personal_stylist?.minutes}`
-        name = `Personal stylist (${item?.personal_stylist?.sessionType} minutes)`
+        name = `Personal stylist (${item?.personal_stylist?.minutes} minutes)`
         unit_price = parseFloat(
           item?.personal_stylist?.price?.toString() || '0',
         )
