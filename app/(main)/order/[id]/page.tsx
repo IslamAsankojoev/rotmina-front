@@ -15,18 +15,25 @@ import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
 import { useCartInfo } from '@/src/app'
-import { OrderService } from '@/src/entities/Order'
+import { OrderService, PayOrderRequest } from '@/src/entities/Order'
 import { TermsDialog } from '@/src/features'
 import { paymentFormSchema } from '@/src/features/Cart/model'
-import { Breadcrumbs, PAYMENT_ERROR_CODES, PAYMENT_ERROR_CODES_ENUM, Typography, useLangCurrancy, useUser } from '@/src/shared'
-import { useQuery } from '@tanstack/react-query'
+import {
+  Breadcrumbs,
+  PAYMENT_ERROR_CODES,
+  PAYMENT_ERROR_CODES_ENUM,
+  Typography,
+  useLangCurrancy,
+  useUser,
+} from '@/src/shared'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import z from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import z from 'zod'
 
 enum PaymentMethods {
   CARD = 'card',
@@ -59,52 +66,50 @@ export default function OrderPage() {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
   )
-  const [termsChecked, setTermsChecked] = useState(true)
-  const [termsError, setTermsError] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const orderItems =
+    order?.data?.order_items?.map((item) => {
+      let code: string
+      let name: string
+      let unit_price: number
 
-  const orderItems = order?.data?.order_items?.map((item) => {
-    let code: string
-    let name: string
-    let unit_price: number
+      switch (item?.type) {
+        case 'giftcard':
+          code = `GIFT-${item?.price_snapshot}`
+          name = `Gift card for ${item.gift_card?.recipientsName}.`
+          unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
+          break
 
-    switch (item?.type) {
-      case 'giftcard':
-        code = `GIFT-${item?.price_snapshot}`
-        name = `Gift card for ${item.gift_card?.recipientsName}.`
-        unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
-        break
+        case 'personalStylist':
+          code = `STYLIST-${item?.personal_stylist?.minutes}`
+          name = `Personal stylist (${item?.personal_stylist?.minutes} minutes)`
+          unit_price = parseFloat(
+            item?.personal_stylist?.price?.toString() || '0',
+          )
+          break
 
-      case 'personalStylist':
-        code = `STYLIST-${item?.personal_stylist?.minutes}`
-        name = `Personal stylist (${item?.personal_stylist?.minutes} minutes)`
-        unit_price = parseFloat(
-          item?.personal_stylist?.price?.toString() || '0',
-        )
-        break
+        case 'product':
+          code =
+            item?.variant?.sku || `PRODUCT-${item?.variant?.id || 'unknown'}`
+          name = item.variant?.product?.title || 'Product'
+          unit_price = parseFloat(item?.variant?.price?.toString() || '0')
+          break
 
-      case 'product':
-        code = item?.variant?.sku || `PRODUCT-${item?.variant?.id || 'unknown'}`
-        name = item.variant?.product?.title || 'Product'
-        unit_price = parseFloat(item?.variant?.price?.toString() || '0')
-        break
+        default:
+          code = `UNKNOWN-${item?.type}`
+          name = 'Unknown product'
+          unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
+      }
 
-      default:
-        code = `UNKNOWN-${item?.type}`
-        name = 'Unknown product'
-        unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
-    }
-
-    return {
-      code: code,
-      name: name,
-      unit_price: unit_price,
-      unit_type: 1,
-      units_number: item?.quantity,
-      currency_code: order?.data?.currency_code || 'ILS',
-      attributes: [] as Array<{ name: string; value: string }>,
-    }
-  }) || []
+      return {
+        code: code,
+        name: name,
+        unit_price: unit_price,
+        unit_type: 1,
+        units_number: item?.quantity,
+        currency_code: order?.data?.currency_code || 'ILS',
+        attributes: [] as Array<{ name: string; value: string }>,
+      }
+    }) || []
 
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
@@ -113,19 +118,16 @@ export default function OrderPage() {
       phone: '+1234567890',
       expirationDate: '12/25',
       cvv: '123',
+      terms: true,
     },
     resolver: zodResolver(paymentFormSchema),
   })
 
-  const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
-    setIsLoading(true)
-    if (!termsChecked) {
-      setTermsError(true)
-      setIsLoading(false)
-      return
-    }
-    setTermsError(false)
+  const { mutate: payOrder, isPending } = useMutation({
+    mutationFn: (data: PayOrderRequest) => OrderService.payOrder(data),
+  })
 
+  const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
     const paymentData = {
       orderId: order?.data?.id?.toString() || '',
       clientId: user?.data?.id?.toString() || '',
@@ -137,43 +139,58 @@ export default function OrderPage() {
       items: orderItems,
     }
 
-    const response = await OrderService.payOrder(paymentData)
-
-    if (response.data.transaction_result.processor_response_code === '000') {
-      toast.success('Payment successful')
-      router.push(`/account`)
-    } else {
-      switch (response.data.transaction_result.processor_response_code) {
-        case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
-          form.setError('cardNumber', {
-            message: 'Wrong card number',
-          })
-          break
-        case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
-          form.setError('expirationDate', {
-            message: 'Wrong expiration date',
-          })
-          break
-        case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
-          form.setError('cvv', {
-            message: 'Wrong CVV',
-          })
-          break
-        case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
-          form.setError('expirationDate', {
-            message: 'Expired card',
-          })
-          break
-        case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
-          toast.error(PAYMENT_ERROR_CODES[response.data.transaction_result.processor_response_code], { position: 'top-center' })
-          break
-        default:
-          toast.error(PAYMENT_ERROR_CODES[response.data.transaction_result.processor_response_code], { position: 'top-center' })
-          break
-      }
-    }
-
-    setIsLoading(false)
+    payOrder(paymentData, {
+      onSuccess: (response) => {
+        if (
+          response.data.transaction_result.processor_response_code === '000'
+        ) {
+          toast.success('Payment successful')
+          router.push(`/account`)
+        } else {
+          switch (response.data.transaction_result.processor_response_code) {
+            case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
+              form.setError('cardNumber', {
+                message: 'Wrong card number',
+              })
+              break
+            case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
+              form.setError('expirationDate', {
+                message: 'Wrong expiration date',
+              })
+              break
+            case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
+              form.setError('cvv', {
+                message: 'Wrong CVV',
+              })
+              break
+            case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
+              form.setError('expirationDate', {
+                message: 'Expired card',
+              })
+              break
+            case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
+              toast.error(
+                PAYMENT_ERROR_CODES[
+                  response.data.transaction_result.processor_response_code
+                ],
+                { position: 'top-center' },
+              )
+              break
+            default:
+              toast.error(
+                PAYMENT_ERROR_CODES[
+                  response.data.transaction_result.processor_response_code
+                ],
+                { position: 'top-center' },
+              )
+              break
+          }
+        }
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    })
   }
 
   return (
@@ -237,10 +254,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          placeholder="CARD NUMBER"
-                          {...field}
-                        />
+                        <Input placeholder="CARD NUMBER" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -282,19 +296,40 @@ export default function OrderPage() {
                     </FormItem>
                   )}
                 />
-
+                <FormField
+                  control={form.control}
+                  name="terms"
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="flex items-center gap-2">
+                        <FormControl>
+                          <Checkbox
+                            id="terms"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <Label htmlFor="terms">
+                          I have read and agree to the
+                          <TermsDialog />
+                        </Label>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Button
                   type="submit"
                   className="uppercase"
                   variant="default"
                   size="lg"
-                  disabled={isLoading}
+                  disabled={isPending}
                 >
-                  {isLoading ? <Spinner /> : 'Pay'}
+                  {isPending ? <Spinner /> : 'Pay'}
                 </Button>
               </form>
             </Form>
-            <div className="flex flex-col gap-4 p-20">
+            <div className="flex flex-col gap-4 p-10 md:p-20">
               <div className="flex items-center gap-4">
                 <Input type="text" placeholder="PROMO CODE" />
                 <Button variant="link" className="uppercase">
@@ -335,34 +370,6 @@ export default function OrderPage() {
                   <Typography variant="text_main">
                     {getPrice(totalPrice)} {currency}
                   </Typography>
-                </div>
-                <div className="flex w-full flex-col gap-2">
-                  <div className="mt-10 flex items-center gap-2">
-                    <Checkbox
-                      id="terms"
-                      checked={termsChecked}
-                      onCheckedChange={(checked) =>
-                        setTermsChecked(Boolean(checked))
-                      }
-                    />
-                    <Typography
-                      variant="text_main"
-                      className="text-nowrap uppercase"
-                    >
-                      <Label htmlFor="terms">
-                        I have read and agree to the
-                        <TermsDialog />
-                      </Label>
-                    </Typography>
-                  </div>
-                  {termsError && (
-                    <Typography
-                      variant="text_mini_footer"
-                      className="text-red-500"
-                    >
-                      You must agree to the terms and conditions
-                    </Typography>
-                  )}
                 </div>
               </div>
             </div>

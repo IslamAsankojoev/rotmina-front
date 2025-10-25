@@ -104,7 +104,7 @@ export const Header = () => {
       )}
     >
       <div className="container">
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between pt-1 md:py-4">
           <div className="h-12 w-12 md:hidden" />
           <nav className="hidden gap-6 md:flex">
             {leftMenu.map((item) => (

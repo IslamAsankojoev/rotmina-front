@@ -130,6 +130,10 @@
   margin-inline: auto;
 }
 
+body{
+  overflow-x: hidden;
+}
+
 .panorama-swiper {
   padding: 50px 0;
   overflow: hidden;

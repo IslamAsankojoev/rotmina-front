@@ -95,7 +95,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="overflow-x-hidden overflow-y-auto">
+      <div className="overflow-x-visible">
         <PanoramaSlider slides={slides} />
       </div>
       <div className="container mt-24">
