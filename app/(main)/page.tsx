@@ -1,11 +1,11 @@
 'use client'
 
 import NatureImage from '@/public/assets/nature.webp'
-import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.png'
-import SlideImage2 from '@/public/assets/products/773b68776a32f6687e77b6124a9960ad5d456cda.png'
-import SlideImage3 from '@/public/assets/products/b5da825c45a4b2233c7e1a6b2541a4c6419c16cc.png'
-import SlideImage4 from '@/public/assets/products/c5ae553f878dd5bf5638bd3bb767794d4a9cef7e.png'
-import SlideImage5 from '@/public/assets/products/e90bf2efd413950c0e86d922d5e451f7ef5d948d.png'
+import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.webp'
+import SlideImage2 from '@/public/assets/products/773b68776a32f6687e77b6124a9960ad5d456cda.webp'
+import SlideImage3 from '@/public/assets/products/b5da825c45a4b2233c7e1a6b2541a4c6419c16cc.webp'
+import SlideImage4 from '@/public/assets/products/c5ae553f878dd5bf5638bd3bb767794d4a9cef7e.webp'
+import SlideImage5 from '@/public/assets/products/e90bf2efd413950c0e86d922d5e451f7ef5d948d.webp'
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
@@ -51,7 +51,7 @@ export default function Home() {
           <div className="inline-flex flex-col items-start justify-start gap-5 self-stretch md:flex-row">
             <div className="inline-flex flex-1 flex-col items-center justify-end">
               <div className="justify-start self-stretch text-stone-900">
-                <Typography variant="text_title">Separation</Typography>
+                <Typography variant="text_title" className='italic'>Separation</Typography>
               </div>
             </div>
             <div className="inline-flex flex-1 flex-col items-start justify-start">
@@ -99,7 +99,7 @@ export default function Home() {
         <PanoramaSlider slides={slides} />
       </div>
       <div className="container mt-24">
-        <Typography variant="text_title">
+        <Typography variant="text_title" className='italic'>
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
@@ -170,11 +170,11 @@ export default function Home() {
         </div>
       </div>
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title">Categories</Typography>
+        <Typography variant="text_title" className='italic'>Categories</Typography>
       </div>
       <Categories />
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title">Collections</Typography>
+        <Typography variant="text_title" className='italic'>Collections</Typography>
       </div>
       <Collections />
     </section>

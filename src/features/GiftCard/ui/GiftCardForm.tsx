@@ -14,9 +14,20 @@ import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { giftCardValidationSchema } from '../model/validation'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 export const GiftCardForm = () => {
-  const form = useForm<z.infer<typeof giftCardValidationSchema>>({})
+  const form = useForm<z.infer<typeof giftCardValidationSchema>>({
+    defaultValues: {
+      recipientsName: '',
+      recipientsEmail: '',
+      yourName: '',
+      yourEmail: '',
+      personalMessage: '',
+      amount: 0,
+    },
+    resolver: zodResolver(giftCardValidationSchema),
+  })
   const { addGiftCardToCart } = useAddGiftCard()
   const { openCart } = useCartActions()
 

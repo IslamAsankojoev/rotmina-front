@@ -1,4 +1,4 @@
-import AuthImage from '@/public/assets/auth.png'
+import AuthImage from '@/public/assets/auth.webp'
 
 export default function Layout({
   children,

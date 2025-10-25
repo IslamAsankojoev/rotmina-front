@@ -1,6 +1,6 @@
 import React from 'react'
 
-import GiftCardImage from '@/public/assets/gift-card.png'
+import GiftCardImage from '@/public/assets/gift-card.webp'
 import { GiftCardForm } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'
@@ -12,14 +12,14 @@ const GiftCard = () => {
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
-            { title: 'ABOUT', href: '/about' },
+            { title: 'GIFT CARD', href: '/gift-card' },
           ]}
         />
       </div>
       <div className="container my-24">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12">
           <div className="min-h-full flex-1">
-            <div className="flex max-w-96 flex-col">
+            <div className="flex max-w-[420px] flex-col">
               <Typography variant="text_title" className="mb-4">
                 Gift card
               </Typography>

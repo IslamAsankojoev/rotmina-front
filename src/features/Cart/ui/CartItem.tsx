@@ -1,7 +1,7 @@
 'use client'
 
-import GiftCardImage from '@/public/assets/gift-card.png'
-import PersonalStylistImage from '@/public/assets/personal-stylist.png'
+import GiftCardImage from '@/public/assets/gift-card.webp'
+import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import { Button } from '@/shadcn/components/ui/button'
 import {
   CartItem as CartItemType,
@@ -27,7 +27,7 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
     <div className="flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
         <Image
-          src={item?.variant?.images?.[0]?.url || '/assets/products/shirt.png'}
+          src={item?.variant?.images?.[0]?.url || '/assets/products/shirt.webp'}
           alt={item?.productTitle}
           fill
           className="object-cover"

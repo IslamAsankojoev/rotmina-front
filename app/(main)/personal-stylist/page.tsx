@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import PersonalStylistImage from '@/public/assets/personal-stylist.png'
+import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import { PersonalStylistForm } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'

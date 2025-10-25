@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import MyStoryImage from '@/public/assets/my-story.png'
+import MyStoryImage from '@/public/assets/my-story.webp'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'
 

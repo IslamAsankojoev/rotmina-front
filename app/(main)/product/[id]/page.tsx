@@ -21,7 +21,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
-import { ProductService } from '@/src/entities/Product'
+import { ProductService, SizeGuideModal } from '@/src/entities/Product'
 import { ProductVariant, Size } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { Typography, useLangCurrancy } from '@/src/shared'
@@ -295,9 +295,7 @@ const Product = () => {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <Typography variant="text_main" className="uppercase">
-                    SIZE GUIDE
-                  </Typography>
+                  <SizeGuideModal />
                   <Typography
                     variant="text_main"
                     className="text-greyy uppercase"
@@ -398,7 +396,7 @@ const Product = () => {
           </div>
         </div>
         <div className="my-24 flex flex-col gap-8">
-          <Typography variant="text_title">You might also like</Typography>
+          <Typography variant="text_title" className='italic'>You might also like</Typography>
           <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
             {data?.data?.variants?.map((variant: ProductVariant) => (
               <Link

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import CategoryImage from '@/public/assets/categories/shirt.png'
+import CategoryImage from '@/public/assets/categories/shirt.webp'
 import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { ArrowDownUp } from 'lucide-react'

@@ -1,8 +1,8 @@
 import React from 'react'
 
-import EcoCurv from '@/public/assets/eco-curv.png'
-import EcoSheep from '@/public/assets/eco-sheep.png'
-import EcoImage from '@/public/assets/eco.png'
+import EcoCurv from '@/public/assets/eco-curv.webp'
+import EcoSheep from '@/public/assets/eco-sheep.webp'
+import EcoImage from '@/public/assets/eco.webp'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'
 

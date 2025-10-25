@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import ReturnsImage from '@/public/assets/returnsAndExchanges.png'
+import ReturnsImage from '@/public/assets/returnsAndExchanges.webp'
 import { ReturnForm } from '@/src/features'
 import { Typography } from '@/src/shared'
 import Image from 'next/image'

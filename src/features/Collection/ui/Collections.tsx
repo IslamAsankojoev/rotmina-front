@@ -1,6 +1,6 @@
 'use client'
 
-import CollectionImage from '@/public/assets/collection.png'
+import CollectionImage from '@/public/assets/collection.webp'
 import {
   Accordion,
   AccordionContent,

@@ -1,8 +1,8 @@
 'use client'
 
-import GiftCardImage from '@/public/assets/gift-card.png'
-import PersonalStylistImage from '@/public/assets/personal-stylist.png'
-import ShirtImage from '@/public/assets/products/shirt.png'
+import GiftCardImage from '@/public/assets/gift-card.webp'
+import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
+import ShirtImage from '@/public/assets/products/shirt.webp'
 import {
   Accordion,
   AccordionContent,

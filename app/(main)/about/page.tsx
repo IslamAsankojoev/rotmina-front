@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AboutImage from '@/public/assets/about.png'
+import AboutImage from '@/public/assets/about.webp'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import Image from 'next/image'
 

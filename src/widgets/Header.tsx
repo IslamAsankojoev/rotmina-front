@@ -98,7 +98,10 @@ export const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`}
+      className={clsx(
+        `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`,
+        md ? 'sticky' : 'fixed'
+      )}
     >
       <div className="container">
         <div className="flex items-center justify-between py-4">

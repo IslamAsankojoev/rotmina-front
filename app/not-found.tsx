@@ -1,7 +1,7 @@
 import React from 'react'
 
-import NotFoundDesktopImage from '@/public/assets/404.jpg'
-import NotFoundMobileImage from '@/public/assets/404.png'
+import NotFoundDesktopImage from '@/public/assets/404_d.webp'
+import NotFoundMobileImage from '@/public/assets/404_m.webp'
 import { Typography } from '@/src/shared'
 import Link from 'next/link'
 
