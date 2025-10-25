@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/account', request.url))
   }
 
-  const exchangeRates = await fetch('http://31.97.79.157:7186/api/ExchangeRates')
+  const exchangeRates = await fetch(`${process.env.API_PAY_SERVICE}/api/ExchangeRates`)
   const exchangeRatesData = await exchangeRates.json()
 
   const response = NextResponse.next({
