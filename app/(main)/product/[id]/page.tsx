@@ -21,11 +21,11 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
+import { useAddToCart, useCartActions } from '@/src/app/store'
 import { ProductService, SizeGuideModal } from '@/src/entities/Product'
 import { ProductVariant, Size } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { Typography, useLangCurrancy } from '@/src/shared'
-import { useAddToCart, useCartActions } from '@/src/app/store'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
@@ -35,7 +35,8 @@ import { useParams } from 'next/navigation'
 const Product = () => {
   const [selectedColor, setSelectedColor] = React.useState<string | null>(null)
   const [selectedSize, setSelectedSize] = React.useState<string | null>(null)
-  const [selectedVariant, setSelectedVariant] = React.useState<ProductVariant | null>(null)
+  const [selectedVariant, setSelectedVariant] =
+    React.useState<ProductVariant | null>(null)
   const params = useParams()
   const id = params.id as string
   const { getPrice, currency } = useLangCurrancy()
@@ -62,12 +63,12 @@ const Product = () => {
   // Get sizes for selected color
   const availableSizes = React.useMemo(() => {
     if (!selectedColor || !data?.data?.variants) return []
-    
+
     const colorId = parseInt(selectedColor)
     const sizesForColor = data.data.variants
       .filter((variant: ProductVariant) => variant?.color?.id === colorId)
       .map((variant: ProductVariant) => variant.size)
-    
+
     // Remove duplicate sizes
     const uniqueSizes = new Map()
     sizesForColor.forEach((size: Size) => {
@@ -98,16 +99,20 @@ const Product = () => {
   }, [colors, selectedColor])
 
   // Update selected variant when color or size changes
-  const updateSelectedVariant = React.useCallback((colorId: string, sizeId: string) => {
-    if (!data?.data?.variants) return
+  const updateSelectedVariant = React.useCallback(
+    (colorId: string, sizeId: string) => {
+      if (!data?.data?.variants) return
 
-    const variant = data.data.variants.find(
-      (variant: ProductVariant) => 
-        variant?.color?.id === parseInt(colorId) && variant?.size?.id === parseInt(sizeId)
-    )
-    
-    setSelectedVariant(variant || null)
-  }, [data?.data?.variants])
+      const variant = data.data.variants.find(
+        (variant: ProductVariant) =>
+          variant?.color?.id === parseInt(colorId) &&
+          variant?.size?.id === parseInt(sizeId),
+      )
+
+      setSelectedVariant(variant || null)
+    },
+    [data?.data?.variants],
+  )
 
   // Automatically select first available size when color is selected
   React.useEffect(() => {
@@ -154,7 +159,11 @@ const Product = () => {
 
   // Get images for selected variant or main product
   const getCurrentImages = () => {
-    if (selectedVariant && selectedVariant.images && selectedVariant.images.length > 0) {
+    if (
+      selectedVariant &&
+      selectedVariant.images &&
+      selectedVariant.images.length > 0
+    ) {
       return selectedVariant?.images
     }
     return data?.data?.gallery || []
@@ -168,9 +177,9 @@ const Product = () => {
       selectedVariant || null,
       data.data.title,
       data.data.slug,
-      1
+      1,
     )
-    
+
     // Open cart after adding
     openCart()
   }
@@ -264,7 +273,7 @@ const Product = () => {
                       {allSizes?.map((size: Size) => {
                         const isAvailable = isSizeAvailable(size?.id)
                         const isSelected = selectedSize === size?.id?.toString()
-                        
+
                         return (
                           <ToggleGroupItem
                             key={size?.id}
@@ -272,7 +281,7 @@ const Product = () => {
                             disabled={!isAvailable}
                             className={clsx(
                               'cursor-pointer',
-                              !isAvailable && 'opacity-50 cursor-not-allowed'
+                              !isAvailable && 'cursor-not-allowed opacity-50',
                             )}
                           >
                             <Typography
@@ -282,8 +291,8 @@ const Product = () => {
                                 isSelected
                                   ? 'text-black'
                                   : isAvailable
-                                  ? 'text-greyy'
-                                  : 'text-greyy opacity-50',
+                                    ? 'text-greyy'
+                                    : 'text-greyy opacity-50',
                               )}
                             >
                               {size?.name}
@@ -396,29 +405,43 @@ const Product = () => {
           </div>
         </div>
         <div className="my-24 flex flex-col gap-8">
-          <Typography variant="text_title" className='italic'>You might also like</Typography>
+          <Typography variant="text_title" className="italic">
+            You might also like
+          </Typography>
           <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
             {data?.data?.variants?.map((variant: ProductVariant) => (
               <Link
                 href={`/product/${variant?.id}`}
                 key={variant.id}
                 className={clsx(
-                  'relative col-span-6 flex h-[300px] w-full flex-col items-center gap-4 border p-4 md:col-span-4 md:h-full md:min-h-[544px] lg:col-span-3',
+                  'relative col-span-6 flex h-[300px] w-full flex-col items-center gap-2 md:col-span-4 md:h-full md:min-h-[544px] lg:col-span-3',
                 )}
               >
-                <Image
-                  src={getCurrentImages()[0]?.url || ''}
-                  alt={data?.data?.title}
-                  objectFit="cover"
-                  fill
-                />
-                <div className="absolute bottom-4 flex w-full justify-between gap-2 px-4">
-                  <Typography variant="text_main">
-                    {data?.data?.title}
-                  </Typography>
-                  <Typography variant="text_main">
-                    ${getPrice(variant?.price)}
-                  </Typography>
+                <div className="relative h-[300px] w-full md:h-full md:min-h-[544px]">
+                  <Image
+                    src={getCurrentImages()[0]?.url || ''}
+                    alt={data?.data?.title}
+                    objectFit="cover"
+                    fill
+                  />
+                </div>
+                <div className="bottom-4 flex w-full justify-between gap-2 px-2">
+                  <div className="hidden w-full flex-col justify-between gap-2 md:flex">
+                    <Typography variant="text_main">
+                      {data?.data?.title}
+                    </Typography>
+                    <Typography variant="text_main">
+                      {getPrice(Number(variant?.price.toFixed(2)))} {currency}
+                    </Typography>
+                  </div>
+                  <div className="flex w-full justify-between gap-2 md:hidden">
+                    <Typography variant="text_mini_footer">
+                      {data?.data?.title}
+                    </Typography>
+                    <Typography variant="text_mini_footer">
+                      {getPrice(Number(variant?.price.toFixed(2)))} {currency}
+                    </Typography>
+                  </div>
                 </div>
               </Link>
             ))}

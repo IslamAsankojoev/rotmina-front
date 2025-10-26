@@ -1,24 +1,20 @@
-'use client'
-
 import { Typography } from "@/src/shared"
 import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
 import { CategoryService } from "../model/api"
-import { useQuery } from "@tanstack/react-query"
 
-export const Categories = () => {
-  const { data: categories, isLoading, error } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => CategoryService.getCategories(),
-  })
+const getCategories = async () => {
+  const categories = await CategoryService.getCategories()
+  return categories?.data
+}
 
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error: {error.message}</div>
+export const Categories = async () => {
+  const categories = await getCategories()
 
   return (
     <div className="my-10 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {categories?.data?.map((category, index) => (
+        {categories?.map((category, index) => (
           <Link
             href={`/category/${category.documentId}`}
             key={category.documentId}

@@ -73,6 +73,7 @@ export const AddressForm = ({
     onSuccess: () => {
       toast.success('Address deleted successfully')
       refetchAddresses()
+      setShippingAddress(null)
     },
     onError: (error) => {
       toast.error(error.message)
@@ -104,8 +105,9 @@ export const AddressForm = ({
           )
         }}
         defaultValue={addresses?.data[0]?.documentId || ''}
+        value={selectedAddress?.documentId || ''}
       >
-        {addresses?.data.map((address) => (
+        {addresses?.data?.map((address) => (
           <Label
             htmlFor={address?.documentId || ''}
             key={address.id}
@@ -141,19 +143,21 @@ export const AddressForm = ({
       </RadioGroup>
       <div className="mt-8 flex flex-col gap-6">
         <Form {...form}>
-          <FormField
-            control={form.control}
-            name="address"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="ADDRESS" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="flex gap-4">
+            <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="ADDRESS" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex-1">
               <FormField
                 control={form.control}
@@ -168,6 +172,8 @@ export const AddressForm = ({
                 )}
               />
             </div>
+          </div>
+          <div className="flex gap-4">
             <div className="flex-1">
               <FormField
                 control={form.control}
@@ -182,19 +188,18 @@ export const AddressForm = ({
                 )}
               />
             </div>
+            <div className="flex-1">
+              <Button
+                type="button"
+                variant="default"
+                disabled={isAddingAddress}
+                onClick={onSubmit}
+              >
+                {isAddingAddress ? 'Adding...' : 'Add Address'}
+              </Button>
+            </div>
           </div>
         </Form>
-
-        <Button
-          type="button"
-          className="uppercase"
-          variant="outline-minimal"
-          size="lg"
-          disabled={isAddingAddress}
-          onClick={onSubmit}
-        >
-          {isAddingAddress ? 'Adding...' : 'Add Address'}
-        </Button>
       </div>
     </div>
   )

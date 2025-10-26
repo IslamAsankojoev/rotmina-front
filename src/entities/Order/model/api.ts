@@ -18,4 +18,7 @@ export const OrderService = {
 
   getOrderPaymentStatus: (clientId: string): Promise<OrderPaymentStatus[]> =>
     api.get(apiMap.getOrderPaymentStatus + '?clientId=' + clientId).json(),
+
+  deleteOrder: (id: string): Promise<void> =>
+    api.delete(apiMap.deleteOrder.replace(':id', id)).json(),
 }

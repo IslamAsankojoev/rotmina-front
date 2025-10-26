@@ -1,5 +1,3 @@
-'use client'
-
 import CollectionImage from '@/public/assets/collection.webp'
 import {
   Accordion,
@@ -8,19 +6,18 @@ import {
   AccordionTrigger,
 } from '@/shadcn/components/ui/accordion'
 import { Typography } from '@/src/shared'
-import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { CollectionService } from '../model/api'
+import { Collection } from '../model'
 
-export const Collections = () => {
-  const { data: collections, isLoading, error } = useQuery({
-    queryKey: ['collections'],
-    queryFn: () => CollectionService.getCollections(),
-  })
+const getCollections = async () => {
+  const collections = await CollectionService.getCollections()
+  return collections?.data
+}
 
-  if (isLoading) return <div>Loading...</div>
-  if (error) return <div>Error: {error.message}</div>
+export const Collections = async () => {
+  const collections = await getCollections()
 
   return (
     <div className="mb-20 flex flex-col gap-4 md:flex-row">
@@ -35,7 +32,7 @@ export const Collections = () => {
       </div>
       <div className="order-1 flex items-center justify-center md:order-2 md:flex-1">
         <Accordion type="single" collapsible>
-          {collections?.data.map((collection, index) => (
+          {collections?.map((collection: Collection, index: number) => (
             <div
               key={index}
               className={clsx(

@@ -24,8 +24,6 @@ export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) =>
   }
 
   const handleLoadMore = () => {
-    // Logic for loading additional products
-    // Can implement infinite scroll or increase pageSize
     console.log('Load more products')
   }
 
@@ -34,10 +32,11 @@ export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) =>
       <Pagination>
         <PaginationContent>
           {Array.from({ length: totalPagesFromData }, (_, index) => (
-            <PaginationItem key={index} value={index + 1}>
+            <PaginationItem key={index} value={index + 1} className='cursor-pointer border-none'>
               <PaginationLink
                 onClick={() => handlePageChange(index + 1)}
                 isActive={currentPage === index + 1}
+                className='border-none shadow-none'
               >
                 <Typography 
                   variant="text_1" 

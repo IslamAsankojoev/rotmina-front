@@ -36,6 +36,7 @@ export const apiMap = {
 
   // Order
   getMyOrders: 'orders/my-orders',
+  deleteOrder: 'orders/:id',
   getOrder: 'orders/:id',
   createOrder: 'orders/make-order',
   payOrder: 'pay-service/create',

@@ -22,6 +22,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { OrderWithPaymentStatus } from './OrderList'
+import { OrderDeleteModal } from '../..'
+import { useState } from 'react'
 
 interface OrderCardProps {
   order: OrderWithPaymentStatus
@@ -30,6 +32,8 @@ interface OrderCardProps {
 export const OrderCard = ({ order }: OrderCardProps) => {
   const { getPrice, currency } = useLangCurrancy()
   const router = useRouter()
+  const [openDeleteModal, setOpenDeleteModal] = useState(false)
+
 
   const renderPayButtonOrStatus = () => {
     if (order.paymentStatus?.processor_response_code === '000') {
@@ -40,16 +44,23 @@ export const OrderCard = ({ order }: OrderCardProps) => {
       )
     }
     return (
-      <Button
-        variant="default"
-        size="sm"
-        onClick={(e) => {
-          e.stopPropagation()
-          router.push(`/order/${order.documentId}`)
-        }}
-      >
-        Pay
-      </Button>
+      <div className="flex gap-1">
+        <Button
+          variant="default"
+          size="sm"
+          onClick={(e) => {
+            e.stopPropagation()
+            router.push(`/order/${order.documentId}`)
+          }}
+        >
+          Pay
+        </Button>
+        <OrderDeleteModal
+          open={openDeleteModal}
+          onOpenChange={setOpenDeleteModal}
+          orderId={order.documentId}
+        />
+      </div>
     )
   }
 

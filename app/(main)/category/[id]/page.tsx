@@ -1,29 +1,32 @@
-'use client'
 
-import React from 'react'
-
-import CategoryImage from '@/public/assets/categories/shirt.webp'
-import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
+import { CategoryService, ProductFilter, ProductPagination, ProductSort } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { ArrowDownUp } from 'lucide-react'
 import { ProductGrid } from '@/src/entities/Product'
-import { useParams } from 'next/navigation'
+import { Suspense } from 'react'
 
-const Category = () => {
-  const params = useParams() as { id: string }
+const getCategory = async (id: string) => {
+  const category = await CategoryService.getCategory(id)
+  return category?.data
+}
+
+export default async function Category({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const category = await getCategory(id)
+
   return (
     <>
       <div
-        className="relative mt-24 md:mt-36 flex h-[390px] w-full flex-col justify-end"
+        className="relative mt-24 md:mt-36 flex h-[390px] w-full flex-col justify-end saturate-0"
         style={{
-          backgroundImage: `url(${CategoryImage.src})`,
+          backgroundImage: `url(${category?.image?.url || ''})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center',
+          backgroundPosition: '100% 40%',
         }}
       >
         <div className="container">
-          <Typography variant="text_pageTitle">Shirt (21)</Typography>
+          <Typography variant="text_pageTitle" className="text-white">{category?.name} ({category?.count || 0})</Typography>
         </div>
       </div>
       <div className="container my-12 flex justify-between md:my-26">
@@ -43,11 +46,11 @@ const Category = () => {
         </div>
       </div>
       <div className="container mt-8 mb-24">
-        <ProductGrid categoryId={params.id} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductGrid categoryId={category?.documentId} />
+        </Suspense>
         <ProductPagination />
       </div>
     </>
   )
 }
-
-export default Category

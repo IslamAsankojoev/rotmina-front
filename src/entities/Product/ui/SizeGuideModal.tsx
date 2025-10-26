@@ -3,7 +3,6 @@
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTrigger,
 } from '@/shadcn/components/ui/dialog'
@@ -22,8 +21,7 @@ export const SizeGuideModal = () => {
       <DialogContent className="rounded-none">
         <DialogHeader>
           <div className="h-[600px] w-full overflow-y-scroll">
-            <DialogDescription>
-              <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 text-black text-left">
                 <Typography variant="text_main" className='font-bold'>How to Measure?</Typography>
                 <br />
                 <Typography variant="text_main" className='font-bold'>Bust</Typography>
@@ -101,8 +99,7 @@ export const SizeGuideModal = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-            </DialogDescription>
+            </div>
           </div>
         </DialogHeader>
       </DialogContent>

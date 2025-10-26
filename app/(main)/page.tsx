@@ -1,5 +1,3 @@
-'use client'
-
 import NatureImage from '@/public/assets/nature.webp'
 import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.webp'
 import SlideImage2 from '@/public/assets/products/773b68776a32f6687e77b6124a9960ad5d456cda.webp'
@@ -13,6 +11,7 @@ import { Categories, Collections } from '@/src/features'
 import { Typography } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
@@ -172,11 +171,15 @@ export default function Home() {
       <div className="container mt-24 flex flex-col gap-8">
         <Typography variant="text_title" className='italic'>Categories</Typography>
       </div>
-      <Categories />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Categories />
+      </Suspense>
       <div className="container mt-24 flex flex-col gap-8">
         <Typography variant="text_title" className='italic'>Collections</Typography>
       </div>
-      <Collections />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Collections />
+      </Suspense>
     </section>
   )
 }

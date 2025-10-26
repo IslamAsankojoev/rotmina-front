@@ -11,6 +11,8 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/shadcn/components/ui/radio-group'
 import { Typography, useProducts } from '@/src/shared'
 import clsx from 'clsx'
+import { Button } from '@/shadcn/components/ui/button'
+import { X } from 'lucide-react'
 
 interface ProductSortProps {
   fields?: string[]
@@ -34,7 +36,7 @@ export function ProductSort({
           {currentSort}
         </Typography>
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent align="end" className="w-60 md:w-80">
         <div className="flex flex-col gap-4">
           <RadioGroup
             defaultValue={currentSort}
@@ -57,6 +59,9 @@ export function ProductSort({
             ))}
           </RadioGroup>
         </div>
+        <Button variant="link" size="icon" onClick={() => setOpen(false)} className='absolute top-2 right-2'>
+          <X strokeWidth={2} size={20} />
+        </Button>
       </PopoverContent>
     </Popover>
   )

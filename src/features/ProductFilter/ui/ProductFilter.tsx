@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 
-// import { Button } from '@/shadcn/components/ui/button'
 import {
   Popover,
   PopoverContent,
@@ -19,7 +18,8 @@ import {
   useScreenSize,
 } from '@/src/shared'
 import clsx from 'clsx'
-import { SlidersHorizontal } from 'lucide-react'
+import { SlidersHorizontal, X } from 'lucide-react'
+import { Button } from '@/shadcn/components/ui/button'
 
 interface ProductFilterProps {
   colors?: string[]
@@ -35,7 +35,6 @@ export function ProductFilter({
   const { colors, sizes, isLoading } = useColorsAndSizes()
   const { selectedColors, selectedSizes, updateFilters } = useProducts()
 
-  // Use data from API or default values
   const availableColors =
     colors.length > 0
       ? colors
@@ -52,15 +51,6 @@ export function ProductFilter({
   const handleSizeChange = (value: string[]) => {
     updateFilters({ sizes: value })
   }
-
-  // const handleApply = () => {
-  //   setOpen(false)
-  // }
-
-  // const handleReset = () => {
-  //   resetFilters()
-  //   setOpen(false)
-  // }
 
   if (isLoading) {
     return (
@@ -79,7 +69,7 @@ export function ProductFilter({
           <SlidersHorizontal strokeWidth={0.75} />
         )}
       </PopoverTrigger>
-      <PopoverContent className="w-80">
+      <PopoverContent align="center" className="w-60 md:w-80">
         <div className="flex flex-col gap-4">
           <Typography variant="text_main" className="uppercase">
             Colour
@@ -139,19 +129,10 @@ export function ProductFilter({
               ))}
             </ToggleGroup>
           </div>
-          {/* <div className="flex gap-2">
-            <Button variant="link" onClick={handleApply}>
-              <Typography variant="text_main" className="uppercase">
-                Apply
-              </Typography>
-            </Button>
-            <Button variant="link" onClick={handleReset}>
-              <Typography variant="text_main" className="uppercase">
-                Reset
-              </Typography>
-            </Button>
-          </div> */}
         </div>
+        <Button variant="link" size="icon" onClick={() => setOpen(false)} className='absolute top-2 right-2'>
+          <X strokeWidth={2} size={20} />
+        </Button>
       </PopoverContent>
     </Popover>
   )

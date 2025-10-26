@@ -39,7 +39,7 @@ export const MiniCart = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex h-[690px] w-[540px] max-w-full flex-col justify-between gap-4 overflow-hidden p-8"
+        className="flex max-h-[690px] w-screen max-w-full flex-col justify-between gap-4 overflow-hidden p-4 md:w-[540px] md:p-8"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -54,7 +54,7 @@ export const MiniCart = () => {
               color="black"
             />
           </div>
-          <ScrollArea className="h-[400px] w-full">
+          <ScrollArea className="h-[300px] w-full md:h-[400px]">
             <div className="flex flex-col overflow-hidden">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8">
