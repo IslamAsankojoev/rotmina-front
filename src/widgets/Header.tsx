@@ -73,7 +73,7 @@ const rightMenu = [
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const { md } = useScreenSize()
+  const { xl } = useScreenSize()
   const router = useRouter()
 
   useLayoutEffect(() => {
@@ -99,14 +99,13 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`,
-        md ? 'sticky' : 'fixed'
+        `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'} fixed`,
       )}
     >
       <div className="container">
-        <div className="flex items-center justify-between pt-1 md:py-4">
+        <div className="flex items-center justify-between pt-1 lg:py-4">
           <div className="h-12 w-12 md:hidden" />
-          <nav className="hidden gap-6 md:flex">
+          <nav className="hidden gap-6 xl:flex">
             {leftMenu.map((item) => (
               <button
                 key={item.title}
@@ -121,17 +120,17 @@ export const Header = () => {
             <div
               className={clsx(
                 'relative transition-all',
-                md ? (!scrolled ? 'h-28 w-74' : 'h-16 w-40') : 'h-16 w-40',
+                xl ? (!scrolled ? 'h-28 w-74' : 'h-16 w-40') : 'h-16 w-40',
               )}
             >
               <Image src={Logo} alt="logo" fill />
             </div>
           </Link>
-          <div className="hidden items-center justify-between md:flex">
+          <div className="hidden items-center justify-between xl:flex">
             <div className="flex items-center gap-6">
-              <div className="text-lg font-medium">
+              <button onClick={() => handleNavigation('/eco')} className="text-lg font-medium cursor-pointer">
                 <Image src={Leaf} width={24} height={24} alt="leaf" />
-              </div>
+              </button>
               <button 
                 onClick={() => handleNavigation('/account')} 
                 className="text-lg font-medium uppercase hover:underline cursor-pointer"
@@ -149,7 +148,7 @@ export const Header = () => {
               <CurrancySwitcher />
             </div>
           </div>
-          <div className="flex items-center gap-4 md:hidden">
+          <div className="flex items-center gap-4 xl:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Menu size={48} strokeWidth={0.75} className="cursor-pointer" />
@@ -158,9 +157,9 @@ export const Header = () => {
                 <div className="flex h-full flex-col justify-between">
                   <div className="flex flex-col">
                     <div className="mt-2 mb-6 flex items-center gap-10">
-                      <div className="text-lg font-medium">
+                      <button onClick={() => handleNavigation('/eco')} className="text-lg font-medium cursor-pointer">
                         <Image src={Leaf} width={35} height={35} alt="leaf" />
-                      </div>
+                      </button>
                       <button onClick={() => handleNavigation('/account')}>
                         <User size={35} strokeWidth={0.75} className="cursor-pointer" />
                       </button>

@@ -69,7 +69,7 @@ export const Footer = () => {
           </div>
           <div className="flex gap-4">
             <Input placeholder="Email" className="text-white" />
-            <Button variant="minimal">SEND</Button>
+            <Button variant="minimal" size='lg'>SEND</Button>
           </div>
         </div>
         <div className="flex w-full flex-col gap-10 md:w-fit">
@@ -104,20 +104,21 @@ export const Footer = () => {
           </div>
           <div className="flex justify-between gap-6">
             <div>
-              <Instagram strokeWidth={0.75} size={md ? 35 : 24} color="white" />
+              <Instagram strokeWidth={1.3} size={md ? 35 : 24} color="white" />
             </div>
             <div>
               <Smartphone
-                strokeWidth={0.75}
+                strokeWidth={1.3}
                 size={md ? 35 : 24}
                 color="white"
+                className='rotate-12'
               />
             </div>
             <div>
-              <Facebook strokeWidth={0.75} size={md ? 35 : 24} color="white" />
+              <Facebook strokeWidth={1.3} size={md ? 35 : 24} color="white" />
             </div>
             <div>
-              <Mail strokeWidth={0.75} size={md ? 35 : 24} color="white" />
+              <Mail strokeWidth={1.3} size={md ? 35 : 24} color="white" />
             </div>
           </div>
         </div>

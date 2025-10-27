@@ -8,7 +8,7 @@ import { ProductGrid } from '@/src/entities/Product'
 const Shop = () => {
   return (
     <>
-      <div className="container my-12 flex justify-between md:my-26 pt-24 md:pt-36">
+      <div className="container my-10 flex justify-between md:my-20 pt-10 md:pt-20">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },

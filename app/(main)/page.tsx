@@ -102,13 +102,13 @@ export default function Home() {
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
-      <div className="relative my-10 flex h-[400px] w-full items-center justify-center md:my-24 md:h-[620px]">
+      <div className="relative my-10 flex h-[264px] w-full items-center justify-center md:my-24 md:h-[519px]">
         <Image
           src={NatureImage}
           fill
           alt="nature"
           objectFit="cover"
-          objectPosition="center"
+          objectPosition="40% 0%"
         />
       </div>
       <div className="relative mb-20 flex w-full items-center justify-center">
