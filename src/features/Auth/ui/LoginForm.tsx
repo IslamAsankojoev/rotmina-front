@@ -50,7 +50,7 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder="EMAIL" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -62,7 +62,7 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="PASSWORD" {...field} />
+                    <Input placeholder="PASSWORD" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

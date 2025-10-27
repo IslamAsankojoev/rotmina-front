@@ -57,7 +57,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="NAME" {...field} />
+                    <Input placeholder="NAME" type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -69,7 +69,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="SURNAME" {...field} />
+                    <Input placeholder="SURNAME" type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,7 +81,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder="EMAIL" type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,7 +93,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="PASSWORD" {...field} />
+                    <Input placeholder="PASSWORD" type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
