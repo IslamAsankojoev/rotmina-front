@@ -42,6 +42,7 @@ export const ProductService = {
       searchParams.append('populate', 'variants.color')
       searchParams.append('populate', 'variants.size')
       searchParams.append('populate', 'variants.images')
+      searchParams.append('populate', 'users')
     }
 
     const url = `${apiMap.getProducts}?${searchParams.toString()}`

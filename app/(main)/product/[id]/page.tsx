@@ -23,11 +23,17 @@ import {
 } from '@/shadcn/components/ui/toggle-group'
 import { useAddToCart, useCartActions } from '@/src/app/store'
 import { ProductService, SizeGuideModal } from '@/src/entities/Product'
-import { ProductVariant, Size } from '@/src/entities/Product/model/types'
+import {
+  Product as ProductType,
+  ProductVariant,
+  Size,
+} from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
+import { AuthService } from '@/src/features/Auth/model/api'
 import { Typography, useLangCurrancy } from '@/src/shared'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
+import { HeartIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -43,7 +49,7 @@ const Product = () => {
   const { addProductToCart } = useAddToCart()
   const { openCart } = useCartActions()
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product', id],
     queryFn: () => ProductService.getProduct(id),
   })
@@ -184,6 +190,32 @@ const Product = () => {
     openCart()
   }
 
+  const { mutate: addToWishlistProducts } = useMutation({
+    mutationFn: AuthService.addToWishlistProducts,
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
+  const { mutate: deleteWishlistProducts } = useMutation({
+    mutationFn: AuthService.deleteWishlistProducts,
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
+  const handleClickWishlist = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    product: ProductType,
+  ) => {
+    e.stopPropagation()
+    if (product.inWishlist) {
+      deleteWishlistProducts({ productId: product.documentId })
+    } else {
+      addToWishlistProducts({ productId: product.documentId })
+    }
+  }
+
   if (isLoading) return <div>Loading...</div>
   if (error) return <div>Error: {error.message}</div>
 
@@ -210,7 +242,19 @@ const Product = () => {
               />
             </div>
           </div>
-          <div className="flex-1 md:p-8">
+          <div className="relative flex-1 md:p-8">
+            <button
+              className="absolute top-2 right-0 p-0 h-10 w-10 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleClickWishlist(e, data?.data as ProductType)
+              }}
+            >
+              <HeartIcon
+                size={25}
+                fill={data?.data?.inWishlist ? 'currentColor' : 'none'}
+              />
+            </button>
             <Typography variant="text_pageTitle" tag="h1">
               {data?.data?.title}
             </Typography>

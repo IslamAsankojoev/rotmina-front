@@ -72,6 +72,7 @@ export interface Product {
   createdAt: string
   updatedAt: string
   publishedAt: string
+  inWishlist: boolean
 }
 
 // Types for API responses

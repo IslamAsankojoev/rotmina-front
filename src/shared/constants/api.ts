@@ -1,4 +1,9 @@
 export const apiMap = {
+  // Wishlist
+  addToWishlistProducts: 'products/add-to-wishlist',
+  getWishlistProducts: 'products/get-wishlist-products',
+  deleteWishlistProducts: 'products/remove-from-wishlist',
+
   // Auth
   postLogin: 'auth/local',
   postSignup: 'auth/local/register',

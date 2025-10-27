@@ -41,6 +41,7 @@ interface UseProductsReturn {
   // Методы для сброса
   resetFilters: () => void
   resetAll: () => void
+  refetchProducts: () => void
 }
 
 export const useProducts = (categoryId?: string): UseProductsReturn => {
@@ -96,7 +97,7 @@ export const useProducts = (categoryId?: string): UseProductsReturn => {
   }, [router, params])
 
   // Запрос данных
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['products', urlPage, urlPageSize, urlSearch, urlColors, urlSizes, urlSort, categoryId],
     queryFn: () => ProductService.getProducts({
       page: urlPage ? parseInt(urlPage) : 1,
@@ -197,5 +198,6 @@ export const useProducts = (categoryId?: string): UseProductsReturn => {
     // Методы для сброса
     resetFilters,
     resetAll,
+    refetchProducts: refetch,
   }
 }
