@@ -1,0 +1,357 @@
+/* === WCAG Accessibility Panel === */
+
+#a11y-toolbar {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 8px 10px;
+  border-radius: 12px;
+  z-index: 9999;
+  backdrop-filter: blur(6px);
+}
+
+#a11y-toolbar button {
+  font: inherit;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: #fff;
+  color: #111;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#a11y-toolbar button:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+#a11y-toolbar button[aria-pressed="true"] {
+  outline: 2px solid #0ea5e9;
+}
+
+body.a11y--text-lg { font-size: 18px; }
+body.a11y--text-xl { font-size: 20px; }
+body.a11y--text-2xl { font-size: 22px; }
+
+body.a11y--high-contrast {
+  color: #000 !important;
+  background: #fff !important;
+  filter: none !important;
+}
+
+body.a11y--underline-links a {
+  text-decoration: underline !important;
+}
+
+html.a11y--grayscale,
+body.a11y--grayscale {
+  filter: grayscale(100%);
+}
+
+body.a11y--hide-images img {
+  visibility: hidden !important;
+}
+
+body.a11y--dyslexic {
+  font-family: "OpenDyslexic", Arial, sans-serif !important;
+}
+
+
+/* === КНОПКА-ЛАУНЧЕР === */
+.a11y-launcher {
+  position: fixed;
+  right: 20px;
+  bottom: 30px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  background: #00000035;
+  border: 1px solid #000;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.a11y-launcher:hover {
+  transform: scale(1.05);
+}
+
+.a11y-launcher:focus-visible {
+  outline: 3px solid #93b4ff;
+  outline-offset: 3px;
+}
+
+.a11y-launcher-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  /* background: white; */
+  position: relative;
+}
+/* .a11y-launcher-dot::after {
+  content: "♿";
+  font-size: 18px;
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  color: #000;
+} */
+
+/* === ЗАТЕМНЕНИЕ ФОНА === */
+.a11y-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  z-index: 9998;
+}
+.a11y-backdrop.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === БОКОВАЯ ПАНЕЛЬ === */
+.a11y-panel {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 360px;
+  height: 100%;
+  background: #f7f9fc;
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.25);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  transition: right 0.3s ease;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.a11y-panel.open {
+  right: 0;
+}
+
+.a11y-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.a11y-panel__hint {
+  font-weight: 400;
+  color: #6b7280;
+  margin-left: 4px;
+  font-size: 13px;
+}
+
+.a11y-close {
+  background: transparent;
+  border: none;
+  font-size: 28px;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.a11y-close:hover {
+  transform: rotate(90deg);
+}
+
+/* === ВСТАВКА СОВЕТА === */
+.a11y-tip {
+  margin: 12px 16px;
+  color: #374151;
+  background: #e6efff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+/* === СЕТКА КНОПОК === */
+.a11y-grid {
+  padding: 8px 16px 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.a11y-tile {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.08s ease, box-shadow 0.15s ease, background 0.2s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+.a11y-tile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+.a11y-tile:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}
+.a11y-tile span {
+  font-size: 14px;
+  color: #111827;
+}
+.a11y-tile svg {
+  color: #000;
+  flex-shrink: 0;
+}
+.a11y-tile.pressed {
+  outline: 2px solid #000;
+  background: #eef4ff;
+}
+
+/* === КНОПКА СБРОСА === */
+.a11y-reset {
+  margin: 10px 16px 20px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #000;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  box-shadow: 0 6px 16px rgba(10, 102, 255, 0.25);
+  transition: background 0.25s ease;
+}
+.a11y-reset:hover {
+  background: #0058e6;
+}
+
+/* === ФУТЕР === */
+.a11y-panel__footer {
+  margin-top: auto;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: #6b7280;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+.a11y-brand {
+  font-weight: 600;
+}
+
+/* === ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ === */
+body.a11y--cursor-big {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><polygon points="0,0 28,14 14,18 10,32" fill="black"/></svg>')
+      0 0,
+    auto;
+}
+body.a11y--pause-anim * {
+  animation: none !important;
+  transition: none !important;
+}
+body.a11y--lineheight {
+  line-height: 1.9 !important;
+}
+body.a11y--textalign {
+  text-align: justify !important;
+}
+body.a11y--saturation {
+  filter: saturate(60%) !important;
+}
+
+/* === КОНТРАСТНЫЙ РЕЖИМ === */
+body.a11y--high-contrast {
+  background: #000 !important;
+  color: #fff !important;
+}
+body.a11y--high-contrast a {
+  color: #00bfff !important;
+}
+body.a11y--high-contrast img {
+  opacity: 0.8;
+}
+
+/* === ГРЕЙСКЕЙЛ === */
+html.a11y--grayscale {
+  filter: grayscale(1) !important;
+}
+
+/* === СКРЫТИЕ ИЗОБРАЖЕНИЙ === */
+body.a11y--hide-images img {
+  display: none !important;
+}
+
+/* === ДИСЛЕКСИЧЕСКИЙ ШРИФТ === */
+body.a11y--dyslexic {
+  font-family: "OpenDyslexic", Arial, sans-serif !important;
+}
+
+/* === УВЕЛИЧЕННЫЙ ТЕКСТ === */
+body.a11y--text-lg {
+  font-size: 1.15em !important;
+}
+body.a11y--text-xl {
+  font-size: 1.3em !important;
+}
+body.a11y--text-2xl {
+  font-size: 1.5em !important;
+}
+
+/* === SKIP LINK === */
+.a11y-skip-link {
+  position: absolute;
+  top: -1000px;
+  left: 0;
+  padding: 8px 12px;
+  background: #000;
+  color: #fff;
+  z-index: 1000;
+}
+.a11y-skip-link:focus {
+  top: 12px;
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 480px) {
+  .a11y-panel {
+    width: 100%;
+  }
+  .a11y-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .a11y-tip {
+    font-size: 13px;
+  }
+  .a11y-reset {
+    font-size: 14px;
+  }
+}
+
+
+body.a11y--dark {
+  background: #111 !important;
+  color: #f5f5f5 !important;
+}
+body.a11y--dark a {
+  color: #6ea8ff !important;
+}

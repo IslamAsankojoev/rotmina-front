@@ -1,7 +1,7 @@
+import { Toaster } from '@/shadcn/components/ui/sonner'
+import { A11yProvider } from '@/src/accessibility'
 import type { Metadata } from 'next'
 import { Arima } from 'next/font/google'
-import { Toaster } from "@/shadcn/components/ui/sonner"
-
 import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
@@ -28,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${arima.className} antialiased`}>
-        {children}
+        <A11yProvider>
+          <main id="main">{children}</main>
+        </A11yProvider>
         <Toaster />
       </body>
     </html>
