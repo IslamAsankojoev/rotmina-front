@@ -16,7 +16,7 @@ export const langCurrancyStore = create<LangCurrancyStore>()(
   persist(
     (set) => ({
       lang: Code.EN,
-      currency: Currency.USD,
+      currency: Currency.ILS,
       exchangeRates: [],
       setLang: (lang) => set({ lang }),
       setCurrency: (currency) => set({ currency }),
