@@ -24,7 +24,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 import { MiniCart } from '../features'
 
@@ -75,6 +75,7 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { xl } = useScreenSize()
   const router = useRouter()
+  const pathname = usePathname()
 
   useLayoutEffect(() => {
     const windowScroll = window.scrollY
@@ -99,7 +100,8 @@ export const Header = () => {
   return (
     <header
       className={clsx(
-        `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'} fixed`,
+        `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`,
+        pathname === '/' ? 'fixed' : 'sticky',
       )}
     >
       <div className="container">

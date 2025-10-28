@@ -1,14 +1,19 @@
 'use client'
 
+import { useState } from 'react'
+
 import { Button } from '@/shadcn/components/ui/button'
+import { useAddToCart, useCartActions } from '@/src/app/store'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Typography, useLangCurrancy } from '@/src/shared'
+import { Typography, useLangCurrancy, useScreenSize } from '@/src/shared'
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { HeartIcon } from 'lucide-react'
+import { HeartIcon, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Product } from '../model'
+
+import { Product, ProductVariant } from '../model'
+import { VariantSelectionModal } from './VariantSelectionModal'
 
 interface ProductCardProps {
   product: Product
@@ -16,10 +21,18 @@ interface ProductCardProps {
   refetchProducts: () => void
 }
 
-export const ProductCard = ({ product, index, refetchProducts }: ProductCardProps) => {
-
+export const ProductCard = ({
+  product,
+  index,
+  refetchProducts,
+}: ProductCardProps) => {
+  const [isHovered, setIsHovered] = useState(false)
+  const [showVariantModal, setShowVariantModal] = useState(false)
+  const { md } = useScreenSize()
   const { getPrice, currency } = useLangCurrancy()
   const router = useRouter()
+  const { addProductToCart } = useAddToCart()
+  const { openCart } = useCartActions()
   const { mutate: addToWishlistProducts } = useMutation({
     mutationFn: AuthService.addToWishlistProducts,
     onSuccess: () => {
@@ -46,59 +59,123 @@ export const ProductCard = ({ product, index, refetchProducts }: ProductCardProp
     }
   }
 
-  const handleClickProduct = (productId: string) => {
+  const handleClickProduct = (productId: string, e: React.MouseEvent) => {
+    // Don't navigate if clicking on the add button
+    const target = e.target as HTMLElement
+    if (target.closest('.add-to-cart-btn')) {
+      return
+    }
     router.push(`/product/${productId}`)
   }
 
+  const handleAddToCartClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setShowVariantModal(true)
+  }
+
+  const handleAddToCart = (variant: ProductVariant) => {
+    addProductToCart(variant, product.title, product.slug, 1)
+    openCart()
+  }
+
+  // Get current image based on hover state and variant
+  const getCurrentImage = () => {
+    const defaultVariantIndex = 0
+    const hoverVariantIndex =
+      isHovered && product.variants.length > 1 ? 1 : defaultVariantIndex
+
+    // Priority: variant images -> product gallery -> first variant image -> placeholder
+    if (product.variants[hoverVariantIndex]?.images?.[0]?.url) {
+      return product.variants[hoverVariantIndex].images[0].url
+    }
+    if (product.gallery?.[0]?.url) {
+      return product.gallery[0].url
+    }
+    if (product.variants[0]?.images?.[0]?.url) {
+      return product.variants[0].images[0].url
+    }
+    return ''
+  }
+
+  // Get current price
+  const currentPrice = product.variants[0]?.price || 0
+
   return (
-    <div
-      onClick={() => handleClickProduct(product.documentId)}
-      key={product.documentId}
-      className={clsx(
-        'cols-span-6 relative col-span-6 flex w-full flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
-        index === 4
-          ? 'col-span-12 min-h-[544px] md:col-span-6 md:row-span-2'
-          : '',
-        index === 9 ? 'md:col-span-4' : '',
-        index === 10 ? 'md:col-span-4' : '',
-        index === 11 ? 'md:col-span-4' : '',
-      )}
-    >
-      <div className="relative h-[300px] w-full md:h-full md:min-h-[544px]">
-        <Image
-          src={product?.variants[0]?.images?.[0]?.url || product.gallery[0]?.url}
-          alt={product?.title}
-          objectFit="cover"
-          fill
-        />
-      </div>
-      <div className="bottom-4 flex w-full justify-between gap-2 px-2">
-        <div className="hidden w-full flex-col justify-between gap-2 md:flex">
-          <Typography variant="text_main">{product?.title}</Typography>
-          <Typography variant="text_main">
-            {getPrice(Number(product?.variants[0]?.price.toFixed(2)))}{' '}
-            {currency}
-          </Typography>
-        </div>
-        <div className="flex w-full justify-between gap-2 md:hidden">
-          <Typography variant="text_mini_footer">{product?.title}</Typography>
-          <Typography variant="text_mini_footer">
-            {getPrice(Number(product?.variants[0]?.price.toFixed(2)))}{' '}
-            {currency}
-          </Typography>
-        </div>
-      </div>
-      <Button
-        variant="link"
-        size="icon"
-        className="absolute top-0 right-0"
-        onClick={(e) => handleClickWishlist(e, product)}
+    <>
+      <div
+        onClick={(e) => handleClickProduct(product.documentId, e)}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        key={product.documentId}
+        className={clsx(
+          'group cols-span-6 relative cursor-pointer col-span-6 flex w-full flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
+          index === 4
+            ? 'col-span-12 min-h-[544px] md:col-span-6 md:row-span-2'
+            : '',
+          index === 9 ? 'md:col-span-4' : '',
+          index === 10 ? 'md:col-span-4' : '',
+          index === 11 ? 'md:col-span-4' : '',
+        )}
       >
-        <HeartIcon
-          size={32}
-          fill={product.inWishlist ? 'currentColor' : 'none'}
-        />
-      </Button>
-    </div>
+        <div className="relative h-[300px] w-full overflow-hidden md:h-full md:min-h-[544px]">
+          <Image
+            src={getCurrentImage()}
+            alt={product?.title}
+            objectFit="cover"
+            fill
+            className="transition-all duration-300"
+          />
+        </div>
+
+        {/* Add to cart button - appears on hover */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="add-to-cart-btn absolute bottom-10 left-1/2 h-8 w-8 -translate-x-1/2 rounded-full bg-white text-black opacity-0 shadow-lg transition-all duration-300 group-hover:opacity-100 hover:bg-white hover:opacity-100 md:bottom-12"
+          onClick={handleAddToCartClick}
+        >
+          <Typography className="text-3xl font-light">
+            <Plus size={20} />
+          </Typography>
+        </Button>
+
+        {/* Product info */}
+        <div className="flex w-full justify-between gap-2 px-2">
+          <div className="hidden w-full justify-between gap-2 md:flex">
+            <Typography variant="text_main">{product?.title}</Typography>
+            <Typography variant="text_main">
+              {getPrice(Number(currentPrice.toFixed(2)))} {currency}
+            </Typography>
+          </div>
+          <div className="flex w-full justify-between gap-2 md:hidden">
+            <Typography variant="text_mini_footer">{product?.title}</Typography>
+            <Typography variant="text_mini_footer">
+              {getPrice(Number(currentPrice.toFixed(2)))} {currency}
+            </Typography>
+          </div>
+        </div>
+
+        {/* Wishlist button */}
+        <Button
+          variant="link"
+          size="icon"
+          className="absolute top-0 right-0"
+          onClick={(e) => handleClickWishlist(e, product)}
+        >
+          <HeartIcon
+            size={md ? 40 : 32}
+            fill={product.inWishlist ? 'currentColor' : 'none'}
+          />
+        </Button>
+      </div>
+
+      {/* Variant Selection Modal */}
+      <VariantSelectionModal
+        product={product}
+        open={showVariantModal}
+        onOpenChange={setShowVariantModal}
+        onAddToCart={handleAddToCart}
+      />
+    </>
   )
 }

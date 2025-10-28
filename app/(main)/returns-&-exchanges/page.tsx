@@ -10,7 +10,7 @@ import Image from 'next/image'
 const ReturnsAndExchanges = () => {
   return (
     <>
-      <div className="relative container mt-20 flex w-full flex-col justify-end md:mt-20" />
+      <div className="relative container flex w-full flex-col justify-end" />
       <div className="max-w-[1334px] md:container mb-20 md:my-20">
         <div className="flex flex-col md:flex-row">
           <div className="flex-3 bg-[#EFEFEF] p-4 md:p-14">

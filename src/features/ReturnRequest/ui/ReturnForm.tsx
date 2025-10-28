@@ -155,7 +155,7 @@ export const ReturnForm = () => {
                             value={option.value}
                             id={option.value}
                           />
-                          <Label htmlFor={option.value}>
+                          <Label htmlFor={option.value} className='cursor-pointer'>
                             <Typography
                               variant="text_main"
                               className="uppercase"
@@ -171,8 +171,8 @@ export const ReturnForm = () => {
               )}
             />
           </div>
-          <Button type="submit" variant="outline-minimal">
-            Submit
+          <Button type="submit" variant="outline-minimal" size='lg' className='uppercase'>
+            Return or Exchange
           </Button>
         </form>
       </Form>

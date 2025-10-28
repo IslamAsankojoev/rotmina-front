@@ -8,7 +8,7 @@ import Image from 'next/image'
 const GiftCard = () => {
   return (
     <>
-      <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36">
+      <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
@@ -20,7 +20,7 @@ const GiftCard = () => {
         <div className="flex flex-col gap-8 md:flex-row md:gap-12">
           <div className="min-h-full flex-1">
             <div className="flex max-w-[420px] flex-col">
-              <Typography variant="text_title" className="mb-4">
+              <Typography variant="text_title" className="mb-4 italic">
                 Gift card
               </Typography>
               <Typography variant="text_main" className="my-4">

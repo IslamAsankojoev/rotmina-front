@@ -17,7 +17,7 @@ export default async function Category({ params }: { params: Promise<{ id: strin
   return (
     <>
       <div
-        className="relative mt-24 md:mt-36 flex h-[390px] w-full flex-col justify-end saturate-0"
+        className="relative flex h-[390px] w-full flex-col justify-end saturate-0"
         style={{
           backgroundImage: `url(${category?.image?.url || ''})`,
           backgroundSize: 'cover',
@@ -29,7 +29,7 @@ export default async function Category({ params }: { params: Promise<{ id: strin
           <Typography variant="text_pageTitle" className="text-white">{category?.name} ({category?.count || 0})</Typography>
         </div>
       </div>
-      <div className="container my-12 flex justify-between md:my-26">
+      <div className="container my-10 flex justify-between mt-16">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
@@ -45,7 +45,7 @@ export default async function Category({ params }: { params: Promise<{ id: strin
           </div>
         </div>
       </div>
-      <div className="container mt-8 mb-24">
+      <div className="container">
         <Suspense fallback={<div>Loading...</div>}>
           <ProductGrid categoryId={category?.documentId} />
         </Suspense>

@@ -30,7 +30,7 @@ import {
 } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Typography, useLangCurrancy } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
@@ -221,14 +221,17 @@ const Product = () => {
 
   return (
     <>
-      <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36">
-        {/* <Breadcrumbs
+      <div className="relative container mt-24 mb-10 flex w-full flex-col justify-end md:mt-36">
+        <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
             { title: 'SHIRT', href: '/category/shirt' },
-            { title: product.name, href: '/product/dress#1' },
+            {
+              title: data?.data?.title || 'Product',
+              href: `/product/${data?.data?.documentId}`,
+            },
           ]}
-        /> */}
+        />
       </div>
       <div className="container">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12">
@@ -244,7 +247,7 @@ const Product = () => {
           </div>
           <div className="relative flex-1 md:p-8">
             <button
-              className="absolute top-2 right-0 p-0 h-10 w-10 cursor-pointer"
+              className="absolute top-2 right-0 h-10 w-10 cursor-pointer p-0"
               onClick={(e) => {
                 e.stopPropagation()
                 handleClickWishlist(e, data?.data as ProductType)
@@ -369,11 +372,11 @@ const Product = () => {
             </Button>
             <Tabs defaultValue="description" className="my-10">
               <TabsList>
-                <TabsTrigger value="description" className="uppercase">
-                  Description
+                <TabsTrigger value="description" className="uppercase cursor-pointer">
+                  <Typography variant="text_main">Description</Typography>
                 </TabsTrigger>
-                <TabsTrigger value="shipping" className="uppercase">
-                  Shipping&Return
+                <TabsTrigger value="shipping" className="uppercase cursor-pointer">
+                  <Typography variant="text_main">Shipping&Return</Typography>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="description">

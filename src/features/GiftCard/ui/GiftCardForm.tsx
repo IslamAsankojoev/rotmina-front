@@ -24,7 +24,7 @@ export const GiftCardForm = () => {
       yourName: '',
       yourEmail: '',
       personalMessage: '',
-      amount: 0,
+      amount: '' as unknown as number,
     },
     resolver: zodResolver(giftCardValidationSchema),
   })
@@ -119,7 +119,13 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="AMOUNT" {...field} />
+                  <Input 
+                    placeholder="AMOUNT" 
+                    type='number' 
+                    {...field}
+                    value={field.value || ''}
+                    onChange={(e) => field.onChange(e.target.value === '' ? undefined : Number(e.target.value))}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -12,7 +12,7 @@ const Account = () => {
 
   return (
     <>
-      <div className="relative container mt-24 flex w-full flex-col justify-end md:mt-36">
+      <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },

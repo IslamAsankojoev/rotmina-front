@@ -2,7 +2,7 @@
 
 import { Button } from '@/shadcn/components/ui/button'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Typography, useLangCurrancy } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
@@ -38,12 +38,15 @@ export default function WishlistPage() {
   }
 
   return (
-    <div className="container py-20">
+    <div className="container my-10">
       <div className="text-center">
-        <Typography variant="text_title" className="mb-8">
-          Wishlist
-        </Typography>
-        <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
+        <Breadcrumbs
+          links={[
+            { title: 'HOME', href: '/' },
+            { title: 'WISHLIST', href: '/wishlist' },
+          ]}
+        />
+        <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 mt-10">
           {data?.data.map((product, index) => (
             <div
               onClick={() => handleClickProduct(product.documentId)}
@@ -67,7 +70,7 @@ export default function WishlistPage() {
                 />
               </div>
               <div className="bottom-4 flex w-full justify-between gap-2 px-2">
-                <div className="hidden w-full flex-col justify-between gap-2 md:flex">
+                <div className="hidden w-full justify-between gap-2 md:flex">
                   <Typography variant="text_main">{product?.title}</Typography>
                   <Typography variant="text_main">
                     {getPrice(Number(product?.variants[0]?.price.toFixed(2)))}{' '}

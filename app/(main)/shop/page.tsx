@@ -8,7 +8,7 @@ import { ProductGrid } from '@/src/entities/Product'
 const Shop = () => {
   return (
     <>
-      <div className="container my-10 flex justify-between md:my-20 pt-10 md:pt-20">
+      <div className="container flex justify-between pt-10">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
@@ -26,7 +26,7 @@ const Shop = () => {
           </div>
         </Suspense>
       </div>
-      <div className="container mt-8 mb-24">
+      <div className="container my-10">
         <Suspense fallback={<div>Loading products...</div>}>
           <ProductGrid />
         </Suspense>

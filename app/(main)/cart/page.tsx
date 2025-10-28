@@ -139,7 +139,7 @@ export default function CartPage() {
 
   return (
     <>
-      <div className="relative container mt-24 mb-10 flex w-full flex-col justify-end md:mt-36">
+      <div className="relative container my-10 flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
