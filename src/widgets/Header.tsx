@@ -50,29 +50,6 @@ const leftMenu = [
   },
 ]
 
-const rightMenu = [
-  {
-    title: 'About',
-    href: '/about',
-  },
-  {
-    title: 'Contact',
-    href: '/contact',
-  },
-  {
-    title: 'Eco',
-    href: '/eco',
-  },
-  {
-    title: 'Returns & Exchanges',
-    href: '/returns-&-exchanges',
-  },
-  {
-    title: 'International Shipping',
-    href: '/international-shipping',
-  },
-]
-
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)

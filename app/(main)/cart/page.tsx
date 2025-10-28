@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation'
 export default function CartPage() {
   const router = useRouter()
 
-  const { items, totalItems, totalPrice } = useCartInfo()
+  const { items, totalPrice } = useCartInfo()
   const { updateQuantity, removeItem } = useCartActions()
   const { getPrice, currency } = useLangCurrancy()
   const [shippingAddress, setShippingAddress] = useState<Address | null>(null)
