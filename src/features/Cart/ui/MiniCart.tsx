@@ -12,6 +12,7 @@ import { useCartActions, useCartInfo } from '@/src/app/store'
 import { Typography, useLangCurrancy } from '@/src/shared'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+
 import { CartItem } from './CartItem'
 
 export const MiniCart = () => {
@@ -39,12 +40,12 @@ export const MiniCart = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex max-h-[690px] w-screen max-w-full flex-col justify-between gap-4 overflow-hidden p-4 md:w-[540px] md:p-8"
+        className="flex h-[90%] w-screen max-w-full flex-col justify-between gap-4 overflow-hidden p-4 md:max-h-[771px] md:w-[567px] md:p-8"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <Typography variant="text_title">
-              Your cart ({totalItems})
+            <Typography variant="text_title" className="italic">
+              Your cart
             </Typography>
             <X
               strokeWidth={0.95}
@@ -54,7 +55,7 @@ export const MiniCart = () => {
               color="black"
             />
           </div>
-          <ScrollArea className="h-[300px] w-full md:h-[400px]">
+          <ScrollArea className="h-[600px] w-full pr-10 md:h-[400px]">
             <div className="flex flex-col overflow-hidden">
               {items.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-8">
@@ -79,9 +80,9 @@ export const MiniCart = () => {
 
           {/* Total */}
           {items.length > 0 && (
-            <div className="flex items-center justify-between border-t pt-4">
-              <Typography variant="text_title">Total:</Typography>
-              <Typography variant="text_title">
+            <div className="text-greyy flex items-center justify-between border-t pt-4">
+              <Typography variant="text_main">Subtotal:</Typography>
+              <Typography variant="text_main">
                 {getPrice(totalPrice)} {currency}
               </Typography>
             </div>
@@ -91,6 +92,7 @@ export const MiniCart = () => {
           variant="outline-minimal"
           className="uppercase"
           disabled={items.length === 0}
+          size="lg"
           onClick={() => {
             router.push('/cart')
             closeCart()

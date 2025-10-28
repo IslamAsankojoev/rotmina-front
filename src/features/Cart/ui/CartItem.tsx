@@ -19,12 +19,16 @@ interface CartItemProps {
   onRemoveItem: (itemId: string) => void
 }
 
-export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps) => {
+export const CartItem = ({
+  item,
+  onQuantityChange,
+  onRemoveItem,
+}: CartItemProps) => {
   const { getPrice, currency } = useLangCurrancy()
 
   // Component for displaying product
   const ProductItem = ({ item }: { item: ProductCartItem }) => (
-    <div className="flex items-center gap-4">
+    <div className="relative flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
         <Image
           src={item?.variant?.images?.[0]?.url || '/assets/products/shirt.webp'}
@@ -33,58 +37,83 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
           className="object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-2">
-        <Typography variant="text_main" className="font-medium">
-          {item?.productTitle}
-        </Typography>
-        <Typography variant="text_main" className="text-greyy text-sm">
-          {item?.variant?.color?.name} - {item?.variant?.size?.name}
-        </Typography>
-        <Typography variant="text_main" className="text-sm">
-          {getPrice(item?.variant?.price)} {currency} each
-        </Typography>
-
-        {/* Quantity management */}
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onQuantityChange(item?.id, item?.quantity - 1)}
-            className="h-8 w-8 p-0"
-          >
-            <Minus size={16} />
-          </Button>
-          <Typography variant="text_main" className="min-w-[20px] text-center">
-            {item?.quantity}
+      <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
+        <div className="flex flex-col gap-2">
+          <Typography variant="text_main" className="font-medium">
+            {item?.productTitle}
           </Typography>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onQuantityChange(item?.id, item?.quantity + 1)}
-            className="h-8 w-8 p-0"
+          <Typography
+            variant="text_main"
+            className="text-greyy text-sm uppercase"
           >
-            <Plus size={16} />
-          </Button>
+            Size:{' '}
+            <span className="text-black">{item?.variant?.size?.name}</span>
+          </Typography>
+          <Typography
+            variant="text_main"
+            className="text-greyy flex items-center gap-2 text-sm uppercase"
+          >
+            Color{' '}
+            <div
+              className="h-4 w-4 rounded-full"
+              style={{ backgroundColor: item?.variant?.color?.hex }}
+            ></div>
+          </Typography>
         </div>
 
-        <Typography variant="text_main" className="font-medium">
-          Total: {getPrice(item?.variant?.price * item?.quantity)} {currency}
-        </Typography>
+        {/* Quantity management */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Typography
+              variant="text_main"
+              className="text-greyy text-sm uppercase"
+            >
+              Amount:
+            </Typography>
+            <div className="flex items-center">
+              <Button
+                variant="link"
+                size="icon"
+                onClick={() => onQuantityChange(item?.id, item?.quantity - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Minus size={16} />
+              </Button>
+              <Typography
+                variant="text_main"
+                className="min-w-[20px] text-center"
+              >
+                {item?.quantity}
+              </Typography>
+              <Button
+                variant="link"
+                size="icon"
+                onClick={() => onQuantityChange(item?.id, item?.quantity + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Plus size={16} />
+              </Button>
+            </div>
+          </div>
+          <Typography variant="text_main" className="text-greyy font-medium">
+            {getPrice(item?.variant?.price * item?.quantity)} {currency}
+          </Typography>
+        </div>
       </div>
       <Button
-        variant="ghost"
+        variant="link"
         size="sm"
         onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy h-8 w-8 p-0 hover:text-black"
+        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
       >
-        <X size={16} />
+        Remove
       </Button>
     </div>
   )
 
   // Component for displaying gift card
   const GiftCardItem = ({ item }: { item: GiftCardCartItem }) => (
-    <div className="flex items-center gap-4">
+    <div className="relative flex items-center gap-2">
       <div className="relative h-[150px] w-[110px]">
         <Image
           src={GiftCardImage}
@@ -93,47 +122,76 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
           className="object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-2">
-        <Typography variant="text_main" className="font-medium">
-          Gift Card
-        </Typography>
-        <Typography variant="text_main" className="text-greyy text-sm">
-          Amount: {getPrice(item?.amount)} {currency}
-        </Typography>
-        {item?.recipientName && (
-          <Typography variant="text_main" className="text-sm">
-            To: {item?.recipientName}
+      <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
+        <div className="flex flex-col gap-2">
+          <Typography variant="text_main" className="font-medium">
+            Gift Card
           </Typography>
-        )}
-        {item?.recipientEmail && (
-          <Typography variant="text_main" className="text-greyy text-sm">
-            {item?.recipientEmail}
+          {item?.recipientEmail && (
+            <Typography variant="text_main" className="text-greyy">
+              Address:{' '}
+              <span className="text-black">{item?.recipientEmail}</span>
+            </Typography>
+          )}
+          {item?.recipientName && (
+            <Typography variant="text_main" className="text-greyy">
+              Name: <span className="text-black">{item?.recipientName}</span>
+            </Typography>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Typography
+              variant="text_main"
+              className="text-greyy text-sm uppercase"
+            >
+              Amount:
+            </Typography>
+            <div className="flex items-center">
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() => onQuantityChange(item?.id, item?.quantity - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Minus size={16} />
+              </Button>
+              <Typography
+                variant="text_main"
+                className="min-w-[20px] text-center"
+              >
+                {item?.quantity}
+              </Typography>
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() => onQuantityChange(item?.id, item?.quantity + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Plus size={16} />
+              </Button>
+            </div>
+          </div>
+          <Typography variant="text_main" className="text-greyy font-medium">
+            {getPrice(item?.price * item?.quantity)} {currency}
           </Typography>
-        )}
-        {item?.message && (
-          <Typography variant="text_main" className="text-greyy text-sm">
-            &ldquo;{item?.message}&rdquo;
-          </Typography>
-        )}
-        <Typography variant="text_main" className="font-medium">
-          Total: {getPrice(item?.amount)} {currency}
-        </Typography>
+        </div>
       </div>
       <Button
-        variant="ghost"
+        variant="link"
         size="sm"
         onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy h-8 w-8 p-0 hover:text-black"
+        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
       >
-        <X size={16} />
+        Remove
       </Button>
     </div>
   )
 
   // Component for displaying personal stylist
   const PersonalStylistItem = ({ item }: { item: PersonalStylistCartItem }) => (
-    <div className="flex items-center gap-4">
-      <div className="relative h-[150px] w-[110px]">
+    <div className="relative flex gap-4">
+      <div className="relative h-[150px] w-[110px] flex-shrink-0">
         <Image
           src={PersonalStylistImage}
           alt="Personal Stylist"
@@ -141,34 +199,63 @@ export const CartItem = ({ item, onQuantityChange, onRemoveItem }: CartItemProps
           className="object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-2">
-        <Typography variant="text_main" className="font-medium">
-          Personal Stylist
-        </Typography>
-        <Typography variant="text_main" className="text-greyy text-sm">
-          {item?.sessionType === 'virtual'
-            ? 'Virtual Session'
-            : 'In-Person Session'}
-        </Typography>
-        <Typography variant="text_main" className="text-sm">
-          Duration: {item?.duration} minutes
-        </Typography>
-        {item?.location && (
-          <Typography variant="text_main" className="text-greyy text-sm">
-            Location: {item?.location}
+      <div className="flex min-h-[150px] flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-2">
+          <Typography variant="text_main" className="font-medium">
+            Personal Stylist
           </Typography>
-        )}
-        <Typography variant="text_main" className="font-medium">
-          Total: {getPrice(item?.price)} {currency}
-        </Typography>
+          <Typography
+            variant="text_main"
+            className="text-greyy text-sm uppercase"
+          >
+            {item?.sessionType === 'virtual' ? 'ONLINE' : 'IN-PERSON'}
+          </Typography>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Typography
+              variant="text_main"
+              className="text-greyy text-sm uppercase"
+            >
+              Amount:
+            </Typography>
+            <div className="flex items-center">
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() => onQuantityChange(item?.id, item?.quantity - 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Minus size={16} />
+              </Button>
+              <Typography
+                variant="text_main"
+                className="min-w-[20px] text-center"
+              >
+                {item?.quantity}
+              </Typography>
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() => onQuantityChange(item?.id, item?.quantity + 1)}
+                className="h-8 w-8 p-0"
+              >
+                <Plus size={16} />
+              </Button>
+            </div>
+          </div>
+          <Typography variant="text_main" className="text-greyy font-medium">
+            {getPrice(item?.price * item?.quantity)} {currency}
+          </Typography>
+        </div>
       </div>
       <Button
-        variant="ghost"
+        variant="link"
         size="sm"
         onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy h-8 w-8 p-0 hover:text-black"
+        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
       >
-        <X size={16} />
+        Remove
       </Button>
     </div>
   )
