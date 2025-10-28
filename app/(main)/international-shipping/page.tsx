@@ -5,7 +5,6 @@ import { Typography } from '@/src/shared'
 const InternationalShipping = () => {
   return (
     <>
-      <div className="relative container my-10 flex w-full flex-col justify-end"></div>
       <div className="container mb-24 flex items-center justify-center">
         <div className="flex max-w-[800px] flex-col gap-4">
           <Typography variant="text_title" className="hidden md:block">International Shipping</Typography>

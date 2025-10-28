@@ -17,7 +17,7 @@ export const CurrancySwitcher = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Typography className="cursor-pointer uppercase" variant="text_main">
+        <Typography className="cursor-pointer uppercase min-w-6 w-6" variant="text_main">
           {currency}
         </Typography>
       </DropdownMenuTrigger>

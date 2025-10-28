@@ -18,7 +18,7 @@ export function LanguageSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Typography className="uppercase cursor-pointer" variant="text_main">
+        <Typography className="uppercase cursor-pointer min-w-6 w-6" variant="text_main">
           {lang}
         </Typography>
       </DropdownMenuTrigger>

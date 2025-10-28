@@ -19,10 +19,13 @@ import z from 'zod'
 import { SigninSchema } from '../model/validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/shadcn/components/ui/spinner'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/shadcn/components/ui/input-group'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
+import { useState } from 'react'
 
 export const SignupForm = () => {
   const { signup, loading } = useAuth()
-
+  const [showPassword, setShowPassword] = useState(false)
   const form = useForm<z.infer<typeof SigninSchema>>({
     defaultValues: {
       name: '',
@@ -93,7 +96,22 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="PASSWORD" type="password" {...field} />
+                  <InputGroup>
+                      <InputGroupInput
+                        placeholder="Enter password"
+                        type={showPassword ? 'text' : 'password'}
+                        {...field}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <Button
+                          type='button'
+                          variant="link"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

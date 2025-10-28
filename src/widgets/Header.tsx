@@ -29,6 +29,8 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { MiniCart } from '../features'
 
+const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
+
 const leftMenu = [
   {
     title: 'My Story',
@@ -295,7 +297,7 @@ export const Header = () => {
           </div>
         </div>
       </header>
-      {pathname !== '/' && <div className="h-8" />}
+      {!especiallyLinks.includes(pathname) && <div className="h-8" />}
     </>
   )
 }

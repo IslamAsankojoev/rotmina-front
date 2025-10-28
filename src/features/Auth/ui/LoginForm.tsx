@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+
 import GoogleImage from '@/public/assets/google.svg'
 import { Button } from '@/shadcn/components/ui/button'
 import {
@@ -10,17 +12,24 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from '@/shadcn/components/ui/input-group'
+import { Spinner } from '@/shadcn/components/ui/spinner'
 import { Typography, useAuth } from '@/src/shared'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { LoginSchema } from '../model/validation'
-import { Spinner } from '@/shadcn/components/ui/spinner'
 
 export const LoginForm = () => {
   const { login, loading } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
   const form = useForm<z.infer<typeof LoginSchema>>({
     defaultValues: {
       email: '',
@@ -62,21 +71,38 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="PASSWORD" type="password" {...field} />
+                    <InputGroup>
+                      <InputGroupInput
+                        placeholder="Enter password"
+                        type={showPassword ? 'text' : 'password'}
+                        {...field}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <Button
+                          type='button'
+                          variant="link"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Link
-              href="/reset-password"
-              className="text-right uppercase underline"
-            >
-              Forgot your password?
-            </Link>
+            <div className="flex justify-end">
+              <Link
+                href="/reset-password"
+                className="text-right uppercase"
+              >
+                Forgot your password?
+              </Link>
+            </div>
             <div className="flex flex-col items-center">
               <Typography variant="text_main" className="mb-2 uppercase">
-                Don not have an account?
+                Do not have an account?
               </Typography>
               <Link href="/signup" className="underline">
                 SIGN UP
