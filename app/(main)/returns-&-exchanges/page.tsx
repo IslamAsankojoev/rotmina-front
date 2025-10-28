@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 
 import ReturnsImage from '@/public/assets/returnsAndExchanges.webp'
@@ -10,11 +8,17 @@ import Image from 'next/image'
 const ReturnsAndExchanges = () => {
   return (
     <>
-      <div className="relative container flex w-full flex-col justify-end" />
-      <div className="max-w-[1334px] md:container mb-20 md:my-20">
+      <div className="relative container my-4 flex w-full flex-col justify-end" />
+      <div className="mb-20 max-w-[1334px] md:container md:my-20">
         <div className="flex flex-col md:flex-row">
           <div className="flex-3 bg-[#EFEFEF] p-4 md:p-14">
-            <Typography variant="text_title" className="mb-4">
+            <Typography variant="text_title" className="mb-4 hidden md:block">
+              Returns & Exchanges
+            </Typography>
+            <Typography
+              variant="text_mobile_title"
+              className="mb-4 block md:hidden"
+            >
               Returns & Exchanges
             </Typography>
             <ReturnForm />

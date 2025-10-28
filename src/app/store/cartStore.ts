@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { CartStore, ProductCartItem, GiftCardCartItem, PersonalStylistCartItem } from './cartTypes'
+import { CartStore, CartItem, ProductCartItem, GiftCardCartItem, PersonalStylistCartItem } from './cartTypes'
 import { ProductVariant } from '@/src/entities/Product/model/types'
 
 // Генерируем уникальный ID для элемента корзины
@@ -90,7 +90,7 @@ export const useCartStore = create<CartStore>()(
         }))
       },
 
-      // Обновление количества (только для товаров)
+      // Обновление количества (для всех типов товаров)
       updateQuantity: (itemId: string, quantity: number) => {
         if (quantity <= 0) {
           get().removeItem(itemId)
@@ -99,20 +99,25 @@ export const useCartStore = create<CartStore>()(
 
         set((state) => {
           const item = state.items.find(item => item.id === itemId)
-          if (!item || item.type !== 'product') return state
+          if (!item) return state
 
-          const productItem = item as ProductCartItem
-          const oldQuantity = productItem.quantity
+          const oldQuantity = item.quantity
           const quantityDiff = quantity - oldQuantity
+          const priceDiff = item.price * quantityDiff
+
+          let updatedItem: CartItem
+          if (item.type === 'product') {
+            updatedItem = { ...item, quantity } as ProductCartItem
+          } else if (item.type === 'giftcard') {
+            updatedItem = { ...item, quantity } as GiftCardCartItem
+          } else {
+            updatedItem = { ...item, quantity } as PersonalStylistCartItem
+          }
 
           return {
-            items: state.items.map(item =>
-              item.id === itemId
-                ? { ...item, quantity } as ProductCartItem
-                : item
-            ),
+            items: state.items.map(i => i.id === itemId ? updatedItem : i),
             totalItems: state.totalItems + quantityDiff,
-            totalPrice: Number(state.totalPrice) + Number(productItem.variant.price * quantityDiff),
+            totalPrice: Number(state.totalPrice) + Number(priceDiff),
           }
         })
       },

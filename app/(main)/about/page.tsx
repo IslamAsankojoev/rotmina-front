@@ -28,7 +28,10 @@ const About = () => {
             </div>
           </div>
           <div className="flex-1 md:p-8">
-            <Typography variant="text_title" className="mb-4">
+            <Typography variant="text_title" className="mb-4 hidden md:block">
+              My Story
+            </Typography>
+            <Typography variant="text_mobile_title" className="block md:hidden">
               My Story
             </Typography>
             <Typography variant="text_main" className="my-4">

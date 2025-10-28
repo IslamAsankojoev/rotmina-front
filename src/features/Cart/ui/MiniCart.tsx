@@ -17,12 +17,16 @@ import { CartItem } from './CartItem'
 
 export const MiniCart = () => {
   const { getPrice, currency } = useLangCurrancy()
-  const { items, totalItems, totalPrice, isOpen } = useCartInfo()
+  const { items, totalPrice, isOpen } = useCartInfo()
   const { updateQuantity, removeItem, openCart, closeCart } = useCartActions()
   const router = useRouter()
 
   const handleOpenChange = () => {
-    openCart()
+    if (isOpen) {
+      closeCart()
+    } else {
+      openCart()
+    }
   }
 
   const handleQuantityChange = (itemId: string, newQuantity: number) => {

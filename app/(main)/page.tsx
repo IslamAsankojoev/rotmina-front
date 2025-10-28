@@ -98,7 +98,10 @@ export default function Home() {
         <PanoramaSlider slides={slides} />
       </div>
       <div className="container mt-24">
-        <Typography variant="text_title" className='italic'>
+        <Typography variant="text_title" className='italic hidden md:block'>
+          Rothmina - Between Beauty and Ethics
+        </Typography>
+        <Typography variant="text_mobile_title2" className='italic block md:hidden'>
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
@@ -169,13 +172,15 @@ export default function Home() {
         </div>
       </div>
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title" className='italic'>Categories</Typography>
+        <Typography variant="text_title" className='italic hidden md:block'>Categories</Typography>
+        <Typography variant="text_mobile_title2" className='italic block md:hidden'>Categories</Typography>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Categories />
       </Suspense>
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title" className='italic'>Collections</Typography>
+        <Typography variant="text_title" className='italic hidden md:block'>Collections</Typography>
+        <Typography variant="text_mobile_title2" className='italic block md:hidden'>Collections</Typography>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Collections />

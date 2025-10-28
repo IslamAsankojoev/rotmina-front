@@ -20,7 +20,16 @@ const GiftCard = () => {
         <div className="flex flex-col gap-8 md:flex-row md:gap-12">
           <div className="min-h-full flex-1">
             <div className="flex max-w-[420px] flex-col">
-              <Typography variant="text_title" className="mb-4 italic">
+              <Typography
+                variant="text_title"
+                className="mb-4 hidden italic md:block"
+              >
+                Gift card
+              </Typography>
+              <Typography
+                variant="text_mobile_title"
+                className="block italic md:hidden"
+              >
                 Gift card
               </Typography>
               <Typography variant="text_main" className="my-4">

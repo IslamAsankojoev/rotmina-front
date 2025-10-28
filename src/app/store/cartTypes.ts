@@ -24,7 +24,7 @@ export interface GiftCardCartItem extends BaseCartItem {
   recipientEmail?: string
   recipientName?: string
   message?: string
-  quantity: 1 // всегда 1
+  quantity: number // can be adjusted
 }
 
 // Cart item for personal stylist
@@ -33,7 +33,7 @@ export interface PersonalStylistCartItem extends BaseCartItem {
   sessionType: 'virtual' | 'in-person'
   duration: number // продолжительность в минутах
   location?: string
-  quantity: 1 // всегда 1
+  quantity: number // can be adjusted
 }
 
 // Объединенный тип для всех элементов корзины
@@ -54,7 +54,7 @@ export interface CartActions {
   addGiftCard: (amount: number, recipientEmail?: string, recipientName?: string, message?: string) => void
   addPersonalStylist: (sessionType: 'virtual' | 'in-person', duration: number, price: number, location?: string) => void
   
-  // Обновление количества (только для товаров)
+  // Обновление количества (для всех типов товаров)
   updateQuantity: (itemId: string, quantity: number) => void
   
   // Удаление элементов

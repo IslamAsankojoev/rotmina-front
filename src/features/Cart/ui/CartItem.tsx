@@ -1,6 +1,6 @@
 'use client'
 
-import GiftCardImage from '@/public/assets/gift-card.webp'
+import GiftCardImage from '@/public/assets/gift-card-preview.webp'
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import { Button } from '@/shadcn/components/ui/button'
 import {
@@ -10,7 +10,7 @@ import {
   ProductCartItem,
 } from '@/src/app/store/cartTypes'
 import { Typography, useLangCurrancy } from '@/src/shared'
-import { Minus, Plus, X } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 
 interface CartItemProps {

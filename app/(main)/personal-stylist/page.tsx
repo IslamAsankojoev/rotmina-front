@@ -31,7 +31,10 @@ const PersonalStylist = () => {
             </div>
           </div>
           <div className="flex-1 md:p-8">
-            <Typography variant="text_title" className="mb-4">
+            <Typography variant="text_title" className="italic mb-4 hidden md:block">
+              Personal stylist
+            </Typography>
+            <Typography variant="text_mobile_title" className="italic block md:hidden">
               Personal stylist
             </Typography>
             <Typography variant="text_main" className="my-4">
@@ -61,7 +64,8 @@ const PersonalStylist = () => {
               without effort.
             </Typography>
             <br />
-            <Typography variant="text_title">Meeting Overview</Typography>
+            <Typography variant="text_title" className="italic hidden md:block">Meeting Overview</Typography>
+            <Typography variant="text_mobile_title" className="italic block md:hidden">Meeting Overview</Typography>
             <Typography variant="text_main">
               <span className="font-bold">We will begin by</span> exploring what
               already exists, your current wardrobe and personal expression,
@@ -90,7 +94,8 @@ const PersonalStylist = () => {
               genuine, resonant, and aligned with your true authentic self.
             </Typography>
             <br />
-            <Typography variant="text_title">Virtual Meeting</Typography>
+            <Typography variant="text_title" className="italic hidden md:block">Virtual Meeting</Typography>
+            <Typography variant="text_mobile_title" className="italic block md:hidden">Virtual Meeting</Typography>
             <Typography variant="text_main">
               A tailored and informative meeting is another way to refine
               yourself - whether you have an important meeting, a significant

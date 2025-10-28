@@ -202,11 +202,14 @@ export default function OrderPage() {
             { title: 'CART', href: '/cart' },
           ]}
         />
-        <div className="border-greyy/70 mt-16 flex justify-between border-b">
-          <Typography variant="text_main" className="uppercase">
+        <div className="border-greyy/70 mt-16 flex flex-col justify-between md:flex-row md:border-b">
+          <Typography variant="text_main" className="text-greyy uppercase">
             Shipping Information
           </Typography>
-          <Typography variant="text_main" className="uppercase">
+          <Typography
+            variant="text_main"
+            className="border-b border-black uppercase"
+          >
             Payment Methods
           </Typography>
         </div>

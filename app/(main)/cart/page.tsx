@@ -11,16 +11,15 @@ import {
   OrderResponse,
   OrderService,
 } from '@/src/entities/Order'
-import {
-  CartItem,
-  OrderConfirmModal,
-  OrderForm,
-} from '@/src/features'
+import { CartItem, OrderConfirmModal, OrderForm } from '@/src/features'
 import { Address } from '@/src/features/Address'
 import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 export default function CartPage() {
+  const router = useRouter()
+
   const { items, totalItems, totalPrice } = useCartInfo()
   const { updateQuantity, removeItem } = useCartActions()
   const { getPrice, currency } = useLangCurrancy()
@@ -35,6 +34,12 @@ export default function CartPage() {
 
   const handleRemoveItem = (itemId: string) => {
     removeItem(itemId)
+  }
+
+  const handleCloseConfirmModal = () => {
+    if (successOrder) {
+      router.push(`/order/${successOrder?.data?.documentId}`)
+    }
   }
 
   const handleSubmitOrder = async () => {
@@ -131,7 +136,9 @@ export default function CartPage() {
       }
     } catch (error) {
       console.error('Error creating order:', error)
-      toast.error('An error occurred while creating the order. Please try again.')
+      toast.error(
+        'An error occurred while creating the order. Please try again.',
+      )
     } finally {
       setIsCreatingOrder(false)
     }
@@ -146,17 +153,11 @@ export default function CartPage() {
             { title: 'CART', href: '/cart' },
           ]}
         />
-        <div className="border-greyy/70 mt-16 flex justify-between border-b">
-          <Typography
-            variant="text_main"
-            className="uppercase"
-          >
+        <div className="border-greyy/70 mt-16 flex flex-col md:flex-row justify-between md:border-b">
+          <Typography variant="text_main" className="uppercase border-b border-black">
             Shipping Information
           </Typography>
-          <Typography
-            variant="text_main"
-            className="uppercase"
-          >
+          <Typography variant="text_main" className="uppercase text-greyy">
             Payment Methods
           </Typography>
         </div>
@@ -170,8 +171,8 @@ export default function CartPage() {
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between pt-8">
-                <Typography variant="text_title">
-                  Your cart ({totalItems})
+                <Typography variant="text_title" className="italic">
+                  Your cart
                 </Typography>
               </div>
               <div className="flex items-center justify-between">
@@ -212,7 +213,7 @@ export default function CartPage() {
           <OrderConfirmModal
             order={successOrder}
             open={openConfirmModal}
-            onOpenChange={setOpenConfirmModal}
+            onOpenChange={handleCloseConfirmModal}
           />
         )}
       </div>

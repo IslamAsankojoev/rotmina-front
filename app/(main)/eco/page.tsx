@@ -16,7 +16,11 @@ const ECO = () => {
             { title: 'ECO', href: '/eco' },
           ]}
         />
-        <Typography variant="text_title" className="mb-4">
+        <Typography variant="text_title" className="mb-4 italic hidden md:block">
+          Rotmina was born from a passion for fashion,with deep respect and
+          desire to harmonize with nature and life on Earth
+        </Typography>
+        <Typography variant="text_mobile_title" className="italic block md:hidden">
           Rotmina was born from a passion for fashion,with deep respect and
           desire to harmonize with nature and life on Earth
         </Typography>

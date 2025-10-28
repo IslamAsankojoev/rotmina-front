@@ -247,7 +247,7 @@ const Product = () => {
           </div>
           <div className="relative flex-1 md:p-8">
             <button
-              className="absolute top-2 right-0 h-10 w-10 cursor-pointer p-0"
+              className="absolute top-2 right-0 flex h-10 w-10 cursor-pointer items-center justify-center p-0"
               onClick={(e) => {
                 e.stopPropagation()
                 handleClickWishlist(e, data?.data as ProductType)
@@ -258,7 +258,18 @@ const Product = () => {
                 fill={data?.data?.inWishlist ? 'currentColor' : 'none'}
               />
             </button>
-            <Typography variant="text_pageTitle" tag="h1">
+            <Typography
+              variant="text_pageTitle"
+              tag="h1"
+              className="hidden md:block"
+            >
+              {data?.data?.title}
+            </Typography>
+            <Typography
+              variant="text_mobile_title"
+              tag="h1"
+              className="block md:hidden"
+            >
               {data?.data?.title}
             </Typography>
             <Typography variant="text_main">
@@ -372,10 +383,16 @@ const Product = () => {
             </Button>
             <Tabs defaultValue="description" className="my-10">
               <TabsList>
-                <TabsTrigger value="description" className="uppercase cursor-pointer">
+                <TabsTrigger
+                  value="description"
+                  className="cursor-pointer uppercase"
+                >
                   <Typography variant="text_main">Description</Typography>
                 </TabsTrigger>
-                <TabsTrigger value="shipping" className="uppercase cursor-pointer">
+                <TabsTrigger
+                  value="shipping"
+                  className="cursor-pointer uppercase"
+                >
                   <Typography variant="text_main">Shipping&Return</Typography>
                 </TabsTrigger>
               </TabsList>
