@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Button } from '@/shadcn/components/ui/button'
 import { useAddToCart, useCartActions } from '@/src/app/store'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Typography, useLangCurrancy, useScreenSize } from '@/src/shared'
+import { Typography, useLangCurrancy, useScreenSize, useUser } from '@/src/shared'
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon, Plus } from 'lucide-react'
@@ -26,6 +26,7 @@ export const ProductCard = ({
   index,
   refetchProducts,
 }: ProductCardProps) => {
+  const { user } = useUser()
   const [isHovered, setIsHovered] = useState(false)
   const [showVariantModal, setShowVariantModal] = useState(false)
   const { md } = useScreenSize()
@@ -51,6 +52,10 @@ export const ProductCard = ({
     e: React.MouseEvent<HTMLButtonElement>,
     product: Product,
   ) => {
+    if(!user?.data?.documentId) {
+      router.push('/login')
+      return
+    }
     e.stopPropagation()
     if (product.inWishlist) {
       deleteWishlistProducts({ productId: product.documentId })

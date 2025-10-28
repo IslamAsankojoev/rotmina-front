@@ -39,19 +39,19 @@ export const CartItem = ({
       </div>
       <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
         <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium">
+          <Typography variant="text_main" className="font-medium text-mini-footer md:text-main">
             {item?.productTitle}
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy text-sm uppercase"
+            className="text-greyy text-mini-footer uppercase md:text-main"
           >
             Size:{' '}
             <span className="text-black">{item?.variant?.size?.name}</span>
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy flex items-center gap-2 text-sm uppercase"
+            className="text-greyy flex items-center gap-2 text-mini-footer uppercase md:text-main"
           >
             Color{' '}
             <div
@@ -66,7 +66,7 @@ export const CartItem = ({
           <div className="flex items-center gap-2">
             <Typography
               variant="text_main"
-              className="text-greyy text-sm uppercase"
+              className="text-greyy text-mini-footer uppercase md:text-main"
             >
               Amount:
             </Typography>
@@ -81,7 +81,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center"
+                className="min-w-[20px] text-center md:text-main"
               >
                 {item?.quantity}
               </Typography>
@@ -95,7 +95,7 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium">
+          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
             {getPrice(item?.variant?.price * item?.quantity)} {currency}
           </Typography>
         </div>
@@ -124,17 +124,17 @@ export const CartItem = ({
       </div>
       <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
         <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium">
+          <Typography variant="text_main" className="font-medium md:text-main text-mini-footer">
             Gift Card
           </Typography>
           {item?.recipientEmail && (
-            <Typography variant="text_main" className="text-greyy">
+            <Typography variant="text_main" className="text-greyy md:text-main text-mini-footer">
               Address:{' '}
               <span className="text-black">{item?.recipientEmail}</span>
             </Typography>
           )}
           {item?.recipientName && (
-            <Typography variant="text_main" className="text-greyy">
+            <Typography variant="text_main" className="text-greyy md:text-main text-mini-footer">
               Name: <span className="text-black">{item?.recipientName}</span>
             </Typography>
           )}
@@ -143,7 +143,7 @@ export const CartItem = ({
           <div className="flex items-center gap-2">
             <Typography
               variant="text_main"
-              className="text-greyy text-sm uppercase"
+              className="text-greyy text-mini-footer uppercase md:text-main"
             >
               Amount:
             </Typography>
@@ -158,7 +158,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center"
+                className="min-w-[20px] text-center md:text-main"
               >
                 {item?.quantity}
               </Typography>
@@ -172,7 +172,7 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium">
+          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
             {getPrice(item?.price * item?.quantity)} {currency}
           </Typography>
         </div>
@@ -201,12 +201,12 @@ export const CartItem = ({
       </div>
       <div className="flex min-h-[150px] flex-1 flex-col justify-between">
         <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium">
+          <Typography variant="text_main" className="font-medium md:text-main text-mini-footer">
             Personal Stylist
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy text-sm uppercase"
+            className="text-greyy uppercase md:text-main text-mini-footer"
           >
             {item?.sessionType === 'virtual' ? 'ONLINE' : 'IN-PERSON'}
           </Typography>
@@ -215,7 +215,7 @@ export const CartItem = ({
           <div className="flex items-center gap-2">
             <Typography
               variant="text_main"
-              className="text-greyy text-sm uppercase"
+              className="text-greyy uppercase md:text-main text-mini-footer"
             >
               Amount:
             </Typography>
@@ -230,7 +230,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center"
+                className="min-w-[20px] text-center md:text-main"
               >
                 {item?.quantity}
               </Typography>
@@ -244,7 +244,7 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium">
+          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
             {getPrice(item?.price * item?.quantity)} {currency}
           </Typography>
         </div>

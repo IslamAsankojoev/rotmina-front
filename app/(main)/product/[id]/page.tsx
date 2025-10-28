@@ -30,13 +30,13 @@ import {
 } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrancy, useUser } from '@/src/shared'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
 const Product = () => {
   const [selectedColor, setSelectedColor] = React.useState<string | null>(null)
@@ -48,7 +48,8 @@ const Product = () => {
   const { getPrice, currency } = useLangCurrancy()
   const { addProductToCart } = useAddToCart()
   const { openCart } = useCartActions()
-
+  const { user } = useUser()
+  const router = useRouter()
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product', id],
     queryFn: () => ProductService.getProduct(id),
@@ -209,6 +210,10 @@ const Product = () => {
     product: ProductType,
   ) => {
     e.stopPropagation()
+    if(!user?.data?.documentId) {
+      router.push('/login')
+      return
+    }
     if (product.inWishlist) {
       deleteWishlistProducts({ productId: product.documentId })
     } else {
@@ -258,18 +263,7 @@ const Product = () => {
                 fill={data?.data?.inWishlist ? 'currentColor' : 'none'}
               />
             </button>
-            <Typography
-              variant="text_pageTitle"
-              tag="h1"
-              className="hidden md:block"
-            >
-              {data?.data?.title}
-            </Typography>
-            <Typography
-              variant="text_mobile_title"
-              tag="h1"
-              className="block md:hidden"
-            >
+            <Typography variant="text_pageTitle" tag="h1" className="text-mobile-title2 md:text-pageTitle">
               {data?.data?.title}
             </Typography>
             <Typography variant="text_main">

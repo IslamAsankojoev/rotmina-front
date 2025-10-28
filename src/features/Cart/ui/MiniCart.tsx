@@ -44,7 +44,7 @@ export const MiniCart = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="flex h-[90%] w-screen max-w-full flex-col justify-between gap-4 overflow-hidden p-4 md:max-h-[771px] md:w-[567px] md:p-8"
+        className="flex h-screen w-screen max-w-full flex-col gap-4 overflow-hidden p-4 md:max-h-[771px] md:w-[567px] md:p-8"
       >
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -85,8 +85,16 @@ export const MiniCart = () => {
           {/* Total */}
           {items.length > 0 && (
             <div className="text-greyy flex items-center justify-between border-t pt-4">
-              <Typography variant="text_main">Subtotal:</Typography>
-              <Typography variant="text_main">
+              <Typography
+                variant="text_main"
+                className="text-mini-footer md:text-main"
+              >
+                Subtotal:
+              </Typography>
+              <Typography
+                variant="text_main"
+                className="text-mini-footer md:text-main"
+              >
                 {getPrice(totalPrice)} {currency}
               </Typography>
             </div>
