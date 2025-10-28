@@ -295,7 +295,7 @@ export const Header = () => {
           </div>
         </div>
       </header>
-      <div className="h-8" />
+      {pathname !== '/' && <div className="h-8" />}
     </>
   )
 }
