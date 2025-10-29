@@ -8,11 +8,11 @@ export default function Layout({
 }>) {
   return (
     <ReactQueryProvider>
-      <main className="flex min-h-screen flex-col justify-between">
+      <div className="flex min-h-screen flex-col justify-between">
         <Header />
         {children}
         <Footer />
-      </main>
+      </div>
     </ReactQueryProvider>
   )
 }
