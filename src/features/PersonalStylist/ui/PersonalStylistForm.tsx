@@ -53,6 +53,7 @@ export const PersonalStylistForm = () => {
           'virtual',
           onlineStylist.minutes,
           onlineStylist.price,
+          onlineStylist.documentId,
         )
       }
     } else if (selectedProduct) {
@@ -63,7 +64,8 @@ export const PersonalStylistForm = () => {
         addStylistToCart(
           'in-person',
           selectedStylist.minutes,
-          selectedStylist.price
+          selectedStylist.price,
+          selectedStylist.documentId,
         )
       }
     }
@@ -94,10 +96,10 @@ export const PersonalStylistForm = () => {
         }
       >
         <TabsList>
-          <TabsTrigger value="online" className="uppercase">
+          <TabsTrigger value="online" className="uppercase cursor-pointer">
             Online
           </TabsTrigger>
-          <TabsTrigger value="at-your-home" className="uppercase">
+          <TabsTrigger value="at-your-home" className="uppercase cursor-pointer">
             At your home
           </TabsTrigger>
         </TabsList>

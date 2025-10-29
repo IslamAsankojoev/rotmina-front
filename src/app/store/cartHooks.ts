@@ -43,9 +43,10 @@ export const useAddPersonalStylist = () => {
     sessionType: 'virtual' | 'in-person',
     duration: number,
     price: number,
-    location?: string
+    documentId: string,
+    location?: string,
   ) => {
-    addPersonalStylist(sessionType, duration, price, location)
+    addPersonalStylist(sessionType, duration, price, documentId, location)
   }
   
   return { addStylistToCart }

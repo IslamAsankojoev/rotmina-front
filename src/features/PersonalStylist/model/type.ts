@@ -4,6 +4,7 @@ export type SessionType = 'online' | 'at-your-home'
 
 export interface PersonalStylist {
   id: string
+  documentId: string
   minutes: number
   price: number
   sessionType: SessionType

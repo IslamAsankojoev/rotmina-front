@@ -71,7 +71,7 @@ export const useCartStore = create<CartStore>()(
       },
 
       // Добавление персонального стилиста
-      addPersonalStylist: (sessionType: 'virtual' | 'in-person', duration: number, price: number, location?: string) => {
+      addPersonalStylist: (sessionType: 'virtual' | 'in-person', duration: number, price: number, documentId: string, location?: string, ) => {
         const newItem: PersonalStylistCartItem = {
           id: generateItemId(),
           type: 'personalStylist',
@@ -81,6 +81,7 @@ export const useCartStore = create<CartStore>()(
           quantity: 1,
           price,
           createdAt: new Date(),
+          documentId,
         }
 
         set((state) => ({

@@ -9,7 +9,7 @@ import {
 import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
 import { useCartActions, useCartInfo } from '@/src/app/store'
-import { Typography, useLangCurrancy } from '@/src/shared'
+import { Typography, useLangCurrancy, useScreenSize } from '@/src/shared'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { createPortal } from 'react-dom'
@@ -21,6 +21,7 @@ export const MiniCart = () => {
   const { getPrice, currency } = useLangCurrancy()
   const { items, totalPrice, isOpen } = useCartInfo()
   const { updateQuantity, removeItem, openCart, closeCart } = useCartActions()
+  const { md } = useScreenSize()
   const router = useRouter()
 
   const handleOpenChange = () => {
@@ -50,7 +51,7 @@ export const MiniCart = () => {
   return (
     <>
       {/* Backdrop overlay - rendered in portal */}
-      {isOpen && typeof window !== 'undefined' && createPortal(
+      {isOpen && typeof window !== 'undefined' && md && createPortal(
         <div 
           className="fixed inset-0 z-[9998] bg-black/50 backdrop-blur-xs"
           onClick={closeCart}

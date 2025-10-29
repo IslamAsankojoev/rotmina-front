@@ -34,6 +34,7 @@ export interface PersonalStylistCartItem extends BaseCartItem {
   duration: number // продолжительность в минутах
   location?: string
   quantity: number // can be adjusted
+  documentId: string
 }
 
 // Объединенный тип для всех элементов корзины
@@ -52,7 +53,7 @@ export interface CartActions {
   // Добавление элементов
   addProduct: (variant: ProductVariant, productTitle: string, productSlug: string, quantity?: number) => void
   addGiftCard: (amount: number, recipientEmail?: string, recipientName?: string, message?: string) => void
-  addPersonalStylist: (sessionType: 'virtual' | 'in-person', duration: number, price: number, location?: string) => void
+  addPersonalStylist: (sessionType: 'virtual' | 'in-person', duration: number, price: number, documentId: string, location?: string) => void
   
   // Обновление количества (для всех типов товаров)
   updateQuantity: (itemId: string, quantity: number) => void

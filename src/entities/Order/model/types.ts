@@ -118,6 +118,7 @@ export interface OrderItem {
 // Types for creating order (cart data)
 export interface CreateOrderItem {
   id: string
+  documentId?: string
   type: 'product' | 'giftcard' | 'personalStylist'
   variant?: {
     id: number

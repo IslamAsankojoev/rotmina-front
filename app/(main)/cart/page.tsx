@@ -107,6 +107,7 @@ export default function CartPage() {
         } else if (item.type === 'personalStylist') {
           orderItems.push({
             id: item.id,
+            documentId: item.documentId,
             type: 'personalStylist' as const,
             sessionType: item.sessionType,
             duration: item.duration,
