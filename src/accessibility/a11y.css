@@ -242,7 +242,7 @@ body.a11y--dyslexic {
   transition: background 0.25s ease;
 }
 .a11y-reset:hover {
-  background: #0058e6;
+  background: #000;
 }
 
 /* === ФУТЕР === */
