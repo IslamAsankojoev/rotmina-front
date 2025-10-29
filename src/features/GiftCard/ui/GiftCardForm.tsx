@@ -10,6 +10,7 @@ import {
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
 import { useAddGiftCard, useCartActions } from '@/src/app/store'
+import { useLangCurrancy } from '@/src/shared'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -30,10 +31,14 @@ export const GiftCardForm = () => {
   })
   const { addGiftCardToCart } = useAddGiftCard()
   const { openCart } = useCartActions()
+  const { convertToILS, currency } = useLangCurrancy()
 
   const onSubmit = (data: z.infer<typeof giftCardValidationSchema>) => {
+    // Convert amount to ILS before adding to cart
+    const amountInILS = convertToILS(data.amount)
+    
     addGiftCardToCart(
-      data.amount,
+      amountInILS,
       data.recipientsEmail,
       data.recipientsName,
       data.personalMessage
@@ -120,7 +125,7 @@ export const GiftCardForm = () => {
               <FormItem>
                 <FormControl>
                   <Input 
-                    placeholder="AMOUNT" 
+                    placeholder={`AMOUNT (${currency})`} 
                     type='number' 
                     {...field}
                     value={field.value || ''}

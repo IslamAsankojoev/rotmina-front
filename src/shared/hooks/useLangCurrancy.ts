@@ -18,7 +18,13 @@ export const useLangCurrancy = () => {
   const getPrice = (price: number | undefined) => {
     if (!price) return 0
     const exchangeRate = exchangeRates.find((rate) => rate.currency === currency)
-    return (price * (exchangeRate?.rate || 1)).toFixed(0)
+    return (price / (exchangeRate?.rate || 1)).toFixed(0)
+  }
+
+  const convertToILS = (price: number) => {
+    if (!price) return 0
+    const exchangeRate = exchangeRates.find((rate) => rate.currency === currency)
+    return price * (exchangeRate?.rate || 1)
   }
 
   useEffect(() => {
@@ -41,5 +47,6 @@ export const useLangCurrancy = () => {
     setCurrency,
     setExchangeRates,
     getPrice,
+    convertToILS,
   }
 }
