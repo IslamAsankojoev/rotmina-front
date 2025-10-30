@@ -6,14 +6,40 @@ const protectedRoutes = ['/account', '/cart', '/checkout', '/orders', '/wishlist
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
-  const isAuthorized = request.cookies.get('Auth')
+  const authCookie = request.cookies.get('Auth')
+  const token = authCookie?.value
 
-  if(protectedRoutes.some(route => pathname.startsWith(route)) && !isAuthorized) {
-    return NextResponse.redirect(new URL('/login', request.url))
+  const needsAuthCheck = protectedRoutes.some(route => pathname.startsWith(route))
+  const isAuthRoute = authRoutes.some(route => pathname.startsWith(route))
+
+  const verifyToken = async () => {
+    if (!token) return false
+    try {
+      const apiBase = process.env.API_INTERNAL_URL || ''
+      const resp = await fetch(`${apiBase}/api/users/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        cache: 'no-store',
+      })
+      return resp.ok
+    } catch {
+      return false
+    }
   }
 
-  if(authRoutes.some(route => pathname.startsWith(route)) && isAuthorized) {
-    return NextResponse.redirect(new URL('/account', request.url))
+  if (needsAuthCheck) {
+    const ok = await verifyToken()
+    if (!ok) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+
+  if (isAuthRoute) {
+    const ok = await verifyToken()
+    if (ok) {
+      return NextResponse.redirect(new URL('/account', request.url))
+    }
   }
 
   const exchangeRates = await fetch(`http://31.97.79.157:7070/api/ExchangeRates`)
