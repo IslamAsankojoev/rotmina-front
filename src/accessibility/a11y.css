@@ -70,17 +70,22 @@ body.a11y--dyslexic {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: none;
+  border: 1px solid #fff; /* will invert via mix-blend-mode */
   cursor: pointer;
   z-index: 9999;
-  background: #00000035;
-  border: 1px solid #000;
-  color: #fff;
+  background: transparent; /* avoid tint when blending */
+  color: #fff; /* will invert via mix-blend-mode */
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.25s ease;
+  mix-blend-mode: difference; /* makes border/text contrast with backdrop */
+}
+
+.a11y-icon {
+  color: #fff; /* will invert via difference */
+  mix-blend-mode: difference;
 }
 
 .a11y-launcher:hover {

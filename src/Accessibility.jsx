@@ -150,7 +150,7 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
         onClick={() => setOpen(true)}
       >
         <span className="a11y-launcher-dot">
-          <Accessibility color="black" />
+          <Accessibility className="a11y-icon" />
         </span>
       </button>
 
