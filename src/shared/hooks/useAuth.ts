@@ -6,7 +6,6 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { createAsyncErrorHandler } from '@/src/shared/utils/errorHandling'
-import Cookies from 'js-cookie'
 
 export const useAuth = () => {
   const router = useRouter()
@@ -33,11 +32,8 @@ export const useAuth = () => {
   const logout = useMutation({
     mutationFn: async () => AuthService.logout(),
     onSuccess: async () => {
-      router.refresh()
+      router.push('/')
       toast.success('Logged out successfully')
-      Cookies.remove('Auth')
-      Cookies.remove('Auth.sig')
-      Cookies.remove('jwtToken')
     },
     onError: createAsyncErrorHandler(),
   })
