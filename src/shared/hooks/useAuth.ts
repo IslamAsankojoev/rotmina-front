@@ -15,7 +15,7 @@ export const useAuth = () => {
     mutationFn: async (credentials: SignupCredentials) =>
       AuthService.signup(credentials),
     onSuccess: async () => {
-      router.push('/login')
+      router.refresh()
       toast.success('Аккаунт успешно создан, подтвердите email')
     },
     onError: createAsyncErrorHandler(),
@@ -25,7 +25,7 @@ export const useAuth = () => {
     mutationFn: async (credentials: AuthCredentials) =>
       AuthService.login(credentials),
     onSuccess: async () => {
-      router.push('/account')
+      router.refresh()
     },
     onError: createAsyncErrorHandler(),
   })
@@ -33,7 +33,7 @@ export const useAuth = () => {
   const logout = useMutation({
     mutationFn: async () => AuthService.logout(),
     onSuccess: async () => {
-      router.push('/login')
+      router.refresh()
       toast.success('Logged out successfully')
       Cookies.remove('Auth')
       Cookies.remove('Auth.sig')

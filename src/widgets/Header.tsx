@@ -1,6 +1,6 @@
 'use client'
 
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
@@ -50,6 +50,29 @@ const leftMenu = [
   },
 ]
 
+const rightMenu = [
+  {
+    title: 'About',
+    href: '/about',
+  },
+  {
+    title: 'Contact',
+    href: '/contact',
+  },
+  {
+    title: 'Eco',
+    href: '/eco',
+  },
+  {
+    title: 'Returns & Exchanges',
+    href: '/returns-&-exchanges',
+  },
+  {
+    title: 'International Shipping',
+    href: '/international-shipping',
+  },
+]
+
 export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -57,32 +80,57 @@ export const Header = () => {
   const router = useRouter()
   const pathname = usePathname()
 
-  useLayoutEffect(() => {
-    const windowScroll = window.scrollY
-    setScrolled(windowScroll > 5)
+  useEffect(() => {
+    const SHRINK_THRESHOLD = 120
+    const EXPAND_THRESHOLD = 60
+    const MIN_TOGGLE_DELTA = 40
+
+    let ticking = false
+    const lastToggleYRef = { current: 0 }
+
+    const applyScrollState = () => {
+      const y = window.scrollY
+      setScrolled((prev) => {
+        if (!prev) {
+          if (y > SHRINK_THRESHOLD && y - lastToggleYRef.current > MIN_TOGGLE_DELTA) {
+            lastToggleYRef.current = y
+            return true
+          }
+          return prev
+        } else {
+          if (y < EXPAND_THRESHOLD && lastToggleYRef.current - y > MIN_TOGGLE_DELTA) {
+            lastToggleYRef.current = y
+            return false
+          }
+          return prev
+        }
+      })
+      ticking = false
+    }
 
     const handleScroll = () => {
-      setScrolled(window.scrollY > 5)
+      if (!ticking) {
+        window.requestAnimationFrame(applyScrollState)
+        ticking = true
+      }
     }
 
-    window.addEventListener('scroll', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
+    // set initial state
+    applyScrollState()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const handleNavigation = (href: string) => {
     router.push(href)
     setIsMobileMenuOpen(false)
   }
-
   return (
     <>
       <header
         className={clsx(
           `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`,
-          pathname === '/' ? 'fixed' : 'sticky',
+          pathname === '/' ? 'fixed' : 'sticky bg-white',
         )}
       >
         <div className="container">
