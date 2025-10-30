@@ -10,7 +10,7 @@ import {
 } from '@/shadcn/components/ui/popover'
 import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
-import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
+import { Sheet, SheetContent } from '@/shadcn/components/ui/sheet'
 import { useCartActions, useCartInfo } from '@/src/app/store'
 import { Typography, useLangCurrancy, useScreenSize } from '@/src/shared'
 import { X } from 'lucide-react'
