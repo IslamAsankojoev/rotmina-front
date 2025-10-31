@@ -38,6 +38,7 @@ export const apiMap = {
   // Gift Card
   getGiftCards: 'gift-cards',
   getGiftCardByCode: 'gift-cards/code/:id',
+  useGiftCard: 'gift-cards/use',
 
   // Order
   getMyOrders: 'orders/my-orders',
@@ -50,4 +51,7 @@ export const apiMap = {
   getMyAddresses: 'my-addresses',
   addAddress: 'addresses/add-address',
   deleteAddress: 'addresses/:id',
+
+  // Newsletter
+  subscribe: 'newsletter-subscribers',
 }

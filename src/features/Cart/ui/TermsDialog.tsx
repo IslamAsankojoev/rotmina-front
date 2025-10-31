@@ -14,9 +14,9 @@ export const TermsDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="cursor-pointer uppercase underline">
+        <span className="cursor-pointer underline inline">
           terms of the agreement.
-        </button>
+        </span>
       </DialogTrigger>
       <DialogContent className="rounded-none">
         <DialogHeader>

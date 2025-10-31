@@ -132,7 +132,7 @@ body.a11y--dyslexic {
 .a11y-panel {
   position: fixed;
   top: 0;
-  right: -400px;
+  right: -100%;
   width: 360px;
   height: 100%;
   background: #f7f9fc;
@@ -144,7 +144,7 @@ body.a11y--dyslexic {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 .a11y-panel.open {
-  right: 0;
+  right: 0%;
 }
 
 .a11y-panel__header {

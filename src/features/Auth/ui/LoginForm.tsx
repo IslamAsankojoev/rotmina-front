@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 
-import GoogleImage from '@/public/assets/google.svg'
 import { Button } from '@/shadcn/components/ui/button'
 import {
   Form,
@@ -20,7 +19,6 @@ import {
 import { Spinner } from '@/shadcn/components/ui/spinner'
 import { Typography, useAuth } from '@/src/shared'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -121,16 +119,6 @@ export const LoginForm = () => {
           </form>
         </Form>
       </div>
-      <Button
-        variant="minimal"
-        size="lg"
-        className="flex w-full max-w-[800px] items-center justify-center gap-4"
-      >
-        <Image src={GoogleImage} alt="Google logo" width={20} height={20} />
-        <Typography variant="text_mini_footer" className="uppercase">
-          Log in with Google
-        </Typography>
-      </Button>
     </>
   )
 }

@@ -1,16 +1,10 @@
 'use client'
 
-import { Button } from '@/shadcn/components/ui/button'
-import { Input } from '@/shadcn/components/ui/input'
 import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
-import { Libre_Caslon_Text } from 'next/font/google'
 
 import { Typography, useScreenSize } from '../shared'
+import { SignUpToNews } from '@/src/features'
 
-const libreCaslonText = Libre_Caslon_Text({
-  weight: ['400', '700'],
-  subsets: ['latin'],
-})
 
 const leftMenu = [
   {
@@ -53,25 +47,9 @@ const rightMenu = [
 export const Footer = () => {
   const { md } = useScreenSize()
   return (
-    <footer className="bg-blackish py-16">
+    <footer className="bg-blackish py-16 pb-12">
       <div className="container flex flex-col justify-between gap-6 md:flex-row">
-        <div className="flex flex-col gap-10">
-          <div className="text-white">
-            <div className="inline-flex flex-col items-center justify-center gap-2.5">
-              <div
-                className={`justify-start ${libreCaslonText.className} text-white`}
-              >
-                <Typography variant="text_mobile_title2" className="italic">
-                  Sign up for updates
-                </Typography>
-              </div>
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <Input placeholder="Email" className="text-white" />
-            <Button variant="minimal" size='lg'>SEND</Button>
-          </div>
-        </div>
+        <SignUpToNews />
         <div className="flex w-full flex-col gap-10 md:w-fit">
           <div className="flex justify-between gap-8">
             <div className="flex flex-col gap-2">
@@ -102,7 +80,7 @@ export const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="flex justify-between gap-6">
+          <div className="flex md:justify-between justify-start gap-10 md:gap-6">
             <div>
               <Instagram strokeWidth={1.3} size={md ? 35 : 24} color="white" />
             </div>

@@ -12,10 +12,23 @@ export type GiftCard = {
   updatedAt: string,
   publishedAt: string,
   locale: string | null
+  is_used: boolean
 }
 
 export type GiftCardResponse = {
   data: GiftCard[]
+  meta: {
+    pagination: {
+      page: number
+      pageSize: number
+      pageCount: number
+      total: number
+    }
+  }
+}
+
+export type GiftCardResponseOne = {
+  data: GiftCard
   meta: {
     pagination: {
       page: number

@@ -31,7 +31,7 @@ const Account = () => {
         </div>
         <Button onClick={() => logout.mutate()}>Logout</Button>
       </div>
-      <div className="container mb-24 flex max-w-[800px] flex-col items-center justify-center">
+      <div className="container mb-24 flex max-w-[850px] flex-col items-center justify-center">
         <OrderList />
       </div>
     </>

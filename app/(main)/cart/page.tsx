@@ -37,9 +37,9 @@ export default function CartPage() {
   }
 
   const handleCloseConfirmModal = () => {
-    if (successOrder) {
-      router.push(`/order/${successOrder?.data?.documentId}`)
-    }
+    setSuccessOrder(null)
+    setOpenConfirmModal(false)
+    router.push('/')
   }
 
   const handleSubmitOrder = async () => {

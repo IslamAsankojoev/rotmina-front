@@ -25,7 +25,7 @@ export function A11yProvider({ children }) {
   const [open, setOpen] = useState(false)
   const panelRef = useRef(null)
 
-  // применяем классы к body/html
+  // Apply classes to body/html
   useEffect(() => {
     const body = document.body
     const html = document.documentElement
@@ -44,7 +44,7 @@ export function A11yProvider({ children }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
   }, [state])
 
-  // хоткеи
+  // Hotkeys
   useEffect(() => {
     const onKey = (e) => {
       if (e.altKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
@@ -69,22 +69,22 @@ export function A11yProvider({ children }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [state])
 
-  // 🔊 Озвучка выделенного текста
+  // 🔊 Speech synthesis for selected text
   const speakSelection = () => {
     const text = window.getSelection().toString().trim()
     if (!text) {
-      alert('Выдели текст для озвучки 🎧')
+      alert('Select text for speech synthesis 🎧')
       return
     }
     const synth = window.speechSynthesis
     synth.cancel()
     const utter = new SpeechSynthesisUtterance(text)
-    utter.lang = 'ru-RU'
+    utter.lang = 'en-US'
     utter.rate = 1
     synth.speak(utter)
   }
 
-  // 🌙 Переключатель тёмной темы
+  // 🌙 Dark theme toggle
   const toggleDarkMode = () =>
     setState((s) => ({ ...s, darkMode: !s.darkMode }))
 
@@ -182,7 +182,7 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
         </header>
 
         <div className="a11y-tip">
-          Выбери опцию или используй горячие клавиши
+          Select an option or use hotkeys
         </div>
 
         <div className="a11y-grid">
@@ -190,16 +190,16 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
             onClick={toggleHighContrast}
             pressed={state.highContrast}
             icon="contrast"
-            label="Контраст +"
+            label="High Contrast"
           />
           <Tile
             onClick={toggleUnderlineLinks}
             pressed={state.underlineLinks}
             icon="links"
-            label="Подчеркнуть ссылки"
+            label="Underline Links"
           />
-          <Tile onClick={increaseText} icon="tplus" label="Крупнее текст" />
-          <Tile onClick={decreaseText} icon="tminus" label="Мельче текст" />
+          <Tile onClick={increaseText} icon="tplus" label="Increase Text Size" />
+          <Tile onClick={decreaseText} icon="tminus" label="Decrease Text Size" />
           <Tile
             onClick={toggleGrayscale}
             pressed={state.grayscale}
@@ -210,7 +210,7 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
             onClick={toggleHideImages}
             pressed={state.hideImages}
             icon="hideimg"
-            label="Скрыть изображения"
+            label="Hide Images"
           />
           <Tile
             onClick={toggleDyslexic}
@@ -222,13 +222,13 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
             onClick={toggleDarkMode}
             pressed={state.darkMode}
             icon="moon"
-            label="Тёмная тема"
+            label="Dark Theme"
           />
-          <Tile onClick={speakSelection} icon="sound" label="Озвучить текст" />
+          <Tile onClick={speakSelection} icon="sound" label="Speak Text" />
         </div>
 
         <button className="a11y-reset" onClick={reset}>
-          Сбросить все настройки
+          Reset All Settings
         </button>
       </aside>
     </>

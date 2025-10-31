@@ -195,7 +195,7 @@ export const AddressForm = ({
                 disabled={isAddingAddress}
                 onClick={onSubmit}
               >
-                {isAddingAddress ? 'Adding...' : 'Add Address'}
+                {isAddingAddress ? 'Adding...' : 'Add new address'}
               </Button>
             </div>
           </div>

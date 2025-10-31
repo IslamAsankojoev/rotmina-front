@@ -1,3 +1,5 @@
+'use client'
+
 import ConfirmImage from '@/public/order-confirm.png'
 import { Button } from '@/shadcn/components/ui/button'
 import {
@@ -11,6 +13,7 @@ import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 export interface OrderConfirmModalProps {
   order: OrderResponse
@@ -24,10 +27,14 @@ export function OrderConfirmModal({
   onOpenChange,
 }: OrderConfirmModalProps) {
   const { md } = useScreenSize()
+  const router = useRouter()
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent showCloseButton={false} className="min-h-[600px] rounded-none border-none p-0 sm:max-w-3xl">
+      <DialogContent
+        showCloseButton={false}
+        className="min-h-[600px] rounded-none border-none p-0 sm:max-w-3xl"
+      >
         <div
           className={clsx('flex items-center justify-center gap-4 p-10 md:p-0')}
           style={{
@@ -44,8 +51,8 @@ export function OrderConfirmModal({
               objectFit="cover"
             />
           </div>
-          <div className="bg-white p-10 md:w-1/2 relative md:h-full">
-            <div className="flex h-full flex-col items-center justify-center gap-2 ">
+          <div className="relative bg-white p-10 md:h-full md:w-1/2">
+            <div className="flex h-full flex-col items-center justify-center gap-2">
               <Typography variant="text_title" className="text-center">
                 Order <br /> Confirmed!
               </Typography>
@@ -60,9 +67,20 @@ export function OrderConfirmModal({
               <Link href="/shop" className="text-primary uppercase underline">
                 Explore More
               </Link>
+
+              <Button
+                onClick={() => router.push(`/order/${order?.data?.id}`)}
+                className="flex max-w-[800px] items-center justify-center gap-4 uppercase"
+              >
+                Pay for order
+              </Button>
             </div>
             <DialogClose asChild>
-              <Button type="button" variant="ghost" className="absolute top-4 right-4">
+              <Button
+                type="button"
+                variant="ghost"
+                className="absolute top-4 right-4"
+              >
                 <X className="size-6" />
               </Button>
             </DialogClose>

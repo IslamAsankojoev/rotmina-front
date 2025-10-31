@@ -25,7 +25,7 @@ import {
 } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import { MiniCart } from '../features'
 
@@ -54,7 +54,6 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { xl } = useScreenSize()
-  const router = useRouter()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -97,11 +96,6 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
-
-  const handleNavigation = (href: string) => {
-    router.push(href)
-    setIsMobileMenuOpen(false)
-  }
   return (
     <>
       <header
@@ -115,13 +109,13 @@ export const Header = () => {
             <div className="h-12 w-12 md:hidden" />
             <nav className="hidden gap-6 xl:flex">
               {leftMenu.map((item) => (
-                <button
+                <Link
                   key={item.title}
-                  onClick={() => handleNavigation(item.href)}
+                  href={item.href}
                   className="cursor-pointer text-lg uppercase hover:underline"
                 >
                   <Typography variant="text_main">{item.title}</Typography>
-                </button>
+                </Link>
               ))}
             </nav>
             <Link href="/" className="flex items-center">
@@ -136,24 +130,24 @@ export const Header = () => {
             </Link>
             <div className="hidden items-center justify-between xl:flex">
               <div className="flex items-center gap-6">
-                <button
-                  onClick={() => handleNavigation('/eco')}
+                <Link
+                  href="/eco"
                   className="cursor-pointer text-lg font-medium"
                 >
                   <Image src={Leaf} width={24} height={24} alt="leaf" />
-                </button>
-                <button
-                  onClick={() => handleNavigation('/account')}
+                </Link>
+                <Link
+                  href="/account"
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Account</Typography>
-                </button>
-                <button
-                  onClick={() => handleNavigation('/wishlist')}
+                </Link>
+                <Link
+                  href="/wishlist"
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Wishlist</Typography>
-                </button>
+                </Link>
                 <MiniCart />
                 <LanguageSwitcher />
                 <CurrancySwitcher />
@@ -176,16 +170,18 @@ export const Header = () => {
                   <div className="flex h-full flex-col justify-between">
                     <div className="flex flex-col">
                       <div className="mt-2 mb-6 flex items-center justify-between">
-                        <button
-                          onClick={() => handleNavigation('/eco')}
+                        <Link
+                          href="/eco"
+                          onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 cursor-pointer items-center justify-center text-lg font-medium"
                         >
                           <div className="relative size-10">
                             <Image src={Leaf} fill alt="leaf" />
                           </div>
-                        </button>
-                        <button
-                          onClick={() => handleNavigation('/account')}
+                        </Link>
+                        <Link
+                          href="/account"
+                          onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
                           <User
@@ -193,9 +189,10 @@ export const Header = () => {
                             strokeWidth={0.75}
                             className="cursor-pointer"
                           />
-                        </button>
-                        <button
-                          onClick={() => handleNavigation('/wishlist')}
+                        </Link>
+                        <Link
+                          href="/wishlist"
+                          onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
                           <Star
@@ -203,9 +200,10 @@ export const Header = () => {
                             strokeWidth={0.75}
                             className="cursor-pointer"
                           />
-                        </button>
-                        <button
-                          onClick={() => handleNavigation('/cart')}
+                        </Link>
+                        <Link
+                          href="/cart"
+                          onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
                           <ShoppingBasket
@@ -213,7 +211,7 @@ export const Header = () => {
                             strokeWidth={0.75}
                             className="cursor-pointer"
                           />
-                        </button>
+                        </Link>
                         <LanguageSwitcher />
                         <CurrancySwitcher />
                         <button
@@ -230,9 +228,10 @@ export const Header = () => {
                       </div>
                       <nav className="mt-6 flex flex-col items-center gap-4">
                         {leftMenu.map((item) => (
-                          <button
+                          <Link
                             key={item.title}
-                            onClick={() => handleNavigation(item.href)}
+                            href={item.href}
+                            onClick={() => setIsMobileMenuOpen(false)}
                             className="cursor-pointer text-lg uppercase hover:underline"
                           >
                             <Typography
@@ -244,7 +243,7 @@ export const Header = () => {
                             >
                               {item.title}
                             </Typography>
-                          </button>
+                          </Link>
                         ))}
                       </nav>
                     </div>

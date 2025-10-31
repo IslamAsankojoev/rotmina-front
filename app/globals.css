@@ -1,10 +1,10 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-blackish: #1B1919;
+  --color-blackish: #1b1919;
   --color-greyy: #969696;
 }
 @theme inline {
@@ -152,7 +152,7 @@
   margin-inline: auto;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
@@ -163,8 +163,8 @@ body{
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .panorama-swiper {
@@ -211,8 +211,15 @@ body{
 /* 3D-контекст */
 .panorama-swiper {
   perspective: 1200px;
-  perspective-origin: 50% 45%;   /* приподнимаем «горизонт» — меньше риска реза снизу */
+  perspective-origin: 50% 45%; /* приподнимаем «горизонт» — меньше риска реза снизу */
   padding-top: 64px;
   padding-bottom: 64px;
 }
-.panorama-swiper .swiper-wrapper { transform-style: preserve-3d; }
+.panorama-swiper .swiper-wrapper {
+  transform-style: preserve-3d;
+}
+
+/* styling scrollbar */
+::-webkit-scrollbar {
+  width: 0rem;
+}

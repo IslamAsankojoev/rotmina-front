@@ -73,19 +73,19 @@ export function A11yProvider({ children }) {
   const speakSelection = () => {
     const text = window.getSelection().toString().trim()
     if (!text) {
-      alert('Выдели текст для озвучки 🎧')
+      alert('Select text for speech synthesis 🎧')
       return
     }
 
     const synth = window.speechSynthesis
     synth.cancel()
 
-    // находим кнопку "Озвучить текст"
+    // Find the "Speak Text" button
     const soundBtn = document.querySelector('.a11y-tile[data-icon="sound"]')
     soundBtn?.classList.add('a11y-speaking')
 
     const utter = new SpeechSynthesisUtterance(text)
-    utter.lang = text.match(/[а-яА-Я]/) ? 'ru-RU' : 'en-US' // авто-язык
+    utter.lang = text.match(/[а-яА-Я]/) ? 'ru-RU' : 'en-US' // auto-detect language
     utter.rate = 1
     utter.pitch = 1
 
@@ -185,23 +185,23 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
           </button>
         </header>
 
-        <div className="a11y-tip">Выбери нужные функции доступности</div>
+        <div className="a11y-tip">Select the accessibility features you need</div>
 
         <div className="a11y-grid">
           <Tile
             onClick={toggleHighContrast}
             pressed={state.highContrast}
             icon="contrast"
-            label="Высокий контраст"
+            label="High Contrast"
           />
           <Tile
             onClick={toggleUnderlineLinks}
             pressed={state.underlineLinks}
             icon="links"
-            label="Подчеркнуть ссылки"
+            label="Underline Links"
           />
-          <Tile onClick={increaseText} icon="tplus" label="Крупнее текст" />
-          <Tile onClick={decreaseText} icon="tminus" label="Мельче текст" />
+          <Tile onClick={increaseText} icon="tplus" label="Increase Text Size" />
+          <Tile onClick={decreaseText} icon="tminus" label="Decrease Text Size" />
           <Tile
             onClick={toggleGrayscale}
             pressed={state.grayscale}
@@ -212,19 +212,19 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
             onClick={toggleHideImages}
             pressed={state.hideImages}
             icon="hideimg"
-            label="Скрыть изображения"
+            label="Hide Images"
           />
           <Tile
             onClick={toggleDyslexic}
             pressed={state.dyslexic}
             icon="df"
-            label="Дизлексия-шрифт"
+            label="Dyslexia Friendly"
           />
-          <Tile onClick={speakSelection} icon="sound" label="Озвучить текст" />
+          <Tile onClick={speakSelection} icon="sound" label="Speak Text" />
         </div>
 
         <button className="a11y-reset" onClick={reset}>
-          Сбросить все
+          Reset All
         </button>
       </aside>
     </>

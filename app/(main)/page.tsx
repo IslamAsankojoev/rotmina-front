@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import NatureImage from '@/public/assets/nature.webp'
 import SlideImage1 from '@/public/assets/products/28c356bfaea12422fdff078c80ad210d899e1820.webp'
 import SlideImage2 from '@/public/assets/products/773b68776a32f6687e77b6124a9960ad5d456cda.webp'
@@ -11,7 +13,6 @@ import { Categories, Collections } from '@/src/features'
 import { Typography } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import Image from 'next/image'
-import { Suspense } from 'react'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
@@ -50,7 +51,9 @@ export default function Home() {
           <div className="inline-flex flex-col items-start justify-start gap-5 self-stretch md:flex-row">
             <div className="inline-flex flex-1 flex-col items-center justify-end">
               <div className="justify-start self-stretch text-stone-900">
-                <Typography variant="text_title" className='italic'>Separation</Typography>
+                <Typography variant="text_title" className="italic">
+                  Separation
+                </Typography>
               </div>
             </div>
             <div className="inline-flex flex-1 flex-col items-start justify-start">
@@ -98,10 +101,13 @@ export default function Home() {
         <PanoramaSlider slides={slides} />
       </div>
       <div className="container mt-24">
-        <Typography variant="text_title" className='italic hidden md:block'>
+        <Typography variant="text_title" className="hidden italic md:block">
           Rothmina - Between Beauty and Ethics
         </Typography>
-        <Typography variant="text_mobile_title2" className='italic block md:hidden'>
+        <Typography
+          variant="text_mobile_title2"
+          className="block italic md:hidden"
+        >
           Rothmina - Between Beauty and Ethics
         </Typography>
       </div>
@@ -172,15 +178,23 @@ export default function Home() {
         </div>
       </div>
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title" className='italic hidden md:block'>Categories</Typography>
-        <Typography variant="text_mobile_title2" className='italic block md:hidden'>Categories</Typography>
+        <Typography
+          variant="text_title"
+          className="text-mobile-title md:text-title italic"
+        >
+          Categories
+        </Typography>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Categories />
       </Suspense>
       <div className="container mt-24 flex flex-col gap-8">
-        <Typography variant="text_title" className='italic hidden md:block'>Collections</Typography>
-        <Typography variant="text_mobile_title2" className='italic block md:hidden'>Collections</Typography>
+        <Typography
+          variant="text_title"
+          className="text-mobile-title md:text-title italic"
+        >
+          Collections
+        </Typography>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Collections />

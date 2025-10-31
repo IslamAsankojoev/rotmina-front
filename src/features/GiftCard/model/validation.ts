@@ -6,5 +6,5 @@ export const giftCardValidationSchema = z.object({
   yourName: z.string().min(1, 'Your name is required'),
   yourEmail: z.string().email('Invalid email address'),
   personalMessage: z.string().optional(),
-  amount: z.number().min(1, 'Amount must be greater than 0'),
+  amount: z.string().min(1, 'Amount is required'),
 })

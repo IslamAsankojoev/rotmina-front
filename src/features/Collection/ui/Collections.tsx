@@ -32,7 +32,7 @@ export const Collections = async () => {
           fill
         />
       </div>
-      <div className="order-1 flex items-center justify-center md:order-2 md:flex-1">
+      <div className="order-1 flex items-center justify-center md:order-2 md:flex-1 overflow-hidden">
         <Accordion
           type="single"
           collapsible

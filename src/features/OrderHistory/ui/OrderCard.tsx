@@ -1,6 +1,6 @@
 'use client'
 
-import GiftCardImage from '@/public/assets/gift-card.webp'
+import GiftCardImage from '@/public/assets/gift-card-preview.webp'
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import ShirtImage from '@/public/assets/products/shirt.webp'
 import {
@@ -101,13 +101,13 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </AccordionTrigger>
             <AccordionContent>
               {order.order_items && order.order_items.length > 0 ? (
-                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   {order.order_items.map((item) => (
                     <div
                       key={item.id}
                       className="mb-2 flex flex-col justify-between"
                     >
-                      <div className="relative h-[260px] w-[190px]">
+                      <div className="relative h-[260px] w-full">
                         <Image
                           src={getImage(item)}
                           alt={item.title_snapshot}

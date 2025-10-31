@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import { Checkbox } from '@/shadcn/components/ui/checkbox'
@@ -16,8 +16,9 @@ import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
 import { useCartInfo } from '@/src/app'
 import { OrderService, PayOrderRequest } from '@/src/entities/Order'
-import { TermsDialog } from '@/src/features'
+import { GiftCardService, TermsDialog } from '@/src/features'
 import { paymentFormSchema } from '@/src/features/Cart/model'
+import { GiftCard } from '@/src/features/GiftCard/model/type'
 import {
   Breadcrumbs,
   PAYMENT_ERROR_CODES,
@@ -63,9 +64,52 @@ export default function OrderPage() {
   })
   const { totalPrice } = useCartInfo()
   const { getPrice, currency } = useLangCurrancy()
+
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
   )
+  const [giftCardCode, setGiftCardCode] = useState('')
+  const [debouncedGiftCardCode, setDebouncedGiftCardCode] = useState('')
+  const [appliedGiftCard, setAppliedGiftCard] = useState<GiftCard | null>(null)
+  const [totalPriceWithGiftCard, setTotalPriceWithGiftCard] = useState(0)
+
+  const { mutate: applyGiftCardMutation, isPending: isUsingGiftCard } =
+    useMutation({
+      mutationFn: (code: string) => GiftCardService.applyGiftCard(code),
+    })
+
+  const {
+    data: giftCardData,
+    isLoading: isSearchingGiftCard,
+    error: giftCardError,
+  } = useQuery({
+    queryKey: ['giftCard', debouncedGiftCardCode],
+    queryFn: () => GiftCardService.getGiftCardByCode(debouncedGiftCardCode),
+    enabled: debouncedGiftCardCode.length > 0 && !appliedGiftCard,
+    retry: false,
+  })
+
+  const handleApplyGiftCard = () => {
+    if (giftCardData) {
+      setAppliedGiftCard(giftCardData)
+      setTotalPriceWithGiftCard(totalPrice - giftCardData?.amount)
+    }
+  }
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedGiftCardCode(giftCardCode)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [giftCardCode])
+
+  useEffect(() => {
+    if (giftCardCode !== appliedGiftCard?.code) {
+      setAppliedGiftCard(null)
+    }
+  }, [giftCardCode, appliedGiftCard?.code])
+
   const orderItems =
     order?.data?.order_items?.map((item) => {
       let code: string
@@ -113,12 +157,12 @@ export default function OrderPage() {
 
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
-      cardNumber: '4012888811110001',
-      nameOnCard: 'John Doe',
-      phone: '+1234567890',
-      expirationDate: '12/25',
-      cvv: '123',
-      terms: true,
+      cardNumber: '',
+      nameOnCard: '',
+      phone: '',
+      expirationDate: '',
+      cvv: '',
+      terms: false,
     },
     resolver: zodResolver(paymentFormSchema),
   })
@@ -144,6 +188,14 @@ export default function OrderPage() {
         if (
           response.data.transaction_result.processor_response_code === '000'
         ) {
+          applyGiftCardMutation(appliedGiftCard?.code || '', {
+            onSuccess: () => {
+              toast.success('Gift card applied successfully')
+            },
+            onError: (error) => {
+              toast.error(error.message)
+            },
+          })
           toast.success('Payment successful')
           router.push(`/account`)
         } else {
@@ -312,9 +364,8 @@ export default function OrderPage() {
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
-                        <Label htmlFor="terms">
-                          I have read and agree to the
-                          <TermsDialog />
+                        <Label htmlFor="terms" className="inline">
+                          I have read and agree to the <TermsDialog />
                         </Label>
                       </div>
                       <FormMessage />
@@ -326,13 +377,13 @@ export default function OrderPage() {
                   className="uppercase"
                   variant="default"
                   size="lg"
-                  disabled={isPending}
+                  disabled={isPending || isUsingGiftCard}
                 >
                   {isPending ? <Spinner /> : 'Pay'}
                 </Button>
               </form>
             </Form>
-            <div className="flex flex-col gap-4 p-10 md:p-20">
+            <div className="flex flex-col gap-4 p-2 md:p-20">
               <div className="flex items-center gap-4">
                 <Input type="text" placeholder="PROMO CODE" />
                 <Button variant="link" className="uppercase">
@@ -340,10 +391,61 @@ export default function OrderPage() {
                 </Button>
               </div>
               <div className="flex items-center gap-4">
-                <Input type="text" placeholder="GIFT CARD" />
-                <Button variant="link" className="uppercase">
-                  Apply
-                </Button>
+                <div className="flex w-full flex-col gap-2">
+                  <div className="flex">
+                    <Input
+                      type="text"
+                      placeholder="GIFT CARD"
+                      value={giftCardCode}
+                      onChange={(e) => setGiftCardCode(e.target.value)}
+                      disabled={!!appliedGiftCard}
+                    />
+                    <Button
+                      variant="link"
+                      className="uppercase"
+                      onClick={handleApplyGiftCard}
+                      disabled={
+                        !giftCardData ||
+                        isSearchingGiftCard ||
+                        giftCardData?.is_used
+                      }
+                    >
+                      {isSearchingGiftCard ? <Spinner /> : 'Apply'}
+                    </Button>
+                  </div>
+                  {isSearchingGiftCard && (
+                    <Typography
+                      variant="text_main"
+                      className="text-sm text-gray-500"
+                    >
+                      Searching...
+                    </Typography>
+                  )}
+                  {giftCardData && giftCardData?.is_used && (
+                    <Typography
+                      variant="text_main"
+                      className="text-sm text-red-600"
+                    >
+                      This gift card has already been used
+                    </Typography>
+                  )}
+                  {giftCardData && !giftCardData?.is_used && (
+                    <Typography
+                      variant="text_main"
+                      className="text-sm text-green-600"
+                    >
+                      Gift is exists and is not used, you can apply it
+                    </Typography>
+                  )}
+                  {giftCardError && !isSearchingGiftCard && (
+                    <Typography
+                      variant="text_main"
+                      className="text-sm text-red-600"
+                    >
+                      Gift card not found
+                    </Typography>
+                  )}
+                </div>
               </div>
               <div className="mt-10 flex w-full flex-col items-center gap-4">
                 <div className="flex w-full items-center justify-between gap-4">
@@ -360,18 +462,23 @@ export default function OrderPage() {
                   </Typography>
                   <Typography variant="text_main">Free</Typography>
                 </div>
-                <div className="flex w-full items-center justify-between gap-4">
-                  <Typography variant="text_main" className="uppercase">
-                    DISCOUNT
-                  </Typography>
-                  <Typography variant="text_main">-10%</Typography>
-                </div>
+                {currency === 'ILS' && (
+                  <div className="flex w-full items-center justify-between gap-4">
+                    <Typography variant="text_main" className="uppercase">
+                      VAT
+                    </Typography>
+                    <Typography variant="text_main">default</Typography>
+                  </div>
+                )}
                 <div className="flex w-full items-center justify-between gap-4">
                   <Typography variant="text_main" className="uppercase">
                     TOTAL
                   </Typography>
                   <Typography variant="text_main">
-                    {getPrice(totalPrice)} {currency}
+                    {getPrice(
+                      appliedGiftCard ? totalPriceWithGiftCard : totalPrice,
+                    )}{' '}
+                    {currency}
                   </Typography>
                 </div>
               </div>
