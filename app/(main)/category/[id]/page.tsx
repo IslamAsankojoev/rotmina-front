@@ -33,7 +33,7 @@ export default async function Category({ params }: { params: Promise<{ id: strin
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
-            { title: 'SHIRT', href: '/category/shirt' },
+            { title: category?.name || 'Category', href: `/category/${category?.documentId}` },
           ]}
         />
         <div className="flex gap-4">

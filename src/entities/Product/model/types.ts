@@ -60,6 +60,17 @@ export interface ProductVariant {
   publishedAt: string
 }
 
+export interface Category {
+  createdAt: string
+  description: string
+  documentId: string
+  id: number
+  name: string
+  publishedAt: string
+  updatedAt: string
+  image: Image
+}
+
 // Main product type
 export interface Product {
   id: number
@@ -73,6 +84,7 @@ export interface Product {
   updatedAt: string
   publishedAt: string
   inWishlist: boolean
+  category: Category
 }
 
 // Types for API responses

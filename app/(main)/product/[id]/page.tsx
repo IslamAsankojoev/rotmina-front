@@ -210,7 +210,7 @@ const Product = () => {
     product: ProductType,
   ) => {
     e.stopPropagation()
-    if(!user?.data?.documentId) {
+    if (!user?.data?.documentId) {
       router.push('/login')
       return
     }
@@ -230,7 +230,10 @@ const Product = () => {
         <Breadcrumbs
           links={[
             { title: 'HOME', href: '/' },
-            { title: 'SHIRT', href: '/category/shirt' },
+            {
+              title: data?.data?.category?.name || 'Category',
+              href: `/category/${data?.data?.category?.documentId}`,
+            },
             {
               title: data?.data?.title || 'Product',
               href: `/product/${data?.data?.documentId}`,
@@ -263,7 +266,11 @@ const Product = () => {
                 fill={data?.data?.inWishlist ? 'currentColor' : 'none'}
               />
             </button>
-            <Typography variant="text_pageTitle" tag="h1" className="text-mobile-title2 md:text-pageTitle">
+            <Typography
+              variant="text_pageTitle"
+              tag="h1"
+              className="text-mobile-title2 md:text-pageTitle"
+            >
               {data?.data?.title}
             </Typography>
             <Typography variant="text_main">
