@@ -1,3 +1,5 @@
 export { Header } from './Header'
 export { Footer } from './Footer'
 export * from './PanoramaSlider'
+export { HeaderWithAnimate } from './HeaderWithAnimate'
+export { HeaderProvider } from './HeaderProvider'

@@ -1,5 +1,5 @@
 import { ReactQueryProvider } from '@/src/app'
-import { Footer, Header } from '@/src/widgets'
+import { Footer, HeaderProvider } from '@/src/widgets'
 
 export default function Layout({
   children,
@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <ReactQueryProvider>
       <div className="flex min-h-screen flex-col justify-between">
-        <Header />
+        <HeaderProvider />
         {children}
         <Footer />
       </div>
