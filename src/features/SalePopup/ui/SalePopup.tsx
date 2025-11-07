@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import { Button } from '@/shadcn/components/ui/button'
 import {
   Dialog,
@@ -12,7 +14,6 @@ import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
 
 import { SalePopupService } from '../model'
 
@@ -37,7 +38,7 @@ export function SalePopup() {
 
     // Проверяем localStorage
     const wasShown = localStorage.getItem(STORAGE_KEY)
-    
+
     if (wasShown) {
       setHasCheckedStorage(true)
       return
@@ -61,13 +62,13 @@ export function SalePopup() {
     localStorage.setItem(STORAGE_KEY, 'true')
   }
 
-  if (!data?.data || !isHomePage || !isOpen) return null
+  if (!data?.data || !isHomePage || !isOpen || !data?.data?.show) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
         showCloseButton={false}
-        className="min-h-[700px] md:min-h-[600px] rounded-none border-none p-0 sm:max-w-3xl"
+        className="min-h-[700px] rounded-none border-none p-0 sm:max-w-3xl md:min-h-[600px]"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <div
@@ -96,7 +97,7 @@ export function SalePopup() {
               <Typography variant="text_main" className="text-center">
                 {data?.data?.description}
               </Typography>
-              <Typography variant="text_main" className="text-center mt-8">
+              <Typography variant="text_main" className="mt-8 text-center">
                 <a
                   href={data?.data?.link}
                   className="text-primary uppercase underline"
@@ -109,7 +110,7 @@ export function SalePopup() {
               <Button
                 type="button"
                 variant="ghost"
-                size='icon'
+                size="icon"
                 className="absolute top-2 right-2"
                 onClick={handleClose}
                 autoFocus={false}
