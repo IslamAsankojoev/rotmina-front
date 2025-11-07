@@ -1,9 +1,14 @@
 'use client'
 
-import { ProductService, ProductSortField, ProductListResponse } from "@/src/entities/Product"
-import { useQuery } from "@tanstack/react-query"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useState, useEffect, useCallback } from "react"
+import { useCallback, useEffect, useState } from 'react'
+
+import {
+  ProductListResponse,
+  ProductService,
+  ProductSortField,
+} from '@/src/entities/Product'
+import { useQuery } from '@tanstack/react-query'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ProductParams {
   page?: number
@@ -20,34 +25,36 @@ interface UseProductsReturn {
   data: ProductListResponse | undefined
   isLoading: boolean
   error: Error | null
-  
+
   // Filter state
   selectedColors: string[]
   selectedSizes: string[]
   currentSort: string
   currentPage: number
-  
+
   // Methods for state management
   setSelectedColors: (colors: string[]) => void
   setSelectedSizes: (sizes: string[]) => void
   setCurrentSort: (sort: string) => void
   setCurrentPage: (page: number) => void
-  
+
   // Методы для обновления URL
   updateFilters: (filters: { colors?: string[]; sizes?: string[] }) => void
   updateSort: (sort: string) => void
   updatePage: (page: number) => void
-  
+
   // Методы для сброса
   resetFilters: () => void
   resetAll: () => void
   refetchProducts: () => void
 }
 
-export const useProducts = (categoryId?: string): UseProductsReturn => {
+export const useProducts = (
+  categoryId?: string,
+): UseProductsReturn => {
   const router = useRouter()
   const params = useSearchParams()
-  
+
   // Получаем параметры из URL
   const urlPage = params.get('page')
   const urlPageSize = params.get('pageSize')
@@ -58,88 +65,119 @@ export const useProducts = (categoryId?: string): UseProductsReturn => {
 
   // Локальное состояние
   const [selectedColors, setSelectedColors] = useState<string[]>(
-    urlColors ? urlColors.split(',') : []
+    urlColors ? urlColors.split(',') : [],
   )
   const [selectedSizes, setSelectedSizes] = useState<string[]>(
-    urlSizes ? urlSizes.split(',') : []
+    urlSizes ? urlSizes.split(',') : [],
   )
   const [currentSort, setCurrentSort] = useState<string>(
-    urlSort || 'Popularity'
+    urlSort || 'Popularity',
   )
   const [currentPage, setCurrentPage] = useState<number>(
-    urlPage ? parseInt(urlPage) : 1
+    urlPage ? parseInt(urlPage) : 1,
   )
 
   // Функция для преобразования строки сортировки в объект
   const getSortOptions = (sortString: string) => {
-    const sortMap: Record<string, { field: ProductSortField; order: 'asc' | 'desc' }> = {
-      'Popularity': { field: 'createdAt', order: 'desc' },
+    const sortMap: Record<
+      string,
+      { field: ProductSortField; order: 'asc' | 'desc' }
+    > = {
+      Popularity: { field: 'createdAt', order: 'desc' },
       'Price up': { field: 'updatedAt', order: 'asc' }, // Используем updatedAt для имитации сортировки по цене
       'price down': { field: 'updatedAt', order: 'desc' }, // Используем updatedAt для имитации сортировки по цене
-      'sale': { field: 'createdAt', order: 'desc' },
+      sale: { field: 'createdAt', order: 'desc' },
     }
     return sortMap[sortString] || { field: 'createdAt', order: 'desc' }
   }
 
   // Функция для обновления URL
-  const updateURL = useCallback((newParams: Partial<ProductParams>) => {
-    const currentParams = new URLSearchParams(params.toString())
-    
-    Object.entries(newParams).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== '') {
-        currentParams.set(key, value.toString())
-      } else {
-        currentParams.delete(key)
-      }
-    })
-    
-    router.push(`/shop?${currentParams.toString()}`)
-  }, [router, params])
+  const updateURL = useCallback(
+    (newParams: Partial<ProductParams>) => {
+      const currentParams = new URLSearchParams(params.toString())
+
+      Object.entries(newParams).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          currentParams.set(key, value.toString())
+        } else {
+          currentParams.delete(key)
+        }
+      })
+
+      router.push(`/shop?${currentParams.toString()}`)
+    },
+    [router, params],
+  )
 
   // Запрос данных
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['products', urlPage, urlPageSize, urlSearch, urlColors, urlSizes, urlSort, categoryId],
-    queryFn: () => ProductService.getProducts({
-      page: urlPage ? parseInt(urlPage) : 1,
-      pageSize: urlPageSize ? parseInt(urlPageSize) : 12,
-      search: urlSearch || undefined,
-      colors: urlColors || undefined,
-      sizes: urlSizes || undefined,
-      sort: urlSort ? getSortOptions(urlSort) : { field: 'createdAt', order: 'desc' },
-      category: categoryId || undefined,
-    }),
+    queryKey: [
+      'products',
+      urlPage,
+      urlPageSize,
+      urlSearch,
+      urlColors,
+      urlSizes,
+      urlSort,
+      categoryId,
+    ],
+    queryFn: () =>
+      ProductService.getProducts(
+        {
+          page: urlPage ? parseInt(urlPage) : 1,
+          pageSize: urlPageSize ? parseInt(urlPageSize) : 12,
+          search: urlSearch || undefined,
+          colors: urlColors || undefined,
+          sizes: urlSizes || undefined,
+          sort: urlSort
+            ? getSortOptions(urlSort)
+            : { field: 'createdAt', order: 'desc' },
+          category: categoryId || undefined,
+        },
+      ),
   })
 
-  const updateFilters = useCallback((filters: { colors?: string[]; sizes?: string[] }) => {
-    const newParams: Partial<ProductParams> = {}
-    
-    if (filters.colors !== undefined) {
-      setSelectedColors(filters.colors)
-      newParams.colors = filters.colors.length > 0 ? filters.colors.join(',') : undefined
-    }
-    
-    if (filters.sizes !== undefined) {
-      setSelectedSizes(filters.sizes)
-      newParams.sizes = filters.sizes.length > 0 ? filters.sizes.join(',') : undefined
-    }
-    
-    // Сбрасываем страницу при изменении фильтров
-    newParams.page = 1
-    setCurrentPage(1)
-    
-    updateURL(newParams)
-  }, [updateURL])
+  const updateFilters = useCallback(
+    (filters: { colors?: string[]; sizes?: string[] }) => {
+      const newParams: Partial<ProductParams> = {}
 
-  const updateSort = useCallback((sort: string) => {
-    setCurrentSort(sort)
-    updateURL({ sort, page: 1 })
-    setCurrentPage(1)
-  }, [updateURL])
+      if (filters.colors !== undefined) {
+        setSelectedColors(filters.colors)
+        newParams.colors =
+          filters.colors.length > 0 ? filters.colors.join(',') : undefined
+      }
 
-  const updatePage = useCallback((page: number) => {
-    setCurrentPage(page)
-    updateURL({ page })
-  }, [updateURL])
+      if (filters.sizes !== undefined) {
+        setSelectedSizes(filters.sizes)
+        newParams.sizes =
+          filters.sizes.length > 0 ? filters.sizes.join(',') : undefined
+      }
+
+      // Сбрасываем страницу при изменении фильтров
+      newParams.page = 1
+      setCurrentPage(1)
+
+      updateURL(newParams)
+    },
+    [updateURL],
+  )
+
+  const updateSort = useCallback(
+    (sort: string) => {
+      setCurrentSort(sort)
+      updateURL({ sort, page: 1 })
+      setCurrentPage(1)
+    },
+    [updateURL],
+  )
+
+  const updatePage = useCallback(
+    (page: number) => {
+      setCurrentPage(page)
+      updateURL({ page })
+    },
+    [updateURL],
+  )
 
   const resetFilters = useCallback(() => {
     setSelectedColors([])
@@ -177,24 +215,24 @@ export const useProducts = (categoryId?: string): UseProductsReturn => {
     data,
     isLoading,
     error,
-    
+
     // Состояние
     selectedColors,
     selectedSizes,
     currentSort,
     currentPage,
-    
+
     // Методы для управления состоянием
     setSelectedColors,
     setSelectedSizes,
     setCurrentSort,
     setCurrentPage,
-    
+
     // Методы для обновления URL
     updateFilters,
     updateSort,
     updatePage,
-    
+
     // Методы для сброса
     resetFilters,
     resetAll,

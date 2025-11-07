@@ -78,7 +78,6 @@ export interface Product {
   title: string
   slug: string
   description: string
-  gallery: Image[]
   variants: ProductVariant[]
   createdAt: string
   updatedAt: string

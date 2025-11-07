@@ -89,14 +89,11 @@ export const ProductCard = ({
     const hoverVariantIndex =
       isHovered && product.variants.length > 1 ? 1 : defaultVariantIndex
 
-    // Priority: variant images -> product gallery -> first variant image -> placeholder
+    // Priority: variant images -> first variant image -> placeholder
     if (product.variants[hoverVariantIndex]?.images?.[0]?.url) {
       return product.variants[hoverVariantIndex].images[0].url
     }
-    if (product.gallery?.[0]?.url) {
-      return product.gallery[0].url
-    }
-    if (product.variants[0]?.images?.[0]?.url) {
+    if (product.variants?.[0]?.images?.[0]?.url) {
       return product.variants[0].images[0].url
     }
     return ''

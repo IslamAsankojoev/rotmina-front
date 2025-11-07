@@ -7,7 +7,7 @@ import {
   PaginationItem,
   PaginationLink,
 } from '@/shadcn/components/ui/pagination'
-import { Typography, useProducts } from '@/src/shared'
+import { Typography, useProducts, useDictionary } from '@/src/shared'
 
 interface ProductPaginationProps {
   totalPages?: number
@@ -15,6 +15,7 @@ interface ProductPaginationProps {
 
 export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) => {
   const { currentPage, updatePage, data } = useProducts()
+  const { dictionary } = useDictionary()
   
   // Get total pages from data or use passed value
   const totalPagesFromData = data?.meta?.pagination?.pageCount || totalPages
@@ -51,7 +52,7 @@ export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) =>
       </Pagination>
       <Button variant="link" onClick={handleLoadMore}>
         <Typography variant="text_1" className="uppercase">
-          load more
+          {dictionary.products.loadMore}
         </Typography>
       </Button>
     </div>

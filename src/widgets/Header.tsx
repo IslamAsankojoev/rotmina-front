@@ -10,6 +10,7 @@ import {
   LanguageSwitcher,
   Typography,
   useScreenSize,
+  useLocale,
 } from '@/src/shared'
 import clsx from 'clsx'
 import {
@@ -29,7 +30,7 @@ import { usePathname } from 'next/navigation'
 
 import { MiniCart } from '../features'
 
-const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
+// const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
 
 const leftMenu = [
   {
@@ -55,6 +56,7 @@ export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { xl } = useScreenSize()
   const pathname = usePathname()
+  const { localizePath } = useLocale()
 
   useEffect(() => {
     const SHRINK_THRESHOLD = 120
@@ -111,14 +113,14 @@ export const Header = () => {
               {leftMenu.map((item) => (
                 <Link
                   key={item.title}
-                  href={item.href}
+                  href={localizePath(item.href)}
                   className="cursor-pointer text-lg uppercase hover:underline"
                 >
                   <Typography variant="text_main">{item.title}</Typography>
                 </Link>
               ))}
             </nav>
-            <Link href="/" className="flex items-center">
+            <Link href={localizePath('/')} className="flex items-center">
               <div
                 className={clsx(
                   'relative transition-all',
@@ -131,19 +133,19 @@ export const Header = () => {
             <div className="hidden items-center justify-between xl:flex">
               <div className="flex items-center gap-6">
                 <Link
-                  href="/eco"
+                  href={localizePath('/eco')}
                   className="cursor-pointer text-lg font-medium"
                 >
                   <Image src={Leaf} width={24} height={24} alt="leaf" />
                 </Link>
                 <Link
-                  href="/account"
+                  href={localizePath('/account')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Account</Typography>
                 </Link>
                 <Link
-                  href="/wishlist"
+                  href={localizePath('/wishlist')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Wishlist</Typography>
@@ -171,7 +173,7 @@ export const Header = () => {
                     <div className="flex flex-col">
                       <div className="mt-2 mb-6 flex items-center justify-between">
                         <Link
-                          href="/eco"
+                          href={localizePath('/eco')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 cursor-pointer items-center justify-center text-lg font-medium"
                         >
@@ -180,7 +182,7 @@ export const Header = () => {
                           </div>
                         </Link>
                         <Link
-                          href="/account"
+                          href={localizePath('/account')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -191,7 +193,7 @@ export const Header = () => {
                           />
                         </Link>
                         <Link
-                          href="/wishlist"
+                          href={localizePath('/wishlist')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -202,7 +204,7 @@ export const Header = () => {
                           />
                         </Link>
                         <Link
-                          href="/cart"
+                          href={localizePath('/cart')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -230,7 +232,7 @@ export const Header = () => {
                         {leftMenu.map((item) => (
                           <Link
                             key={item.title}
-                            href={item.href}
+                            href={localizePath(item.href)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="cursor-pointer text-lg uppercase hover:underline"
                           >
@@ -298,7 +300,7 @@ export const Header = () => {
           </div>
         </div>
       </header>
-      {!especiallyLinks.includes(pathname) && <div className="h-8" />}
+      {/* {!especiallyLinks.includes(pathname) && <div className="h-8" />} */}
     </>
   )
 }

@@ -25,6 +25,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Root layout не имеет доступа к params, поэтому используем дефолтный язык
+  // Реальный язык будет установлен в [locale]/layout.tsx
   return (
     <html lang="en">
       <body className={`${arima.className} antialiased`}>

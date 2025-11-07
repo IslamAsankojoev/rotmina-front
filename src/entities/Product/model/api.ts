@@ -37,7 +37,6 @@ export const ProductService = {
       params.populate.forEach(field => searchParams.append('populate', field))
     } else {
       // Load main fields by default
-      searchParams.append('populate', 'gallery')
       searchParams.append('populate', 'variants')
       searchParams.append('populate', 'variants.color')
       searchParams.append('populate', 'variants.size')
@@ -52,7 +51,6 @@ export const ProductService = {
   // Get product by ID
   getProduct: (id: string): Promise<ProductResponse> => {
     const searchParams = new URLSearchParams()
-    searchParams.append('populate', 'gallery')
     searchParams.append('populate', 'variants')
     searchParams.append('populate', 'variants.color')
     searchParams.append('populate', 'variants.size')

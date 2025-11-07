@@ -173,7 +173,7 @@ const Product = () => {
     ) {
       return selectedVariant?.images
     }
-    return data?.data?.gallery || []
+    return data?.data?.variants?.[0]?.images || []
   }
 
   // Add product to cart

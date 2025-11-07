@@ -19,7 +19,6 @@ import { useRouter } from 'next/navigation'
 
 export default function CartPage() {
   const router = useRouter()
-
   const { items, totalPrice } = useCartInfo()
   const { updateQuantity, removeItem } = useCartActions()
   const { getPrice, currency } = useLangCurrancy()

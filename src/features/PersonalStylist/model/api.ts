@@ -9,7 +9,7 @@ import type {
 
 // Get list of all Personal Stylists
 export const getPersonalStylists = async (
-  params?: PersonalStylistQueryParams
+  params?: PersonalStylistQueryParams,
 ): Promise<PersonalStylistResponse> => {
   const searchParams = new URLSearchParams()
 

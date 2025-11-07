@@ -14,6 +14,7 @@ import {
   LanguageSwitcher,
   Typography,
   useScreenSize,
+  useLocale,
 } from '@/src/shared'
 import clsx from 'clsx'
 import {
@@ -46,7 +47,9 @@ export const HeaderWithAnimate = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { xl } = useScreenSize()
   const pathname = usePathname()
-  const isHomePage = pathname === '/'
+  const { localizePath } = useLocale()
+  // Проверяем, является ли это главной страницей (с учетом locale)
+  const isHomePage = pathname === '/' || pathname.match(/^\/(en|he)\/?$/)
 
   // refs для GSAP‑анимаций
   const headerRef = useRef<HTMLElement | null>(null)
@@ -134,7 +137,7 @@ export const HeaderWithAnimate = () => {
       // Вычисляем позиции после небольшой задержки для корректного рендеринга
       setTimeout(() => {
         const headerLogoRect = headerLogo.getBoundingClientRect()
-        const initialLogoRect = initialLogo.getBoundingClientRect()
+        // const initialLogoRect = initialLogo.getBoundingClientRect()
         
         // Центр экрана (где находится начальный логотип благодаря flex)
         const centerX = window.innerWidth / 2
@@ -275,7 +278,7 @@ export const HeaderWithAnimate = () => {
         }
       })
     }
-  }, [isHomePage])
+  }, [isHomePage, xl])
 
   return (
     <>
@@ -304,7 +307,7 @@ export const HeaderWithAnimate = () => {
           `top-0 left-0 z-50 w-full transition-all duration-300 ${
             scrolled ? 'bg-white shadow-lg' : 'bg-transparent'
           }`,
-          pathname === '/' ? 'fixed' : 'sticky bg-white',
+          isHomePage ? 'fixed' : 'sticky bg-white',
         )}
       >
         <div className="container">
@@ -314,14 +317,14 @@ export const HeaderWithAnimate = () => {
               {leftMenu.map((item) => (
                 <Link
                   key={item.title}
-                  href={item.href}
+                  href={localizePath(item.href)}
                   className="cursor-pointer text-lg uppercase hover:underline"
                 >
                   <Typography variant="text_main">{item.title}</Typography>
                 </Link>
               ))}
             </nav>
-            <Link href="/" className="flex items-center">
+            <Link href={localizePath('/')} className="flex items-center">
               {/* ref для GSAP‑анимации логотипа */}
               <div
                 ref={logoRef}
@@ -336,19 +339,19 @@ export const HeaderWithAnimate = () => {
             <div ref={rightMenuRef} className="hidden items-center justify-between xl:flex">
               <div className="flex items-center gap-6">
                 <Link
-                  href="/eco"
+                  href={localizePath('/eco')}
                   className="cursor-pointer text-lg font-medium"
                 >
                   <Image src={Leaf} width={24} height={24} alt="leaf" />
                 </Link>
                 <Link
-                  href="/account"
+                  href={localizePath('/account')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Account</Typography>
                 </Link>
                 <Link
-                  href="/wishlist"
+                  href={localizePath('/wishlist')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
                   <Typography variant="text_main">Wishlist</Typography>
@@ -376,7 +379,7 @@ export const HeaderWithAnimate = () => {
                     <div className="flex flex-col">
                       <div className="mt-2 mb-6 flex items-center justify-between">
                         <Link
-                          href="/eco"
+                          href={localizePath('/eco')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 cursor-pointer items-center justify-center text-lg font-medium"
                         >
@@ -385,7 +388,7 @@ export const HeaderWithAnimate = () => {
                           </div>
                         </Link>
                         <Link
-                          href="/account"
+                          href={localizePath('/account')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -396,7 +399,7 @@ export const HeaderWithAnimate = () => {
                           />
                         </Link>
                         <Link
-                          href="/wishlist"
+                          href={localizePath('/wishlist')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -407,7 +410,7 @@ export const HeaderWithAnimate = () => {
                           />
                         </Link>
                         <Link
-                          href="/cart"
+                          href={localizePath('/cart')}
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"
                         >
@@ -435,7 +438,7 @@ export const HeaderWithAnimate = () => {
                         {leftMenu.map((item) => (
                           <Link
                             key={item.title}
-                            href={item.href}
+                            href={localizePath(item.href)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="cursor-pointer text-lg uppercase hover:underline"
                           >
