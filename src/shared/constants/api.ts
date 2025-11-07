@@ -1,4 +1,7 @@
 export const apiMap = {
+  // Sale Popup
+  getSalePopup: 'sale-popup',
+
   // Wishlist
   addToWishlistProducts: 'products/add-to-wishlist',
   getWishlistProducts: 'products/get-wishlist-products',

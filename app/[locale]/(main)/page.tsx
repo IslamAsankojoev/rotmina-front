@@ -9,7 +9,7 @@ import SlideImage5 from '@/public/assets/products/e90bf2efd413950c0e86d922d5e451
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
-import { Categories, Collections } from '@/src/features'
+import { Categories, Collections, SalePopup } from '@/src/features'
 import { Typography } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import Image from 'next/image'
@@ -28,6 +28,7 @@ const slides = [
 export default function Home() {
   return (
     <section>
+      <SalePopup />
       <div className="relative hidden h-screen w-full items-center justify-center md:flex">
         <Image
           src={Hero}
