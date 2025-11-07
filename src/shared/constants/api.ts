@@ -7,7 +7,7 @@ export const apiMap = {
   // Auth
   postLogin: 'auth/local',
   postSignup: 'auth/local/register',
-  deleteLogout: 'logout',
+  deleteLogout: 'auth/local',
   postResetPassword: 'auth/forgot-password',
   postNewPassword: 'auth/reset-password',
 
