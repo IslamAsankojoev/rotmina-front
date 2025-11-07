@@ -11,7 +11,7 @@ import {
 
 export const AuthService = {
   login: (data: AuthCredentials) => api.post(apiMap.postLogin, { json: data }),
-  logout: () => api.delete(apiMap.deleteLogout),
+  logout: () => api.post(apiMap.deleteLogout),
   me: () => api.get(apiMap.getMe),
   meWithAllPopulates: () => api.get(apiMap.getMeWithAllPopulates),
   signup: (data: SignupCredentials) =>
