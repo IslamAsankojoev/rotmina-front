@@ -39,7 +39,7 @@ interface OrderCardProps {
 export const OrderCard = ({ order }: OrderCardProps) => {
   const { dictionary } = useDictionary()
   const { isRTL } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>)
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>)
     .orderHistory || {
     paid: 'Paid',
     pay: 'Pay',

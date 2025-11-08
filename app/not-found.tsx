@@ -7,10 +7,10 @@ import NotFoundMobileImage from '@/public/assets/404_m.webp'
 import { Typography, useDictionary, useLocale } from '@/src/shared'
 import Link from 'next/link'
 
-const not_found = () => {
+const NotFound = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).notFound || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).notFound || {
     goToMainPage: 'Go to mainpage',
   }
 
@@ -43,4 +43,4 @@ const not_found = () => {
   )
 }
 
-export default not_found
+export default NotFound

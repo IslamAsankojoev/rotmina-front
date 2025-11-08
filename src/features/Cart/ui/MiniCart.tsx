@@ -26,7 +26,7 @@ export const MiniCart = () => {
   const { md } = useScreenSize()
   const router = useRouter()
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).cart || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).cart || {
     cart: 'Cart',
     yourCart: 'Your cart',
     yourCartIsEmpty: 'Your cart is empty',

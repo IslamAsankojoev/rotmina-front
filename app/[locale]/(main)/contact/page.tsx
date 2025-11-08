@@ -9,7 +9,7 @@ import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
 const Contact = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).contact || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).contact || {
     home: 'HOME',
     contact: 'CONTACT',
     title: 'Love to hear from you',

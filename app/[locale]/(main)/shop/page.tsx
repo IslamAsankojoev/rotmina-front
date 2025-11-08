@@ -10,7 +10,7 @@ import { ProductGrid } from '@/src/entities/Product'
 const Shop = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).shop || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).shop || {
     home: 'HOME',
     shopBreadcrumb: 'SHOP',
     sortBy: 'SORT BY:',

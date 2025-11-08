@@ -64,7 +64,7 @@ export const Header = () => {
   const pathname = usePathname()
   const { localizePath } = useLocale()
   const { dictionary } = useDictionary()
-  const t = (dictionary as any).header || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).header || {
     myStory: 'My Story',
     shop: 'Shop',
     giftCard: 'Gift Card',
@@ -73,7 +73,12 @@ export const Header = () => {
     wishlist: 'Wishlist',
     close: 'Close',
   }
-  const leftMenu = getLeftMenu(t)
+  const leftMenu = getLeftMenu(t as {
+    myStory: string
+    shop: string
+    giftCard: string
+    personalStylist: string
+  })
 
   useEffect(() => {
     const SHRINK_THRESHOLD = 120

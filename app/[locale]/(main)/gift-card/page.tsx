@@ -10,7 +10,7 @@ import Image from 'next/image'
 const GiftCard = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).giftCard || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).giftCard || {
     title: 'Gift card',
     home: 'HOME',
     giftCardBreadcrumb: 'GIFT CARD',

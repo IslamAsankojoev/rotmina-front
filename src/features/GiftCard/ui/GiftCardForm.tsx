@@ -20,7 +20,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 
 export const GiftCardForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, any>>).giftCard || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).giftCard || {
     recipientsName: "RECIPIENT'S NAME",
     recipientsEmail: "RECIPIENT'S EMAIL",
     yourName: "YOUR NAME",

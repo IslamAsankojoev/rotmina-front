@@ -10,7 +10,7 @@ import Image from 'next/image'
 const PersonalStylist = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).personalStylist || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).personalStylist || {
     title: 'Personal stylist',
     home: 'HOME',
     personalStylistBreadcrumb: 'PersonalStylist',

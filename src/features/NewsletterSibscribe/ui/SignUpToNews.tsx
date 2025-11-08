@@ -27,7 +27,7 @@ const libreCaslonText = Libre_Caslon_Text({
 })
 export const SignUpToNews = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).newsletter || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).newsletter || {
     signUpForUpdates: 'Sign up for updates',
     enterEmail: 'Email',
     send: 'SEND',

@@ -21,7 +21,7 @@ import { ReturnRequestSchema } from '../model/validation'
 
 export const ReturnForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).returns || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).returns || {
     personalDetails: 'Personal Details',
     name: 'NAME',
     phone: 'PHONE',

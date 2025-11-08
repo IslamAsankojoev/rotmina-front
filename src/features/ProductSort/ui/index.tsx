@@ -22,7 +22,7 @@ export function ProductSort({
   fields = ['Popularity', 'Price up', 'price down', 'sale'],
 }: ProductSortProps) {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).sort || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).sort || {
     popularity: 'Popularity',
     priceUp: 'Price up',
     priceDown: 'price down',
@@ -41,7 +41,7 @@ export function ProductSort({
 
   const translatedFields = fields.map(field => sortMap[field] || field)
   const getOriginalField = (translated: string) => {
-    const entry = Object.entries(sortMap).find(([_, value]) => value === translated)
+    const entry = Object.entries(sortMap).find(([, value]) => value === translated)
     return entry ? entry[0] : translated
   }
 

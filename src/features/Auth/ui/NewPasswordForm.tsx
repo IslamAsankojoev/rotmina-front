@@ -22,7 +22,7 @@ import { useState } from 'react'
 
 export const NewPasswordForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).newPassword || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).newPassword || {
     title: 'Password Reset',
     description: 'Enter your new password',
     newPassword: 'New password',

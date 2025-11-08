@@ -35,7 +35,7 @@ export const AddressForm = ({
   selectedAddress,
 }: OrderFormProps) => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).addressForm || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).addressForm || {
     loading: 'Loading...',
     error: 'Error:',
     addressAddedSuccess: 'Address added successfully',

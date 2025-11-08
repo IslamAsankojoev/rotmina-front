@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 const ReturnsAndExchanges = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).returns || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).returns || {
     title: 'Returns & Exchanges',
   }
 

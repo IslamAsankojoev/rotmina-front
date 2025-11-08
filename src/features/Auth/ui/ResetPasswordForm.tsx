@@ -19,7 +19,7 @@ import { Spinner } from '@/shadcn/components/ui/spinner'
 
 export const ResetPasswordForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).resetPassword || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).resetPassword || {
     title: 'Reset password',
     description: 'Enter your email and you will receive a link to reset your password',
     email: 'EMAIL',

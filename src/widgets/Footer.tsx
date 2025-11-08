@@ -58,13 +58,13 @@ export const Footer = () => {
   const { md } = useScreenSize()
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const headerT = (dictionary as Record<string, Record<string, string>>).header || {
+  const headerT = ((dictionary as unknown) as Record<string, Record<string, string>>).header || {
     myStory: 'My Story',
     shop: 'Shop',
     giftCard: 'Gift Card',
     personalStylist: 'Personal Stylist',
   }
-  const footerT = (dictionary as Record<string, Record<string, string>>).footer || {
+  const footerT = ((dictionary as unknown) as Record<string, Record<string, string>>).footer || {
     contact: 'Contact',
     termsOfUse: 'Terms of conditions',
     privacyPolicy: 'Privacy Policy',

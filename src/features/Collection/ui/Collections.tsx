@@ -18,7 +18,7 @@ import { useQuery } from '@tanstack/react-query'
 
 export const Collections = () => {
   const { dictionary } = useDictionary()
-  const collectionsT = (dictionary as Record<string, Record<string, string>>).collections || {
+  const collectionsT = ((dictionary as unknown) as Record<string, Record<string, string>>).collections || {
     noDescription: 'No description',
     seeCollection: 'See collection',
   }

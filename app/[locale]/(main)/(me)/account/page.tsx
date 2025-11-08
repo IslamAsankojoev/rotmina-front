@@ -9,7 +9,7 @@ import { Breadcrumbs, Typography, useUser, useDictionary, useLocale } from '@/sr
 const Account = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const accountT = (dictionary as Record<string, Record<string, string>>).account || {
+  const accountT = ((dictionary as unknown) as Record<string, Record<string, string>>).account || {
     home: 'HOME',
     account: 'ACCOUNT',
   }

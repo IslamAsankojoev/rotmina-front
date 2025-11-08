@@ -23,7 +23,7 @@ import { useState } from 'react'
 
 export const SignupForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).signup || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).signup || {
     title: 'Sign Up',
     name: 'NAME',
     surname: 'SURNAME',

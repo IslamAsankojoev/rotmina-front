@@ -22,7 +22,7 @@ export const OrderList = () => {
   const { dictionary } = useDictionary()
   const { locale } = useLocale()
   const isRTL = locale === 'he'
-  const t = (dictionary as Record<string, Record<string, string>>).orderHistory || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).orderHistory || {
     order: 'order',
     date: 'date',
     status: 'status',

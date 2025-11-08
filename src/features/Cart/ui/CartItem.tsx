@@ -26,7 +26,7 @@ export const CartItem = ({
 }: CartItemProps) => {
   const { getPrice, currency } = useLangCurrancy()
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).cart || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).cart || {
     remove: 'Remove',
     size: 'Size:',
     color: 'Color',

@@ -46,7 +46,7 @@ enum PaymentMethods {
 export default function OrderPage() {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).payment || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).payment || {
     home: 'HOME',
     cartBreadcrumb: 'CART',
     shippingInformation: 'Shipping Information',

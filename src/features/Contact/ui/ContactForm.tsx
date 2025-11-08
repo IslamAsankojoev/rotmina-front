@@ -17,7 +17,7 @@ import { contactFormSchema } from '../model/validation'
 
 export const ContactForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).contact || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).contact || {
     name: 'NAME',
     emailPlaceholder: 'EMAIL',
     message: 'TEXT',

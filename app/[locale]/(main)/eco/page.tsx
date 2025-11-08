@@ -11,7 +11,7 @@ import Image from 'next/image'
 const ECO = () => {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).eco || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).eco || {
     home: 'HOME',
     eco: 'ECO',
     title: 'Rotmina was born from a passion for fashion,with deep respect and desire to harmonize with nature and life on Earth',

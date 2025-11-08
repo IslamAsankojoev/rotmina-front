@@ -32,7 +32,7 @@ export function ProductFilter({
   sizes: defaultSizes = [],
 }: ProductFilterProps) {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).filter || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).filter || {
     color: 'Colour',
     size: 'Size',
     apply: 'Apply',
@@ -72,7 +72,7 @@ export function ProductFilter({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild className="cursor-pointer">
         {md ? (
-          <Typography variant="text_main">{(dictionary as Record<string, Record<string, string>>).shop?.filter || 'FILTER'}</Typography>
+          <Typography variant="text_main">{((dictionary as unknown) as Record<string, Record<string, string>>).shop?.filter || 'FILTER'}</Typography>
         ) : (
           <SlidersHorizontal strokeWidth={0.75} />
         )}

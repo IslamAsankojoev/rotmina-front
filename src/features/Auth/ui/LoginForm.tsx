@@ -27,7 +27,7 @@ import { LoginSchema } from '../model/validation'
 
 export const LoginForm = () => {
   const { dictionary } = useDictionary()
-  const t = (dictionary as Record<string, Record<string, string>>).login || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).login || {
     title: 'Login',
     email: 'EMAIL',
     password: 'Enter password',

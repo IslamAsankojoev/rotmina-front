@@ -28,7 +28,7 @@ export function OrderConfirmModal({
 }: OrderConfirmModalProps) {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = (dictionary as Record<string, Record<string, string>>).orderConfirm || {
+  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).orderConfirm || {
     title: 'Order Confirmed!',
     yourOrder: 'Your order №',
     thankYou: 'Thank you for choosing Rotmina. A confirmation email is on its way to you your order is being carefully packed and will be shipped soon.',

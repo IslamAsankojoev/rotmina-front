@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation'
 export default function CartPage() {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const cartPageT = (dictionary as Record<string, Record<string, string>>).cartPage || {
+  const cartPageT = ((dictionary as unknown) as Record<string, Record<string, string>>).cartPage || {
     home: 'HOME',
     cartBreadcrumb: 'CART',
     shippingInformation: 'Shipping Information',
