@@ -3,17 +3,27 @@
 import React from 'react'
 
 import MyStoryImage from '@/public/assets/my-story.webp'
-import { Breadcrumbs, Typography } from '@/src/shared'
+import { Breadcrumbs, Typography, useDictionary, useLocale } from '@/src/shared'
 import Image from 'next/image'
 
 const MyStory = () => {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as Record<string, Record<string, string>>).myStory || {
+    title: 'My Story',
+    home: 'HOME',
+    content: "Pleased to meet you. I'm Rotmina — my childhood nickname that stayed with me. \n\nI'm a fashion designer and personal stylist. \nAfter many years, I chose to dive into my true self — my authentic nature — opening up to my inner path and returning home to my core essence. \n\nThe path I walk weaves together many worlds: emotion and creative expression, a deep connection to nature and art. A decade ago, I chose veganism as a way of life. The transition felt natural and deeply aligned. Through my personal journey, I've chosen to see what — and who — often goes unseen. \n\nCarrying these insights forward, my movement through the world aims to embody an honest presence and a deep commitment to sustainability in all its layers. I strive for transparency and embrace the complexity and multidimensionality of our existence. \n\n\nEmerging from this space, Rotmina is more than a fashion brand — it's a language, an energetic resonance, a path of consciousness shaped by unity, and an ever-burning desire for depth and aesthetics. \n\nI encourage you to embrace yourself with confidence — to choose a wholeness that radiates both within and without — and to join me on this journey.",
+  }
+
+  const contentLines = t.content.split('\n')
+
   return (
     <>
       <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
-            { title: 'My Story', href: '/my-story' },
+            { title: t.home, href: localizePath('/') },
+            { title: t.title, href: localizePath('/my-story') },
           ]}
         />
       </div>
@@ -31,32 +41,19 @@ const MyStory = () => {
           </div>
           <div className="flex-1 md:p-8">
             <Typography variant="text_title" className="mb-4">
-              My Story
+              {t.title}
             </Typography>
             <Typography variant="text_main" className="my-4">
-              Pleased to meet you. I&apos;m Rotmina — my childhood nickname that
-              stayed with me. <br /> <br />
-              I&apos;m a fashion designer and personal stylist. <br />
-              After many years, I chose to dive into my true self — my authentic
-              nature — opening up to my inner path and returning home to my core
-              essence. <br /> <br />
-              The path I walk weaves together many worlds: emotion and creative
-              expression, a deep connection to nature and art. A decade ago, I
-              chose veganism as a way of life. The transition felt natural and
-              deeply aligned. Through my personal journey, I’ve chosen to see
-              what — and who — often goes unseen. <br /> <br />
-              Carrying these insights forward, my movement through the world
-              aims to embody an honest presence and a deep commitment to
-              sustainability in all its layers. I strive for transparency and
-              embrace the complexity and multidimensionality of our existence.{' '}
-              <br /> <br />
-              <br />
-              Emerging from this space, Rotmina is more than a fashion brand —
-              it’s a language, an energetic resonance, a path of consciousness
-              shaped by unity, and an ever-burning desire for depth and
-              aesthetics. <br /> <br />I encourage you to embrace yourself with
-              confidence — to choose a wholeness that radiates both within and
-              without — and to join me on this journey.
+              {contentLines.map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < contentLines.length - 1 && (
+                    <>
+                      <br />
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
             </Typography>
             <br />
           </div>

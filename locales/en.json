@@ -4,6 +4,95 @@
   },
   "products": {
     "loadMore": "Load more"
+  },
+  "header": {
+    "myStory": "My Story",
+    "shop": "Shop",
+    "giftCard": "Gift Card",
+    "personalStylist": "Personal Stylist",
+    "account": "Account",
+    "wishlist": "Wishlist",
+    "cart": "Cart",
+    "close": "Close"
+  },
+  "cart": {
+    "cart": "Cart",
+    "yourCart": "Your cart",
+    "yourCartIsEmpty": "Your cart is empty",
+    "subtotal": "Subtotal:",
+    "proceedToCheckout": "proceed to checkout",
+    "remove": "Remove",
+    "size": "Size:",
+    "color": "Color",
+    "amount": "Amount:",
+    "giftCard": "Gift Card",
+    "personalStylist": "Personal Stylist",
+    "address": "Address:",
+    "name": "Name:",
+    "online": "ONLINE",
+    "inPerson": "IN-PERSON"
+  },
+  "footer": {
+    "signUpForUpdates": "Sign up for updates",
+    "enterEmail": "Email",
+    "send": "SEND",
+    "contact": "Contact",
+    "termsOfUse": "Terms of conditions",
+    "privacyPolicy": "Privacy Policy",
+    "shippingAndReturns": "Shipping & Returns",
+    "paymentAndDelivery": "Payment & Delivery"
+  },
+  "newsletter": {
+    "signUpForUpdates": "Sign up for updates",
+    "enterEmail": "Email",
+    "send": "SEND",
+    "subscribeSuccess": "You are now subscribed to the newsletter",
+    "subscribeError": "Failed to subscribe to the newsletter"
+  },
+  "myStory": {
+    "title": "My Story",
+    "home": "HOME",
+    "content": "Pleased to meet you. I'm Rotmina — my childhood nickname that stayed with me. \n\nI'm a fashion designer and personal stylist. \nAfter many years, I chose to dive into my true self — my authentic nature — opening up to my inner path and returning home to my core essence. \n\nThe path I walk weaves together many worlds: emotion and creative expression, a deep connection to nature and art. A decade ago, I chose veganism as a way of life. The transition felt natural and deeply aligned. Through my personal journey, I've chosen to see what — and who — often goes unseen. \n\nCarrying these insights forward, my movement through the world aims to embody an honest presence and a deep commitment to sustainability in all its layers. I strive for transparency and embrace the complexity and multidimensionality of our existence. \n\n\nEmerging from this space, Rotmina is more than a fashion brand — it's a language, an energetic resonance, a path of consciousness shaped by unity, and an ever-burning desire for depth and aesthetics. \n\nI encourage you to embrace yourself with confidence — to choose a wholeness that radiates both within and without — and to join me on this journey."
+  },
+  "giftCard": {
+    "title": "Gift card",
+    "home": "HOME",
+    "giftCardBreadcrumb": "GIFT CARD",
+    "description": "Not sure what to choose?\nA Gift Card is always a great idea!\nLet your loved ones pick what they love most.",
+    "recipientsName": "RECIPIENT'S NAME",
+    "recipientsEmail": "RECIPIENT'S EMAIL",
+    "yourName": "YOUR NAME",
+    "yourEmail": "YOUR EMAIL",
+    "personalMessage": "PERSONAL MESSAGE",
+    "amount": "Amount",
+    "addToCart": "Add to Cart",
+    "validation": {
+      "recipientsNameRequired": "Recipient's name is required",
+      "recipientsEmailRequired": "Invalid email address",
+      "yourNameRequired": "Your name is required",
+      "yourEmailRequired": "Invalid email address",
+      "amountRequired": "Amount is required"
+    }
+  },
+  "personalStylist": {
+    "title": "Personal stylist",
+    "home": "HOME",
+    "personalStylistBreadcrumb": "PersonalStylist",
+    "price": "PRICE",
+    "content": "A personal path of defining your appearance and building a wardrobe tailored to your lifestyle, your values, and your personal needs. \n\nTogether, we will craft a thoughtfully curated wardrobe that reflects you, your lifestyle, your silhouette, and what genuinely supports you in your everyday life.No fleeting trends that speak a foreign language, and no striving to fit into something that pulls you away from who you truly are. \n\nThe path we embrace together is an invitation to listen to yourself, to your presence, to what feels true and genuine with you, focusing on what brings you comfort and confidence in your appearance. \n\nMy approach emphasizes sustainability, quality over quantity, and mindful choices that respect the environment. My goal is not to create a look, but to build, together, an appearance that feels whole, comfortable, and true to who you are today.During our time together, we will craft an appearance that reflects your true essence, you will gain clear insights and practical tools to realize what truly works for you, enabling you to craft an authentic appearance that will support you in the long run. \n\nFrom that space, when you choose an outfit in alignment with your essence, it becomes more than just what you wear, it becomes a gentle foundation that holds you. Allowing you to simply be, without effort.",
+    "meetingOverview": "Meeting Overview",
+    "meetingOverviewContent": "We will begin by exploring what already exists, your current wardrobe and personal expression, together we will explore the choices you have made so far, identifying what truly reflects your unique signature and what no longer resonates. You will gain valuable tools for making intentional, confident decisions moving forward, we'll refine your wardrobe, removing what no longer serves you, leaving only those items that are truly empowering and aligns with your true self. \n\nIn the next step we'll explore fabric types, flattering color palettes based on your skin tone, silhouettes and design lines that enhance your proportions. We'll discover how to create successful combinations using your existing wardrobe, from there we'll dive into finer details - from well-fitted lingerie to the right hem length for your proportions - will define what's missing in order to complete your wardrobe in a way that truly meets your needs. \n\nBringing It All Together we'll define the present what fits any occasion, how to wear and carry an item with intention, which cuts complement your silhouette, and how to make refined choices that reveal the essence of what you wish to express. You'll gain empowering practical clarity to express yourself with confidence and coherence in a way that feels genuine, resonant, and aligned with your true authentic self.",
+    "virtualMeeting": "Virtual Meeting",
+    "virtualMeetingContent": "A tailored and informative meeting is another way to refine yourself - whether you have an important meeting, a significant event, a job interview, a key presentation or simply an immediate need to refresh and feel centered and present. \n\nDuring our meeting, we will define your vision in a comfortable space, exploring the context and message you wish to express, and create a smart, accurate appearance that reflects you - your true self. \n\nAt the end of our meeting, we will craft a complete wardrobe suited to the occasion, including all the essential elements: clothing, shoes, and accessories that will support your confidence, reflecting the essence you seek to express and allow your presence to shine. \n\nAt the heart of my goal lies the desire to guide you toward feeling whole, confident and empowered - radiating that energy wherever you go.",
+    "online": "Online",
+    "atYourHome": "At your home",
+    "duration": "Duration:",
+    "priceLabel": "Price:",
+    "onlineUnavailable": "Online sessions are temporarily unavailable",
+    "atYourHomeUnavailable": "At-your-home sessions are temporarily unavailable",
+    "addToCart": "Add to Cart",
+    "loading": "Loading...",
+    "priceNote": "The price takes into account the length of the meeting and offers a more convenient rate for meetings longer than 5 hours."
   }
 }
 

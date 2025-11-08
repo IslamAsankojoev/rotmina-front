@@ -10,7 +10,7 @@ import {
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
 import { useAddGiftCard, useCartActions } from '@/src/app/store'
-import { useLangCurrancy } from '@/src/shared'
+import { useLangCurrancy, useDictionary } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -19,6 +19,16 @@ import { giftCardValidationSchema } from '../model/validation'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shadcn/components/ui/select'
 
 export const GiftCardForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, any>>).giftCard || {
+    recipientsName: "RECIPIENT'S NAME",
+    recipientsEmail: "RECIPIENT'S EMAIL",
+    yourName: "YOUR NAME",
+    yourEmail: "YOUR EMAIL",
+    personalMessage: "PERSONAL MESSAGE",
+    amount: "Amount",
+    addToCart: "Add to Cart",
+  }
   const form = useForm<z.infer<typeof giftCardValidationSchema>>({
     defaultValues: {
       recipientsName: '',
@@ -63,7 +73,7 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="RECIPIENT'S NAME" {...field} />
+                  <Input placeholder={t.recipientsName} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,7 +85,7 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="RECIPIENT'S EMAIL" {...field} />
+                  <Input placeholder={t.recipientsEmail} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,7 +97,7 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="YOUR NAME" {...field} />
+                  <Input placeholder={t.yourName} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,7 +109,7 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="YOUR EMAIL" {...field} />
+                  <Input placeholder={t.yourEmail} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -111,7 +121,7 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="PERSONAL MESSAGE" {...field} />
+                  <Input placeholder={t.personalMessage} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,11 +135,11 @@ export const GiftCardForm = () => {
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value.toString()}>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Amount" />
+                      <SelectValue placeholder={t.amount} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Amount</SelectLabel>
+                        <SelectLabel>{t.amount}</SelectLabel>
                         <SelectItem value="250">{getPrice(250)} {currency}</SelectItem>
                         <SelectItem value="300">{getPrice(300)} {currency}</SelectItem>
                         <SelectItem value="400">{getPrice(400)} {currency}</SelectItem>
@@ -150,7 +160,7 @@ export const GiftCardForm = () => {
             variant="outline-minimal"
             size="lg"
           >
-            Add to Cart
+            {t.addToCart}
           </Button>
         </form>
       </Form>

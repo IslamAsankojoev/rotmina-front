@@ -2,50 +2,87 @@
 
 import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
 
-import { Typography, useScreenSize } from '../shared'
+import { Typography, useScreenSize, useDictionary, useLocale } from '../shared'
 import { SignUpToNews } from '@/src/features'
 
 
-const leftMenu = [
+const getLeftMenu = (t: {
+  myStory: string
+  shop: string
+  giftCard: string
+  personalStylist: string
+}) => [
   {
-    title: 'My Story',
+    title: t.myStory,
     href: '/my-story',
   },
   {
-    title: 'Shop',
+    title: t.shop,
     href: '/shop',
   },
   {
-    title: 'Gift Card',
+    title: t.giftCard,
     href: '/gift-card',
   },
   {
-    title: 'Personal Stylist',
+    title: t.personalStylist,
     href: '/personal-stylist',
   },
 ]
 
-const rightMenu = [
+const getRightMenu = (t: {
+  termsOfUse: string
+  privacyPolicy: string
+  shippingAndReturns: string
+  paymentAndDelivery: string
+}) => [
   {
-    title: 'Terms of conditions',
+    title: t.termsOfUse,
     href: '/terms-of-conditions',
   },
   {
-    title: 'Privacy Policy',
+    title: t.privacyPolicy,
     href: '/privacy-policy',
   },
   {
-    title: 'Shipping & Returns',
+    title: t.shippingAndReturns,
     href: '/international-shipping',
   },
   {
-    title: 'Payment & Delivery',
+    title: t.paymentAndDelivery,
     href: '/returns-&-exchanges',
   },
 ]
 
 export const Footer = () => {
   const { md } = useScreenSize()
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const headerT = (dictionary as Record<string, Record<string, string>>).header || {
+    myStory: 'My Story',
+    shop: 'Shop',
+    giftCard: 'Gift Card',
+    personalStylist: 'Personal Stylist',
+  }
+  const footerT = (dictionary as Record<string, Record<string, string>>).footer || {
+    contact: 'Contact',
+    termsOfUse: 'Terms of conditions',
+    privacyPolicy: 'Privacy Policy',
+    shippingAndReturns: 'Shipping & Returns',
+    paymentAndDelivery: 'Payment & Delivery',
+  }
+  const leftMenu = getLeftMenu(headerT as {
+    myStory: string
+    shop: string
+    giftCard: string
+    personalStylist: string
+  })
+  const rightMenu = getRightMenu(footerT as {
+    termsOfUse: string
+    privacyPolicy: string
+    shippingAndReturns: string
+    paymentAndDelivery: string
+  })
   return (
     <footer className="bg-blackish py-16 pb-12">
       <div className="container flex flex-col justify-between gap-6 md:flex-row">
@@ -58,7 +95,7 @@ export const Footer = () => {
                 .map((item) => (
                   <a
                     key={item.title}
-                    href={item.href}
+                    href={localizePath(item.href)}
                     className="text-white hover:underline"
                   >
                     <Typography variant="text_mini_footer">
@@ -66,13 +103,13 @@ export const Footer = () => {
                     </Typography>
                   </a>
                 ))}
-              <a href={'/contact'} className="text-white hover:underline">
-                <Typography variant="text_mini_footer">Contact</Typography>
+              <a href={localizePath('/contact')} className="text-white hover:underline">
+                <Typography variant="text_mini_footer">{footerT.contact}</Typography>
               </a>
             </div>
             <div className="flex flex-col gap-2 text-white">
               {rightMenu.map((item) => (
-                <a key={item.title} href={item.href} className="text-white hover:underline">
+                <a key={item.title} href={localizePath(item.href)} className="text-white hover:underline">
                   <Typography variant="text_mini_footer">
                     {item.title}
                   </Typography>

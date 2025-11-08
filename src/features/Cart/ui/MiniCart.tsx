@@ -12,7 +12,7 @@ import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
 import { Sheet, SheetContent } from '@/shadcn/components/ui/sheet'
 import { useCartActions, useCartInfo } from '@/src/app/store'
-import { Typography, useLangCurrancy, useScreenSize } from '@/src/shared'
+import { Typography, useLangCurrancy, useScreenSize, useDictionary } from '@/src/shared'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { createPortal } from 'react-dom'
@@ -25,7 +25,14 @@ export const MiniCart = () => {
   const { updateQuantity, removeItem, openCart, closeCart } = useCartActions()
   const { md } = useScreenSize()
   const router = useRouter()
-
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).cart || {
+    cart: 'Cart',
+    yourCart: 'Your cart',
+    yourCartIsEmpty: 'Your cart is empty',
+    subtotal: 'Subtotal:',
+    proceedToCheckout: 'proceed to checkout',
+  }
   const handleOpenChange = () => {
     if (isOpen) {
       closeCart()
@@ -67,7 +74,7 @@ export const MiniCart = () => {
       {md ? (
         <Popover open={isOpen} onOpenChange={handleOpenChange}>
           <PopoverTrigger className="cursor-pointer">
-            <Typography className="uppercase">Cart</Typography>
+            <Typography className="uppercase">{t.cart}</Typography>
           </PopoverTrigger>
           <PopoverContent
             align="end"
@@ -76,7 +83,7 @@ export const MiniCart = () => {
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">
                 <Typography variant="text_title" className="italic">
-                  Your cart
+                  {t.yourCart}
                 </Typography>
                 <X
                   strokeWidth={0.95}
@@ -91,7 +98,7 @@ export const MiniCart = () => {
                   {items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-8">
                       <Typography variant="text_main" className="text-greyy">
-                        Your cart is empty
+                        {t.yourCartIsEmpty}
                       </Typography>
                     </div>
                   ) : (
@@ -116,7 +123,7 @@ export const MiniCart = () => {
                     variant="text_main"
                     className="text-mini-footer md:text-main"
                   >
-                    Subtotal:
+                    {t.subtotal}
                   </Typography>
                   <Typography
                     variant="text_main"
@@ -137,7 +144,7 @@ export const MiniCart = () => {
                 closeCart()
               }}
             >
-              proceed to checkout
+              {t.proceedToCheckout}
             </Button>
           </PopoverContent>
         </Popover>
@@ -152,7 +159,7 @@ export const MiniCart = () => {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <Typography variant="text_title" className="italic">
-                    Your cart
+                    {t.yourCart}
                   </Typography>
                   <X
                     strokeWidth={0.95}
@@ -167,7 +174,7 @@ export const MiniCart = () => {
                     {items.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-8">
                         <Typography variant="text_main" className="text-greyy">
-                          Your cart is empty
+                          {t.yourCartIsEmpty}
                         </Typography>
                       </div>
                     ) : (
@@ -192,7 +199,7 @@ export const MiniCart = () => {
                       variant="text_main"
                       className="text-mini-footer md:text-main"
                     >
-                      Subtotal:
+                      {t.subtotal}
                     </Typography>
                     <Typography
                       variant="text_main"
@@ -213,7 +220,7 @@ export const MiniCart = () => {
                   handleOpenChange()
                 }}
               >
-                proceed to checkout
+                {t.proceedToCheckout}
               </Button>
             </SheetContent>
           </Sheet>

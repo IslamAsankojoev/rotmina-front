@@ -10,12 +10,24 @@ import {
   TabsTrigger,
 } from '@/shadcn/components/ui/tabs'
 import { useAddPersonalStylist, useCartActions } from '@/src/app/store'
-import { Typography, useLangCurrancy, useAsyncErrorHandler } from '@/src/shared'
+import { Typography, useLangCurrancy, useAsyncErrorHandler, useDictionary, useLocale } from '@/src/shared'
 import { getGroupedPersonalStylists } from '../model/api'
 import type { PersonalStylist, SessionType } from '../model/type'
 import clsx from 'clsx'
 
 export const PersonalStylistForm = () => {
+  const { dictionary } = useDictionary()
+  const { locale } = useLocale()
+  const t = (dictionary as Record<string, Record<string, string>>).personalStylist || {
+    online: 'Online',
+    atYourHome: 'At your home',
+    duration: 'Duration:',
+    priceLabel: 'Price:',
+    onlineUnavailable: 'Online sessions are temporarily unavailable',
+    atYourHomeUnavailable: 'At-your-home sessions are temporarily unavailable',
+    addToCart: 'Add to Cart',
+    loading: 'Loading...',
+  }
   const { getPrice, currency } = useLangCurrancy()
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
   const [sessionType, setSessionType] = useState<SessionType>('online')
@@ -74,14 +86,40 @@ export const PersonalStylistForm = () => {
   }
 
   const formatDuration = (minutes: number): string => {
-    if (minutes / 60 === 1) return '1 hour'
-    return `${minutes / 60} hours`
+    const hours = minutes / 60
+    if (locale === 'he') {
+      if (hours === 1) return 'שעה אחת'
+      if (hours === 1.5) return 'שעה וחצי'
+      if (hours === 2) return 'שעתיים'
+      if (hours === 2.5) return 'שעתיים וחצי'
+      if (hours === 3) return 'שלוש שעות'
+      if (hours === 3.5) return 'שלוש וחצי שעות'
+      if (hours === 4) return 'ארבע שעות'
+      if (hours === 4.5) return 'ארבע וחצי שעות'
+      if (hours === 5) return 'חמש שעות'
+      if (hours === 5.5) return 'חמש וחצי שעות'
+      if (hours === 6) return 'שש שעות'
+      return `${hours} שעות`
+    } else {
+      if (hours === 1) return '1 hour'
+      if (hours === 1.5) return '1.5 hours'
+      if (hours === 2) return '2 hours'
+      if (hours === 2.5) return '2.5 hours'
+      if (hours === 3) return '3 hours'
+      if (hours === 3.5) return '3.5 hours'
+      if (hours === 4) return '4 hours'
+      if (hours === 4.5) return '4.5 hours'
+      if (hours === 5) return '5 hours'
+      if (hours === 5.5) return '5.5 hours'
+      if (hours === 6) return '6 hours'
+      return `${hours} hours`
+    }
   }
 
   if (loading) {
     return (
       <div className="mt-10">
-        <Typography variant="text_main">Loading...</Typography>
+        <Typography variant="text_main">{t.loading}</Typography>
       </div>
     )
   }
@@ -97,27 +135,27 @@ export const PersonalStylistForm = () => {
       >
         <TabsList>
           <TabsTrigger value="online" className="uppercase cursor-pointer">
-            Online
+            {t.online}
           </TabsTrigger>
           <TabsTrigger value="at-your-home" className="uppercase cursor-pointer">
-            At your home
+            {t.atYourHome}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="online">
           {personalStylists.online.length > 0 ? (
             <>
               <Typography variant="text_main">
-                <span className="font-bold">Duration:</span>{' '}
+                <span className="font-bold">{t.duration}</span>{' '}
                 {formatDuration(personalStylists.online[0].minutes)}
               </Typography>
               <Typography variant="text_main" className="mt-2">
-                <span className="font-bold">Price:</span>{' '}
+                <span className="font-bold">{t.priceLabel}</span>{' '}
                 {getPrice(personalStylists.online[0].price)} {currency}
               </Typography>
             </>
           ) : (
             <Typography variant="text_main">
-              Online sessions are temporarily unavailable
+              {t.onlineUnavailable}
             </Typography>
           )}
         </TabsContent>
@@ -144,7 +182,7 @@ export const PersonalStylistForm = () => {
             </div>
           ) : (
             <Typography variant="text_main">
-              At-your-home sessions are temporarily unavailable
+              {t.atYourHomeUnavailable}
             </Typography>
           )}
         </TabsContent>
@@ -160,7 +198,7 @@ export const PersonalStylistForm = () => {
           (sessionType === 'at-your-home' && personalStylists['at-your-home'].length === 0)
         }
       >
-        Add to Cart
+        {t.addToCart}
       </Button>
     </div>
   )

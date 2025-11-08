@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Libre_Caslon_Text } from 'next/font/google'
@@ -26,6 +26,14 @@ const libreCaslonText = Libre_Caslon_Text({
   subsets: ['latin'],
 })
 export const SignUpToNews = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).newsletter || {
+    signUpForUpdates: 'Sign up for updates',
+    enterEmail: 'Email',
+    send: 'SEND',
+    subscribeSuccess: 'You are now subscribed to the newsletter',
+    subscribeError: 'Failed to subscribe to the newsletter',
+  }
   const form = useForm<z.infer<typeof NewsletterSubscriberSchema>>({
     defaultValues: {
       email: '',
@@ -37,10 +45,10 @@ export const SignUpToNews = () => {
     mutationFn: (data: NewsletterSubscriber) =>
       NewsletterSibscribeService.subscribe(data),
     onSuccess: () => {
-      toast.success('You are now subscribed to the newsletter')
+      toast.success(t.subscribeSuccess)
     },
     onError: () => {
-      toast.error('Failed to subscribe to the newsletter')
+      toast.error(t.subscribeError)
     },
   })
 
@@ -56,7 +64,7 @@ export const SignUpToNews = () => {
             className={`justify-start ${libreCaslonText.className} text-white`}
           >
             <Typography variant="text_mobile_title2" className="italic">
-              Sign up for updates
+              {t.signUpForUpdates}
             </Typography>
           </div>
         </div>
@@ -70,7 +78,7 @@ export const SignUpToNews = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Email"
+                    placeholder={t.enterEmail}
                     className="text-white"
                     {...field}
                   />
@@ -79,7 +87,7 @@ export const SignUpToNews = () => {
               </FormItem>
             )}
           />
-          <Button variant="minimal">SEND</Button>
+          <Button variant="minimal">{t.send}</Button>
         </form>
       </Form>
     </div>

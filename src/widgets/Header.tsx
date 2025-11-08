@@ -11,6 +11,7 @@ import {
   Typography,
   useScreenSize,
   useLocale,
+  useDictionary,
 } from '@/src/shared'
 import clsx from 'clsx'
 import {
@@ -32,21 +33,26 @@ import { MiniCart } from '../features'
 
 // const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
 
-const leftMenu = [
+const getLeftMenu = (t: {
+  myStory: string
+  shop: string
+  giftCard: string
+  personalStylist: string
+}) => [
   {
-    title: 'My Story',
+    title: t.myStory,
     href: '/my-story',
   },
   {
-    title: 'Shop',
+    title: t.shop,
     href: '/shop',
   },
   {
-    title: 'Gift Card',
+    title: t.giftCard,
     href: '/gift-card',
   },
   {
-    title: 'Personal Stylist',
+    title: t.personalStylist,
     href: '/personal-stylist',
   },
 ]
@@ -57,6 +63,17 @@ export const Header = () => {
   const { xl } = useScreenSize()
   const pathname = usePathname()
   const { localizePath } = useLocale()
+  const { dictionary } = useDictionary()
+  const t = (dictionary as any).header || {
+    myStory: 'My Story',
+    shop: 'Shop',
+    giftCard: 'Gift Card',
+    personalStylist: 'Personal Stylist',
+    account: 'Account',
+    wishlist: 'Wishlist',
+    close: 'Close',
+  }
+  const leftMenu = getLeftMenu(t)
 
   useEffect(() => {
     const SHRINK_THRESHOLD = 120
@@ -142,13 +159,13 @@ export const Header = () => {
                   href={localizePath('/account')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
-                  <Typography variant="text_main">Account</Typography>
+                  <Typography variant="text_main">{t.account}</Typography>
                 </Link>
                 <Link
                   href={localizePath('/wishlist')}
                   className="cursor-pointer text-lg font-medium uppercase hover:underline"
                 >
-                  <Typography variant="text_main">Wishlist</Typography>
+                  <Typography variant="text_main">{t.wishlist}</Typography>
                 </Link>
                 <MiniCart />
                 <LanguageSwitcher />
@@ -225,7 +242,7 @@ export const Header = () => {
                             strokeWidth={0.75}
                             className="cursor-pointer"
                           />
-                          <span className="sr-only">Close</span>
+                          <span className="sr-only">{t.close}</span>
                         </button>
                       </div>
                       <nav className="mt-6 flex flex-col items-center gap-4">
