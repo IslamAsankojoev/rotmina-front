@@ -17,7 +17,7 @@ import {
   InputGroupInput,
 } from '@/shadcn/components/ui/input-group'
 import { Spinner } from '@/shadcn/components/ui/spinner'
-import { Typography, useAuth } from '@/src/shared'
+import { Typography, useAuth, useDictionary } from '@/src/shared'
 import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
@@ -26,6 +26,17 @@ import z from 'zod'
 import { LoginSchema } from '../model/validation'
 
 export const LoginForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).login || {
+    title: 'Login',
+    email: 'EMAIL',
+    password: 'Enter password',
+    forgotPassword: 'Forgot your password?',
+    noAccount: 'Do not have an account?',
+    signUp: 'SIGN UP',
+    logIn: 'Log in',
+    incorrectCredentials: 'Incorrect password or email',
+  }
   const { login, loading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -45,7 +56,7 @@ export const LoginForm = () => {
   return (
     <>
       <div className="w-full max-w-[800px] bg-white p-4 py-15 md:p-15">
-        <Typography variant="text_title">Login</Typography>
+        <Typography variant="text_title">{t.title}</Typography>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -57,7 +68,7 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" type="email" {...field} />
+                    <Input placeholder={t.email} type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -71,7 +82,7 @@ export const LoginForm = () => {
                   <FormControl>
                     <InputGroup>
                       <InputGroupInput
-                        placeholder="Enter password"
+                        placeholder={t.password}
                         type={showPassword ? 'text' : 'password'}
                         {...field}
                       />
@@ -95,15 +106,15 @@ export const LoginForm = () => {
                 href="/reset-password"
                 className="text-right uppercase"
               >
-                Forgot your password?
+                {t.forgotPassword}
               </Link>
             </div>
             <div className="flex flex-col items-center">
               <Typography variant="text_main" className="mb-2 uppercase">
-                Do not have an account?
+                {t.noAccount}
               </Typography>
               <Link href="/signup" className="underline">
-                SIGN UP
+                {t.signUp}
               </Link>
             </div>
             <Button
@@ -114,7 +125,7 @@ export const LoginForm = () => {
               disabled={loading}
             >
               {loading && <Spinner />}
-              Log in
+              {t.logIn}
             </Button>
           </form>
         </Form>

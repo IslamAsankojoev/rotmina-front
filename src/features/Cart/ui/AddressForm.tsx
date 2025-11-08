@@ -13,7 +13,7 @@ import {
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/shadcn/components/ui/radio-group'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -34,6 +34,18 @@ export const AddressForm = ({
   setShippingAddress,
   selectedAddress,
 }: OrderFormProps) => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).addressForm || {
+    loading: 'Loading...',
+    error: 'Error:',
+    addressAddedSuccess: 'Address added successfully',
+    addressDeletedSuccess: 'Address deleted successfully',
+    address: 'ADDRESS',
+    city: 'CITY',
+    zipCode: 'ZIP CODE',
+    adding: 'Adding...',
+    addNewAddress: 'Add new address',
+  }
   const {
     data: addresses,
     isLoading: isLoadingAddresses,
@@ -57,7 +69,7 @@ export const AddressForm = ({
     mutationFn: (data: z.infer<typeof addressFormSchema>) =>
       AddressService.addAddress(data),
     onSuccess: () => {
-      toast.success('Address added successfully')
+      toast.success(t.addressAddedSuccess)
       refetchAddresses()
     },
     onError: (error) => {
@@ -71,7 +83,7 @@ export const AddressForm = ({
   const { mutate: deleteAddress } = useMutation({
     mutationFn: (id: string) => AddressService.deleteAddress(id),
     onSuccess: () => {
-      toast.success('Address deleted successfully')
+      toast.success(t.addressDeletedSuccess)
       refetchAddresses()
       setShippingAddress(null)
     },
@@ -90,8 +102,8 @@ export const AddressForm = ({
     }
   }, [addresses, setShippingAddress])
 
-  if (isLoadingAddresses) return <div>Loading...</div>
-  if (errorAddresses) return <div>Error: {errorAddresses.message}</div>
+  if (isLoadingAddresses) return <div>{t.loading}</div>
+  if (errorAddresses) return <div>{t.error} {errorAddresses.message}</div>
 
   return (
     <div>
@@ -151,7 +163,7 @@ export const AddressForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="ADDRESS" {...field} />
+                      <Input placeholder={t.address} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -165,7 +177,7 @@ export const AddressForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="CITY" {...field} />
+                      <Input placeholder={t.city} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -181,7 +193,7 @@ export const AddressForm = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="ZIP CODE" {...field} />
+                      <Input placeholder={t.zipCode} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +207,7 @@ export const AddressForm = ({
                 disabled={isAddingAddress}
                 onClick={onSubmit}
               >
-                {isAddingAddress ? 'Adding...' : 'Add new address'}
+                {isAddingAddress ? t.adding : t.addNewAddress}
               </Button>
             </div>
           </div>

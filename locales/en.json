@@ -93,6 +93,332 @@
     "addToCart": "Add to Cart",
     "loading": "Loading...",
     "priceNote": "The price takes into account the length of the meeting and offers a more convenient rate for meetings longer than 5 hours."
+  },
+  "shop": {
+    "home": "HOME",
+    "shopBreadcrumb": "SHOP",
+    "sortBy": "SORT BY:",
+    "filter": "FILTER",
+    "loadingFilters": "Loading filters...",
+    "loadingProducts": "Loading products...",
+    "loadingPagination": "Loading pagination..."
+  },
+  "filter": {
+    "color": "Colour",
+    "size": "Size",
+    "apply": "Apply",
+    "loading": "Loading..."
+  },
+  "sort": {
+    "popularity": "Popularity",
+    "priceUp": "Price up",
+    "priceDown": "price down",
+    "sale": "sale"
+  },
+  "home": {
+    "separation": {
+      "title": "Separation",
+      "content": "There comes a moment when the self longs for separation,\na healthy space between me and you, me and the other,\na dividing line between me and the world, not to escape or\ndisconnect, but to begin to exist.\n\nThis collection blossomed out of an inner journey, a\npersonal path of separation. In the world of developmental\npsychology, the separation phase refers to the stage when a\nchild begins to realize that they are not a direct extension\nof their mother. They have their own emotions, sensations,\nand desires.\n\nIt's a profound, healthy, delicate, and necessary phase, at\ntimes unsteady, moving between closeness and detachment,\nsafety and vulnerability, between the need for a bond and\nthe longing for autonomy.\n\nThis journey found its course through fabric, silhouettes,\nand lines, into structures that hold the tension between\nsoftness and resilience, expansion and containment, shapes\nthat support the body while allowing it to breathe, like the\nsoul, yearning for boundaries, but not confinement, just\nperfectly whole.\n\nThis collection tells a story of connected separation, an\ninner voice seeking to become."
+    },
+    "ethics": {
+      "title": "Rothmina - Between Beauty and Ethics",
+      "content": "Rothmina was born from passion and a deep commitment, and\nintegrity towards animals, nature, and humanity, a\nreflection of the way I choose to exist in the world.\n\nMy choices go beyond fashion. They are moral, honoring life,\ngrounded in being nurtured by Mother Earth, and emerging\nfrom love.\n\nEach detail is crafted with mindful care and intention, free\nfrom animal products, born out of thoughtfulness, respect,\nand deep attention to what connects beauty, compassion, and\nsustainability.\n\nTo me, true beauty does not harm and cannot be built at the\nexpense of life. This is how a creation is born, one that\nembraces the body without harming the soul.",
+      "crueltyFree": "Cruelty free",
+      "vegan": "Vegan"
+    },
+    "categories": "Categories",
+    "collections": "Collections"
+  },
+  "collections": {
+    "noDescription": "No description",
+    "seeCollection": "See collection"
+  },
+  "login": {
+    "title": "Login",
+    "email": "EMAIL",
+    "password": "Enter password",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Do not have an account?",
+    "signUp": "SIGN UP",
+    "logIn": "Log in",
+    "incorrectCredentials": "Incorrect password or email"
+  },
+  "signup": {
+    "title": "Sign Up",
+    "name": "NAME",
+    "surname": "SURNAME",
+    "email": "EMAIL",
+    "password": "Enter password",
+    "hasAccount": "Already have an account?",
+    "logIn": "LOG IN",
+    "signUp": "Sign up"
+  },
+  "resetPassword": {
+    "title": "Reset password",
+    "description": "Enter your email and you will receive a link to reset your password",
+    "email": "EMAIL",
+    "sendEmail": "Send email"
+  },
+  "newPassword": {
+    "title": "Password Reset",
+    "description": "Enter your new password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "reset": "Reset",
+    "incorrect": "Incorrect"
+  },
+  "orderConfirm": {
+    "title": "Order Confirmed!",
+    "yourOrder": "Your order №",
+    "thankYou": "Thank you for choosing Rotmina. A confirmation email is on its way to you your order is being carefully packed and will be shipped soon.",
+    "exploreMore": "Explore More",
+    "payForOrder": "Pay for order"
+  },
+  "cartPage": {
+    "home": "HOME",
+    "cartBreadcrumb": "CART",
+    "shippingInformation": "Shipping Information",
+    "paymentMethods": "Payment Methods",
+    "yourCart": "Your cart",
+    "subtotal": "subtotal",
+    "yourCartIsEmpty": "Your cart is empty",
+    "pleaseAddAddress": "Please add a shipping address",
+    "cartIsEmpty": "Cart is empty",
+    "errorCreatingOrder": "An error occurred while creating the order. Please try again."
+  },
+  "orderForm": {
+    "name": "NAME",
+    "surname": "SURNAME",
+    "email": "EMAIL",
+    "phone": "PHONE",
+    "next": "Next"
+  },
+  "addressForm": {
+    "loading": "Loading...",
+    "error": "Error:",
+    "addressAddedSuccess": "Address added successfully",
+    "addressDeletedSuccess": "Address deleted successfully",
+    "address": "ADDRESS",
+    "city": "CITY",
+    "zipCode": "ZIP CODE",
+    "adding": "Adding...",
+    "addNewAddress": "Add new address"
+  },
+  "payment": {
+    "home": "HOME",
+    "cartBreadcrumb": "CART",
+    "shippingInformation": "Shipping Information",
+    "paymentMethods": "Payment Methods",
+    "card": "Card",
+    "cash": "Cash",
+    "nameOnCard": "NAME ON CARD",
+    "cardNumber": "CARD NUMBER",
+    "telephone": "TELEPHONE",
+    "expDate": "EXP DATE",
+    "cvv": "CVV",
+    "iHaveReadAndAgree": "I have read and agree to the",
+    "pay": "Pay",
+    "promoCode": "PROMO CODE",
+    "apply": "Apply",
+    "giftCard": "GIFT CARD",
+    "searching": "Searching...",
+    "giftCardAlreadyUsed": "This gift card has already been used",
+    "giftCardExists": "Gift is exists and is not used, you can apply it",
+    "giftCardNotFound": "Gift card not found",
+    "subtotal": "SUBTOTAl",
+    "delivery": "DELIVERY",
+    "free": "Free",
+    "vat": "VAT",
+    "default": "default",
+    "total": "TOTAL",
+    "paymentSuccessful": "Payment successful",
+    "giftCardAppliedSuccess": "Gift card applied successfully",
+    "wrongCardNumber": "Wrong card number",
+    "wrongExpirationDate": "Wrong expiration date",
+    "wrongCvv": "Wrong CVV",
+    "expiredCard": "Expired card",
+    "giftCardFor": "Gift card for",
+    "personalStylist": "Personal stylist",
+    "minutes": "minutes",
+    "product": "Product",
+    "unknownProduct": "Unknown product"
+  },
+  "terms": {
+    "termsOfAgreement": "terms of the agreement.",
+    "title": "Terms of Use",
+    "section1": {
+      "title": "1. General",
+      "1.1": "1.1 These Terms constitute a legally binding agreement between the users of the website and the website management (hereinafter: \"the Site\").",
+      "1.2": "1.2 Any access to the Site, browsing, registration, making a purchase, or any other use of the Site constitutes full acceptance of these Terms.",
+      "1.3": "1.3 The Site management may update these Terms from time to time at its sole discretion without prior notice.",
+      "1.4": "1.4 In case of any conflict between these Terms and any other publication, these Terms shall prevail."
+    },
+    "section2": {
+      "title": "2. Use and Access",
+      "2.1": "2.1 The Site is accessible only to users who are 18 years or older. Minors under 18 may make purchases only with parental or guardian consent.",
+      "2.2": "2.2 The Site is intended for personal use only; commercial use is prohibited without prior written approval from the Site management.",
+      "2.3": "2.3 Any illegal activity, copyright infringement, or other harm to the Site management, other users, or third parties is strictly prohibited.",
+      "2.4": "2.4 The Site management reserves the right to block access to users who violate these Terms without prior notice."
+    },
+    "section3": {
+      "title": "3. Content and Use of the Digital Store",
+      "3.1": "3.1 The Site contains original content, product information, publications, and updates.",
+      "3.2": "3.2 No content from the Site may be copied, reproduced, distributed, published, or used in any way without prior written permission from the Site management."
+    },
+    "section4": {
+      "title": "4. Ordering Products and Services",
+      "4.1": "4.1 All purchases are subject to stock availability. In case of stock shortage, the customer will be notified and may choose to wait or cancel the order.",
+      "4.2": "4.2 Orders are confirmed only after full payment via credit card, Apple Pay, Google Pay, or Bit, subject to approval by the payment processor.",
+      "4.3": "4.3 Prices include VAT unless otherwise specified."
+    },
+    "section5": {
+      "title": "5. Shipping and In-Store Pickup in Israel",
+      "5.1": "5.1 Products will be delivered to the customer's address as selected during purchase.",
+      "5.2": "5.2 Estimated delivery time is 7 business days according to the chosen destination.",
+      "5.3": "5.3 Business days are Sunday to Thursday, excluding Fridays, Saturdays, holidays, and holiday eves.",
+      "5.4": "5.4 In-store pickup is available by prior phone arrangement at no cost."
+    },
+    "section6": {
+      "title": "6. General Shipping Provisions",
+      "6.1": "6.1 Delivery is carried out by an external shipping company. If service is unavailable to a specific location, an alternative suitable location may be arranged.",
+      "6.2": "6.2 The Site management is not responsible for delays caused by external factors such as the shipping company, security emergencies, strikes, or force majeure.",
+      "6.3": "6.3 Customers must ensure that all shipping details provided are accurate."
+    },
+    "section7": {
+      "title": "7. Cancellation and Returns Policy",
+      "7.1": "7.1 Customers may return a product within 14 days of receipt, according to the Consumer Protection Law, provided the product is unused, undamaged, and retains its original label.",
+      "7.2": "7.2 Refunds will be issued to the store account or via the original payment method within 12 business days of receiving the item. Credit card refunds will appear in the account statement within 21 business days.",
+      "7.3": "7.3 If returning via courier, shipping costs of 30 ILS will be deducted from the refund. Courier arrangements will be coordinated by us."
+    },
+    "section8": {
+      "title": "8. Links, Advertisements, and External Referrals",
+      "8.1": "8.1 The Site may contain links to external websites. The Site management is not responsible for the content or conduct of these websites.",
+      "8.2": "8.2 Any transaction with a third party through a link on the Site is the customer's sole responsibility."
+    },
+    "section9": {
+      "title": "9. Ownership and Intellectual Property Rights",
+      "9.1": "9.1 All rights to content, images, designs, logos, texts, and any other elements on the Site are the exclusive property of the Site owner and are protected under intellectual property laws.",
+      "9.2": "9.2 No content from the Site may be copied, reproduced, distributed, published, sold, or used in any way without prior written permission from the Site management."
+    },
+    "section10": {
+      "title": "10. Use of Site Content",
+      "10.1": "10.1 Users may not upload content that is offensive, illegal, or may infringe third-party rights.",
+      "10.2": "10.2 The Site management may remove any content deemed inappropriate or in violation of these Terms."
+    },
+    "section11": {
+      "title": "11. Disclaimer and Indemnification",
+      "11.1": "11.1 The Site management is not liable for any direct or indirect damages resulting from use of the Site, technical malfunctions, or improper use.",
+      "11.2": "11.2 The Site provides information \"As-Is\" and does not guarantee specific results, recommendations, or professional advice.",
+      "11.3": "11.3 Users agree to indemnify the Site management for any claims, lawsuits, or damages arising from their violation of these Terms."
+    },
+    "section12": {
+      "title": "12. Jurisdiction",
+      "12.1": "12.1 These Terms of Use and the Site's Terms and Conditions shall be governed solely by the laws of the State of Israel.",
+      "12.2": "12.2 Any dispute arising between the parties shall be subject to the exclusive jurisdiction of the competent courts located in the district where the Site owner is registered."
+    },
+    "section13": {
+      "title": "13. Amendments",
+      "13.1": "13.1 The Site management may update the Terms of Use from time to time at its sole discretion.",
+      "13.2": "13.2 Continued use of the Site after updates constitutes acceptance of the new Terms."
+    },
+    "section14": {
+      "title": "14. Contact",
+      "14.1": "14.1 For any questions or clarifications, please contact us:",
+      "tel": "Tel: +972-55-994-6060",
+      "email": "Email: Brand@rotmina.com"
+    }
+  },
+  "orderHistory": {
+    "order": "order",
+    "date": "date",
+    "status": "status",
+    "totalCost": "total cost",
+    "actions": "actions",
+    "noOrders": "You don't have any orders yet",
+    "paid": "Paid",
+    "pay": "Pay",
+    "sku": "SKU:",
+    "price": "Price:",
+    "amount": "Amount:",
+    "total": "Total:",
+    "orderDetailsNotAvailable": "Order details are not available",
+    "delivered": "Delivered",
+    "canceled": "Canceled",
+    "pending": "Pending",
+    "processing": "Processing"
+  },
+  "account": {
+    "home": "HOME",
+    "account": "ACCOUNT"
+  },
+  "returns": {
+    "title": "Returns & Exchanges",
+    "personalDetails": "Personal Details",
+    "name": "NAME",
+    "phone": "PHONE",
+    "email": "EMAIL",
+    "shippingAddress": "Shipping address in case you'd like an exchange",
+    "orderNumber": "ORDER NUMBER",
+    "orderNumberDescription": "*The number appears next to the customer details on the invoice",
+    "comment": "COMMENT",
+    "selectOption": "Please select one of the following options:",
+    "iWantToExchange": "I'd like to exchange",
+    "iWantToReturn": "I'd like to return",
+    "returnOrExchange": "Return or Exchange"
+  },
+  "contact": {
+    "home": "HOME",
+    "contact": "CONTACT",
+    "title": "Love to hear from you",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "email": "Email",
+    "description": "Have a question, thought or something you would like to share? <br /> You are welcome to reach out. I read every message and will get back to you as soon as possible.",
+    "name": "NAME",
+    "emailPlaceholder": "EMAIL",
+    "message": "MESSAGE",
+    "send": "Send"
+  },
+  "notFound": {
+    "goToMainPage": "Go to mainpage"
+  },
+  "eco": {
+    "home": "HOME",
+    "eco": "ECO",
+    "title": "Rotmina was born from a passion for fashion,with deep respect and desire to harmonize with nature and life on Earth",
+    "animalWelfare": "Animal Welfare",
+    "animalWelfareIntro": "As part of a complete holistic vegan approach, I do not use fur, angora, silk, feathers, leather or wool.",
+    "animalWelfareAwareness": "In the past decade, there has been an increase in awareness of the devastating effects of the fashion industry on animal welfare.",
+    "animalWelfareExploitation": "Millions of animals, including cows, sheep, minks, rabbits, goats, alligators, snakes, and more are exploited each year in these industries.",
+    "animalWelfareReports": "According to reports from animal rights organizations such as Peta, Four Pows International, and World Animal Protection, the use of animals for industrial purposes involves:",
+    "woolShearing": "Aggressive and rapid shearing of wool:",
+    "woolShearingDesc": "Which leads to injuries and severe pain in animals, often causing torn skin and painful infections. These wounds are frequently left untreated and can even result in death. Many workers are paid per quantity, which encourages speed and extreme carelessness.",
+    "skinningAlive": "Skinning animals while still alive:",
+    "skinningAliveDesc": "A harmful, violent, and negligent practice, carried out to cut costs on equipment and anesthetics. The goal is to shorten processing time and preserve the skin's quality by preventing blemishes or tears. This action causes immense suffering and violates the animals' basic rights to welfare.",
+    "furSlaughter": "Systematic Slaughter of animals for their fur:",
+    "furSlaughterDesc": "Millions of animals are confined in crowded conditions and exploited for the production of clothing items made from their fur, using cruel and brutal methods. Killing techniques include suffocation, electrocution, neck-breaking, or gas chambers. Often, the animals do not lose consciousness immediately, resulting in prolonged and intense suffering.",
+    "silkBoiling": "Boiling Silkworms Alive to Extract Intact Silk Fibers:",
+    "silkBoilingDesc": "Silkworms are bred in massive quantities, after spinning their cocoons, the cocoons are placed in boiling water while the larvae are still alive, This process is intended to make it easier to unravel the silk threads in one continuous strand, As a result, billions of silkworms are killed each year in a painful process for the sake of textile production.",
+    "featherPlucking": "Live Plucking of Feathers from Birds:",
+    "featherPluckingDesc": "Mostly targeting geese and ducks, this practice often carried out while the animals are still alive is well documented in the fashion and textile industries. It causes injuries, infections, pain, and intense suffering. The birds are restrained while their feathers are violently torn out to maximize yield of soft down feathers, in some cases, the plucking is repeated multiple times throughout the animal's life.",
+    "exoticLeather": "Farming Crocodiles, Snakes, and Lizards for Exotic Leathers:",
+    "exoticLeatherDesc": "Millions of reptiles are kept in overcrowded, enclosed pools under artificial conditions that severely violate their basic needs. These environments cause extreme stress and abnormal behaviors. The slaughter process involves brutal methods such as shooting in the head or neck, stabbing the spine, or electrocution. In some documented cases, animals remain partially conscious during skinning, all for the sake of producing \"luxury fashion items\". This process inflicts extreme suffering, pain, and unnecessary death.",
+    "animalWelfareGoal": "My goal is to create a safe, respectful space - one that causes no harm, suffering, or the slaughter of sentient animals for personal gain. Transitioning to alternative, animal-free materials helps reduce harm, supports the welfare of animals worldwide and contributes to elevate the collective frequency of planet Earth through conscious compassionate choices.",
+    "packaging": "Packaging",
+    "packagingIntro": "Rotmina uses packaging made from recycled paper-from shipping boxes and tags to brand bags and wrapping paper, these choices stem from a recognition that packaging is not merely a function of protecting the product, it is also an expression of how I choose to operate in the world.",
+    "packagingExploration": "Through an ongoing personal exploration of questions around sustainability, consumption, and environmental responsibility. I choose to reduce the brand's carbon footprint, avoid excessive packaging, and opt for solutions that fulfill their purpose efficiently with respect for the resources our environment offers.",
+    "packagingValues": "These choices support my values and contribute to meaningful environmental action:",
+    "energySavings": "Energy Savings",
+    "energySavingsDesc": ": The production of recycled paper requires approximately 30% - 50% less energy compared to virgin paper.",
+    "co2Reduction": "CO2 Emission Reduction",
+    "co2ReductionDesc": ": Every ton of recycled paper produced helps reduce around 2.5 tons of CO2 emissions.",
+    "naturalResources": "Preservation of Natural Resources:",
+    "naturalResourcesDesc": " Using recycled paper supports forest conservation and reduces the need for cutting down new trees.",
+    "wasteReduction": "Waste Reduction and Reuse:",
+    "wasteReductionDesc": " By using recycled packaging, we give existing materials a second life, avoiding additional production that consumes further resources. This in turn, reduces the amount of waste sent to landfills and lessens the harmful emissions impacting our environment.",
+    "packagingCommitment": "Rotmina will continue to be attentive to the needs of the environment and remain committed to constantly improving its practices to prevent environmental harm. The brand will stay mindful and committed to technological developments and advancements in sustainability, always striving for new ways to reduce its environmental impact and to be part of a global solution.",
+    "packagingData": "The data is supported by reports from established environmental organizations such as the:",
+    "packagingOrganizations": "Environmental Protection Agency (EPA), World Resources Institute (WRI), both of which focus on sustainability, emission reduction, and global waste reduction."
   }
 }
 

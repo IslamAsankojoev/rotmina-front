@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { Typography, useAuth } from '@/src/shared'
+import { Typography, useAuth, useDictionary } from '@/src/shared'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -22,6 +22,17 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import { useState } from 'react'
 
 export const SignupForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).signup || {
+    title: 'Sign Up',
+    name: 'NAME',
+    surname: 'SURNAME',
+    email: 'EMAIL',
+    password: 'Enter password',
+    hasAccount: 'Already have an account?',
+    logIn: 'LOG IN',
+    signUp: 'Sign up',
+  }
   const { signup, loading } = useAuth()
   const [showPassword, setShowPassword] = useState(false)
   const form = useForm<z.infer<typeof SigninSchema>>({
@@ -46,7 +57,7 @@ export const SignupForm = () => {
   return (
     <>
       <div className="w-full max-w-[800px] bg-white p-4 py-15 md:p-15">
-        <Typography variant="text_title">Sign Up</Typography>
+        <Typography variant="text_title">{t.title}</Typography>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -58,7 +69,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="NAME" type="text" {...field} />
+                    <Input placeholder={t.name} type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -70,7 +81,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="SURNAME" type="text" {...field} />
+                    <Input placeholder={t.surname} type="text" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -82,7 +93,7 @@ export const SignupForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" type="email" {...field} />
+                    <Input placeholder={t.email} type="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,7 +107,7 @@ export const SignupForm = () => {
                   <FormControl>
                   <InputGroup>
                       <InputGroupInput
-                        placeholder="Enter password"
+                        placeholder={t.password}
                         type={showPassword ? 'text' : 'password'}
                         {...field}
                       />
@@ -117,10 +128,10 @@ export const SignupForm = () => {
             />
             <div className="flex flex-col items-center">
               <Typography variant="text_main" className="mb-2 uppercase">
-                Already have an account?
+                {t.hasAccount}
               </Typography>
               <Link href="/login" className="underline">
-                LOG IN
+                {t.logIn}
               </Link>
             </div>
             <Button
@@ -131,7 +142,7 @@ export const SignupForm = () => {
               disabled={loading}
             >
               {loading && <Spinner />}
-              Sign up
+              {t.signUp}
             </Button>
           </form>
         </Form>

@@ -1,11 +1,18 @@
+'use client'
+
 import React from 'react'
 
 import ReturnsImage from '@/public/assets/returnsAndExchanges.webp'
 import { ReturnForm } from '@/src/features'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary } from '@/src/shared'
 import Image from 'next/image'
 
 const ReturnsAndExchanges = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).returns || {
+    title: 'Returns & Exchanges',
+  }
+
   return (
     <>
       <div className="relative container my-4 flex w-full flex-col justify-end" />
@@ -13,7 +20,7 @@ const ReturnsAndExchanges = () => {
         <div className="flex flex-col md:flex-row">
           <div className="flex-3 bg-[#EFEFEF] p-4 md:p-14">
             <Typography variant="text_title" className="mb-4 md:text-title text-mobile-title2 italic">
-              Returns & Exchanges
+              {t.title}
             </Typography>
             <ReturnForm />
           </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import CollectionImage from '@/public/assets/collection.webp'
 import {
   Accordion,
@@ -6,20 +8,27 @@ import {
   AccordionTrigger,
 } from '@/shadcn/components/ui/accordion'
 import { Button } from '@/shadcn/components/ui/button'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary } from '@/src/shared'
 import clsx from 'clsx'
 import Image from 'next/image'
 
 import { Collection } from '../model'
 import { CollectionService } from '../model/api'
+import { useQuery } from '@tanstack/react-query'
 
-const getCollections = async () => {
-  const collections = await CollectionService.getCollections()
-  return collections?.data
-}
+export const Collections = () => {
+  const { dictionary } = useDictionary()
+  const collectionsT = (dictionary as Record<string, Record<string, string>>).collections || {
+    noDescription: 'No description',
+    seeCollection: 'See collection',
+  }
 
-export const Collections = async () => {
-  const collections = await getCollections()
+  const { data } = useQuery({
+    queryKey: ['collections'],
+    queryFn: () => CollectionService.getCollections(),
+  })
+
+  const collections = data?.data || []
 
   return (
     <div className="mb-20 flex flex-col gap-4 md:flex-row">
@@ -59,7 +68,7 @@ export const Collections = async () => {
                 </AccordionTrigger>
                 <AccordionContent className="mt-4 flex flex-col items-center justify-center">
                   <Typography variant="text_main">
-                    {collection.description || 'No description'}
+                    {collection.description || collectionsT.noDescription}
                   </Typography>
                   <Image
                     src={collection.image?.url || ''}
@@ -78,7 +87,7 @@ export const Collections = async () => {
                       variant="text_main"
                       className="uppercase underline"
                     >
-                      See collection
+                      {collectionsT.seeCollection}
                     </Typography>
                   </Button>
                 </AccordionContent>

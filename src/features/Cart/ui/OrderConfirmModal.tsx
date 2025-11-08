@@ -8,7 +8,7 @@ import {
   DialogContent,
 } from '@/shadcn/components/ui/dialog'
 import { OrderResponse } from '@/src/entities/Order'
-import { Typography, useScreenSize } from '@/src/shared'
+import { Typography, useScreenSize, useDictionary, useLocale } from '@/src/shared'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
@@ -26,6 +26,15 @@ export function OrderConfirmModal({
   open,
   onOpenChange,
 }: OrderConfirmModalProps) {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as Record<string, Record<string, string>>).orderConfirm || {
+    title: 'Order Confirmed!',
+    yourOrder: 'Your order №',
+    thankYou: 'Thank you for choosing Rotmina. A confirmation email is on its way to you your order is being carefully packed and will be shipped soon.',
+    exploreMore: 'Explore More',
+    payForOrder: 'Pay for order',
+  }
   const { md } = useScreenSize()
   const router = useRouter()
 
@@ -54,25 +63,28 @@ export function OrderConfirmModal({
           <div className="relative bg-white p-10 md:h-full md:w-1/2">
             <div className="flex h-full flex-col items-center justify-center gap-2">
               <Typography variant="text_title" className="text-center">
-                Order <br /> Confirmed!
+                {t.title.split(' ').map((word, index, array) => (
+                  <span key={index}>
+                    {word}
+                    {index < array.length - 1 && <br />}
+                  </span>
+                ))}
               </Typography>
               <Typography variant="text_main" className="text-center font-bold">
-                Your order №{order?.data?.id}
+                {t.yourOrder}{order?.data?.id}
               </Typography>
               <Typography variant="text_main" className="text-center">
-                Thank you for choosing Rotmina.A confirmation email is on its
-                way to you your order is being carefully packed and will be
-                shipped soon.
+                {t.thankYou}
               </Typography>
-              <Link href="/shop" className="text-primary uppercase underline">
-                Explore More
+              <Link href={localizePath('/shop')} className="text-primary uppercase underline">
+                {t.exploreMore}
               </Link>
 
               <Button
                 onClick={() => router.push(`/order/${order?.data?.id}`)}
                 className="flex max-w-[800px] items-center justify-center gap-4 uppercase"
               >
-                Pay for order
+                {t.payForOrder}
               </Button>
             </div>
             <DialogClose asChild>

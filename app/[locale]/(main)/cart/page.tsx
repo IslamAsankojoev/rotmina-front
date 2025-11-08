@@ -13,11 +13,25 @@ import {
 } from '@/src/entities/Order'
 import { CartItem, OrderConfirmModal, OrderForm } from '@/src/features'
 import { Address } from '@/src/features/Address'
-import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrancy, useDictionary, useLocale } from '@/src/shared'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
 export default function CartPage() {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const cartPageT = (dictionary as Record<string, Record<string, string>>).cartPage || {
+    home: 'HOME',
+    cartBreadcrumb: 'CART',
+    shippingInformation: 'Shipping Information',
+    paymentMethods: 'Payment Methods',
+    yourCart: 'Your cart',
+    subtotal: 'subtotal',
+    yourCartIsEmpty: 'Your cart is empty',
+    pleaseAddAddress: 'Please add a shipping address',
+    cartIsEmpty: 'Cart is empty',
+    errorCreatingOrder: 'An error occurred while creating the order. Please try again.',
+  }
   const router = useRouter()
   const { items, totalPrice } = useCartInfo()
   const { updateQuantity, removeItem } = useCartActions()
@@ -43,12 +57,12 @@ export default function CartPage() {
 
   const handleSubmitOrder = async () => {
     if (!shippingAddress) {
-      toast.error('Please add a shipping address')
+      toast.error(cartPageT.pleaseAddAddress)
       return
     }
 
     if (items.length === 0) {
-      toast.error('Cart is empty')
+      toast.error(cartPageT.cartIsEmpty)
       return
     }
 
@@ -136,9 +150,7 @@ export default function CartPage() {
       }
     } catch (error) {
       console.error('Error creating order:', error)
-      toast.error(
-        'An error occurred while creating the order. Please try again.',
-      )
+      toast.error(cartPageT.errorCreatingOrder)
     } finally {
       setIsCreatingOrder(false)
     }
@@ -149,16 +161,16 @@ export default function CartPage() {
       <div className="relative container my-10 flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
-            { title: 'CART', href: '/cart' },
+            { title: cartPageT.home, href: localizePath('/') },
+            { title: cartPageT.cartBreadcrumb, href: localizePath('/cart') },
           ]}
         />
         <div className="border-greyy/70 mt-16 flex flex-col md:flex-row justify-between md:border-b">
           <Typography variant="text_main" className="uppercase border-b border-black">
-            Shipping Information
+            {cartPageT.shippingInformation}
           </Typography>
           <Typography variant="text_main" className="uppercase text-greyy">
-            Payment Methods
+            {cartPageT.paymentMethods}
           </Typography>
         </div>
         <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
@@ -172,12 +184,12 @@ export default function CartPage() {
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between pt-8">
                 <Typography variant="text_title" className="italic">
-                  Your cart
+                  {cartPageT.yourCart}
                 </Typography>
               </div>
               <div className="flex items-center justify-between">
                 <Typography variant="text_main" className="uppercase">
-                  subtotal
+                  {cartPageT.subtotal}
                 </Typography>
                 <Typography variant="text_main">
                   {getPrice(totalPrice)} {currency}
@@ -188,7 +200,7 @@ export default function CartPage() {
                   {items.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-8">
                       <Typography variant="text_main" className="text-greyy">
-                        Your cart is empty
+                        {cartPageT.yourCartIsEmpty}
                       </Typography>
                     </div>
                   ) : (

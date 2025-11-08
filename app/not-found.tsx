@@ -1,11 +1,19 @@
+'use client'
+
 import React from 'react'
 
 import NotFoundDesktopImage from '@/public/assets/404_d.webp'
 import NotFoundMobileImage from '@/public/assets/404_m.webp'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary, useLocale } from '@/src/shared'
 import Link from 'next/link'
 
 const not_found = () => {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as Record<string, Record<string, string>>).notFound || {
+    goToMainPage: 'Go to mainpage',
+  }
+
   return (
     <>
       <div
@@ -26,9 +34,9 @@ const not_found = () => {
           backgroundPosition: 'center',
         }}
       />
-      <Link href="/" className="fixed bottom-64 md:bottom-10 text-white left-1/2 -translate-x-1/2 z-10 block underline">
+      <Link href={localizePath('/')} className="fixed bottom-64 md:bottom-10 text-white left-1/2 -translate-x-1/2 z-10 block underline">
         <Typography variant="text_main" className="uppercase">
-          Go to mainpage
+          {t.goToMainPage}
         </Typography>
       </Link>
     </>

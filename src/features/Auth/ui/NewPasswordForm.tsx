@@ -8,8 +8,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/shadcn/components/ui/form'
-import { Input } from '@/shadcn/components/ui/input'
-import { Typography, useAuth } from '@/src/shared'
+import { Typography, useAuth, useDictionary } from '@/src/shared'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -17,9 +16,23 @@ import { NewPasswordSchema } from '../model/validation'
 import { useSearchParams } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/shadcn/components/ui/spinner'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@/shadcn/components/ui/input-group'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
+import { useState } from 'react'
 
 export const NewPasswordForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).newPassword || {
+    title: 'Password Reset',
+    description: 'Enter your new password',
+    newPassword: 'New password',
+    confirmPassword: 'Confirm password',
+    reset: 'Reset',
+    incorrect: 'Incorrect',
+  }
   const { newPassword, loading } = useAuth()
+  const [showPassword, setShowPassword] = useState(false)
+  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false)
   const searchParams = useSearchParams()
   const code = searchParams.get('code') || ''
   const form = useForm<z.infer<typeof NewPasswordSchema>>({
@@ -42,9 +55,9 @@ export const NewPasswordForm = () => {
   return (
     <>
       <div className="w-full max-w-[800px] bg-white p-4 py-15 md:p-15">
-        <Typography variant="text_title">New password</Typography>
+        <Typography variant="text_title">{t.title}</Typography>
         <Typography variant="text_main" className="my-4">
-          Enter your new password
+          {t.description}
         </Typography>
         <Form {...form}>
           <form
@@ -57,7 +70,22 @@ export const NewPasswordForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="PASSWORD" {...field} />
+                    <InputGroup>
+                      <InputGroupInput
+                        placeholder={t.newPassword}
+                        type={showPassword ? 'text' : 'password'}
+                        {...field}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <Button
+                          type='button'
+                          variant="link"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -69,7 +97,22 @@ export const NewPasswordForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="CONFIRM PASSWORD" {...field} />
+                    <InputGroup>
+                      <InputGroupInput
+                        placeholder={t.confirmPassword}
+                        type={showPasswordConfirmation ? 'text' : 'password'}
+                        {...field}
+                      />
+                      <InputGroupAddon align="inline-end">
+                        <Button
+                          type='button'
+                          variant="link"
+                          onClick={() => setShowPasswordConfirmation(!showPasswordConfirmation)}
+                        >
+                          {showPasswordConfirmation ? <EyeIcon /> : <EyeOffIcon />}
+                        </Button>
+                      </InputGroupAddon>
+                    </InputGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,7 +126,7 @@ export const NewPasswordForm = () => {
               disabled={loading}
             >
               {loading && <Spinner />}
-              Reset password
+              {t.reset}
             </Button>
           </form>
         </Form>

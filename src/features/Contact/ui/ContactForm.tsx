@@ -9,12 +9,21 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
+import { useDictionary } from '@/src/shared'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { contactFormSchema } from '../model/validation'
 
 export const ContactForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).contact || {
+    name: 'NAME',
+    emailPlaceholder: 'EMAIL',
+    message: 'TEXT',
+    send: 'Send',
+  }
+
   const form = useForm<z.infer<typeof contactFormSchema>>({
     defaultValues: {
       name: '',
@@ -41,7 +50,7 @@ export const ContactForm = () => {
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormControl>
-                    <Input placeholder="NAME" {...field} />
+                    <Input placeholder={t.name} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -53,7 +62,7 @@ export const ContactForm = () => {
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder={t.emailPlaceholder} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -66,7 +75,7 @@ export const ContactForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="TEXT" {...field} />
+                  <Input placeholder={t.message} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -78,7 +87,7 @@ export const ContactForm = () => {
             variant="outline-minimal"
             size="lg"
           >
-            Send
+            {t.send}
           </Button>
         </form>
       </Form>

@@ -3,14 +3,14 @@ import clsx from "clsx"
 import Image from "next/image"
 import Link from "next/link"
 import { CategoryService } from "../model/api"
+import { useQuery } from "@tanstack/react-query"
 
-const getCategories = async () => {
-  const categories = await CategoryService.getCategories()
-  return categories?.data
-}
-
-export const Categories = async () => {
-  const categories = await getCategories()
+export const Categories = () => {
+  const { data } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => CategoryService.getCategories(),
+  })
+  const categories = data?.data || []
 
   return (
     <div className="my-10 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">

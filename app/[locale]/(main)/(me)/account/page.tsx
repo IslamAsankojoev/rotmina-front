@@ -4,9 +4,15 @@ import React from 'react'
 
 // import { Button } from '@/shadcn/components/ui/button'
 import { OrderList } from '@/src/features'
-import { Breadcrumbs, Typography, useUser } from '@/src/shared'
+import { Breadcrumbs, Typography, useUser, useDictionary, useLocale } from '@/src/shared'
 
 const Account = () => {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const accountT = (dictionary as Record<string, Record<string, string>>).account || {
+    home: 'HOME',
+    account: 'ACCOUNT',
+  }
   const { user } = useUser()
   // const { logout } = useAuth()
 
@@ -15,8 +21,8 @@ const Account = () => {
       <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
-            { title: 'ACCOUNT', href: '/account' },
+            { title: accountT.home, href: localizePath('/') },
+            { title: accountT.account, href: localizePath('/account') },
           ]}
         />
       </div>

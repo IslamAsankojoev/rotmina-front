@@ -16,6 +16,7 @@ import {
   useColorsAndSizes,
   useProducts,
   useScreenSize,
+  useDictionary,
 } from '@/src/shared'
 import clsx from 'clsx'
 import { SlidersHorizontal, X } from 'lucide-react'
@@ -30,6 +31,13 @@ export function ProductFilter({
   colors: defaultColors = [],
   sizes: defaultSizes = [],
 }: ProductFilterProps) {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).filter || {
+    color: 'Colour',
+    size: 'Size',
+    apply: 'Apply',
+    loading: 'Loading...',
+  }
   const [open, setOpen] = useState(false)
   const { md } = useScreenSize()
   const { colors, sizes, isLoading } = useColorsAndSizes()
@@ -55,7 +63,7 @@ export function ProductFilter({
   if (isLoading) {
     return (
       <div className="flex items-center gap-2">
-        <Typography variant="text_main">Loading...</Typography>
+        <Typography variant="text_main">{t.loading}</Typography>
       </div>
     )
   }
@@ -64,7 +72,7 @@ export function ProductFilter({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild className="cursor-pointer">
         {md ? (
-          <Typography variant="text_main">FILTER</Typography>
+          <Typography variant="text_main">{(dictionary as Record<string, Record<string, string>>).shop?.filter || 'FILTER'}</Typography>
         ) : (
           <SlidersHorizontal strokeWidth={0.75} />
         )}
@@ -72,7 +80,7 @@ export function ProductFilter({
       <PopoverContent align="center" className="w-60 md:w-80">
         <div className="flex flex-col gap-4">
           <Typography variant="text_main" className="uppercase">
-            Colour
+            {t.color}
           </Typography>
           <div className="flex flex-wrap gap-2">
             <ToggleGroup
@@ -107,7 +115,7 @@ export function ProductFilter({
             </ToggleGroup>
           </div>
           <Typography variant="text_main" className="uppercase">
-            Size
+            {t.size}
           </Typography>
           <div className="flex flex-wrap gap-2">
             <ToggleGroup

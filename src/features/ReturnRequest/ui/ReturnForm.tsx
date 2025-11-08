@@ -11,7 +11,7 @@ import {
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary } from '@/src/shared'
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
@@ -20,6 +20,22 @@ import z from 'zod'
 import { ReturnRequestSchema } from '../model/validation'
 
 export const ReturnForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).returns || {
+    personalDetails: 'Personal Details',
+    name: 'NAME',
+    phone: 'PHONE',
+    email: 'EMAIL',
+    shippingAddress: "Shipping address in case you'd like an exchange",
+    orderNumber: 'ORDER NUMBER',
+    orderNumberDescription: '*The number appears next to the customer details on the invoice',
+    comment: 'COMMENT',
+    selectOption: 'Please select one of the following options:',
+    iWantToExchange: "I'd like to exchange",
+    iWantToReturn: "I'd like to return",
+    returnOrExchange: 'Return or Exchange',
+  }
+
   const form = useForm<z.infer<typeof ReturnRequestSchema>>({
     defaultValues: {
       name: '',
@@ -38,7 +54,7 @@ export const ReturnForm = () => {
   return (
     <div className="flex flex-col gap-4">
       <Typography variant="text_main" className="uppercase">
-        Personal Details
+        {t.personalDetails}
       </Typography>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -48,7 +64,7 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="NAME" {...field} />
+                  <Input placeholder={t.name} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -60,7 +76,7 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="PHONE" {...field} />
+                  <Input placeholder={t.phone} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -72,7 +88,7 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="EMAIL" {...field} />
+                  <Input placeholder={t.email} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -85,7 +101,7 @@ export const ReturnForm = () => {
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Shipping address in case you’d like an exchange"
+                    placeholder={t.shippingAddress}
                     {...field}
                   />
                 </FormControl>
@@ -99,10 +115,10 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="ORDER NUMBER" {...field} />
+                  <Input placeholder={t.orderNumber} {...field} />
                 </FormControl>
                 <FormDescription>
-                  *The number appears next to the customerdetails on the invoice
+                  {t.orderNumberDescription}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -114,7 +130,7 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="COMMENT" {...field} />
+                  <Input placeholder={t.comment} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -122,7 +138,7 @@ export const ReturnForm = () => {
           />
           <div className="flex flex-col gap-2">
             <Typography variant="text_main" className="uppercase">
-              Please select one of the following options:
+              {t.selectOption}
             </Typography>
             <FormField
               control={form.control}
@@ -138,9 +154,9 @@ export const ReturnForm = () => {
                       {[
                         {
                           value: 'exchange',
-                          label: 'I’d like to exchange',
+                          label: t.iWantToExchange,
                         },
-                        { value: 'return', label: 'I’d like to return' },
+                        { value: 'return', label: t.iWantToReturn },
                       ].map((option) => (
                         <div
                           className={clsx(
@@ -172,7 +188,7 @@ export const ReturnForm = () => {
             />
           </div>
           <Button type="submit" variant="outline-minimal" size='lg' className='uppercase'>
-            Return or Exchange
+            {t.returnOrExchange}
           </Button>
         </form>
       </Form>

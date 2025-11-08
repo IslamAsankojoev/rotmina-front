@@ -7,17 +7,29 @@ import {
   TableHeader,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { Typography, useUser } from '@/src/shared'
+import { Typography, useUser, useDictionary, useLocale } from '@/src/shared'
 import { OrderCard } from './OrderCard'
 import { OrderPaymentStatus, OrderService } from '@/src/entities/Order'
 import { useQuery } from '@tanstack/react-query'
 import { Order } from '../model'
+import clsx from 'clsx'
 
 export interface OrderWithPaymentStatus extends Order {
   paymentStatus: OrderPaymentStatus
 }
 
 export const OrderList = () => {
+  const { dictionary } = useDictionary()
+  const { locale } = useLocale()
+  const isRTL = locale === 'he'
+  const t = (dictionary as Record<string, Record<string, string>>).orderHistory || {
+    order: 'order',
+    date: 'date',
+    status: 'status',
+    totalCost: 'total cost',
+    actions: 'actions',
+    noOrders: "You don't have any orders yet",
+  }
   const { user } = useUser()
   const { data: orders } = useQuery({
     queryKey: ['orders'],
@@ -41,7 +53,7 @@ export const OrderList = () => {
     return (
       <div className="text-center py-8">
         <Typography variant="text_main" className="text-greyy">
-          You don&apos;t have any orders yet
+          {t.noOrders}
         </Typography>
       </div>
     )
@@ -51,11 +63,11 @@ export const OrderList = () => {
     <Table>
       <TableHeader>
         <TableRow className="uppercase">
-          <TableHead className="w-[200px] text-greyy">order</TableHead>
-          <TableHead className="w-[200px] text-greyy">date</TableHead>
-          <TableHead className="w-[200px] text-greyy">status</TableHead>
-          <TableHead className='text-right text-greyy'>total cost</TableHead>
-          <TableHead className='text-right text-greyy'>actions</TableHead>
+          <TableHead className={clsx('w-[200px] text-greyy', isRTL ? 'text-right' : 'text-left')}>{t.order}</TableHead>
+          <TableHead className={clsx('w-[200px] text-greyy', isRTL ? 'text-right' : 'text-left')}>{t.date}</TableHead>
+          <TableHead className={clsx('w-[200px] text-greyy', isRTL ? 'text-right' : 'text-left')}>{t.status}</TableHead>
+          <TableHead className={clsx('text-greyy', isRTL ? 'text-right' : 'text-left')}>{t.totalCost}</TableHead>
+          <TableHead className={clsx('text-greyy', isRTL ? 'text-right' : 'text-left')}>{t.actions}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

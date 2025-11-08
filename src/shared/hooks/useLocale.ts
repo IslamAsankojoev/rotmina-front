@@ -9,7 +9,7 @@ import { getLocaleFromPath, addLocaleToPath } from '../utils/locale'
 export function useLocale() {
   const pathname = usePathname()
   const locale = getLocaleFromPath(pathname) || 'en'
-
+  const isRTL = locale === 'he'
   /**
    * Добавляет locale к пути
    */
@@ -20,6 +20,7 @@ export function useLocale() {
   return {
     locale,
     localizePath,
+    isRTL,
   }
 }
 

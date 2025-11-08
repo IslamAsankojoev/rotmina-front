@@ -18,6 +18,7 @@ import { orderFormSchema } from '../model'
 import { AddressForm } from './AddressForm'
 import { Dispatch, SetStateAction } from 'react'
 import { Spinner } from '@/shadcn/components/ui/spinner'
+import { useDictionary } from '@/src/shared'
 
 interface OrderFormProps {
   onSubmit: (data: z.infer<typeof orderFormSchema>) => void
@@ -27,6 +28,14 @@ interface OrderFormProps {
 }
 
 export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoading }: OrderFormProps) => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).orderForm || {
+    name: 'NAME',
+    surname: 'SURNAME',
+    email: 'EMAIL',
+    phone: 'PHONE',
+    next: 'Next',
+  }
   const form = useForm<z.infer<typeof orderFormSchema>>({
     defaultValues: {
       name: '',
@@ -50,7 +59,7 @@ export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoa
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="NAME" {...field} />
+                  <Input placeholder={t.name} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -62,7 +71,7 @@ export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoa
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="SURNAME" {...field} />
+                  <Input placeholder={t.surname} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -74,7 +83,7 @@ export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoa
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="EMAIL" {...field} />
+                  <Input placeholder={t.email} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -86,7 +95,7 @@ export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoa
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="PHONE" {...field} />
+                  <Input placeholder={t.phone} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -102,7 +111,7 @@ export const OrderForm = ({ onSubmit, setShippingAddress, selectedAddress, isLoa
             size="lg"
             disabled={isLoading}
           >
-            {isLoading ? <Spinner /> : 'Next'}
+            {isLoading ? <Spinner /> : t.next}
           </Button>
         </form>
       </Form>

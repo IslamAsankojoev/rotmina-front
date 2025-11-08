@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
-import { Typography, useAuth } from '@/src/shared'
+import { Typography, useAuth, useDictionary } from '@/src/shared'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
@@ -18,6 +18,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Spinner } from '@/shadcn/components/ui/spinner'
 
 export const ResetPasswordForm = () => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as Record<string, Record<string, string>>).resetPassword || {
+    title: 'Reset password',
+    description: 'Enter your email and you will receive a link to reset your password',
+    email: 'EMAIL',
+    sendEmail: 'Send email',
+  }
   const { resetPassword, loading } = useAuth()
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     defaultValues: {
@@ -35,9 +42,9 @@ export const ResetPasswordForm = () => {
   return (
     <>
       <div className="w-full max-w-[800px] bg-white p-4 py-15 md:p-15">
-        <Typography variant="text_title">Reset password</Typography>
+        <Typography variant="text_title">{t.title}</Typography>
         <Typography variant="text_main" className="my-4">
-          Enter your email and we’ll send you a link to reset your password
+          {t.description}
         </Typography>
         <Form {...form}>
           <form
@@ -50,7 +57,7 @@ export const ResetPasswordForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder="EMAIL" {...field} />
+                    <Input placeholder={t.email} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -64,7 +71,7 @@ export const ResetPasswordForm = () => {
               disabled={loading}
             >
               {loading && <Spinner />}
-              Send email
+              {t.sendEmail}
             </Button>
           </form>
         </Form>

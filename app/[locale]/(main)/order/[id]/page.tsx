@@ -26,6 +26,8 @@ import {
   Typography,
   useLangCurrancy,
   useUser,
+  useDictionary,
+  useLocale,
 } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -41,20 +43,62 @@ enum PaymentMethods {
   CASH = 'cash',
 }
 
-const paymentMethods = [
-  {
-    id: PaymentMethods.CARD,
-    label: 'Card',
-    image: '/payments/card.png',
-  },
-  {
-    id: PaymentMethods.CASH,
-    label: 'Cash',
-    image: '/payments/card.png',
-  },
-]
-
 export default function OrderPage() {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as Record<string, Record<string, string>>).payment || {
+    home: 'HOME',
+    cartBreadcrumb: 'CART',
+    shippingInformation: 'Shipping Information',
+    paymentMethods: 'Payment Methods',
+    card: 'Card',
+    cash: 'Cash',
+    nameOnCard: 'NAME ON CARD',
+    cardNumber: 'CARD NUMBER',
+    telephone: 'TELEPHONE',
+    expDate: 'EXP DATE',
+    cvv: 'CVV',
+    iHaveReadAndAgree: 'I have read and agree to the',
+    pay: 'Pay',
+    promoCode: 'PROMO CODE',
+    apply: 'Apply',
+    giftCard: 'GIFT CARD',
+    searching: 'Searching...',
+    giftCardAlreadyUsed: 'This gift card has already been used',
+    giftCardExists: 'Gift is exists and is not used, you can apply it',
+    giftCardNotFound: 'Gift card not found',
+    subtotal: 'SUBTOTAl',
+    delivery: 'DELIVERY',
+    free: 'Free',
+    vat: 'VAT',
+    default: 'default',
+    total: 'TOTAL',
+    paymentSuccessful: 'Payment successful',
+    giftCardAppliedSuccess: 'Gift card applied successfully',
+    wrongCardNumber: 'Wrong card number',
+    wrongExpirationDate: 'Wrong expiration date',
+    wrongCvv: 'Wrong CVV',
+    expiredCard: 'Expired card',
+    giftCardFor: 'Gift card for',
+    personalStylist: 'Personal stylist',
+    minutes: 'minutes',
+    product: 'Product',
+    unknownProduct: 'Unknown product',
+  }
+
+  const paymentMethods = [
+    {
+      id: PaymentMethods.CARD,
+      label: t.card,
+      image: '/payments/card.png',
+    },
+    {
+      id: PaymentMethods.CASH,
+      label: t.cash,
+      image: '/payments/card.png',
+    },
+  ]
+
   const { id } = useParams()
   const router = useRouter()
   const { user } = useUser()
@@ -119,13 +163,13 @@ export default function OrderPage() {
       switch (item?.type) {
         case 'giftcard':
           code = `GIFT-${item?.price_snapshot}`
-          name = `Gift card for ${item.gift_card?.recipientsName}.`
+          name = `${t.giftCardFor} ${item.gift_card?.recipientsName}.`
           unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
           break
 
         case 'personalStylist':
           code = `STYLIST-${item?.personal_stylist?.minutes}`
-          name = `Personal stylist (${item?.personal_stylist?.minutes} minutes)`
+          name = `${t.personalStylist} (${item?.personal_stylist?.minutes} ${t.minutes})`
           unit_price = parseFloat(
             item?.personal_stylist?.price?.toString() || '0',
           )
@@ -134,13 +178,13 @@ export default function OrderPage() {
         case 'product':
           code =
             item?.variant?.sku || `PRODUCT-${item?.variant?.id || 'unknown'}`
-          name = item.variant?.product?.title || 'Product'
+          name = item.variant?.product?.title || t.product
           unit_price = parseFloat(item?.variant?.price?.toString() || '0')
           break
 
         default:
           code = `UNKNOWN-${item?.type}`
-          name = 'Unknown product'
+          name = t.unknownProduct
           unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
       }
 
@@ -190,34 +234,34 @@ export default function OrderPage() {
         ) {
           applyGiftCardMutation(appliedGiftCard?.code || '', {
             onSuccess: () => {
-              toast.success('Gift card applied successfully')
+              toast.success(t.giftCardAppliedSuccess)
             },
             onError: (error) => {
               toast.error(error.message)
             },
           })
-          toast.success('Payment successful')
+          toast.success(t.paymentSuccessful)
           router.push(`/account`)
         } else {
           switch (response.data.transaction_result.processor_response_code) {
             case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
               form.setError('cardNumber', {
-                message: 'Wrong card number',
+                message: t.wrongCardNumber,
               })
               break
             case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
               form.setError('expirationDate', {
-                message: 'Wrong expiration date',
+                message: t.wrongExpirationDate,
               })
               break
             case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
               form.setError('cvv', {
-                message: 'Wrong CVV',
+                message: t.wrongCvv,
               })
               break
             case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
               form.setError('expirationDate', {
-                message: 'Expired card',
+                message: t.expiredCard,
               })
               break
             case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
@@ -250,19 +294,19 @@ export default function OrderPage() {
       <div className="relative container my-10 flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
-            { title: 'CART', href: '/cart' },
+            { title: t.home, href: localizePath('/') },
+            { title: t.cartBreadcrumb, href: localizePath('/cart') },
           ]}
         />
         <div className="border-greyy/70 mt-16 flex flex-col justify-between md:flex-row md:border-b">
           <Typography variant="text_main" className="text-greyy uppercase">
-            Shipping Information
+            {t.shippingInformation}
           </Typography>
           <Typography
             variant="text_main"
             className="border-b border-black uppercase"
           >
-            Payment Methods
+            {t.paymentMethods}
           </Typography>
         </div>
         <div className="mt-10 flex flex-col gap-4">
@@ -297,7 +341,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="NAME ON CARD" {...field} />
+                        <Input placeholder={t.nameOnCard} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -309,7 +353,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="CARD NUMBER" {...field} />
+                        <Input placeholder={t.cardNumber} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -321,7 +365,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="TELEPHONE" {...field} />
+                        <Input placeholder={t.telephone} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -333,7 +377,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="EXP DATE" {...field} />
+                        <Input placeholder={t.expDate} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -345,7 +389,7 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="CVV" maxLength={3} {...field} />
+                        <Input placeholder={t.cvv} maxLength={3} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -365,7 +409,7 @@ export default function OrderPage() {
                           />
                         </FormControl>
                         <Label htmlFor="terms" className="inline">
-                          I have read and agree to the <TermsDialog />
+                          {t.iHaveReadAndAgree} <TermsDialog />
                         </Label>
                       </div>
                       <FormMessage />
@@ -379,15 +423,15 @@ export default function OrderPage() {
                   size="lg"
                   disabled={isPending || isUsingGiftCard}
                 >
-                  {isPending ? <Spinner /> : 'Pay'}
+                  {isPending ? <Spinner /> : t.pay}
                 </Button>
               </form>
             </Form>
             <div className="flex flex-col gap-4 p-2 md:p-20">
               <div className="flex items-center gap-4">
-                <Input type="text" placeholder="PROMO CODE" />
+                <Input type="text" placeholder={t.promoCode} />
                 <Button variant="link" className="uppercase">
-                  Apply
+                  {t.apply}
                 </Button>
               </div>
               <div className="flex items-center gap-4">
@@ -395,7 +439,7 @@ export default function OrderPage() {
                   <div className="flex">
                     <Input
                       type="text"
-                      placeholder="GIFT CARD"
+                      placeholder={t.giftCard}
                       value={giftCardCode}
                       onChange={(e) => setGiftCardCode(e.target.value)}
                       disabled={!!appliedGiftCard}
@@ -410,7 +454,7 @@ export default function OrderPage() {
                         giftCardData?.is_used
                       }
                     >
-                      {isSearchingGiftCard ? <Spinner /> : 'Apply'}
+                      {isSearchingGiftCard ? <Spinner /> : t.apply}
                     </Button>
                   </div>
                   {isSearchingGiftCard && (
@@ -418,7 +462,7 @@ export default function OrderPage() {
                       variant="text_main"
                       className="text-sm text-gray-500"
                     >
-                      Searching...
+                      {t.searching}
                     </Typography>
                   )}
                   {giftCardData && giftCardData?.is_used && (
@@ -426,7 +470,7 @@ export default function OrderPage() {
                       variant="text_main"
                       className="text-sm text-red-600"
                     >
-                      This gift card has already been used
+                      {t.giftCardAlreadyUsed}
                     </Typography>
                   )}
                   {giftCardData && !giftCardData?.is_used && (
@@ -434,7 +478,7 @@ export default function OrderPage() {
                       variant="text_main"
                       className="text-sm text-green-600"
                     >
-                      Gift is exists and is not used, you can apply it
+                      {t.giftCardExists}
                     </Typography>
                   )}
                   {giftCardError && !isSearchingGiftCard && (
@@ -442,7 +486,7 @@ export default function OrderPage() {
                       variant="text_main"
                       className="text-sm text-red-600"
                     >
-                      Gift card not found
+                      {t.giftCardNotFound}
                     </Typography>
                   )}
                 </div>
@@ -450,7 +494,7 @@ export default function OrderPage() {
               <div className="mt-10 flex w-full flex-col items-center gap-4">
                 <div className="flex w-full items-center justify-between gap-4">
                   <Typography variant="text_main" className="uppercase">
-                    SUBTOTAl
+                    {t.subtotal}
                   </Typography>
                   <Typography variant="text_main">
                     {getPrice(totalPrice)} {currency}
@@ -458,21 +502,21 @@ export default function OrderPage() {
                 </div>
                 <div className="flex w-full items-center justify-between gap-4">
                   <Typography variant="text_main" className="uppercase">
-                    DELIVERY
+                    {t.delivery}
                   </Typography>
-                  <Typography variant="text_main">Free</Typography>
+                  <Typography variant="text_main">{t.free}</Typography>
                 </div>
                 {currency === 'ILS' && (
                   <div className="flex w-full items-center justify-between gap-4">
                     <Typography variant="text_main" className="uppercase">
-                      VAT
+                      {t.vat}
                     </Typography>
-                    <Typography variant="text_main">default</Typography>
+                    <Typography variant="text_main">{t.default}</Typography>
                   </div>
                 )}
                 <div className="flex w-full items-center justify-between gap-4">
                   <Typography variant="text_main" className="uppercase">
-                    TOTAL
+                    {t.total}
                   </Typography>
                   <Typography variant="text_main">
                     {getPrice(
