@@ -175,6 +175,7 @@ export interface PayOrderRequest {
   expire_month: string
   expire_year: string
   cvv: string
+  discount?: number | null
   items: Array<{
     code: string
     name: string

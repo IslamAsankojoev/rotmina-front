@@ -24,10 +24,10 @@ import {
   PAYMENT_ERROR_CODES,
   PAYMENT_ERROR_CODES_ENUM,
   Typography,
-  useLangCurrancy,
-  useUser,
   useDictionary,
+  useLangCurrancy,
   useLocale,
+  useUser,
 } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -40,19 +40,28 @@ import z from 'zod'
 
 enum PaymentMethods {
   CARD = 'card',
-  CASH = 'cash',
+  PAYPAL = 'paypal',
+  GOOGLE_PAY = 'google_pay',
+  APPLE_PAY = 'apple_pay',
+  BIT = 'bit',
+  BANK = 'bank',
 }
 
 export default function OrderPage() {
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).payment || {
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .payment || {
     home: 'HOME',
     cartBreadcrumb: 'CART',
     shippingInformation: 'Shipping Information',
     paymentMethods: 'Payment Methods',
     card: 'Card',
-    cash: 'Cash',
+    paypal: 'Paypal',
+    googlePay: 'Google Pay',
+    applePay: 'Apple Pay',
+    bit: 'Bit',
+    bank: 'Bank',
     nameOnCard: 'NAME ON CARD',
     cardNumber: 'CARD NUMBER',
     telephone: 'TELEPHONE',
@@ -84,6 +93,9 @@ export default function OrderPage() {
     minutes: 'minutes',
     product: 'Product',
     unknownProduct: 'Unknown product',
+    minItemPriceError: 'Each item must cost at least 1',
+    minPaymentAmountError: 'Minimum payment amount is 1',
+    paymentNotAvailable: 'This payment method is not available yet',
   }
 
   const paymentMethods = [
@@ -93,9 +105,29 @@ export default function OrderPage() {
       image: '/payments/card.png',
     },
     {
-      id: PaymentMethods.CASH,
+      id: PaymentMethods.PAYPAL,
       label: t.cash,
-      image: '/payments/card.png',
+      image: '/payments/paypal.png',
+    },
+    {
+      id: PaymentMethods.GOOGLE_PAY,
+      label: t.googlePay,
+      image: '/payments/google-pay.png',
+    },
+    {
+      id: PaymentMethods.APPLE_PAY,
+      label: t.applePay,
+      image: '/payments/apple-pay.png',
+    },
+    {
+      id: PaymentMethods.BIT,
+      label: t.bit,
+      image: '/payments/bit.png',
+    },
+    {
+      id: PaymentMethods.BANK,
+      label: t.bank,
+      image: '/payments/bank.png',
     },
   ]
 
@@ -216,6 +248,37 @@ export default function OrderPage() {
   })
 
   const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
+    // Вычисляем discount (null если giftCard не использован, иначе сумма giftCard)
+    const discount = appliedGiftCard ? appliedGiftCard.amount : 0
+
+    // Вычисляем итоговую сумму оплаты из orderItems
+    const totalAmount = orderItems.reduce(
+      (sum, item) => sum + item.unit_price * item.units_number,
+      0,
+    )
+
+    // Вычисляем итоговую сумму после применения discount
+    const finalAmount = discount ? totalAmount - discount : totalAmount
+
+    // Проверка: каждый товар должен иметь unit_price >= 1
+    const itemsWithLowPrice = orderItems.filter((item) => item.unit_price < 1)
+    if (itemsWithLowPrice.length > 0) {
+      toast.error(
+        `${t.minItemPriceError} ${order?.data?.currency_code || 'ILS'}`,
+        { position: 'top-center' },
+      )
+      return
+    }
+
+    // Проверка: итоговая сумма оплаты должна быть >= 1
+    if (finalAmount < 1) {
+      toast.error(
+        `${t.minPaymentAmountError} ${order?.data?.currency_code || 'ILS'}`,
+        { position: 'top-center' },
+      )
+      return
+    }
+
     const paymentData = {
       orderId: order?.data?.id?.toString() || '',
       clientId: user?.data?.id?.toString() || '',
@@ -224,6 +287,7 @@ export default function OrderPage() {
       expire_month: data.expirationDate.split('/')[0],
       expire_year: data.expirationDate.split('/')[1],
       cvv: data.cvv,
+      discount: discount,
       items: orderItems,
     }
 
@@ -311,23 +375,40 @@ export default function OrderPage() {
         </div>
         <div className="mt-10 flex flex-col gap-4">
           <div className="flex items-center gap-4">
-            {paymentMethods.map((method) => (
-              <div
-                key={method.id}
-                className={clsx(
-                  'flex cursor-pointer items-center gap-4',
-                  paymentMethod === method.id ? 'grayscale-0' : 'grayscale-100',
-                )}
-                onClick={() => setPaymentMethod(method.id)}
-              >
-                <Image
-                  src={method.image}
-                  alt={method.label}
-                  width={120}
-                  height={120}
-                />
-              </div>
-            ))}
+            {paymentMethods.map((method) => {
+              const isAvailable = method.id === PaymentMethods.CARD
+              return (
+                <div
+                  key={method.id}
+                  className={clsx(
+                    'flex h-12 items-center hover:scale-105',
+                    isAvailable
+                      ? 'cursor-pointer'
+                      : 'cursor-not-allowed opacity-50',
+                    paymentMethod === method.id
+                      ? 'grayscale-0'
+                      : 'grayscale-100',
+                  )}
+                  onClick={() => {
+                    if (isAvailable) {
+                      setPaymentMethod(method.id)
+                    } else {
+                      toast.error(t.paymentNotAvailable, {
+                        position: 'top-center',
+                      })
+                    }
+                  }}
+                >
+                  <Image
+                    src={method.image}
+                    alt={method.label}
+                    width={100}
+                    height={48}
+                    className="h-[18px] w-auto object-contain"
+                  />
+                </div>
+              )
+            })}
           </div>
           <div className="grid grid-cols-1 gap-20 md:grid-cols-2">
             <Form {...form}>

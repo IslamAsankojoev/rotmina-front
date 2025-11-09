@@ -241,7 +241,10 @@
     "personalStylist": "Personal stylist",
     "minutes": "minutes",
     "product": "Product",
-    "unknownProduct": "Unknown product"
+    "unknownProduct": "Unknown product",
+    "minItemPriceError": "Each item must cost at least 1",
+    "minPaymentAmountError": "Minimum payment amount is 1",
+    "paymentNotAvailable": "This payment method is not available yet"
   },
   "terms": {
     "termsOfAgreement": "terms of the agreement.",
