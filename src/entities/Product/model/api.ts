@@ -7,7 +7,6 @@ import type {
   ProductVariant,
   CreateVariantRequest,
   UpdateVariantRequest,
-  Product,
 } from './types'
 
 export const ProductService = {
