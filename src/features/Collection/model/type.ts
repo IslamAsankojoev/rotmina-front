@@ -2,6 +2,8 @@ export type Collection = {
   documentId: string
   name: string
   description: string
+  nameHE: string
+  descriptionHE: string
   count?: number
   image?: {
     id: number

@@ -9,16 +9,20 @@ import {
 } from '@/shadcn/components/ui/accordion'
 import { Button } from '@/shadcn/components/ui/button'
 import { Typography, useDictionary } from '@/src/shared'
+import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
 
 import { Collection } from '../model'
 import { CollectionService } from '../model/api'
-import { useQuery } from '@tanstack/react-query'
+import { CollectionDescription } from './CollectionDescription'
+import { CollectionTitle } from './CollectionTitle'
 
 export const Collections = () => {
   const { dictionary } = useDictionary()
-  const collectionsT = ((dictionary as unknown) as Record<string, Record<string, string>>).collections || {
+  const collectionsT = (
+    dictionary as unknown as Record<string, Record<string, string>>
+  ).collections || {
     noDescription: 'No description',
     seeCollection: 'See collection',
   }
@@ -41,7 +45,7 @@ export const Collections = () => {
           fill
         />
       </div>
-      <div className="order-1 flex items-center justify-center md:order-2 md:flex-1 overflow-hidden">
+      <div className="order-1 flex items-center justify-center overflow-hidden md:order-2 md:flex-1">
         <Accordion
           type="single"
           collapsible
@@ -62,13 +66,17 @@ export const Collections = () => {
                     variant="text_pageTitle"
                     className="text-center !text-2xl uppercase italic"
                   >
-                    {collection.name} (
+                    <CollectionTitle collection={collection} /> (
                     {new Date().getFullYear().toString().slice(-2)})
                   </Typography>
                 </AccordionTrigger>
                 <AccordionContent className="mt-4 flex flex-col items-center justify-center">
                   <Typography variant="text_main">
-                    {collection.description || collectionsT.noDescription}
+                    {collection.description ? (
+                      <CollectionDescription collection={collection} />
+                    ) : (
+                      collectionsT.noDescription
+                    )}
                   </Typography>
                   <Image
                     src={collection.image?.url || ''}
