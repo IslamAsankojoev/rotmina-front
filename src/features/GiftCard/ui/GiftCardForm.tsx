@@ -10,7 +10,7 @@ import {
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
 import { useAddGiftCard, useCartActions } from '@/src/app/store'
-import { useLangCurrancy, useDictionary } from '@/src/shared'
+import { useLangCurrency, useDictionary } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
@@ -42,7 +42,7 @@ export const GiftCardForm = () => {
   })
   const { addGiftCardToCart } = useAddGiftCard()
   const { openCart } = useCartActions()
-  const { currency, getPrice } = useLangCurrancy()
+  const { currency, getPrice } = useLangCurrency()
 
   const onSubmit = (data: z.infer<typeof giftCardValidationSchema>) => {
 

@@ -10,7 +10,7 @@ import {
   TabsTrigger,
 } from '@/shadcn/components/ui/tabs'
 import { useAddPersonalStylist, useCartActions } from '@/src/app/store'
-import { Typography, useLangCurrancy, useAsyncErrorHandler, useDictionary, useLocale } from '@/src/shared'
+import { Typography, useLangCurrency, useAsyncErrorHandler, useDictionary, useLocale } from '@/src/shared'
 import { getGroupedPersonalStylists } from '../model/api'
 import type { PersonalStylist, SessionType } from '../model/type'
 import clsx from 'clsx'
@@ -28,7 +28,7 @@ export const PersonalStylistForm = () => {
     addToCart: 'Add to Cart',
     loading: 'Loading...',
   }
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null)
   const [sessionType, setSessionType] = useState<SessionType>('online')
   const [personalStylists, setPersonalStylists] = useState<{

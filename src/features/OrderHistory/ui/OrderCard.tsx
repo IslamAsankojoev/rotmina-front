@@ -22,7 +22,7 @@ import { OrderItem } from '@/src/features/OrderHistory/model/types'
 import {
   Typography,
   useDictionary,
-  useLangCurrancy,
+  useLangCurrency,
   useLocale,
 } from '@/src/shared'
 import clsx from 'clsx'
@@ -53,7 +53,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
     pending: 'Pending',
     processing: 'Processing',
   }
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const router = useRouter()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 

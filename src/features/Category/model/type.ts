@@ -1,7 +1,10 @@
 export type Category = {
   documentId: string
+  slug: string
   name: string
   description: string
+  nameHE: string
+  descriptionHE: string
   count?: number
   image?: {
     id: number

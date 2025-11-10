@@ -1,57 +1,65 @@
 'use client'
 
-import BustImage from '@/public/assets/bust.webp'
+import BustImageEN from '@/public/assets/bust.webp'
+import BustImageHE from '@/public/assets/bust-he.jpg'
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTrigger,
 } from '@/shadcn/components/ui/dialog'
-import { Typography } from '@/src/shared'
+import { Typography, useDictionary, useLocale } from '@/src/shared'
 import Image from 'next/image'
 
 export const SizeGuideModal = () => {
+  const { dictionary } = useDictionary()
+  const { locale } = useLocale()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .sizeGuide || {
+    title: 'Size Guide',
+    howToMeasure: 'How to Measure?',
+    bust: 'Bust',
+    bustInstructions: '• Place the measuring tape around the widest part of your bust.\n• Keep the tape horizontal (parallel to the floor), not too loose and not too tight.\n• Make sure your shoulders remain relaxed as you breathe comfortably.',
+    waist: 'Waist',
+    waistInstructions: '• Place the measuring tape around the narrowest part of your waist, usually just above the navel.\n• Keep the tape horizontal (parallel to the floor), not too loose and not too tight.',
+    hips: 'Hips',
+    hipsInstructions: '• Place the measuring tape around the widest part below your pelvis, at the level of your buttocks.\n• Ensure the tape is horizontal (parallel to the floor), not too loose and not too tight.',
+    size: 'Size',
+    bustLabel: 'Bust',
+    waistLabel: 'Waist',
+    hipsLabel: 'Hips',
+  }
+  const BustImage = locale === 'he' ? BustImageHE : BustImageEN
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="cursor-pointer uppercase">size guide</button>
+        <button className="cursor-pointer uppercase">{t.title}</button>
       </DialogTrigger>
       <DialogContent className="rounded-none">
         <DialogHeader>
           <div className="scrollbar-hide h-[600px] w-full overflow-y-scroll">
             <div className="flex flex-col gap-4 text-left text-black">
               <Typography variant="text_main" className="font-bold">
-                How to Measure?
+                {t.howToMeasure}
               </Typography>
               <br />
               <Typography variant="text_main" className="font-bold">
-                Bust
+                {t.bust}
               </Typography>
-              <Typography variant="text_main">
-                • Place the measuring tape around the widest part of your bust.{' '}
-                <br />
-                • Keep the tape horizontal (parallel to the floor), not too
-                loose and not too tight. <br />
-                • Make sure your shoulders remain relaxed as you breathe
-                comfortably. <br />
+              <Typography variant="text_main" className="whitespace-pre-line">
+                {t.bustInstructions}
               </Typography>
               <Typography variant="text_main" className="font-bold">
-                Waist
+                {t.waist}
               </Typography>
-              <Typography variant="text_main">
-                • Place the measuring tape around the narrowest part of your
-                waist, usually just above the navel. <br />• Keep the tape
-                horizontal (parallel to the floor), not too loose and not too
-                tight.
+              <Typography variant="text_main" className="whitespace-pre-line">
+                {t.waistInstructions}
               </Typography>
               <Typography variant="text_main" className="font-bold">
-                Hips
+                {t.hips}
               </Typography>
-              <Typography variant="text_main">
-                • Place the measuring tape around the widest part below your
-                pelvis, at the level of your buttocks. <br />
-                • Ensure the tape is horizontal (parallel to the floor), not too
-                loose and not too tight. <br />
+              <Typography variant="text_main" className="whitespace-pre-line">
+                {t.hipsInstructions}
               </Typography>
 
               <div className="flex flex-col gap-8 md:flex-row md:gap-0">
@@ -69,16 +77,16 @@ export const SizeGuideModal = () => {
                       <thead>
                         <tr className="bg-gray-50">
                           <th className="border border-gray-300 px-3 py-2 text-left font-semibold">
-                            Size
+                            {t.size}
                           </th>
                           <th className="border border-gray-300 px-3 py-2 text-left font-semibold">
-                            Bust
+                            {t.bustLabel}
                           </th>
                           <th className="border border-gray-300 px-3 py-2 text-left font-semibold">
-                            Waist
+                            {t.waistLabel}
                           </th>
                           <th className="border border-gray-300 px-3 py-2 text-left font-semibold">
-                            Hips
+                            {t.hipsLabel}
                           </th>
                         </tr>
                       </thead>

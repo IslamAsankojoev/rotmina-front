@@ -13,7 +13,7 @@ import {
 interface BreadcrumbsProps {
   links: {
     href: string
-    title: string
+    title: string | React.ReactNode
   }[]
 }
 
@@ -23,7 +23,7 @@ export const Breadcrumbs = ({ links }: BreadcrumbsProps) => {
       <BreadcrumbList>
         {links.map((link, index) => (
           <BreadcrumbItem key={index}>
-            <BreadcrumbLink href={link.href}>{link.title}</BreadcrumbLink>
+            <BreadcrumbLink href={link.href}>{typeof link.title === 'string' ? link.title : link.title}</BreadcrumbLink>
             {index < links.length - 1 && <BreadcrumbSeparator />}
           </BreadcrumbItem>
         ))}

@@ -22,6 +22,7 @@ export const apiMap = {
   // Product
   getProducts: 'products',
   getProduct: 'products/:id',
+  getRelatedProducts: 'products/get-related/:id',
 
   // Personal Stylist
   getPersonalStylists: 'personal-stylists',
@@ -33,6 +34,7 @@ export const apiMap = {
   // Category
   getCategories: 'categories',
   getCategory: 'categories/:id',
+  getCategoryBySlug: 'categories/slug/:slug',
 
   // Collection
   getCollections: 'collections',

@@ -9,11 +9,11 @@ import {
 } from '@/shadcn/components/ui/dropdown-menu'
 
 import { Currency } from '../constants'
-import { useLangCurrancy } from '../hooks'
+import { useLangCurrency } from '../hooks'
 import { Typography } from './Typography'
 
-export const CurrancySwitcher = () => {
-  const { currency, setCurrency } = useLangCurrancy()
+export const CurrencySwitcher = () => {
+  const { currency, setCurrency } = useLangCurrency()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

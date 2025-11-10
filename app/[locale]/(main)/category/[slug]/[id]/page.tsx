@@ -22,30 +22,70 @@ import {
   ToggleGroupItem,
 } from '@/shadcn/components/ui/toggle-group'
 import { useAddToCart, useCartActions } from '@/src/app/store'
-import { ProductService, SizeGuideModal } from '@/src/entities/Product'
+import {
+  ProductDescription,
+  ProductService,
+  ProductTitle,
+  SizeGuideModal,
+} from '@/src/entities/Product'
 import {
   Product as ProductType,
   ProductVariant,
   Size,
 } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
+import { ProductCard } from '@/src/entities/Product/ui/ProductCard'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Breadcrumbs, Typography, useLangCurrancy, useUser } from '@/src/shared'
+import {
+  Breadcrumbs,
+  Loader,
+  Typography,
+  useDictionary,
+  useLangCurrency,
+  useLocale,
+  useUser,
+} from '@/src/shared'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
+import { Category, CategoryTitle } from '@/src/features'
 
 const Product = () => {
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .productPage || {
+    colour: 'Colour',
+    size: 'Size',
+    sizeGuide: 'Size Guide',
+    waist: 'waist',
+    addToCart: 'Add to Cart',
+    description: 'Description',
+    shippingReturn: 'Shipping&Return',
+    internationalShipping: 'International Shipping',
+    shippingDescription:
+      'Shipping is available to the United States, Canada, and Europe only, and typically arrives within 7–15 business days.',
+    shippingCosts: 'Shipping Costs:',
+    destination: 'Destination',
+    returnsExchanges: 'Returns & Exchanges',
+    returnsDescription:
+      "If you like to return an item, please fill out the return form within 14 days of receiving your package. Items that have been used or worn cannot be returned or exchanged. Clothing items may be exchanged only if they still carry their original tag. Once the item is received in its original condition, you'll receive a full refund, excluding shipping costs. In cases of return or exchange, shipping costs are the customer's responsibility.",
+    europeanSurcharge:
+      'In the following European countries: Andorra, Austria, Gibraltar, Ireland, Monaco, Greece, and Portugal a 12 $ surcharge applies for shipments weighing 3 kg only. All orders are prepared for shipment within 1–2 business days from my studio in Israel.',
+    importantNote:
+      'Important: Additional local fees may apply depending on the customs policies of the destination country',
+    youMightAlsoLike: 'You might also like',
+    home: 'HOME',
+  }
   const [selectedColor, setSelectedColor] = React.useState<string | null>(null)
   const [selectedSize, setSelectedSize] = React.useState<string | null>(null)
   const [selectedVariant, setSelectedVariant] =
     React.useState<ProductVariant | null>(null)
   const params = useParams()
   const id = params.id as string
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const { addProductToCart } = useAddToCart()
   const { openCart } = useCartActions()
   const { user } = useUser()
@@ -53,6 +93,10 @@ const Product = () => {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product', id],
     queryFn: () => ProductService.getProduct(id),
+  })
+  const { data: relatedProducts } = useQuery({
+    queryKey: ['relatedProducts', id],
+    queryFn: () => ProductService.getRelatedProducts(id),
   })
 
   // Get unique colors from variants
@@ -211,7 +255,7 @@ const Product = () => {
   ) => {
     e.stopPropagation()
     if (!user?.data?.documentId) {
-      router.push('/login')
+      router.push(localizePath('/login'))
       return
     }
     if (product.inWishlist) {
@@ -221,7 +265,7 @@ const Product = () => {
     }
   }
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Loader />
   if (error) return <div>Error: {error.message}</div>
 
   return (
@@ -229,14 +273,16 @@ const Product = () => {
       <div className="relative container my-10 flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
+            { title: t.home, href: localizePath('/') },
             {
-              title: data?.data?.category?.name || 'Category',
-              href: `/category/${data?.data?.category?.documentId}`,
+              title: <CategoryTitle category={data?.data?.category as Category} />,
+              href: localizePath(`/category/${data?.data?.category?.slug}`),
             },
             {
-              title: data?.data?.title || 'Product',
-              href: `/product/${data?.data?.documentId}`,
+              title: <ProductTitle product={data?.data as ProductType} />,
+              href: localizePath(
+                `/category/${data?.data?.category?.slug}/${data?.data?.documentId}`,
+              ),
             },
           ]}
         />
@@ -271,18 +317,18 @@ const Product = () => {
               tag="h1"
               className="text-mobile-title2 md:text-pageTitle"
             >
-              {data?.data?.title}
+              <ProductTitle product={data?.data as ProductType} />
             </Typography>
             <Typography variant="text_main">
               {getPrice(getCurrentPrice())} {currency}
             </Typography>
             <Typography variant="text_main" className="mt-4">
-              {data?.data?.description}
+              <ProductDescription product={data?.data as ProductType} />
             </Typography>
             <div className="mt-6 flex flex-col gap-10">
               <div className="flex flex-col gap-2">
                 <Typography variant="text_main" className="uppercase">
-                  Colour
+                  {t.colour}
                 </Typography>
                 <div className="flex flex-wrap gap-2">
                   <ToggleGroup
@@ -320,7 +366,7 @@ const Product = () => {
               <div className="flex justify-between">
                 <div className="flex flex-col gap-2">
                   <Typography variant="text_main" className="uppercase">
-                    Size
+                    {t.size}
                   </Typography>
                   <div className="flex flex-wrap gap-2">
                     <ToggleGroup
@@ -368,7 +414,7 @@ const Product = () => {
                     variant="text_main"
                     className="text-greyy uppercase"
                   >
-                    waist: 66
+                    {t.waist}: 66
                   </Typography>
                 </div>
               </div>
@@ -380,7 +426,7 @@ const Product = () => {
               onClick={handleAddToCart}
               disabled={!selectedVariant}
             >
-              Add to Cart
+              {t.addToCart}
             </Button>
             <Tabs defaultValue="description" className="my-10">
               <TabsList>
@@ -388,34 +434,35 @@ const Product = () => {
                   value="description"
                   className="cursor-pointer uppercase"
                 >
-                  <Typography variant="text_main">Description</Typography>
+                  <Typography variant="text_main">{t.description}</Typography>
                 </TabsTrigger>
                 <TabsTrigger
                   value="shipping"
                   className="cursor-pointer uppercase"
                 >
-                  <Typography variant="text_main">Shipping&Return</Typography>
+                  <Typography variant="text_main">
+                    {t.shippingReturn}
+                  </Typography>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="description">
                 <Typography variant="text_main">
-                  {data?.data?.description}
+                  <ProductDescription product={data?.data as ProductType} />
                 </Typography>
               </TabsContent>
               <TabsContent value="shipping">
                 <Typography variant="text_main" className="font-bold">
-                  International Shipping
+                  {t.internationalShipping}
                 </Typography>
                 <Typography variant="text_main" className="my-4">
-                  Shipping is available to the United States, Canada, and Europe
-                  only, and typically arrives within 7–15 business days.
+                  {t.shippingDescription}
                 </Typography>
-                <Typography variant="text_main">Shipping Costs:</Typography>
+                <Typography variant="text_main">{t.shippingCosts}</Typography>
                 <Table className="max-w-72 border">
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[100px] font-bold">
-                        Destination
+                        {t.destination}
                       </TableHead>
                       <TableHead className="font-bold">1 k</TableHead>
                       <TableHead className="font-bold">2-3 kg</TableHead>
@@ -443,73 +490,34 @@ const Product = () => {
                 </Table>
               </TabsContent>
               <Typography variant="text_main" className="my-4">
-                In the following European countries: Andorra, Austria,
-                Gibraltar, Ireland, Monaco, Greece, and Portugal a 12 $
-                surcharge applies for shipments weighing 3 kg only. All orders
-                are prepared for shipment within 1–2 business days from my
-                studio in Israel.
+                {t.europeanSurcharge}
               </Typography>
               <Typography variant="text_main" className="font-bold">
-                Returns & Exchanges
+                {t.returnsExchanges}
               </Typography>
               <Typography variant="text_main">
-                If you like to return an item, please fill out the return form
-                within 14 days of receiving your package. Items that have been
-                used or worn cannot be returned or exchanged. Clothing items may
-                be exchanged only if they still carry their original tag. Once
-                the item is received in its original condition, you’ll receive a
-                full refund, excluding shipping costs. In cases of return or
-                exchange, shipping costs are the customer’s responsibility.
+                {t.returnsDescription}
               </Typography>
               <br />
-              <Typography variant="text_main">
-                Important: Additional local fees may apply depending on the
-                customs policies of the destination country
-              </Typography>
+              <Typography variant="text_main">{t.importantNote}</Typography>
             </Tabs>
           </div>
         </div>
         <div className="my-24 flex flex-col gap-8">
           <Typography variant="text_title" className="italic">
-            You might also like
+            {t.youMightAlsoLike}
           </Typography>
           <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12">
-            {data?.data?.variants?.map((variant: ProductVariant) => (
-              <Link
-                href={`/product/${variant?.id}`}
-                key={variant.id}
-                className={clsx(
-                  'relative col-span-6 flex h-[300px] w-full flex-col items-center gap-2 md:col-span-4 md:h-full md:min-h-[544px] lg:col-span-3',
-                )}
-              >
-                <div className="relative h-[300px] w-full md:h-full md:min-h-[544px]">
-                  <Image
-                    src={getCurrentImages()[0]?.url || ''}
-                    alt={data?.data?.title}
-                    objectFit="cover"
-                    fill
-                  />
-                </div>
-                <div className="bottom-4 flex w-full justify-between gap-2 px-2">
-                  <div className="hidden w-full flex-col justify-between gap-2 md:flex">
-                    <Typography variant="text_main">
-                      {data?.data?.title}
-                    </Typography>
-                    <Typography variant="text_main">
-                      {getPrice(Number(variant?.price.toFixed(2)))} {currency}
-                    </Typography>
-                  </div>
-                  <div className="flex w-full justify-between gap-2 md:hidden">
-                    <Typography variant="text_mini_footer">
-                      {data?.data?.title}
-                    </Typography>
-                    <Typography variant="text_mini_footer">
-                      {getPrice(Number(variant?.price.toFixed(2)))} {currency}
-                    </Typography>
-                  </div>
-                </div>
-              </Link>
-            ))}
+            {relatedProducts?.data?.map(
+              (product: ProductType, index: number) => (
+                <ProductCard
+                  product={product as ProductType}
+                  index={index + 1}
+                  refetchProducts={refetch}
+                  key={product?.documentId}
+                />
+              ),
+            )}
           </div>
         </div>
       </div>

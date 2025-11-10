@@ -25,7 +25,7 @@ import {
   PAYMENT_ERROR_CODES_ENUM,
   Typography,
   useDictionary,
-  useLangCurrancy,
+  useLangCurrency,
   useLocale,
   useUser,
 } from '@/src/shared'
@@ -139,7 +139,7 @@ export default function OrderPage() {
     queryFn: () => OrderService.getOrderById(id as string),
   })
   const { totalPrice } = useCartInfo()
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
@@ -378,9 +378,9 @@ export default function OrderPage() {
             {paymentMethods.map((method) => {
               const isAvailable = method.id === PaymentMethods.CARD
               return (
-                <div
-                  key={method.id}
-                  className={clsx(
+              <div
+                key={method.id}
+                className={clsx(
                     'flex h-12 items-center hover:scale-105',
                     isAvailable
                       ? 'cursor-pointer'
@@ -388,7 +388,7 @@ export default function OrderPage() {
                     paymentMethod === method.id
                       ? 'grayscale-0'
                       : 'grayscale-100',
-                  )}
+                )}
                   onClick={() => {
                     if (isAvailable) {
                       setPaymentMethod(method.id)
@@ -398,15 +398,15 @@ export default function OrderPage() {
                       })
                     }
                   }}
-                >
-                  <Image
-                    src={method.image}
-                    alt={method.label}
+              >
+                <Image
+                  src={method.image}
+                  alt={method.label}
                     width={100}
                     height={48}
                     className="h-[18px] w-auto object-contain"
-                  />
-                </div>
+                />
+              </div>
               )
             })}
           </div>

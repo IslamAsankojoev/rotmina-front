@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 
 import { Code, Currency, ExchangeRate } from '../../shared/constants'
 
-interface LangCurrancyStore {
+interface LangCurrencyStore {
   lang: Code
   currency: Currency
   exchangeRates: ExchangeRate[]
@@ -12,7 +12,7 @@ interface LangCurrancyStore {
   setExchangeRates: (exchangeRates: ExchangeRate[]) => void
 }
 
-export const langCurrancyStore = create<LangCurrancyStore>()(
+export const langCurrencyStore = create<LangCurrencyStore>()(
   persist(
     (set) => ({
       lang: Code.EN,

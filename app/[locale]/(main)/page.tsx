@@ -12,7 +12,7 @@ import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/main-hero.webp'
 import { Categories, Collections, SalePopup } from '@/src/features'
-import { Typography, useDictionary } from '@/src/shared'
+import { Loader, Typography, useDictionary } from '@/src/shared'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import Image from 'next/image'
 import 'swiper/css'
@@ -178,7 +178,7 @@ export default function Home() {
           {homeT.categories || 'Categories'}
         </Typography>
       </div>
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={<Loader />}>
         <Categories />
       </Suspense>
       <div className="container mt-24 flex flex-col gap-8">
@@ -189,7 +189,7 @@ export default function Home() {
           {homeT.collections || 'Collections'}
         </Typography>
       </div>
-      <Suspense fallback={<div></div>}>
+      <Suspense fallback={<Loader />}>
         <Collections />
       </Suspense>
     </section>

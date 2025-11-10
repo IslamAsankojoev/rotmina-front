@@ -9,7 +9,7 @@ import {
   PersonalStylistCartItem,
   ProductCartItem,
 } from '@/src/app/store/cartTypes'
-import { Typography, useLangCurrancy, useDictionary } from '@/src/shared'
+import { Typography, useLangCurrency, useDictionary } from '@/src/shared'
 import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 
@@ -24,7 +24,7 @@ export const CartItem = ({
   onQuantityChange,
   onRemoveItem,
 }: CartItemProps) => {
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const { dictionary } = useDictionary()
   const t = ((dictionary as unknown) as Record<string, Record<string, string>>).cart || {
     remove: 'Remove',

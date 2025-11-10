@@ -97,20 +97,6 @@ export interface OrderItem {
       title: string
       slug: string
       description: string
-      gallery?: Array<{
-        id: number
-        documentId: string
-        name: string
-        alternativeText?: string
-        caption?: string
-        width?: number
-        height?: number
-        url: string
-        previewUrl?: string
-        ext?: string
-        mime?: string
-        size?: number
-      }>
     }
   }
 }

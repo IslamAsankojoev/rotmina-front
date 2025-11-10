@@ -5,7 +5,13 @@ import { useState } from 'react'
 import { Button } from '@/shadcn/components/ui/button'
 import { useAddToCart, useCartActions } from '@/src/app/store'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Typography, useLangCurrancy, useScreenSize, useUser } from '@/src/shared'
+import {
+  Typography,
+  useLangCurrency,
+  useLocale,
+  useScreenSize,
+  useUser,
+} from '@/src/shared'
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon, Plus } from 'lucide-react'
@@ -13,6 +19,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { Product, ProductVariant } from '../model'
+import { ProductTitle } from './ProductTitle'
 import { VariantSelectionModal } from './VariantSelectionModal'
 
 interface ProductCardProps {
@@ -30,7 +37,8 @@ export const ProductCard = ({
   const [isHovered, setIsHovered] = useState(false)
   const [showVariantModal, setShowVariantModal] = useState(false)
   const { md } = useScreenSize()
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
+  const { localizePath } = useLocale()
   const router = useRouter()
   const { addProductToCart } = useAddToCart()
   const { openCart } = useCartActions()
@@ -52,8 +60,8 @@ export const ProductCard = ({
     e: React.MouseEvent<HTMLButtonElement>,
     product: Product,
   ) => {
-    if(!user?.data?.documentId) {
-      router.push('/login')
+    if (!user?.data?.documentId) {
+      router.push(localizePath('/login'))
       return
     }
     e.stopPropagation()
@@ -64,13 +72,18 @@ export const ProductCard = ({
     }
   }
 
-  const handleClickProduct = (productId: string, e: React.MouseEvent) => {
+  const handleClickProduct = (
+    productId: string,
+    categorySlug: string,
+    e: React.MouseEvent,
+  ) => {
     // Don't navigate if clicking on the add button
     const target = e.target as HTMLElement
     if (target.closest('.add-to-cart-btn')) {
       return
     }
-    router.push(`/product/${productId}`)
+    console.log(localizePath(`/category/${categorySlug}/${productId}`))
+    router.push(localizePath(`/category/${categorySlug}/${productId}`))
   }
 
   const handleAddToCartClick = (e: React.MouseEvent) => {
@@ -105,12 +118,14 @@ export const ProductCard = ({
   return (
     <>
       <div
-        onClick={(e) => handleClickProduct(product.documentId, e)}
+        onClick={(e) =>
+          handleClickProduct(product.documentId, product.category.slug, e)
+        }
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         key={product.documentId}
         className={clsx(
-          'group cols-span-6 relative cursor-pointer col-span-6 flex w-full flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
+          'group cols-span-6 relative col-span-6 flex w-full cursor-pointer flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
           index === 4
             ? 'col-span-12 min-h-[544px] md:col-span-6 md:row-span-2'
             : '',
@@ -143,15 +158,17 @@ export const ProductCard = ({
 
         {/* Product info */}
         <div className="flex w-full justify-between gap-2 px-2">
-          <div className="hidden w-full justify-between gap-2 md:flex">
-            <Typography variant="text_main">{product?.title}</Typography>
-            <Typography variant="text_main">
-              {getPrice(Number(currentPrice.toFixed(2)))} {currency}
+          <div className="flex w-full justify-between gap-2">
+            <Typography
+              variant="text_main"
+              className="text-mini-footer md:text-main"
+            >
+              <ProductTitle product={product} />
             </Typography>
-          </div>
-          <div className="flex w-full justify-between gap-2 md:hidden">
-            <Typography variant="text_mini_footer">{product?.title}</Typography>
-            <Typography variant="text_mini_footer">
+            <Typography
+              variant="text_main"
+              className="text-mini-footer md:text-main"
+            >
               {getPrice(Number(currentPrice.toFixed(2)))} {currency}
             </Typography>
           </div>

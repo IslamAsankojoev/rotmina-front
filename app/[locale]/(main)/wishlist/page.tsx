@@ -2,7 +2,7 @@
 
 import { Button } from '@/shadcn/components/ui/button'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Breadcrumbs, Typography, useLangCurrancy } from '@/src/shared'
+import { Breadcrumbs, Loader, Typography, useLangCurrency } from '@/src/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
@@ -10,7 +10,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 export default function WishlistPage() {
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { data, isLoading, error } = useQuery({
@@ -25,12 +25,12 @@ export default function WishlistPage() {
     },
   })
 
-  const handleClickProduct = (productId: string) => {
-    router.push(`/product/${productId}`)
+  const handleClickProduct = (productId: string, categorySlug: string) => {
+    router.push(`/category/${categorySlug}/${productId}`)
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   if (error) {
@@ -49,7 +49,7 @@ export default function WishlistPage() {
         <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 mt-10">
           {data?.data.map((product, index) => (
             <div
-              onClick={() => handleClickProduct(product.documentId)}
+              onClick={() => handleClickProduct(product.documentId, product.category.slug)}
               key={product.documentId}
               className={clsx(
                 'cols-span-6 relative col-span-6 flex w-full flex-col items-center gap-1 md:col-span-4 lg:col-span-3',

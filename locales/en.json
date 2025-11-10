@@ -1,6 +1,7 @@
 {
   "common": {
-    "loadMore": "Load more"
+    "loadMore": "Load more",
+    "loading": "Loading..."
   },
   "products": {
     "loadMore": "Load more"
@@ -245,6 +246,39 @@
     "minItemPriceError": "Each item must cost at least 1",
     "minPaymentAmountError": "Minimum payment amount is 1",
     "paymentNotAvailable": "This payment method is not available yet"
+  },
+  "productPage": {
+    "home": "HOME",
+    "colour": "Colour",
+    "size": "Size",
+    "sizeGuide": "Size Guide",
+    "waist": "waist",
+    "addToCart": "Add to Cart",
+    "description": "Description",
+    "shippingReturn": "Shipping&Return",
+    "internationalShipping": "International Shipping",
+    "shippingDescription": "Shipping is available to the United States, Canada, and Europe only, and typically arrives within 7–15 business days.",
+    "shippingCosts": "Shipping Costs:",
+    "destination": "Destination",
+    "returnsExchanges": "Returns & Exchanges",
+    "returnsDescription": "If you like to return an item, please fill out the return form within 14 days of receiving your package. Items that have been used or worn cannot be returned or exchanged. Clothing items may be exchanged only if they still carry their original tag. Once the item is received in its original condition, you'll receive a full refund, excluding shipping costs. In cases of return or exchange, shipping costs are the customer's responsibility.",
+    "europeanSurcharge": "In the following European countries: Andorra, Austria, Gibraltar, Ireland, Monaco, Greece, and Portugal a 12 $ surcharge applies for shipments weighing 3 kg only. All orders are prepared for shipment within 1–2 business days from my studio in Israel.",
+    "importantNote": "Important: Additional local fees may apply depending on the customs policies of the destination country",
+    "youMightAlsoLike": "You might also like"
+  },
+  "sizeGuide": {
+    "title": "Size Guide",
+    "howToMeasure": "How to Measure?",
+    "bust": "Bust",
+    "bustInstructions": "• Place the measuring tape around the widest part of your bust.\n• Keep the tape horizontal (parallel to the floor), not too loose and not too tight.\n• Make sure your shoulders remain relaxed as you breathe comfortably.",
+    "waist": "Waist",
+    "waistInstructions": "• Place the measuring tape around the narrowest part of your waist, usually just above the navel.\n• Keep the tape horizontal (parallel to the floor), not too loose and not too tight.",
+    "hips": "Hips",
+    "hipsInstructions": "• Place the measuring tape around the widest part below your pelvis, at the level of your buttocks.\n• Ensure the tape is horizontal (parallel to the floor), not too loose and not too tight.",
+    "size": "Size",
+    "bustLabel": "Bust",
+    "waistLabel": "Waist",
+    "hipsLabel": "Hips"
   },
   "terms": {
     "termsOfAgreement": "terms of the agreement.",

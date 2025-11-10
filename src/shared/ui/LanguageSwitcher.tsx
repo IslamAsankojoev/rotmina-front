@@ -9,12 +9,12 @@ import {
 } from '@/shadcn/components/ui/dropdown-menu'
 
 import { Code } from '../constants'
-import { useLangCurrancy } from '../hooks'
+import { useLangCurrency } from '../hooks'
 import { Typography } from './Typography'
 import { usePathname, useRouter } from 'next/navigation'
 
 export function LanguageSwitcher() {
-  const { setLang } = useLangCurrancy()
+  const { setLang } = useLangCurrency()
   const pathname = usePathname()
   const router = useRouter()
 

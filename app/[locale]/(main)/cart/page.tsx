@@ -13,7 +13,7 @@ import {
 } from '@/src/entities/Order'
 import { CartItem, OrderConfirmModal, OrderForm } from '@/src/features'
 import { Address } from '@/src/features/Address'
-import { Breadcrumbs, Typography, useLangCurrancy, useDictionary, useLocale } from '@/src/shared'
+import { Breadcrumbs, Typography, useLangCurrency, useDictionary, useLocale } from '@/src/shared'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 
@@ -35,7 +35,7 @@ export default function CartPage() {
   const router = useRouter()
   const { items, totalPrice } = useCartInfo()
   const { updateQuantity, removeItem } = useCartActions()
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const [shippingAddress, setShippingAddress] = useState<Address | null>(null)
   const [isCreatingOrder, setIsCreatingOrder] = useState(false)
   const [openConfirmModal, setOpenConfirmModal] = useState(false)

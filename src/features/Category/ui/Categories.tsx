@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { CategoryService } from "../model/api"
 import { useQuery } from "@tanstack/react-query"
+import { CategoryTitle } from "./CategoryTitle"
 
 export const Categories = () => {
   const { data } = useQuery({
@@ -16,7 +17,7 @@ export const Categories = () => {
     <div className="my-10 grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {categories?.map((category, index) => (
           <Link
-            href={`/category/${category.documentId}`}
+            href={`/category/${category.slug}`}
             key={category.documentId}
             className={clsx(
               'group relative block h-96 w-full overflow-hidden md:h-[600px]',
@@ -34,7 +35,7 @@ export const Categories = () => {
             </div>
             <div className="bg-opacity-50 absolute inset-0 z-10 flex items-center justify-center">
               <Typography variant="text_categories" className="text-white">
-                {category.name} ({category.count})
+                <CategoryTitle category={category} /> ({category.count})
               </Typography>
             </div>
           </Link>

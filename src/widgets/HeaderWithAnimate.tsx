@@ -10,7 +10,7 @@ import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
 import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
 import {
-  CurrancySwitcher,
+  CurrencySwitcher,
   LanguageSwitcher,
   Typography,
   useScreenSize,
@@ -358,7 +358,7 @@ export const HeaderWithAnimate = () => {
                 </Link>
                 <MiniCart />
                 <LanguageSwitcher />
-                <CurrancySwitcher />
+                <CurrencySwitcher />
               </div>
             </div>
             <div className="flex items-center gap-4 xl:hidden">
@@ -421,7 +421,7 @@ export const HeaderWithAnimate = () => {
                           />
                         </Link>
                         <LanguageSwitcher />
-                        <CurrancySwitcher />
+                        <CurrencySwitcher />
                         <button
                           onClick={() => setIsMobileMenuOpen(false)}
                           className="flex h-10 w-10 items-center justify-center"

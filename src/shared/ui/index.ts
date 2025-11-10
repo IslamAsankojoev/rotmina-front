@@ -1,4 +1,5 @@
 export { Typography } from './Typography'
 export { Breadcrumbs } from './Breadcrumbs'
 export { LanguageSwitcher } from './LanguageSwitcher'
-export { CurrancySwitcher } from './CurrancySwitcher'
+export { CurrencySwitcher } from './CurrencySwitcher'
+export { Loader } from './Loader'

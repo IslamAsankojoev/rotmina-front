@@ -7,6 +7,7 @@ import type {
   ProductVariant,
   CreateVariantRequest,
   UpdateVariantRequest,
+  Product,
 } from './types'
 
 export const ProductService = {
@@ -42,6 +43,7 @@ export const ProductService = {
       searchParams.append('populate', 'variants.size')
       searchParams.append('populate', 'variants.images')
       searchParams.append('populate', 'users')
+      searchParams.append('populate', 'category')
     }
 
     const url = `${apiMap.getProducts}?${searchParams.toString()}`
@@ -59,6 +61,9 @@ export const ProductService = {
     
     const url = `${apiMap.getProduct.replace(':id', id)}?${searchParams.toString()}`
     return api.get(url).json()
+  },
+  getRelatedProducts: (id: string): Promise<ProductListResponse> => {
+    return api.get(apiMap.getRelatedProducts.replace(':id', id)).json()
   },
 }
 
@@ -102,4 +107,6 @@ export const VariantService = {
   deleteVariant: (id: string): Promise<void> => {
     return api.delete(`variants/${id}`).json()
   },
+
+
 }

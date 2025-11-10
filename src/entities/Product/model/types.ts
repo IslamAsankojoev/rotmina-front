@@ -69,6 +69,9 @@ export interface Category {
   publishedAt: string
   updatedAt: string
   image: Image
+  slug: string
+  nameHE: string
+  descriptionHE: string
 }
 
 // Main product type
@@ -84,6 +87,8 @@ export interface Product {
   publishedAt: string
   inWishlist: boolean
   category: Category
+  titleHE: string
+  descriptionHE: string
 }
 
 // Types for API responses
@@ -116,7 +121,6 @@ export interface CreateProductRequest {
   title: string
   slug: string
   description: string
-  gallery?: number[] // Image IDs
 }
 
 export interface UpdateProductRequest extends Partial<CreateProductRequest> {

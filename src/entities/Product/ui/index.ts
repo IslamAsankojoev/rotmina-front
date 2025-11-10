@@ -1,2 +1,4 @@
 export * from './ProductGrid'
 export * from './SizeGuideModal'
+export * from './ProductTitle'
+export * from './ProductDescription'

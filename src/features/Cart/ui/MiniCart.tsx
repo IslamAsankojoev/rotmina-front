@@ -12,7 +12,7 @@ import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
 import { Sheet, SheetContent } from '@/shadcn/components/ui/sheet'
 import { useCartActions, useCartInfo } from '@/src/app/store'
-import { Typography, useLangCurrancy, useScreenSize, useDictionary } from '@/src/shared'
+import { Typography, useLangCurrency, useScreenSize, useDictionary } from '@/src/shared'
 import { X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { createPortal } from 'react-dom'
@@ -20,7 +20,7 @@ import { createPortal } from 'react-dom'
 import { CartItem } from './CartItem'
 
 export const MiniCart = () => {
-  const { getPrice, currency } = useLangCurrancy()
+  const { getPrice, currency } = useLangCurrency()
   const { items, totalPrice, isOpen } = useCartInfo()
   const { updateQuantity, removeItem, openCart, closeCart } = useCartActions()
   const { md } = useScreenSize()

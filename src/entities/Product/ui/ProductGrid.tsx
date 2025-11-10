@@ -1,6 +1,6 @@
 'use client'
 
-import { useProducts } from '@/src/shared'
+import { Typography, useDictionary, useProducts } from '@/src/shared'
 
 import { ProductCard } from './ProductCard'
 
@@ -11,9 +11,14 @@ interface ProductGridProps {
 }
 
 export const ProductGrid = ({ categoryId }: ProductGridProps) => {
+  const { dictionary } = useDictionary()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .common || {
+    loading: 'Loading...',
+  }
   const { data, isLoading, error, refetchProducts } = useProducts(categoryId)
 
-  if (isLoading) return <div>Loading...</div>
+  if (isLoading) return <Typography variant="text_main">{t.loading}</Typography>
   if (error) return <div>Error: {error.message}</div>
 
   return (
