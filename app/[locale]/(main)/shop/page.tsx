@@ -1,16 +1,23 @@
-'use client'
-
-import React, { Suspense } from 'react'
+import { cookies } from 'next/headers'
+import { Suspense } from 'react'
 
 import { ProductFilter, ProductPagination, ProductSort } from '@/src/features'
-import { Breadcrumbs, Typography, useDictionary, useLocale } from '@/src/shared'
+import { Breadcrumbs, Typography } from '@/src/shared'
+import { getDictionary } from '@/src/shared/utils/dictionaries'
+import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import { ArrowDownUp } from 'lucide-react'
 import { ProductGrid } from '@/src/entities/Product'
 
-const Shop = () => {
-  const { dictionary } = useDictionary()
-  const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).shop || {
+export default async function Shop({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const cookieStore = await cookies()
+  const locale = await getServerLocale(params, cookieStore)
+  const dictionary = await getDictionary(locale as 'en' | 'he')
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .shop || {
     home: 'HOME',
     shopBreadcrumb: 'SHOP',
     sortBy: 'SORT BY:',
@@ -24,8 +31,8 @@ const Shop = () => {
       <div className="container flex justify-between pt-10">
         <Breadcrumbs
           links={[
-            { title: t.home, href: localizePath('/') },
-            { title: t.shopBreadcrumb, href: localizePath('/shop') },
+            { title: t.home, href: addLocaleToPath('/', locale) },
+            { title: t.shopBreadcrumb, href: addLocaleToPath('/shop', locale) },
           ]}
         />
         <Suspense fallback={<div>{t.loadingFilters}</div>}>
@@ -50,5 +57,3 @@ const Shop = () => {
     </>
   )
 }
-
-export default Shop

@@ -1,16 +1,23 @@
-'use client'
-
+import { cookies } from 'next/headers'
 import React from 'react'
 
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import { PersonalStylistForm } from '@/src/features'
-import { Breadcrumbs, Typography, useDictionary, useLocale } from '@/src/shared'
+import { Breadcrumbs, Typography } from '@/src/shared'
+import { getDictionary } from '@/src/shared/utils/dictionaries'
+import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import Image from 'next/image'
 
-const PersonalStylist = () => {
-  const { dictionary } = useDictionary()
-  const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).personalStylist || {
+export default async function PersonalStylist({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const cookieStore = await cookies()
+  const locale = await getServerLocale(params, cookieStore)
+  const dictionary = await getDictionary(locale as 'en' | 'he')
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .personalStylist || {
     title: 'Personal stylist',
     home: 'HOME',
     personalStylistBreadcrumb: 'PersonalStylist',
@@ -30,8 +37,11 @@ const PersonalStylist = () => {
       <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: t.home, href: localizePath('/') },
-            { title: t.personalStylistBreadcrumb, href: localizePath('/personal-stylist') },
+            { title: t.home, href: addLocaleToPath('/', locale) },
+            {
+              title: t.personalStylistBreadcrumb,
+              href: addLocaleToPath('/personal-stylist', locale),
+            },
           ]}
         />
       </div>
@@ -86,5 +96,3 @@ const PersonalStylist = () => {
     </>
   )
 }
-
-export default PersonalStylist

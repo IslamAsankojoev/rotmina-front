@@ -416,6 +416,14 @@
     "message": "הודעה",
     "send": "שליחה"
   },
+  "termsOfConditions": {
+    "home": "בית",
+    "termsOfConditions": "תנאי שימוש"
+  },
+  "privacyPolicy": {
+    "home": "בית",
+    "privacyPolicy": "מדיניות פרטיות"
+  },
   "notFound": {
     "goToMainPage": "לעמוד הראשי"
   },

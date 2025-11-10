@@ -1,15 +1,22 @@
-'use client'
-
-import React from 'react'
+import { cookies } from 'next/headers'
 
 import ReturnsImage from '@/public/assets/returnsAndExchanges.webp'
 import { ReturnForm } from '@/src/features'
-import { Typography, useDictionary } from '@/src/shared'
+import { Typography } from '@/src/shared'
+import { getDictionary } from '@/src/shared/utils/dictionaries'
+import { getServerLocale } from '@/src/shared/utils/locale'
 import Image from 'next/image'
 
-const ReturnsAndExchanges = () => {
-  const { dictionary } = useDictionary()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).returns || {
+export default async function ReturnsAndExchanges({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const cookieStore = await cookies()
+  const locale = await getServerLocale(params, cookieStore)
+  const dictionary = await getDictionary(locale as 'en' | 'he')
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .returns || {
     title: 'Returns & Exchanges',
   }
 
@@ -39,5 +46,3 @@ const ReturnsAndExchanges = () => {
     </>
   )
 }
-
-export default ReturnsAndExchanges

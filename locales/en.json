@@ -416,6 +416,14 @@
     "message": "MESSAGE",
     "send": "Send"
   },
+  "termsOfConditions": {
+    "home": "HOME",
+    "termsOfConditions": "Terms of Conditions"
+  },
+  "privacyPolicy": {
+    "home": "HOME",
+    "privacyPolicy": "Privacy Policy"
+  },
   "notFound": {
     "goToMainPage": "Go to mainpage"
   },

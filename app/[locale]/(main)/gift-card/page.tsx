@@ -1,20 +1,28 @@
-'use client'
-
+import { cookies } from 'next/headers'
 import React from 'react'
 
 import GiftCardImage from '@/public/assets/gift-card.webp'
 import { GiftCardForm } from '@/src/features'
-import { Breadcrumbs, Typography, useDictionary, useLocale } from '@/src/shared'
+import { Breadcrumbs, Typography } from '@/src/shared'
+import { getDictionary } from '@/src/shared/utils/dictionaries'
+import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import Image from 'next/image'
 
-const GiftCard = () => {
-  const { dictionary } = useDictionary()
-  const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).giftCard || {
+export default async function GiftCard({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const cookieStore = await cookies()
+  const locale = await getServerLocale(params, cookieStore)
+  const dictionary = await getDictionary(locale as 'en' | 'he')
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .giftCard || {
     title: 'Gift card',
     home: 'HOME',
     giftCardBreadcrumb: 'GIFT CARD',
-    description: "Not sure what to choose?\nA Gift Card is always a great idea!\nLet your loved ones pick what they love most.",
+    description:
+      "Not sure what to choose?\nA Gift Card is always a great idea!\nLet your loved ones pick what they love most.",
   }
 
   const descriptionLines = t.description.split('\n')
@@ -24,8 +32,11 @@ const GiftCard = () => {
       <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: t.home, href: localizePath('/') },
-            { title: t.giftCardBreadcrumb, href: localizePath('/gift-card') },
+            { title: t.home, href: addLocaleToPath('/', locale) },
+            {
+              title: t.giftCardBreadcrumb,
+              href: addLocaleToPath('/gift-card', locale),
+            },
           ]}
         />
       </div>
@@ -71,5 +82,3 @@ const GiftCard = () => {
     </>
   )
 }
-
-export default GiftCard

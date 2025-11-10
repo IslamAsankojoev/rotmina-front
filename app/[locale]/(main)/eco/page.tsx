@@ -1,20 +1,27 @@
-'use client'
-
-import React from 'react'
+import { cookies } from 'next/headers'
 
 import EcoCurv from '@/public/assets/eco-curv.webp'
 import EcoSheep from '@/public/assets/eco-sheep.webp'
 import EcoImage from '@/public/assets/eco.webp'
-import { Breadcrumbs, Typography, useDictionary, useLocale } from '@/src/shared'
+import { Breadcrumbs, Typography } from '@/src/shared'
+import { getDictionary } from '@/src/shared/utils/dictionaries'
+import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import Image from 'next/image'
 
-const ECO = () => {
-  const { dictionary } = useDictionary()
-  const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).eco || {
+export default async function ECO({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const cookieStore = await cookies()
+  const locale = await getServerLocale(params, cookieStore)
+  const dictionary = await getDictionary(locale as 'en' | 'he')
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .eco || {
     home: 'HOME',
     eco: 'ECO',
-    title: 'Rotmina was born from a passion for fashion,with deep respect and desire to harmonize with nature and life on Earth',
+    title:
+      'Rotmina was born from a passion for fashion,with deep respect and desire to harmonize with nature and life on Earth',
     animalWelfare: 'Animal Welfare',
     packaging: 'Packaging',
   }
@@ -24,8 +31,8 @@ const ECO = () => {
       <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: t.home, href: localizePath('/') },
-            { title: t.eco, href: localizePath('/eco') },
+            { title: t.home, href: addLocaleToPath('/', locale) },
+            { title: t.eco, href: addLocaleToPath('/eco', locale) },
           ]}
         />
         <Typography variant="text_title" className="mb-4 italic hidden md:block">
@@ -191,5 +198,3 @@ const ECO = () => {
     </>
   )
 }
-
-export default ECO
