@@ -88,17 +88,17 @@ export default function PanoramaSlider() {
           <SwiperSlide key={slide.id} className="slide-card">
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
               <Image
-                src={slide.variants[0].images[0].url}
-                alt={slide.title}
+                src={slide?.variants[0]?.images[0]?.url}
+                alt={slide?.title}
                 fill
                 style={{ objectFit: 'cover' }}
-                priority={slide.id < 6}
+                priority={slide?.id < 6}
               />
             </div>
             <div className="meta !text-black">
-              <span className="title">{slide.title}</span>
-              {slide.variants[0].price && (
-                <span className="price">{slide.variants[0].price}</span>
+              <span className="title">{slide?.title}</span>
+              {slide?.variants[0]?.price && (
+                <span className="price">{slide?.variants[0]?.price}</span>
               )}
             </div>
           </SwiperSlide>
