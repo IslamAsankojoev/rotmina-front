@@ -78,7 +78,7 @@ export default function OrderPage() {
     giftCardNotFound: 'Gift card not found',
     subtotal: 'SUBTOTAl',
     delivery: 'DELIVERY',
-    free: 'Free',
+    includes: 'Includes',
     vat: 'VAT',
     default: 'default',
     total: 'TOTAL',
@@ -585,7 +585,7 @@ export default function OrderPage() {
                   <Typography variant="text_main" className="uppercase">
                     {t.delivery}
                   </Typography>
-                  <Typography variant="text_main">{t.free}</Typography>
+                  <Typography variant="text_main">{t.includes}</Typography>
                 </div>
                 {currency === 'ILS' && (
                   <div className="flex w-full items-center justify-between gap-4">

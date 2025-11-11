@@ -2,16 +2,20 @@
 
 import { useCallback } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-type Slide = { src: string; alt: string; price?: string }
+import { Product, ProductService } from '../entities/Product'
 
-export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
-  const data = slides.length < 10 ? [...slides, ...slides, ...slides] : slides
+export default function PanoramaSlider() {
+  const { data: slides } = useQuery({
+    queryKey: ['slides'],
+    queryFn: async () => await ProductService.getProductSlides(),
+  })
 
   const depth = 200
   const rotate = 30
@@ -45,6 +49,10 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
     }
   }, [])
 
+  if (!slides) return null
+
+  if (slides.data.length === 0) return null
+
   return (
     <div className="panorama-unclip relative">
       <Swiper
@@ -76,20 +84,22 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
           })
         }}
       >
-        {data.map((s, i) => (
-          <SwiperSlide key={i} className="slide-card">
+        {slides?.data?.map((slide: Product) => (
+          <SwiperSlide key={slide.id} className="slide-card">
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
               <Image
-                src={s.src}
-                alt={s.alt}
+                src={slide.variants[0].images[0].url}
+                alt={slide.title}
                 fill
                 style={{ objectFit: 'cover' }}
-                priority={i < 6}
+                priority={slide.id < 6}
               />
             </div>
-            <div className="meta">
-              <span className="title">{s.alt}</span>
-              {s.price && <span className="price">{s.price}</span>}
+            <div className="meta !text-black">
+              <span className="title">{slide.title}</span>
+              {slide.variants[0].price && (
+                <span className="price">{slide.variants[0].price}</span>
+              )}
             </div>
           </SwiperSlide>
         ))}

@@ -89,6 +89,7 @@ export interface Product {
   category: Category
   titleHE: string
   descriptionHE: string
+  show_in_carousel: boolean
 }
 
 // Types for API responses

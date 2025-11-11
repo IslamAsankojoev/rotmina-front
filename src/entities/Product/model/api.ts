@@ -64,6 +64,9 @@ export const ProductService = {
   getRelatedProducts: (id: string): Promise<ProductListResponse> => {
     return api.get(apiMap.getRelatedProducts.replace(':id', id)).json()
   },
+  getProductSlides: (): Promise<ProductListResponse> => {
+    return api.get(apiMap.getProducts + '?filters[show_in_carousel][$eq]=true&populate=variants.images').json()
+  },
 }
 
 export const VariantService = {

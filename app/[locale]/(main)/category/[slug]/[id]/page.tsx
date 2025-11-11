@@ -62,6 +62,7 @@ const Product = () => {
     sizeGuide: 'Size Guide',
     waist: 'waist',
     addToCart: 'Add to Cart',
+    outOfStock: 'Out of stock',
     description: 'Description',
     shippingReturn: 'Shipping&Return',
     internationalShipping: 'International Shipping',
@@ -424,9 +425,9 @@ const Product = () => {
               size="lg"
               className="mt-10 uppercase"
               onClick={handleAddToCart}
-              disabled={!selectedVariant}
+              disabled={!selectedVariant || selectedVariant?.stock === 0}
             >
-              {t.addToCart}
+              {selectedVariant?.stock === 0 ? t.outOfStock : t.addToCart}
             </Button>
             <Tabs defaultValue="description" className="my-10">
               <TabsList>
