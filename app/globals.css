@@ -153,7 +153,7 @@
 }
 
 body {
-  overflow-x: hidden;
+  overflow-x: hidden!important;
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

@@ -91,7 +91,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="overflow-x-hidden">
+      <div className="">
         <PanoramaSlider />
       </div>
       <div className="container mt-24">

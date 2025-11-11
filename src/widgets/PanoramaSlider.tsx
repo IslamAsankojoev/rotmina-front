@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback } from 'react'
-
 import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import 'swiper/css'
@@ -17,6 +16,12 @@ export default function PanoramaSlider() {
     queryFn: async () => await ProductService.getProductSlides(),
   })
 
+  const slidesToShow = slides?.data?.map((slide: Product) => ({
+    src: slide?.variants[0]?.images[0]?.url,
+    alt: slide?.title,
+    price: slide?.variants[0]?.price,
+  }))
+
   const depth = 200
   const rotate = 30
 
@@ -29,7 +34,8 @@ export default function PanoramaSlider() {
     for (let i = 0; i < swiper.slides.length; i += 1) {
       const slideEl = swiper.slides[i] as HTMLElement & { progress: number }
       const progress = slideEl.progress ?? 0
-      const c = swiper.slidesSizesGrid?.[i] ?? slideEl.offsetWidth ?? 0
+      const realIndex = Number(slideEl.dataset.swiperSlideIndex ?? i);
+      const c = swiper.slidesSizesGrid?.[realIndex] ?? slideEl.offsetWidth ?? 0;
 
       const slidesPerView =
         typeof swiper.params.slidesPerView === 'number'
@@ -54,16 +60,17 @@ export default function PanoramaSlider() {
   if (slides.data.length === 0) return null
 
   return (
-    <div className="panorama-unclip relative">
+    <div className="relative">
       <Swiper
         className="panorama-swiper"
         modules={[Pagination]}
         effect="slide"
         centeredSlides
-        loop
-        loopAdditionalSlides={1}
+        loop={true}
+        loopAdditionalSlides={slidesToShow?.length ?? 0}
+        watchSlidesProgress={true}
         grabCursor
-        watchSlidesProgress
+        slidesPerGroup={1}
         pagination={{
           clickable: true,
           dynamicBullets: true,
@@ -84,21 +91,21 @@ export default function PanoramaSlider() {
           })
         }}
       >
-        {slides?.data?.map((slide: Product) => (
-          <SwiperSlide key={slide.id} className="slide-card">
+        {slidesToShow?.map((slide: { src: string; alt: string; price: number }) => (
+          <SwiperSlide key={slide?.alt} className="slide-card">
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
               <Image
-                src={slide?.variants[0]?.images[0]?.url}
-                alt={slide?.title}
+                src={slide?.src}
+                alt={slide?.alt}
                 fill
                 style={{ objectFit: 'cover' }}
-                priority={slide?.id < 6}
+                priority={slide?.alt?.length < 6}
               />
             </div>
             <div className="meta !text-black">
-              <span className="title">{slide?.title}</span>
-              {slide?.variants[0]?.price && (
-                <span className="price">{slide?.variants[0]?.price}</span>
+              <span className="title">{slide?.alt}</span>
+              {slide?.price && (
+                <span className="price">{slide?.price}</span>
               )}
             </div>
           </SwiperSlide>
