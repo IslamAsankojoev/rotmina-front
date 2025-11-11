@@ -338,29 +338,43 @@ const Product = () => {
                     value={selectedColor || ''}
                     onValueChange={handleColorChange}
                   >
-                    {colors?.map((color: Color) => (
-                      <ToggleGroupItem
-                        key={color?.id}
-                        value={color?.id.toString()}
-                        className="bg-transparent"
-                      >
-                        <div
-                          className={clsx(
-                            'flex h-7 w-7 items-center justify-center rounded-full border-1',
-                            selectedColor?.includes(color?.id.toString())
-                              ? 'border-black'
-                              : 'border-transparent',
-                          )}
+                    {colors?.map((color: Color) => {
+                      let hex: string = '#ffffff'
+                      switch (color?.hex) {
+                        case '#multy':
+                          hex = 'url("/assets/multi.png") no-repeat center center'
+                          break
+                        case '#blwt':
+                          hex = 'linear-gradient(90deg, black 50%, white 50%)'
+                          break
+                        default:
+                          hex = color?.hex || '#ffffff'
+                          break
+                      }
+                      return (
+                        <ToggleGroupItem
+                          key={color?.id}
+                          value={color?.id.toString()}
+                          className="bg-transparent"
                         >
                           <div
-                            style={{
-                              backgroundColor: color?.hex,
-                            }}
-                            className="h-6 w-6 cursor-pointer rounded-full"
-                          />
-                        </div>
-                      </ToggleGroupItem>
-                    ))}
+                            className={clsx(
+                              'flex h-7 w-7 items-center justify-center rounded-full border-1',
+                              selectedColor?.includes(color?.id.toString())
+                                ? 'border-black'
+                                : 'border-greyy',
+                            )}
+                          >
+                            <div
+                              style={{
+                                background: hex,
+                              }}
+                              className="h-6 w-6 cursor-pointer rounded-full"
+                            />
+                          </div>
+                        </ToggleGroupItem>
+                      )
+                    })}
                   </ToggleGroup>
                 </div>
               </div>

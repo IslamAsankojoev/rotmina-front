@@ -29,7 +29,7 @@ export interface Color {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  hex: string
+  hex: string | '#multy' | '#blwt'
 }
 
 // Type for size
