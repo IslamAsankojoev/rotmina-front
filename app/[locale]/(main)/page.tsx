@@ -157,10 +157,10 @@ export default async function Home({
                 <div className="justify-start self-stretch text-stone-900">
                   <Typography variant="text_main">
                     {ethicsContentLines.map((line: string, index: number) => (
-                      <span key={index}>
-                        {line}
+                        <span key={index}>
+                          {line}
                         {index < ethicsContentLines.length - 1 && <br />}
-                      </span>
+                        </span>
                     ))}
                   </Typography>
                 </div>

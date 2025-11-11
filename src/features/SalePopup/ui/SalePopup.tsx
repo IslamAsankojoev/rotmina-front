@@ -59,7 +59,6 @@ export function SalePopup() {
   // Сохраняем в localStorage при закрытии
   const handleClose = () => {
     setIsOpen(false)
-    localStorage.setItem(STORAGE_KEY, 'true')
   }
 
   if (!data?.data || !isHomePage || !isOpen || !data?.data?.show) return null
