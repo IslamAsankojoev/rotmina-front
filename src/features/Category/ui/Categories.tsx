@@ -1,3 +1,5 @@
+'use client'
+
 import { Typography } from "@/src/shared"
 import clsx from "clsx"
 import Image from "next/image"

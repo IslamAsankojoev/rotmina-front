@@ -1,26 +1,17 @@
 'use client'
 
 import { useCallback } from 'react'
-import { useQuery } from '@tanstack/react-query'
+
 import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
-import { Product, ProductService } from '../entities/Product'
+type Slide = { src: string; alt: string; price?: string }
 
-export default function PanoramaSlider() {
-  const { data: slides } = useQuery({
-    queryKey: ['slides'],
-    queryFn: async () => await ProductService.getProductSlides(),
-  })
-
-  const slidesToShow = slides?.data?.map((slide: Product) => ({
-    src: slide?.variants[0]?.images[0]?.url,
-    alt: slide?.title,
-    price: slide?.variants[0]?.price,
-  }))
+export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
+  const data = slides.length < 10 ? [...slides, ...slides, ...slides] : slides
 
   const depth = 200
   const rotate = 30
@@ -34,8 +25,7 @@ export default function PanoramaSlider() {
     for (let i = 0; i < swiper.slides.length; i += 1) {
       const slideEl = swiper.slides[i] as HTMLElement & { progress: number }
       const progress = slideEl.progress ?? 0
-      const realIndex = Number(slideEl.dataset.swiperSlideIndex ?? i);
-      const c = swiper.slidesSizesGrid?.[realIndex] ?? slideEl.offsetWidth ?? 0;
+      const c = swiper.slidesSizesGrid?.[i] ?? slideEl.offsetWidth ?? 0
 
       const slidesPerView =
         typeof swiper.params.slidesPerView === 'number'
@@ -55,10 +45,6 @@ export default function PanoramaSlider() {
     }
   }, [])
 
-  if (!slides) return null
-
-  if (slides.data.length === 0) return null
-
   return (
     <div className="relative">
       <Swiper
@@ -66,11 +52,10 @@ export default function PanoramaSlider() {
         modules={[Pagination]}
         effect="slide"
         centeredSlides
-        loop={true}
-        loopAdditionalSlides={slidesToShow?.length ?? 0}
-        watchSlidesProgress={true}
+        loop
+        loopAdditionalSlides={1}
         grabCursor
-        slidesPerGroup={1}
+        watchSlidesProgress
         pagination={{
           clickable: true,
           dynamicBullets: true,
@@ -91,22 +76,20 @@ export default function PanoramaSlider() {
           })
         }}
       >
-        {slidesToShow?.map((slide: { src: string; alt: string; price: number }) => (
-          <SwiperSlide key={slide?.alt} className="slide-card">
+        {data.map((s, i) => (
+          <SwiperSlide key={i} className="slide-card">
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
               <Image
-                src={slide?.src}
-                alt={slide?.alt}
+                src={s.src}
+                alt={s.alt}
                 fill
                 style={{ objectFit: 'cover' }}
-                priority={slide?.alt?.length < 6}
+                priority={i < 6}
               />
             </div>
             <div className="meta !text-black">
-              <span className="title">{slide?.alt}</span>
-              {slide?.price && (
-                <span className="price">{slide?.price}</span>
-              )}
+              <span className="title">{s.alt}</span>
+              {s.price && <span className="price">{s.price}</span>}
             </div>
           </SwiperSlide>
         ))}

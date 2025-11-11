@@ -1,3 +1,5 @@
+'use client'
+
 import { Spinner } from '@/shadcn/components/ui/spinner'
 
 import { useDictionary } from '../hooks/useDictionary'

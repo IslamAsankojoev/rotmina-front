@@ -219,7 +219,12 @@ body {
   transform-style: preserve-3d;
 }
 
+.swiper-pagination-bullet-active{
+  background: #000!important;
+}
+
 /* styling scrollbar */
 ::-webkit-scrollbar {
   width: 0rem;
 }
+
