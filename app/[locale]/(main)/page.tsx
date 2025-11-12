@@ -136,7 +136,7 @@ export default async function Home({
                   height={95}
                   alt="rabbit-in-hearow"
                 />
-                <Typography variant="text_mobile_title" className="text-3xl">
+                <Typography variant="text_mobile_title">
                   {ethicsDict.crueltyFree}
                 </Typography>
               </div>
@@ -147,7 +147,7 @@ export default async function Home({
                   height={95}
                   alt="two-leaves"
                 />
-                <Typography variant="text_mobile_title" className="text-3xl">
+                <Typography variant="text_mobile_title">
                   {ethicsDict.vegan}
                 </Typography>
               </div>

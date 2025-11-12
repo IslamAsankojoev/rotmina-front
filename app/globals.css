@@ -124,7 +124,6 @@
     @apply bg-background text-foreground;
   }
 }
-
 @theme {
   --text-main: 18px;
   --text-mini-footer: 12px;
@@ -132,9 +131,9 @@
   --text-1: 20px;
   --text-mobile-categories: 24px;
   --text-categories: 32px;
-  --text-title: 36px;
+  --text-title: 48px;
   --text-mobile-title: 36px;
-  --text-pageTitle: 36px;
+  --text-pageTitle: 80px;
   --text-mobile-title2: 32px;
 }
 
