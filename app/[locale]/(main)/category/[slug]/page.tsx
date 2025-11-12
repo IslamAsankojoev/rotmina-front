@@ -39,9 +39,9 @@ export default async function Category({
   return (
     <>
       <div
-        className="relative flex h-[390px] w-full flex-col justify-end saturate-0"
+        className="relative flex h-[390px] w-full flex-col justify-end"
         style={{
-          backgroundImage: `url(${category?.image?.url || ''})`,
+          backgroundImage: `url(${category?.top_image?.url || category?.image?.url || ''})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: '100% 40%',

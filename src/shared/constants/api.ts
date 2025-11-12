@@ -1,4 +1,7 @@
 export const apiMap = {
+  // Site Images
+  getSiteImages: 'site-image?populate=*',
+
   // Sale Popup
   getSalePopup: 'sale-popup',
 

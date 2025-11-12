@@ -98,7 +98,7 @@ export default function CartPage() {
                 name: item.variant.color.name,
                 code: item.variant.color.code,
                 slug: item.variant.color.slug,
-                hex: item.variant.color.hex,
+                image: item.variant.color.image,
               },
             },
             productTitle: item.productTitle,

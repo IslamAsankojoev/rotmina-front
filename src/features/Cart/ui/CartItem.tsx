@@ -68,8 +68,8 @@ export const CartItem = ({
           >
             {t.color}{' '}
             <div
-              className="h-4 w-4 rounded-full"
-              style={{ backgroundColor: item?.variant?.color?.hex }}
+              className="h-8 w-8 rounded-full"
+              style={{ background: `url(${item?.variant?.color?.image.url}) no-repeat center center`, backgroundSize: 'cover' }}
             ></div>
           </Typography>
         </div>

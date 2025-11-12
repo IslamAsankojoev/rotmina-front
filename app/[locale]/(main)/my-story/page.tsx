@@ -6,12 +6,19 @@ import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import Image from 'next/image'
+import { SiteImagesApi } from '@/src/features'
+
+const getImage = async () => {
+  const siteImages = await SiteImagesApi.getSiteImages()
+  return siteImages.data?.my_story?.url
+}
 
 export default async function MyStory({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
+  const image = await getImage()
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
@@ -40,7 +47,7 @@ export default async function MyStory({
           <div className="flex-1 pt-10">
             <div className="relative h-[500px] w-full md:h-[600px]">
               <Image
-                src={MyStoryImage}
+                src={image || MyStoryImage.src}
                 alt="product-image"
                 objectFit="contain"
                 fill

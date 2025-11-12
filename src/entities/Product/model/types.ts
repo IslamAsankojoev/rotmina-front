@@ -1,4 +1,5 @@
 // Basic types for images
+import { type BlocksContent } from '@strapi/blocks-react-renderer';
 export interface Image {
   id: number
   documentId: string
@@ -29,7 +30,7 @@ export interface Color {
   createdAt: string
   updatedAt: string
   publishedAt: string
-  hex: string | '#multy' | '#blwt'
+  image: Image
 }
 
 // Type for size
@@ -80,7 +81,7 @@ export interface Product {
   documentId: string
   title: string
   slug: string
-  description: string
+  description: BlocksContent
   variants: ProductVariant[]
   createdAt: string
   updatedAt: string
@@ -88,7 +89,7 @@ export interface Product {
   inWishlist: boolean
   category: Category
   titleHE: string
-  descriptionHE: string
+  descriptionHE: BlocksContent
   show_in_carousel: boolean
 }
 

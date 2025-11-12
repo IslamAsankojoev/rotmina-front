@@ -8,12 +8,20 @@ import {
   DialogContent,
 } from '@/shadcn/components/ui/dialog'
 import { OrderResponse } from '@/src/entities/Order'
-import { Typography, useScreenSize, useDictionary, useLocale } from '@/src/shared'
+import {
+  Typography,
+  useDictionary,
+  useLocale,
+  useScreenSize,
+} from '@/src/shared'
+import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+
+import { SiteImagesApi } from '../../SiteImages'
 
 export interface OrderConfirmModalProps {
   order: OrderResponse
@@ -26,12 +34,18 @@ export function OrderConfirmModal({
   open,
   onOpenChange,
 }: OrderConfirmModalProps) {
+  const { data: siteImages } = useQuery({
+    queryKey: ['site-images'],
+    queryFn: () => SiteImagesApi.getSiteImages(),
+  })
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).orderConfirm || {
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .orderConfirm || {
     title: 'Order Confirmed!',
     yourOrder: 'Your order №',
-    thankYou: 'Thank you for choosing Rotmina. A confirmation email is on its way to you your order is being carefully packed and will be shipped soon.',
+    thankYou:
+      'Thank you for choosing Rotmina. A confirmation email is on its way to you your order is being carefully packed and will be shipped soon.',
     exploreMore: 'Explore More',
     payForOrder: 'Pay for order',
   }
@@ -47,14 +61,14 @@ export function OrderConfirmModal({
         <div
           className={clsx('flex items-center justify-center gap-4 p-10 md:p-0')}
           style={{
-            backgroundImage: md ? 'none' : `url(${ConfirmImage.src})`,
+            backgroundImage: md ? 'none' : `url(${siteImages?.data.order_success_modal?.url || ConfirmImage.src})`,
             backgroundSize: md ? 'contain' : 'cover',
             backgroundPosition: 'center',
           }}
         >
           <div className="relative hidden h-full md:block md:w-1/2">
             <Image
-              src={ConfirmImage.src}
+              src={siteImages?.data.order_success_modal?.url || ConfirmImage.src}
               alt="Order Confirmation"
               fill
               objectFit="cover"
@@ -71,12 +85,16 @@ export function OrderConfirmModal({
                 ))}
               </Typography>
               <Typography variant="text_main" className="text-center font-bold">
-                {t.yourOrder}{order?.data?.id}
+                {t.yourOrder}
+                {order?.data?.id}
               </Typography>
               <Typography variant="text_main" className="text-center">
                 {t.thankYou}
               </Typography>
-              <Link href={localizePath('/shop')} className="text-primary uppercase underline">
+              <Link
+                href={localizePath('/shop')}
+                className="text-primary uppercase underline"
+              >
                 {t.exploreMore}
               </Link>
 

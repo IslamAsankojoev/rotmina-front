@@ -156,17 +156,18 @@ export const VariantSelectionModal = ({
                       <div
                         key={color.id}
                         className={clsx(
-                          'rounded-full border',
-                          isSelected ? 'border-black' : 'border-gray-300',
+                          'rounded-full border transition-all hover:scale-110',
+                          isSelected ? 'border-black' : 'border-greyy',
                         )}
                       >
                         <ToggleGroupItem
                           value={color.id.toString()}
                           className={clsx(
-                            'h-8 w-8 cursor-pointer !rounded-full border-2 p-2 transition-all',
+                            'h-10 w-10 cursor-pointer !rounded-full border-2 p-2',
                           )}
                           style={{
-                            backgroundColor: color.hex,
+                            background: `url(${color?.image?.url}) no-repeat center center`,
+                            backgroundSize: 'cover',
                           }}
                         />
                       </div>

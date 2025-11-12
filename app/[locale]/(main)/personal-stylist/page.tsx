@@ -7,12 +7,19 @@ import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import Image from 'next/image'
+import { SiteImagesApi } from '@/src/features'
+
+const getImage = async () => {
+  const siteImages = await SiteImagesApi.getSiteImages()
+  return siteImages.data?.personal_stylist?.url
+}
 
 export default async function PersonalStylist({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
+  const image = await getImage()
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
@@ -50,7 +57,7 @@ export default async function PersonalStylist({
           <div className="flex-1 pt-10">
             <div className="relative h-[500px] w-full md:h-[600px]">
               <Image
-                src={PersonalStylistImage}
+                src={image || PersonalStylistImage.src}
                 alt="product-image"
                 objectFit="cover"
                 fill

@@ -46,7 +46,7 @@ export function ProductFilter({
   const availableColors =
     colors.length > 0
       ? colors
-      : defaultColors.map((color) => ({ code: color, slug: color, hex: color }))
+      : defaultColors.map((color) => ({ code: color, slug: color, image: { url: color } }))
   const availableSizes =
     sizes.length > 0
       ? sizes
@@ -93,11 +93,11 @@ export function ProductFilter({
                 <ToggleGroupItem
                   key={color.slug}
                   value={color.slug}
-                  className="bg-transparent"
+                  className="!bg-transparent"
                 >
                   <div
                     className={clsx(
-                      'flex h-7 w-7 items-center justify-center rounded-full border-1',
+                      'flex h-10 w-10 items-center justify-center rounded-full border-1',
                       selectedColors.includes(color.slug)
                         ? 'border-black'
                         : 'border-transparent',
@@ -105,9 +105,10 @@ export function ProductFilter({
                   >
                     <div
                       style={{
-                        backgroundColor: color.hex,
+                        background: `url(${color?.image?.url}) no-repeat center center`,
+                        backgroundSize: 'cover',
                       }}
-                      className="h-6 w-6 cursor-pointer rounded-full"
+                      className="h-8 w-8 cursor-pointer rounded-full"
                     />
                   </div>
                 </ToggleGroupItem>

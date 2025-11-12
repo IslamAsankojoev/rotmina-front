@@ -339,18 +339,6 @@ const Product = () => {
                     onValueChange={handleColorChange}
                   >
                     {colors?.map((color: Color) => {
-                      let hex: string = '#ffffff'
-                      switch (color?.hex) {
-                        case '#multy':
-                          hex = 'url("/assets/multi.png") no-repeat center center'
-                          break
-                        case '#blwt':
-                          hex = 'linear-gradient(90deg, black 50%, white 50%)'
-                          break
-                        default:
-                          hex = color?.hex || '#ffffff'
-                          break
-                      }
                       return (
                         <ToggleGroupItem
                           key={color?.id}
@@ -359,7 +347,7 @@ const Product = () => {
                         >
                           <div
                             className={clsx(
-                              'flex h-7 w-7 items-center justify-center rounded-full border-1',
+                              'flex h-10 w-10 items-center justify-center rounded-full border-1 hover:scale-110 transition-all',
                               selectedColor?.includes(color?.id.toString())
                                 ? 'border-black'
                                 : 'border-greyy',
@@ -367,9 +355,10 @@ const Product = () => {
                           >
                             <div
                               style={{
-                                background: hex,
+                                background: `url(${color?.image?.url}) no-repeat center center`,
+                                backgroundSize: 'cover',
                               }}
-                              className="h-6 w-6 cursor-pointer rounded-full"
+                              className="h-8 w-8 cursor-pointer rounded-full"
                             />
                           </div>
                         </ToggleGroupItem>

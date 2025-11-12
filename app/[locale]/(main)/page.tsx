@@ -111,7 +111,7 @@ export default async function Home({
       <div className="container mt-24">
         <Typography
           variant="text_title"
-          className="text-title md:text-mobile-title2 italic"
+          className="text-mobile-title2 md:text-title italic"
         >
           {ethicsDict.title}
         </Typography>

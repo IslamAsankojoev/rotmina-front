@@ -127,7 +127,7 @@ export interface CreateOrderItem {
       name: string
       code: string
       slug: string
-      hex: string
+      image: Image
     }
   }
   productTitle?: string

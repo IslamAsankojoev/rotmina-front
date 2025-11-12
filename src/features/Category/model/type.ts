@@ -1,3 +1,5 @@
+import { Image } from "@/src/entities/Product"
+
 export type Category = {
   documentId: string
   slug: string
@@ -6,20 +8,8 @@ export type Category = {
   nameHE: string
   descriptionHE: string
   count?: number
-  image?: {
-    id: number
-    documentId: string
-    name: string
-    alternativeText?: string
-    caption?: string
-    width?: number
-    height?: number
-    url: string
-    previewUrl?: string
-    ext?: string
-    mime?: string
-    size?: number
-  }
+  image?: Image
+  top_image?: Image
 }
 
 export type CategoryResponse = {

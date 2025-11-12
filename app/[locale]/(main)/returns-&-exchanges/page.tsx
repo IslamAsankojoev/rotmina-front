@@ -6,12 +6,19 @@ import { Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale } from '@/src/shared/utils/locale'
 import Image from 'next/image'
+import { SiteImagesApi } from '@/src/features'
+
+const getImage = async () => {
+  const siteImages = await SiteImagesApi.getSiteImages()
+  return siteImages.data?.return_exchange?.url
+}
 
 export default async function ReturnsAndExchanges({
   params,
 }: {
   params: Promise<{ locale: string }>
 }) {
+  const image = await getImage()
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
@@ -34,7 +41,7 @@ export default async function ReturnsAndExchanges({
           <div className="flex min-h-full flex-2 items-center justify-center">
             <div className="relative h-full min-h-[500px] w-full md:min-h-[600px]">
               <Image
-                src={ReturnsImage}
+                src={image || ReturnsImage.src}
                 alt="product-image"
                 fill
                 objectFit="cover"

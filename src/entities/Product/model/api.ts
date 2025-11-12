@@ -22,12 +22,14 @@ export const ProductService = {
       const colors = params.colors.split(',').map(c => c.trim())
       colors.forEach(color => {
         searchParams.append('filters[variants][color][slug][$eq]', color)
+        searchParams.append('populate', 'variants.color.image')
       })
     }
     if (params?.sizes) {
       const sizes = params.sizes.split(',').map(s => s.trim())
       sizes.forEach(size => {
         searchParams.append('filters[variants][size][slug][$eq]', size)
+        searchParams.append('populate', 'variants.size')
       })
     }
     if (params?.sort) {
@@ -39,6 +41,7 @@ export const ProductService = {
       // Load main fields by default
       searchParams.append('populate', 'variants')
       searchParams.append('populate', 'variants.color')
+      searchParams.append('populate', 'variants.color.image')
       searchParams.append('populate', 'variants.size')
       searchParams.append('populate', 'variants.images')
       searchParams.append('populate', 'users')
@@ -54,6 +57,7 @@ export const ProductService = {
     const searchParams = new URLSearchParams()
     searchParams.append('populate', 'variants')
     searchParams.append('populate', 'variants.color')
+    searchParams.append('populate', 'variants.color.image')
     searchParams.append('populate', 'variants.size')
     searchParams.append('populate', 'variants.images')
     searchParams.append('populate', 'category')
@@ -77,6 +81,7 @@ export const VariantService = {
       searchParams.append('filters[product][id][$eq]', productId)
     }
     searchParams.append('populate', 'color')
+    searchParams.append('populate', 'color.image')
     searchParams.append('populate', 'size')
     searchParams.append('populate', 'images')
     
@@ -88,6 +93,7 @@ export const VariantService = {
   getVariant: (id: string): Promise<{ data: ProductVariant }> => {
     const searchParams = new URLSearchParams()
     searchParams.append('populate', 'color')
+    searchParams.append('populate', 'color.image')
     searchParams.append('populate', 'size')
     searchParams.append('populate', 'images')
     
