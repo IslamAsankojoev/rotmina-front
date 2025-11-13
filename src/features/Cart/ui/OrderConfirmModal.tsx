@@ -22,6 +22,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { SiteImagesApi } from '../../SiteImages'
+import { useMemo } from 'react'
 
 export interface OrderConfirmModalProps {
   order: OrderResponse
@@ -38,6 +39,7 @@ export function OrderConfirmModal({
     queryKey: ['site-images'],
     queryFn: () => SiteImagesApi.getSiteImages(),
   })
+  const image = useMemo(() => siteImages?.data.order_success_modal?.url || ConfirmImage.src, [siteImages])
   const { dictionary } = useDictionary()
   const { localizePath } = useLocale()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
@@ -61,14 +63,14 @@ export function OrderConfirmModal({
         <div
           className={clsx('flex items-center justify-center gap-4 p-10 md:p-0')}
           style={{
-            backgroundImage: md ? 'none' : `url(${siteImages?.data.order_success_modal?.url || ConfirmImage.src})`,
+            backgroundImage: md ? 'none' : `url(${image})`,
             backgroundSize: md ? 'contain' : 'cover',
             backgroundPosition: 'center',
           }}
         >
           <div className="relative hidden h-full md:block md:w-1/2">
             <Image
-              src={siteImages?.data.order_success_modal?.url || ConfirmImage.src}
+              src={image}
               alt="Order Confirmation"
               fill
               objectFit="cover"

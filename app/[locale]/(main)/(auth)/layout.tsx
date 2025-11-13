@@ -2,8 +2,13 @@ import AuthImage from '@/public/assets/auth.webp'
 import { SiteImagesApi } from '@/src/features'
 
 const getImage = async () => {
-  const siteImages = await SiteImagesApi.getSiteImages()
-  return siteImages.data?.login?.url
+  try {
+    const siteImages = await SiteImagesApi.getSiteImages()
+    return siteImages.data?.login?.url || AuthImage.src
+  } catch (error) {
+    console.error(error)
+    return AuthImage.src
+  }
 }
 
 export default async function Layout({
@@ -16,7 +21,7 @@ export default async function Layout({
     <div
       className="flex h-screen flex-col items-center justify-center gap-4 px-4"
       style={{
-        backgroundImage: `url(${image || AuthImage.src})`,
+        backgroundImage: `url(${image})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

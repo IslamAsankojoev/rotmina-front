@@ -9,8 +9,13 @@ import Image from 'next/image'
 import { SiteImagesApi } from '@/src/features'
 
 const getImage = async () => {
-  const siteImages = await SiteImagesApi.getSiteImages()
-  return siteImages.data?.return_exchange?.url
+  try {
+    const siteImages = await SiteImagesApi.getSiteImages()
+    return siteImages.data?.return_exchange?.url || ReturnsImage.src
+  } catch (error) {
+    console.error(error)
+    return ReturnsImage.src
+  }
 }
 
 export default async function ReturnsAndExchanges({
@@ -41,7 +46,7 @@ export default async function ReturnsAndExchanges({
           <div className="flex min-h-full flex-2 items-center justify-center">
             <div className="relative h-full min-h-[500px] w-full md:min-h-[600px]">
               <Image
-                src={image || ReturnsImage.src}
+                src={image}
                 alt="product-image"
                 fill
                 objectFit="cover"

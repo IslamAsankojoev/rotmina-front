@@ -10,8 +10,13 @@ import Image from 'next/image'
 import { SiteImagesApi } from '@/src/features'
 
 const getImage = async () => {
-  const siteImages = await SiteImagesApi.getSiteImages()
-  return siteImages.data?.personal_stylist?.url
+  try {
+    const siteImages = await SiteImagesApi.getSiteImages()
+    return siteImages.data?.personal_stylist?.url || PersonalStylistImage.src
+  } catch (error) {
+    console.error(error)
+    return PersonalStylistImage.src
+  }
 }
 
 export default async function PersonalStylist({
@@ -57,7 +62,7 @@ export default async function PersonalStylist({
           <div className="flex-1 pt-10">
             <div className="relative h-[500px] w-full md:h-[600px]">
               <Image
-                src={image || PersonalStylistImage.src}
+                src={image}
                 alt="product-image"
                 objectFit="cover"
                 fill
