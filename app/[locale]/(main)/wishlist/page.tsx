@@ -2,7 +2,7 @@
 
 import { Button } from '@/shadcn/components/ui/button'
 import { AuthService } from '@/src/features/Auth/model/api'
-import { Breadcrumbs, Loader, Typography, useLangCurrency } from '@/src/shared'
+import { Breadcrumbs, Loader, Typography, useLangCurrency, useDictionary, useLocale } from '@/src/shared'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
@@ -13,6 +13,16 @@ export default function WishlistPage() {
   const { getPrice, currency } = useLangCurrency()
   const queryClient = useQueryClient()
   const router = useRouter()
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  
+  const accountT = ((dictionary as unknown) as Record<string, Record<string, string>>).account || {
+    home: 'HOME',
+  }
+  const headerT = ((dictionary as unknown) as Record<string, Record<string, string>>).header || {
+    wishlist: 'WISHLIST',
+  }
+  
   const { data, isLoading, error } = useQuery({
     queryKey: ['wishlistProducts'],
     queryFn: AuthService.getWishlistProducts,
@@ -42,8 +52,8 @@ export default function WishlistPage() {
       <div className="text-center">
         <Breadcrumbs
           links={[
-            { title: 'HOME', href: '/' },
-            { title: 'WISHLIST', href: '/wishlist' },
+            { title: accountT.home, href: localizePath('/') },
+            { title: headerT.wishlist, href: localizePath('/wishlist') },
           ]}
         />
         <div className="grid grid-cols-12 gap-6 sm:grid-cols-12 md:grid-cols-12 lg:grid-cols-12 mt-10">
@@ -88,7 +98,7 @@ export default function WishlistPage() {
                 </div>
               </div>
               <Button
-                variant="link"
+                variant="default"
                 size="icon"
                 className="absolute top-0 right-0"
                 onClick={(e) => {
