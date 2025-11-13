@@ -74,7 +74,6 @@ export const ProductCard = ({
 
   const handleClickProduct = (
     productId: string,
-    categorySlug: string,
     e: React.MouseEvent,
   ) => {
     // Don't navigate if clicking on the add button
@@ -82,8 +81,7 @@ export const ProductCard = ({
     if (target.closest('.add-to-cart-btn')) {
       return
     }
-    console.log(localizePath(`/category/${categorySlug}/${productId}`))
-    router.push(localizePath(`/category/${categorySlug}/${productId}`))
+    router.push(localizePath(`/category/${product?.category?.slug}/${productId}`))
   }
 
   const handleAddToCartClick = (e: React.MouseEvent) => {
@@ -119,7 +117,7 @@ export const ProductCard = ({
     <>
       <div
         onClick={(e) =>
-          handleClickProduct(product?.documentId, product?.category?.slug, e)
+          handleClickProduct(product?.documentId, e)
         }
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
