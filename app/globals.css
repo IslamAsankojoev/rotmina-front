@@ -273,3 +273,67 @@ body {
   width: 0rem;
 }
 
+/* RTL Support */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .container {
+  direction: rtl;
+}
+
+/* RTL adjustments for text alignment */
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .text-center {
+  text-align: center;
+}
+
+/* RTL adjustments for margins and padding - используйте логические свойства Tailwind (ms-*, me-*, ps-*, pe-*) */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* RTL adjustments for positioning */
+[dir="rtl"] .left-0 {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .right-0 {
+  right: auto;
+  left: 0;
+}
+
+/* Ensure header and footer stay LTR */
+[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Ensure sliders stay LTR */
+.panorama-unclip,
+.panorama-swiper,
+.panorama-swiper * {
+  direction: ltr !important;
+}
+
+/* Ensure carousel components stay LTR */
+[data-slot="carousel-content"],
+[data-slot="carousel-content"] * {
+  direction: ltr !important;
+}
+

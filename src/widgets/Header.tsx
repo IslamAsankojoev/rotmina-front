@@ -9,9 +9,9 @@ import {
   CurrencySwitcher,
   LanguageSwitcher,
   Typography,
-  useScreenSize,
-  useLocale,
   useDictionary,
+  useLocale,
+  useScreenSize,
 } from '@/src/shared'
 import clsx from 'clsx'
 import {
@@ -64,7 +64,8 @@ export const Header = () => {
   const pathname = usePathname()
   const { localizePath } = useLocale()
   const { dictionary } = useDictionary()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).header || {
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .header || {
     myStory: 'My Story',
     shop: 'Shop',
     giftCard: 'Gift Card',
@@ -73,12 +74,14 @@ export const Header = () => {
     wishlist: 'Wishlist',
     close: 'Close',
   }
-  const leftMenu = getLeftMenu(t as {
-    myStory: string
-    shop: string
-    giftCard: string
-    personalStylist: string
-  })
+  const leftMenu = getLeftMenu(
+    t as {
+      myStory: string
+      shop: string
+      giftCard: string
+      personalStylist: string
+    },
+  )
 
   useEffect(() => {
     const SHRINK_THRESHOLD = 120
@@ -92,13 +95,19 @@ export const Header = () => {
       const y = window.scrollY
       setScrolled((prev) => {
         if (!prev) {
-          if (y > SHRINK_THRESHOLD && y - lastToggleYRef.current > MIN_TOGGLE_DELTA) {
+          if (
+            y > SHRINK_THRESHOLD &&
+            y - lastToggleYRef.current > MIN_TOGGLE_DELTA
+          ) {
             lastToggleYRef.current = y
             return true
           }
           return prev
         } else {
-          if (y < EXPAND_THRESHOLD && lastToggleYRef.current - y > MIN_TOGGLE_DELTA) {
+          if (
+            y < EXPAND_THRESHOLD &&
+            lastToggleYRef.current - y > MIN_TOGGLE_DELTA
+          ) {
             lastToggleYRef.current = y
             return false
           }
@@ -124,7 +133,8 @@ export const Header = () => {
     <>
       <header
         className={clsx(
-          `top-0 left-0 z-50 w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-lg' : 'bg-transparent'}`,
+          `top-0 left-0 z-50 w-full transition-all duration-300`,
+          scrolled ? 'bg-white shadow-lg' : 'bg-transparent',
           pathname === '/' ? 'fixed' : 'sticky bg-white',
         )}
       >

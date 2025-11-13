@@ -28,6 +28,7 @@ export default async function PersonalStylist({
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
+  const isRTL = locale === 'he'
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .personalStylist || {
     title: 'Personal stylist',
@@ -58,7 +59,7 @@ export default async function PersonalStylist({
         />
       </div>
       <div className="container">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
+        <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
           <div className="flex-1 pt-10">
             <div className="relative h-[500px] w-full md:h-[600px]">
               <Image
@@ -69,7 +70,7 @@ export default async function PersonalStylist({
               />
             </div>
           </div>
-          <div className="flex-1 md:p-8">
+          <div className="flex-1 md:p-8" dir={isRTL ? 'rtl' : 'ltr'}>
             <Typography variant="text_title" className="md:text-title text-mobile-title2 italic mb-4">
               {t.title}
             </Typography>
@@ -83,7 +84,7 @@ export default async function PersonalStylist({
             </Typography>
             <br />
             <Typography variant="text_title" className="md:text-title text-mobile-title2 italic">{t.meetingOverview}</Typography>
-            <Typography variant="text_main">
+            <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
               {meetingOverviewLines.map((line, index) => (
                 <React.Fragment key={index}>
                   {line}
@@ -93,7 +94,7 @@ export default async function PersonalStylist({
             </Typography>
             <br />
             <Typography variant="text_title" className="md:text-title text-mobile-title2 italic">{t.virtualMeeting}</Typography>
-            <Typography variant="text_main">
+            <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
               {virtualMeetingLines.map((line, index) => (
                 <React.Fragment key={index}>
                   {line}

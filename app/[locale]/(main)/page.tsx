@@ -23,6 +23,7 @@ export default async function Home({
 }) {
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
+  const isRTL = locale === 'he'
   const dictionary = await getDictionary(locale as 'en' | 'he')
   
   const homeDict = dictionary as Record<string, unknown>
@@ -127,7 +128,7 @@ export default async function Home({
       </div>
       <div className="relative mb-20 flex w-full items-center justify-center">
         <div className="container">
-          <div className="inline-flex w-full flex-col items-start justify-start gap-5 self-stretch md:flex-row">
+          <div className="inline-flex w-full flex-col items-start justify-start gap-5 self-stretch md:flex-row" dir='ltr'>
             <div className="order-2 inline-flex flex-1 items-center gap-10 md:order-1">
               <div className="flex flex-col items-center gap-4">
                 <Image
@@ -154,7 +155,7 @@ export default async function Home({
             </div>
             <div className="order-1 inline-flex flex-1 flex-col items-start justify-start md:order-2">
               <div className="flex flex-col items-center justify-end self-stretch">
-                <div className="justify-start self-stretch text-stone-900">
+                <div className="justify-start self-stretch text-stone-900" dir={isRTL ? 'rtl' : 'ltr'}>
                   <Typography variant="text_main">
                     {ethicsContentLines.map((line: string, index: number) => (
                         <span key={index}>

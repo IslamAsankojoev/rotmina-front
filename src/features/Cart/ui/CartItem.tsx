@@ -9,7 +9,13 @@ import {
   PersonalStylistCartItem,
   ProductCartItem,
 } from '@/src/app/store/cartTypes'
-import { Typography, useLangCurrency, useDictionary } from '@/src/shared'
+import {
+  Typography,
+  useDictionary,
+  useLangCurrency,
+  useLocale,
+} from '@/src/shared'
+import clsx from 'clsx'
 import { Minus, Plus } from 'lucide-react'
 import Image from 'next/image'
 
@@ -25,8 +31,10 @@ export const CartItem = ({
   onRemoveItem,
 }: CartItemProps) => {
   const { getPrice, currency } = useLangCurrency()
+  const { isRTL } = useLocale()
   const { dictionary } = useDictionary()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).cart || {
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .cart || {
     remove: 'Remove',
     size: 'Size:',
     color: 'Color',
@@ -50,36 +58,42 @@ export const CartItem = ({
           className="object-cover"
         />
       </div>
-      <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
-        <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium text-mini-footer md:text-main">
+      <div className="relative flex min-h-[150px] flex-1 flex-col justify-between gap-2">
+        <div className="flex flex-col gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
+          <Typography
+            variant="text_main"
+            className="text-mini-footer md:text-main font-medium"
+          >
             {item?.productTitle}
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy text-mini-footer uppercase md:text-main"
+            className="text-greyy text-mini-footer md:text-main uppercase"
           >
             {t.size}{' '}
             <span className="text-black">{item?.variant?.size?.name}</span>
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy flex items-center gap-2 text-mini-footer uppercase md:text-main"
+            className="text-greyy text-mini-footer md:text-main flex items-center gap-2 uppercase"
           >
             {t.color}{' '}
             <div
               className="h-8 w-8 rounded-full"
-              style={{ background: `url(${item?.variant?.color?.image.url}) no-repeat center center`, backgroundSize: 'cover' }}
+              style={{
+                background: `url(${item?.variant?.color?.image.url}) no-repeat center center`,
+                backgroundSize: 'cover',
+              }}
             ></div>
           </Typography>
         </div>
 
         {/* Quantity management */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
             <Typography
               variant="text_main"
-              className="text-greyy text-mini-footer uppercase md:text-main"
+              className="text-greyy text-mini-footer md:text-main uppercase"
             >
               {t.amount}
             </Typography>
@@ -94,7 +108,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center md:text-main"
+                className="md:text-main min-w-[20px] text-center"
               >
                 {item?.quantity}
               </Typography>
@@ -108,19 +122,25 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
+          <Typography
+            variant="text_main"
+            className="text-greyy md:text-main text-mini-footer font-medium"
+          >
             {getPrice(item?.variant?.price * item?.quantity)} {currency}
           </Typography>
         </div>
+        <Button
+          variant="link"
+          size="sm"
+          onClick={() => onRemoveItem(item?.id)}
+          className={clsx(
+            'text-greyy absolute top-0 p-0 hover:text-black',
+            isRTL ? 'left-0' : 'right-0',
+          )}
+        >
+          {t.remove}
+        </Button>
       </div>
-      <Button
-        variant="link"
-        size="sm"
-        onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
-      >
-        {t.remove}
-      </Button>
     </div>
   )
 
@@ -135,32 +155,41 @@ export const CartItem = ({
           className="object-cover"
         />
       </div>
-      <div className="flex min-h-[150px] flex-1 flex-col justify-between gap-2">
-        <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium md:text-main text-mini-footer">
+      <div className="relative flex min-h-[150px] flex-1 flex-col justify-between gap-2">
+        <div className="flex flex-col gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
+          <Typography
+            variant="text_main"
+            className="md:text-main text-mini-footer font-medium"
+          >
             {t.giftCard}
           </Typography>
           {item?.recipientEmail && (
-            <Typography variant="text_main" className="text-greyy md:text-main text-mini-footer">
+            <Typography
+              variant="text_main"
+              className="text-greyy md:text-main text-mini-footer"
+            >
               {t.address}{' '}
               <span className="text-black">{item?.recipientEmail}</span>
             </Typography>
           )}
           {item?.recipientName && (
-            <Typography variant="text_main" className="text-greyy md:text-main text-mini-footer">
+            <Typography
+              variant="text_main"
+              className="text-greyy md:text-main text-mini-footer"
+            >
               {t.name} <span className="text-black">{item?.recipientName}</span>
             </Typography>
           )}
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" dir="ltr">
             <Typography
               variant="text_main"
-              className="text-greyy text-mini-footer uppercase md:text-main"
+              className="text-greyy text-mini-footer md:text-main uppercase"
             >
               {t.amount}
             </Typography>
-            <div className="flex items-center">
+            <div className="flex items-center" dir="ltr">
               <Button
                 variant="link"
                 size="sm"
@@ -171,7 +200,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center md:text-main"
+                className="md:text-main min-w-[20px] text-center"
               >
                 {item?.quantity}
               </Typography>
@@ -185,19 +214,25 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
+          <Typography
+            variant="text_main"
+            className="text-greyy md:text-main text-mini-footer font-medium"
+          >
             {getPrice(item?.price * item?.quantity)} {currency}
           </Typography>
         </div>
+        <Button
+          variant="link"
+          size="sm"
+          onClick={() => onRemoveItem(item?.id)}
+          className={clsx(
+            'text-greyy absolute top-0 p-0 hover:text-black',
+            isRTL ? 'left-0' : 'right-0',
+          )}
+        >
+          {t.remove}
+        </Button>
       </div>
-      <Button
-        variant="link"
-        size="sm"
-        onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
-      >
-        {t.remove}
-      </Button>
     </div>
   )
 
@@ -212,27 +247,30 @@ export const CartItem = ({
           className="object-cover"
         />
       </div>
-      <div className="flex min-h-[150px] flex-1 flex-col justify-between">
-        <div className="flex flex-col gap-2">
-          <Typography variant="text_main" className="font-medium md:text-main text-mini-footer">
+      <div className="relative flex min-h-[150px] flex-1 flex-col justify-between">
+        <div className="flex flex-col gap-2" dir={isRTL ? 'rtl' : 'ltr'}>
+          <Typography
+            variant="text_main"
+            className="md:text-main text-mini-footer font-medium"
+          >
             {t.personalStylist}
           </Typography>
           <Typography
             variant="text_main"
-            className="text-greyy uppercase md:text-main text-mini-footer"
+            className="text-greyy md:text-main text-mini-footer uppercase"
           >
             {item?.sessionType === 'virtual' ? t.online : t.inPerson}
           </Typography>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2" dir="ltr">
             <Typography
               variant="text_main"
-              className="text-greyy uppercase md:text-main text-mini-footer"
+              className="text-greyy md:text-main text-mini-footer uppercase"
             >
               {t.amount}
             </Typography>
-            <div className="flex items-center">
+            <div className="flex items-center" dir="ltr">
               <Button
                 variant="link"
                 size="sm"
@@ -243,7 +281,7 @@ export const CartItem = ({
               </Button>
               <Typography
                 variant="text_main"
-                className="min-w-[20px] text-center md:text-main"
+                className="md:text-main min-w-[20px] text-center"
               >
                 {item?.quantity}
               </Typography>
@@ -257,19 +295,25 @@ export const CartItem = ({
               </Button>
             </div>
           </div>
-          <Typography variant="text_main" className="text-greyy font-medium md:text-main text-mini-footer">
+          <Typography
+            variant="text_main"
+            className="text-greyy md:text-main text-mini-footer font-medium"
+          >
             {getPrice(item?.price * item?.quantity)} {currency}
           </Typography>
-        </div>
+        </div>{' '}
+        <Button
+          variant="link"
+          size="sm"
+          onClick={() => onRemoveItem(item?.id)}
+          className={clsx(
+            'text-greyy absolute top-0 p-0 hover:text-black',
+            isRTL ? 'left-0' : 'right-0',
+          )}
+        >
+          {t.remove}
+        </Button>
       </div>
-      <Button
-        variant="link"
-        size="sm"
-        onClick={() => onRemoveItem(item?.id)}
-        className="text-greyy absolute top-0 right-0 p-0 hover:text-black"
-      >
-        {t.remove}
-      </Button>
     </div>
   )
 

@@ -17,7 +17,7 @@ import clsx from 'clsx'
 
 export const PersonalStylistForm = () => {
   const { dictionary } = useDictionary()
-  const { locale } = useLocale()
+  const { locale, isRTL } = useLocale()
   const t = ((dictionary as unknown) as Record<string, Record<string, string>>).personalStylist || {
     online: 'Online',
     atYourHome: 'At your home',
@@ -129,11 +129,12 @@ export const PersonalStylistForm = () => {
       <Tabs
         defaultValue="online"
         className="mt-10"
+        dir={isRTL ? 'rtl' : 'ltr'}
         onValueChange={(value) =>
           setSessionType(value as SessionType)
         }
       >
-        <TabsList>
+        <TabsList dir={isRTL ? 'rtl' : 'ltr'}>
           <TabsTrigger value="online" className="uppercase cursor-pointer">
             {t.online}
           </TabsTrigger>
@@ -144,17 +145,17 @@ export const PersonalStylistForm = () => {
         <TabsContent value="online">
           {personalStylists.online.length > 0 ? (
             <>
-              <Typography variant="text_main">
+              <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
                 <span className="font-bold">{t.duration}</span>{' '}
                 {formatDuration(personalStylists.online[0].minutes)}
               </Typography>
-              <Typography variant="text_main" className="mt-2">
+              <Typography variant="text_main" className="mt-2" dir={isRTL ? 'rtl' : 'ltr'}>
                 <span className="font-bold">{t.priceLabel}</span>{' '}
                 {getPrice(personalStylists.online[0].price)} {currency}
               </Typography>
             </>
           ) : (
-            <Typography variant="text_main">
+            <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
               {t.onlineUnavailable}
             </Typography>
           )}
@@ -171,17 +172,17 @@ export const PersonalStylistForm = () => {
                   )}
                   onClick={() => handleProductSelect(stylist.id)}
                 >
-                  <Typography variant="text_main">
+                  <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
                     {formatDuration(stylist.minutes)}
                   </Typography>
-                  <Typography variant="text_main">
+                  <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
                     {getPrice(stylist.price)} {currency}
                   </Typography>
                 </div>
               ))}
             </div>
           ) : (
-            <Typography variant="text_main">
+            <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
               {t.atYourHomeUnavailable}
             </Typography>
           )}
@@ -191,6 +192,7 @@ export const PersonalStylistForm = () => {
         variant="outline-minimal"
         size="lg"
         className="my-10 uppercase"
+        dir={isRTL ? 'rtl' : 'ltr'}
         onClick={handleAddToCart}
         disabled={
           (sessionType === 'at-your-home' && !selectedProduct) ||

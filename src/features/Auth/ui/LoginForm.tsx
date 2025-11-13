@@ -101,7 +101,7 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end" dir='ltr'>
               <Link
                 href="/reset-password"
                 className="text-right uppercase"

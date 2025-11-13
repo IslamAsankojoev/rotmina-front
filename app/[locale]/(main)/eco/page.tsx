@@ -16,6 +16,7 @@ export default async function ECO({
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
+  const isRTL = locale === 'he'
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .eco || {
     home: 'HOME',
@@ -46,13 +47,14 @@ export default async function ECO({
         <Image src={EcoImage} alt="eco-image" objectFit="cover" fill />
       </div>
       <div className="container mt-10">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
+        <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex-1 md:p-4">
             <Typography variant="text_title">{t.animalWelfare}</Typography>
             <Typography variant="text_main" className="my-4">
               <div
                 data-layer="Text_main"
                 className="TextMain justify-start self-stretch"
+                dir={isRTL ? 'rtl' : 'ltr'}
               >
                 <span className="font-['Arima'] text-lg font-normal text-stone-900">
                   {t.animalWelfareIntro}
@@ -130,7 +132,7 @@ export default async function ECO({
         </div>
       </div>
       <div className="container mt-10">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
+        <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex min-h-full flex-1 items-center justify-center">
             <div className="relative h-full w-full">
               <Image src={EcoCurv} alt="product-image" fill objectFit="cover" />
@@ -140,7 +142,7 @@ export default async function ECO({
             <Typography variant="text_title">{t.packaging}</Typography>
             <Typography variant="text_main" className="my-4">
               <div className="Frame187 inline-flex flex-col items-center justify-center gap-2.5 self-stretch">
-                <div className="TextMain justify-start self-stretch">
+                <div className="TextMain justify-start self-stretch" dir={isRTL ? 'rtl' : 'ltr'}>
                   <span className="font-['Arima'] text-lg font-normal text-stone-900">
                     {t.packagingIntro}
                     <br />

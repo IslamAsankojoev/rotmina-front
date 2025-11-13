@@ -29,7 +29,7 @@ export const ProductPagination = ({ totalPages = 5 }: ProductPaginationProps) =>
   }
 
   return (
-    <div className="mt-8 flex flex-col items-center justify-center gap-5">
+    <div className="mt-8 flex flex-col items-center justify-center gap-5" dir='ltr'>
       <Pagination>
         <PaginationContent>
           {Array.from({ length: totalPagesFromData }, (_, index) => (

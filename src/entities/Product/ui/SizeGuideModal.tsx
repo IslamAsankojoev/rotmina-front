@@ -13,7 +13,7 @@ import Image from 'next/image'
 
 export const SizeGuideModal = () => {
   const { dictionary } = useDictionary()
-  const { locale } = useLocale()
+  const { locale, isRTL } = useLocale()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .sizeGuide || {
     title: 'Size Guide',
@@ -35,7 +35,7 @@ export const SizeGuideModal = () => {
       <DialogTrigger asChild>
         <button className="cursor-pointer uppercase">{t.title}</button>
       </DialogTrigger>
-      <DialogContent className="rounded-none">
+      <DialogContent className="rounded-none" dir={isRTL ? 'rtl' : 'ltr'}>
         <DialogHeader>
           <div className="scrollbar-hide h-[600px] w-full overflow-y-scroll">
             <div className="flex flex-col gap-4 text-left text-black">

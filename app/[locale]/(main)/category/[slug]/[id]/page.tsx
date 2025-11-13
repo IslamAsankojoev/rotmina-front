@@ -35,6 +35,7 @@ import {
 } from '@/src/entities/Product/model/types'
 import { Color } from '@/src/entities/Product/model/types'
 import { ProductCard } from '@/src/entities/Product/ui/ProductCard'
+import { Category, CategoryTitle } from '@/src/features'
 import { AuthService } from '@/src/features/Auth/model/api'
 import {
   Breadcrumbs,
@@ -50,11 +51,10 @@ import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
-import { Category, CategoryTitle } from '@/src/features'
 
 const Product = () => {
   const { dictionary } = useDictionary()
-  const { localizePath } = useLocale()
+  const { localizePath, isRTL } = useLocale()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .productPage || {
     colour: 'Colour',
@@ -276,7 +276,9 @@ const Product = () => {
           links={[
             { title: t.home, href: localizePath('/') },
             {
-              title: <CategoryTitle category={data?.data?.category as Category} />,
+              title: (
+                <CategoryTitle category={data?.data?.category as Category} />
+              ),
               href: localizePath(`/category/${data?.data?.category?.slug}`),
             },
             {
@@ -289,7 +291,7 @@ const Product = () => {
         />
       </div>
       <div className="container">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12">
+        <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
           <div className="flex-1">
             <div className="relative h-[500px] w-full md:h-[900px]">
               <Image
@@ -300,7 +302,7 @@ const Product = () => {
               />
             </div>
           </div>
-          <div className="relative flex-1 md:p-8">
+          <div className="relative flex-1 md:p-8" dir={isRTL ? 'rtl' : 'ltr'}>
             <button
               className="absolute top-2 right-0 flex h-10 w-10 cursor-pointer items-center justify-center p-0"
               onClick={(e) => {
@@ -347,7 +349,7 @@ const Product = () => {
                         >
                           <div
                             className={clsx(
-                              'flex h-10 w-10 items-center justify-center rounded-full border-1 hover:scale-110 transition-all',
+                              'flex h-10 w-10 items-center justify-center rounded-full border-1 transition-all hover:scale-110',
                               selectedColor?.includes(color?.id.toString())
                                 ? 'border-black'
                                 : 'border-greyy',
@@ -432,7 +434,7 @@ const Product = () => {
             >
               {selectedVariant?.stock === 0 ? t.outOfStock : t.addToCart}
             </Button>
-            <Tabs defaultValue="description" className="my-10">
+            <Tabs defaultValue="description" className="my-10" dir={isRTL ? 'rtl' : 'ltr'}>
               <TabsList>
                 <TabsTrigger
                   value="description"
