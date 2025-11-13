@@ -18,12 +18,12 @@ import { HeartIcon, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-import { Product, ProductVariant } from '../model'
+import { Product as ProductType, ProductVariant } from '../model'
 import { ProductTitle } from './ProductTitle'
 import { VariantSelectionModal } from './VariantSelectionModal'
 
 interface ProductCardProps {
-  product: Product
+  product: ProductType
   index: number
   refetchProducts: () => void
 }
@@ -58,7 +58,7 @@ export const ProductCard = ({
 
   const handleClickWishlist = (
     e: React.MouseEvent<HTMLButtonElement>,
-    product: Product,
+    product: ProductType,
   ) => {
     if (!user?.data?.documentId) {
       router.push(localizePath('/login'))
@@ -66,9 +66,9 @@ export const ProductCard = ({
     }
     e.stopPropagation()
     if (product.inWishlist) {
-      deleteWishlistProducts({ productId: product.documentId })
+      deleteWishlistProducts({ productId: product?.documentId })
     } else {
-      addToWishlistProducts({ productId: product.documentId })
+      addToWishlistProducts({ productId: product?.documentId })
     }
   }
 
@@ -92,7 +92,7 @@ export const ProductCard = ({
   }
 
   const handleAddToCart = (variant: ProductVariant) => {
-    addProductToCart(variant, product.title, product.slug, 1)
+    addProductToCart(variant, product?.title, product?.slug, 1)
     openCart()
   }
 
@@ -100,30 +100,30 @@ export const ProductCard = ({
   const getCurrentImage = () => {
     const defaultVariantIndex = 0
     const hoverVariantIndex =
-      isHovered && product.variants.length > 1 ? 1 : defaultVariantIndex
+      isHovered && product?.variants?.length > 1 ? 1 : defaultVariantIndex
 
     // Priority: variant images -> first variant image -> placeholder
-    if (product.variants[hoverVariantIndex]?.images?.[0]?.url) {
-      return product.variants[hoverVariantIndex].images[0]?.url
+    if (product?.variants?.[hoverVariantIndex]?.images?.[0]?.url) {
+      return product?.variants?.[hoverVariantIndex]?.images?.[0]?.url
     }
-    if (product.variants?.[0]?.images?.[0]?.url) {
-      return product.variants[0].images[0]?.url
+    if (product?.variants?.[0]?.images?.[0]?.url) {
+      return product?.variants?.[0]?.images?.[0]?.url
     }
     return ''
   }
 
   // Get current price
-  const currentPrice = product.variants[0]?.price || 0
+  const currentPrice = product?.variants?.[0]?.price || 0
 
   return (
     <>
       <div
         onClick={(e) =>
-          handleClickProduct(product.documentId, product.category.slug, e)
+          handleClickProduct(product?.documentId, product?.category?.slug, e)
         }
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        key={product.documentId}
+        key={product?.documentId}
         className={clsx(
           'group cols-span-6 relative col-span-6 flex w-full cursor-pointer flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
           index === 4
@@ -183,7 +183,7 @@ export const ProductCard = ({
         >
           <HeartIcon
             size={md ? 40 : 32}
-            fill={product.inWishlist ? 'currentColor' : 'none'}
+            fill={product?.inWishlist ? 'currentColor' : 'none'}
           />
         </Button>
       </div>
