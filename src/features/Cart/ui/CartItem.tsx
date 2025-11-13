@@ -81,7 +81,7 @@ export const CartItem = ({
             <div
               className="h-8 w-8 rounded-full"
               style={{
-                background: `url(${item?.variant?.color?.image.url}) no-repeat center center`,
+                background: `url(${item?.variant?.color?.image?.url}) no-repeat center center`,
                 backgroundSize: 'cover',
               }}
             ></div>

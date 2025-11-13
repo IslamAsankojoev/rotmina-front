@@ -104,10 +104,10 @@ export const ProductCard = ({
 
     // Priority: variant images -> first variant image -> placeholder
     if (product.variants[hoverVariantIndex]?.images?.[0]?.url) {
-      return product.variants[hoverVariantIndex].images[0].url
+      return product.variants[hoverVariantIndex].images[0]?.url
     }
     if (product.variants?.[0]?.images?.[0]?.url) {
-      return product.variants[0].images[0].url
+      return product.variants[0].images[0]?.url
     }
     return ''
   }
