@@ -59,7 +59,7 @@ export const extractErrorMessage = (error: StrapiError): string => {
   }
   
   // Возвращаем основное сообщение об ошибке
-  return error.message || 'Произошла неизвестная ошибка'
+  return error.message || 'An unknown error occurred'
 }
 
 /**
@@ -77,7 +77,7 @@ export const processStrapiError = async (error: unknown): Promise<ProcessedError
     if (errorObj.name === 'NetworkError' || 
         (typeof errorObj.message === 'string' && errorObj.message.includes('fetch'))) {
       return {
-        message: 'Ошибка сети. Проверьте подключение к интернету.',
+        message: 'Network error. Please check your internet connection.',
         status: 0,
         type: ERROR_TYPES.NETWORK,
         originalError: error as StrapiError
@@ -135,7 +135,7 @@ export const processStrapiError = async (error: unknown): Promise<ProcessedError
   // Неизвестная ошибка
   const unknownError = error as StrapiError
   return {
-    message: unknownError.message || 'Произошла неизвестная ошибка',
+    message: unknownError.message || 'An unknown error occurred',
     status: 500,
     type: ERROR_TYPES.UNKNOWN,
     originalError: unknownError
@@ -158,14 +158,14 @@ export const showErrorToast = (error: ProcessedError, fallbackMessage?: string):
   // Если нет сообщения с сервера, показываем fallback только для определенных типов ошибок
   switch (error.type) {
     case ERROR_TYPES.NETWORK:
-      toast.error('Ошибка сети. Проверьте подключение')
+      toast.error('Network error. Please check your connection')
       break
     case ERROR_TYPES.SERVER:
-      toast.error('Ошибка сервера. Попробуйте позже')
+      toast.error('Server error. Please try again later')
       break
     default:
       // Для остальных случаев показываем fallback или общее сообщение
-      toast.error(fallbackMessage || 'Произошла ошибка')
+      toast.error(fallbackMessage || 'An error occurred')
   }
 }
 
@@ -232,7 +232,7 @@ export const processStrapiErrorSync = (error: unknown): ProcessedError => {
     if (errorObj.name === 'NetworkError' || 
         (typeof errorObj.message === 'string' && errorObj.message.includes('fetch'))) {
       return {
-        message: 'Ошибка сети. Проверьте подключение к интернету.',
+        message: 'Network error. Please check your internet connection.',
         status: 0,
         type: ERROR_TYPES.NETWORK,
         originalError: error as StrapiError
@@ -254,15 +254,15 @@ export const processStrapiErrorSync = (error: unknown): ProcessedError => {
       
       // Для ошибок валидации (400) показываем более понятное сообщение
       if (status === 400) {
-        message = 'Проверьте введенные данные'
+        message = 'Please check the entered data'
       } else if (status === 401) {
-        message = 'Неверный логин или пароль'
+        message = 'Invalid login or password'
       } else if (status === 403) {
-        message = 'Недостаточно прав для выполнения операции'
+        message = 'Insufficient permissions to perform the operation'
       } else if (status === 404) {
-        message = 'Запрашиваемый ресурс не найден'
+        message = 'The requested resource was not found'
       } else if (status >= 500) {
-        message = 'Ошибка сервера. Попробуйте позже'
+        message = 'Server error. Please try again later'
       }
     }
     
@@ -291,7 +291,7 @@ export const processStrapiErrorSync = (error: unknown): ProcessedError => {
   // Неизвестная ошибка
   const unknownError = error as StrapiError
   return {
-    message: unknownError.message || 'Произошла неизвестная ошибка',
+    message: unknownError.message || 'An unknown error occurred',
     status: 500,
     type: ERROR_TYPES.UNKNOWN,
     originalError: unknownError

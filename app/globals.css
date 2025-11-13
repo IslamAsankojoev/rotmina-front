@@ -296,7 +296,7 @@ body {
   text-align: center;
 }
 
-/* RTL adjustments for margins and padding - используйте логические свойства Tailwind (ms-*, me-*, ps-*, pe-*) */
+/* RTL adjustments for margins and padding - use Tailwind logical properties (ms-*, me-*, ps-*, pe-*) */
 [dir="rtl"] .ml-auto {
   margin-left: 0;
   margin-right: auto;

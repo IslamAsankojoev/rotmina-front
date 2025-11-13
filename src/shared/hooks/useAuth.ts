@@ -15,7 +15,7 @@ export const useAuth = () => {
       AuthService.signup(credentials),
     onSuccess: async () => {
       router.refresh()
-      toast.success('Аккаунт успешно создан, подтвердите email')
+      toast.success('Account created successfully, please verify your email')
     },
     onError: createAsyncErrorHandler(),
   })
@@ -33,7 +33,7 @@ export const useAuth = () => {
     mutationFn: async () => AuthService.logout(),
     onSuccess: async () => {
       router.push('/')
-      toast.success('Logged out successfully')
+      toast.success('Logged out successfully!')
     },
     onError: createAsyncErrorHandler(),
   })
@@ -42,7 +42,7 @@ export const useAuth = () => {
     mutationFn: async (credentials: ResetPasswordCredentials) =>
       AuthService.resetPassword(credentials),
     onSuccess: async () => {
-      toast.success('Email успешно отправлен')
+      toast.success('Email sent successfully!')
     },
     onError: createAsyncErrorHandler(),
   })
@@ -51,7 +51,7 @@ export const useAuth = () => {
     mutationFn: async (credentials: NewPasswordCredentials) =>
       AuthService.newPassword(credentials),
     onSuccess: async () => {
-      toast.success('Пароль успешно обновлен')
+      toast.success('Password updated successfully!')
     },
     onError: createAsyncErrorHandler(),
   })
