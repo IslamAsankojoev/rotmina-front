@@ -118,12 +118,12 @@ const Product = () => {
 
     const colorId = parseInt(selectedColor)
     const sizesForColor = data.data.variants
-      .filter((variant: ProductVariant) => variant?.color?.id === colorId)
-      .map((variant: ProductVariant) => variant.size)
+      ?.filter((variant: ProductVariant) => variant?.color?.id === colorId)
+      ?.map((variant: ProductVariant) => variant?.size)
 
     // Remove duplicate sizes
     const uniqueSizes = new Map()
-    sizesForColor.forEach((size: Size) => {
+    sizesForColor?.forEach((size: Size) => {
       if (!uniqueSizes.has(size?.id)) {
         uniqueSizes.set(size?.id, size)
       }
@@ -135,7 +135,7 @@ const Product = () => {
   const allSizes = React.useMemo(() => {
     if (!data?.data?.variants) return []
     const uniqueSizes = new Map()
-    data.data.variants.forEach((variant: ProductVariant) => {
+    data.data?.variants?.forEach((variant: ProductVariant) => {
       if (!uniqueSizes.has(variant?.size?.id)) {
         uniqueSizes.set(variant?.size?.id, variant?.size)
       }
@@ -155,7 +155,7 @@ const Product = () => {
     (colorId: string, sizeId: string) => {
       if (!data?.data?.variants) return
 
-      const variant = data.data.variants.find(
+      const variant = data.data?.variants?.find(
         (variant: ProductVariant) =>
           variant?.color?.id === parseInt(colorId) &&
           variant?.size?.id === parseInt(sizeId),
@@ -198,7 +198,7 @@ const Product = () => {
   // Check if size is available for selected color
   const isSizeAvailable = (sizeId: number) => {
     if (!selectedColor) return false
-    return availableSizes.some((size: Size) => size?.id === sizeId)
+    return availableSizes?.some((size: Size) => size?.id === sizeId)
   }
 
   // Get price for selected color and size combination
@@ -213,8 +213,8 @@ const Product = () => {
   const getCurrentImages = () => {
     if (
       selectedVariant &&
-      selectedVariant.images &&
-      selectedVariant.images.length > 0
+      selectedVariant?.images &&
+      selectedVariant?.images?.length > 0
     ) {
       return selectedVariant?.images
     }
@@ -227,8 +227,8 @@ const Product = () => {
 
     addProductToCart(
       selectedVariant || null,
-      data.data.title,
-      data.data.slug,
+      data.data?.title,
+      data.data?.slug,
       1,
     )
 
@@ -259,10 +259,10 @@ const Product = () => {
       router.push(localizePath('/login'))
       return
     }
-    if (product.inWishlist) {
-      deleteWishlistProducts({ productId: product.documentId })
+    if (product?.inWishlist) {
+      deleteWishlistProducts({ productId: product?.documentId })
     } else {
-      addToWishlistProducts({ productId: product.documentId })
+      addToWishlistProducts({ productId: product?.documentId })
     }
   }
 
