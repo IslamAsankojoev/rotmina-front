@@ -11,6 +11,9 @@ export const ProductDescription = ({ product }: { product: Product }) => {
     locale === 'en'
       ? product.description || product.descriptionHE
       : product.descriptionHE || product.description
+
+  if (!rightContent) return <></>
+
   return (
     <>
       <BlocksRenderer content={rightContent} />
