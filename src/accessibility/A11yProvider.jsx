@@ -12,6 +12,7 @@ import {
   defaultState,
   useA11y,
 } from './useA11y'
+import { useLocale } from '../shared/index.js'
 
 /* ---------- Helper ---------- */
 function toggle(el, cls, on) {
@@ -30,6 +31,7 @@ export function A11yProvider({ children }) {
 
   const [open, setOpen] = useState(false)
   const panelRef = useRef(null)
+  const { isRTL } = useLocale()
 
   useEffect(() => {
     const body = document.body
@@ -152,6 +154,10 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
         className="a11y-launcher"
         aria-label="Accessibility menu (Ctrl+U)"
         onClick={() => setOpen(true)}
+        style={{
+          right: isRTL ? 'auto' : '20px',
+          left: isRTL ? '20px' : 'auto',
+        }}
       >
         <span className="a11y-launcher-dot">
           <Accessibility className="a11y-icon" />

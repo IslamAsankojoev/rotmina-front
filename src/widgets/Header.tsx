@@ -64,6 +64,8 @@ export const Header = () => {
   const pathname = usePathname()
   const { localizePath } = useLocale()
   const { dictionary } = useDictionary()
+  const isHomePage = pathname === '/en' || pathname === '/he'
+
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .header || {
     myStory: 'My Story',
@@ -133,9 +135,9 @@ export const Header = () => {
     <>
       <header
         className={clsx(
-          `top-0 left-0 z-50 w-full transition-all duration-300`,
+          `fixed top-0 left-0 z-50 w-full transition-all duration-300`,
           scrolled ? 'bg-white shadow-lg' : 'bg-transparent',
-          pathname === '/' ? 'fixed' : 'sticky bg-white',
+         !isHomePage && 'bg-white',
         )}
       >
         <div className="container">
@@ -332,7 +334,7 @@ export const Header = () => {
           </div>
         </div>
       </header>
-      {/* {!especiallyLinks.includes(pathname) && <div className="h-8" />} */}
+      {!isHomePage && <div className="h-20 md:h-40" />}
     </>
   )
 }

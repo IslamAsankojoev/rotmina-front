@@ -35,7 +35,7 @@ export default async function ReturnsAndExchanges({
   return (
     <>
       <div className="relative container my-4 flex w-full flex-col justify-end" />
-      <div className="mb-20 max-w-[1334px] md:container md:my-20">
+      <div className="mb-20 max-w-[1334px] md:container">
         <div className="flex flex-col md:flex-row">
           <div className="flex-3 bg-[#EFEFEF] p-4 md:p-14">
             <Typography variant="text_title" className="mb-4 md:text-title text-mobile-title2 italic">
