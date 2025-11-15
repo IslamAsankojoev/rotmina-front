@@ -12,7 +12,7 @@ import {
   defaultState,
   useA11y,
 } from './useA11y'
-import { useLocale } from '../shared/index.js'
+import { useLocale } from '@/src/shared/hooks/useLocale.ts'
 
 /* ---------- Helper ---------- */
 function toggle(el, cls, on) {
