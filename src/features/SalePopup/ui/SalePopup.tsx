@@ -13,7 +13,6 @@ import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 
 import { SalePopupService } from '../model'
 
@@ -26,17 +25,12 @@ export function SalePopup() {
   })
 
   const { md } = useScreenSize()
-  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [hasCheckedStorage, setHasCheckedStorage] = useState(false)
 
-  // Проверяем, находимся ли мы на главной странице
-  const isHomePage = pathname === '/' || pathname.match(/^\/(en|he)\/?$/)
-
   useEffect(() => {
-    if (!data?.data || !isHomePage || hasCheckedStorage) return
+    if (!data?.data || hasCheckedStorage) return
 
-    // Проверяем localStorage
     const wasShown = localStorage.getItem(STORAGE_KEY)
 
     if (wasShown) {
@@ -44,30 +38,27 @@ export function SalePopup() {
       return
     }
 
-    // Получаем задержку из данных (в секундах, конвертируем в миллисекунды)
     const delay = (data.data.delay || 0) * 1000
 
-    // Устанавливаем таймер для показа после задержки
     const timer = setTimeout(() => {
       setIsOpen(true)
       setHasCheckedStorage(true)
     }, delay)
 
     return () => clearTimeout(timer)
-  }, [data?.data, isHomePage, hasCheckedStorage])
+  }, [data?.data, hasCheckedStorage])
 
-  // Сохраняем в localStorage при закрытии
   const handleClose = () => {
     setIsOpen(false)
   }
 
-  if (!data?.data || !isHomePage || !isOpen || !data?.data?.show) return null
+  if (!data?.data || !isOpen || !data?.data?.show) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
         showCloseButton={false}
-        className="min-h-[700px] rounded-none border-none p-0 sm:max-w-3xl md:min-h-[600px]"
+        className="h-full max-h-full max-w-full rounded-none border-none p-0 sm:max-w-3xl md:max-h-[600px]"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <div

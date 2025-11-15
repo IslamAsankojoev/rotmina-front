@@ -101,7 +101,7 @@ export function OrderConfirmModal({
               </Link>
 
               <Button
-                onClick={() => router.push(`/order/${order?.data?.id}`)}
+                onClick={() => router.push(`/order/${order?.data?.documentId}`)}
                 className="flex max-w-[800px] items-center justify-center gap-4 uppercase"
               >
                 {t.payForOrder}

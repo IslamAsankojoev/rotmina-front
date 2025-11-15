@@ -36,7 +36,7 @@ const TermsOfConditions = async ({
         />
       </div>
       <div className="container mt-8 mb-24 flex items-center justify-center">
-        <div className="flex max-w-[800px] flex-col gap-4">
+        <div className="flex max-w-[800px] flex-col gap-4" dir="rtl">
           <Typography
             variant="text_title"
             className="md:text-title text-mobile-title2 italic"

@@ -148,6 +148,8 @@ export default function OrderPage() {
   const [debouncedGiftCardCode, setDebouncedGiftCardCode] = useState('')
   const [appliedGiftCard, setAppliedGiftCard] = useState<GiftCard | null>(null)
   const [totalPriceWithGiftCard, setTotalPriceWithGiftCard] = useState(0)
+  const [deliveryPrice, setDeliveryPrice] = useState(0)
+  const [finalAmount, setFinalAmount] = useState(0)
 
   const { mutate: applyGiftCardMutation, isPending: isUsingGiftCard } =
     useMutation({
@@ -171,20 +173,6 @@ export default function OrderPage() {
       setTotalPriceWithGiftCard(totalPrice - giftCardData?.amount)
     }
   }
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedGiftCardCode(giftCardCode)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [giftCardCode])
-
-  useEffect(() => {
-    if (giftCardCode !== appliedGiftCard?.code) {
-      setAppliedGiftCard(null)
-    }
-  }, [giftCardCode, appliedGiftCard?.code])
 
   const orderItems =
     order?.data?.order_items?.map((item) => {
@@ -248,19 +236,8 @@ export default function OrderPage() {
   })
 
   const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
-    // Вычисляем discount (null если giftCard не использован, иначе сумма giftCard)
     const discount = appliedGiftCard ? appliedGiftCard.amount : 0
 
-    // Вычисляем итоговую сумму оплаты из orderItems
-    const totalAmount = orderItems.reduce(
-      (sum, item) => sum + item.unit_price * item.units_number,
-      0,
-    )
-
-    // Вычисляем итоговую сумму после применения discount
-    const finalAmount = discount ? totalAmount - discount : totalAmount
-
-    // Проверка: каждый товар должен иметь unit_price >= 1
     const itemsWithLowPrice = orderItems.filter((item) => item.unit_price < 1)
     if (itemsWithLowPrice.length > 0) {
       toast.error(
@@ -270,7 +247,6 @@ export default function OrderPage() {
       return
     }
 
-    // Проверка: итоговая сумма оплаты должна быть >= 1
     if (finalAmount < 1) {
       toast.error(
         `${t.minPaymentAmountError} ${order?.data?.currency_code || 'ILS'}`,
@@ -353,6 +329,30 @@ export default function OrderPage() {
     })
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedGiftCardCode(giftCardCode)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [giftCardCode])
+
+  useEffect(() => {
+    if (giftCardCode !== appliedGiftCard?.code) {
+      setAppliedGiftCard(null)
+    }
+  }, [giftCardCode, appliedGiftCard?.code])
+
+  useEffect(() => {
+    setDeliveryPrice(currency === 'ILS' ? 0 : 165)
+  }, [currency])
+
+  useEffect(() => {
+    setFinalAmount(
+      (appliedGiftCard ? totalPriceWithGiftCard : totalPrice) + deliveryPrice,
+    )
+  }, [appliedGiftCard, totalPriceWithGiftCard, totalPrice, deliveryPrice])
+
   return (
     <>
       <div className="relative container my-10 flex w-full flex-col justify-end">
@@ -378,9 +378,9 @@ export default function OrderPage() {
             {paymentMethods.map((method) => {
               const isAvailable = method.id === PaymentMethods.CARD
               return (
-              <div
-                key={method.id}
-                className={clsx(
+                <div
+                  key={method.id}
+                  className={clsx(
                     'flex h-12 items-center hover:scale-105',
                     isAvailable
                       ? 'cursor-pointer'
@@ -388,7 +388,7 @@ export default function OrderPage() {
                     paymentMethod === method.id
                       ? 'grayscale-0'
                       : 'grayscale-100',
-                )}
+                  )}
                   onClick={() => {
                     if (isAvailable) {
                       setPaymentMethod(method.id)
@@ -398,15 +398,15 @@ export default function OrderPage() {
                       })
                     }
                   }}
-              >
-                <Image
-                  src={method.image}
-                  alt={method.label}
+                >
+                  <Image
+                    src={method.image}
+                    alt={method.label}
                     width={100}
                     height={48}
                     className="h-[18px] w-auto object-contain"
-                />
-              </div>
+                  />
+                </div>
               )
             })}
           </div>
@@ -585,7 +585,11 @@ export default function OrderPage() {
                   <Typography variant="text_main" className="uppercase">
                     {t.delivery}
                   </Typography>
-                  <Typography variant="text_main">{t.includes}</Typography>
+                  <Typography variant="text_main">
+                    {deliveryPrice === 0
+                      ? t.includes
+                      : `${getPrice(deliveryPrice)} ${currency}`}
+                  </Typography>
                 </div>
                 {currency === 'ILS' && (
                   <div className="flex w-full items-center justify-between gap-4">
@@ -600,10 +604,7 @@ export default function OrderPage() {
                     {t.total}
                   </Typography>
                   <Typography variant="text_main">
-                    {getPrice(
-                      appliedGiftCard ? totalPriceWithGiftCard : totalPrice,
-                    )}{' '}
-                    {currency}
+                    {getPrice(finalAmount)} {currency}
                   </Typography>
                 </div>
               </div>

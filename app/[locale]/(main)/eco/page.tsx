@@ -49,7 +49,7 @@ export default async function ECO({
       <div className="container mt-10">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex-1 md:p-4">
-            <Typography variant="text_title">{t.animalWelfare}</Typography>
+            <Typography variant="text_title" dir={isRTL ? 'rtl' : 'ltr'}>{t.animalWelfare}</Typography>
             <Typography variant="text_main" className="my-4">
               <div
                 data-layer="Text_main"
@@ -139,7 +139,7 @@ export default async function ECO({
             </div>
           </div>
           <div className="flex-1 md:p-4">
-            <Typography variant="text_title">{t.packaging}</Typography>
+            <Typography variant="text_title" dir={isRTL ? 'rtl' : 'ltr'}>{t.packaging}</Typography>
             <Typography variant="text_main" className="my-4">
               <div className="Frame187 inline-flex flex-col items-center justify-center gap-2.5 self-stretch">
                 <div className="TextMain justify-start self-stretch" dir={isRTL ? 'rtl' : 'ltr'}>
