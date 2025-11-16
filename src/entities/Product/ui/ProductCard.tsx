@@ -96,16 +96,17 @@ export const ProductCard = ({
 
   // Get current image based on hover state and variant
   const getCurrentImage = () => {
+    const filteredVariants = product?.variants?.filter((variant) => variant?.images?.length > 0)
     const defaultVariantIndex = 0
     const hoverVariantIndex =
-      isHovered && product?.variants?.length > 1 ? 1 : defaultVariantIndex
+      isHovered && filteredVariants?.length > 1 ? 1 : defaultVariantIndex
 
     // Priority: variant images -> first variant image -> placeholder
-    if (product?.variants?.[hoverVariantIndex]?.images?.[0]?.url) {
-      return product?.variants?.[hoverVariantIndex]?.images?.[0]?.url
+    if (filteredVariants?.[hoverVariantIndex]?.images?.[0]?.url) {
+      return filteredVariants?.[hoverVariantIndex]?.images?.[0]?.url
     }
-    if (product?.variants?.[0]?.images?.[0]?.url) {
-      return product?.variants?.[0]?.images?.[0]?.url
+    if (filteredVariants?.[0]?.images?.[0]?.url) {
+      return filteredVariants?.[0]?.images?.[0]?.url
     }
     return ''
   }
