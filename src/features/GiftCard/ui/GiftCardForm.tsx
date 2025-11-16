@@ -9,25 +9,35 @@ import {
   FormMessage,
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/shadcn/components/ui/select'
 import { useAddGiftCard, useCartActions } from '@/src/app/store'
-import { useLangCurrency, useDictionary } from '@/src/shared'
+import { useDictionary, useLangCurrency, useLocale } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 
 import { giftCardValidationSchema } from '../model/validation'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/shadcn/components/ui/select'
 
 export const GiftCardForm = () => {
   const { dictionary } = useDictionary()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).giftCard || {
+  const { isRTL } = useLocale()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .giftCard || {
     recipientsName: "RECIPIENT'S NAME",
     recipientsEmail: "RECIPIENT'S EMAIL",
-    yourName: "YOUR NAME",
-    yourEmail: "YOUR EMAIL",
-    personalMessage: "PERSONAL MESSAGE",
-    amount: "Amount",
-    addToCart: "Add to Cart",
+    yourName: 'YOUR NAME',
+    yourEmail: 'YOUR EMAIL',
+    personalMessage: 'PERSONAL MESSAGE',
+    amount: 'Amount',
+    addToCart: 'Add to Cart',
   }
   const form = useForm<z.infer<typeof giftCardValidationSchema>>({
     defaultValues: {
@@ -45,7 +55,6 @@ export const GiftCardForm = () => {
   const { currency, getPrice } = useLangCurrency()
 
   const onSubmit = (data: z.infer<typeof giftCardValidationSchema>) => {
-
     addGiftCardToCart(
       Number(data.amount),
       data.recipientsEmail,
@@ -133,19 +142,35 @@ export const GiftCardForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value.toString()}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value.toString()}
+                    dir={isRTL ? 'rtl' : 'ltr'}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder={t.amount} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
                         <SelectLabel>{t.amount}</SelectLabel>
-                        <SelectItem value="250">{getPrice(250)} {currency}</SelectItem>
-                        <SelectItem value="300">{getPrice(300)} {currency}</SelectItem>
-                        <SelectItem value="400">{getPrice(400)} {currency}</SelectItem>
-                        <SelectItem value="500">{getPrice(500)} {currency}</SelectItem>
-                        <SelectItem value="750">{getPrice(750)} {currency}</SelectItem>
-                        <SelectItem value="1000">{getPrice(1000)} {currency}</SelectItem>
+                        <SelectItem value="250">
+                          {getPrice(250)} {currency}
+                        </SelectItem>
+                        <SelectItem value="300">
+                          {getPrice(300)} {currency}
+                        </SelectItem>
+                        <SelectItem value="400">
+                          {getPrice(400)} {currency}
+                        </SelectItem>
+                        <SelectItem value="500">
+                          {getPrice(500)} {currency}
+                        </SelectItem>
+                        <SelectItem value="750">
+                          {getPrice(750)} {currency}
+                        </SelectItem>
+                        <SelectItem value="1000">
+                          {getPrice(1000)} {currency}
+                        </SelectItem>
                       </SelectGroup>
                     </SelectContent>
                   </Select>

@@ -21,4 +21,7 @@ export const OrderService = {
 
   deleteOrder: (id: string): Promise<void> =>
     api.delete(apiMap.deleteOrder.replace(':id', id)).json(),
+
+  changeOrderStatusToPaid: (id: string): Promise<void> =>
+    api.put(apiMap.changeOrderStatus.replace(':id', id)).json(),
 }

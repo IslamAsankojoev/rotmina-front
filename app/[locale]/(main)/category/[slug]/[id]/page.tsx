@@ -91,6 +91,7 @@ const Product = () => {
   const { openCart } = useCartActions()
   const { user } = useUser()
   const router = useRouter()
+  const { locale } = useLocale()
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ['product', id],
     queryFn: () => ProductService.getProduct(id),
@@ -326,7 +327,7 @@ const Product = () => {
               {getPrice(getCurrentPrice())} {currency}
             </Typography>
             <Typography variant="text_main" className="mt-4">
-              <ProductDescription product={data?.data as ProductType} />
+              {locale === 'en' ? data?.data?.short_description : data?.data?.short_descriptionHE}
             </Typography>
             <div className="mt-6 flex flex-col gap-10">
               <div className="flex flex-col gap-2">
@@ -495,17 +496,6 @@ const Product = () => {
                   </TableBody>
                 </Table>
               </TabsContent>
-              <Typography variant="text_main" className="my-4">
-                {t.europeanSurcharge}
-              </Typography>
-              <Typography variant="text_main" className="font-bold">
-                {t.returnsExchanges}
-              </Typography>
-              <Typography variant="text_main">
-                {t.returnsDescription}
-              </Typography>
-              <br />
-              <Typography variant="text_main">{t.importantNote}</Typography>
             </Tabs>
           </div>
         </div>

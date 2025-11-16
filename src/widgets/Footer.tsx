@@ -117,7 +117,7 @@ export const Footer = () => {
               ))}
             </div>
           </div>
-          <div className="flex md:justify-between justify-start gap-10 md:gap-6">
+          <div className="flex md:justify-between justify-start gap-10 md:gap-6" dir="ltr">
             <div>
               <Instagram strokeWidth={1.3} size={md ? 35 : 24} color="white" />
             </div>

@@ -91,6 +91,8 @@ export interface Product {
   titleHE: string
   descriptionHE: BlocksContent
   show_in_carousel: boolean
+  short_description: string
+  short_descriptionHE: string
 }
 
 // Types for API responses

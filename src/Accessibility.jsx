@@ -10,7 +10,7 @@ import {
   defaultState,
   useA11y,
 } from '@/src/accessibility/useA11y.js'
-import { useLocale } from '@/src/shared/hooks/useLocale.ts'
+
 import { Accessibility } from 'lucide-react'
 
 /* -------------------- Provider -------------------- */
@@ -143,18 +143,12 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
     reset,
   } = useA11y()
 
-  const { isRTL } = useLocale()
-
   return (
     <>
       <button
         className="a11y-launcher"
         aria-label="Accessibility menu (Ctrl+U)"
         onClick={() => setOpen(true)}
-        style={{
-          right: isRTL ? 'auto' : '20px',
-          left: isRTL ? '20px' : 'auto',
-        }}
       >
         <span className="a11y-launcher-dot">
           <Accessibility className="a11y-icon" />

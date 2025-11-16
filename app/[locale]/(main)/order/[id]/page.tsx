@@ -156,6 +156,19 @@ export default function OrderPage() {
       mutationFn: (code: string) => GiftCardService.applyGiftCard(code),
     })
 
+
+  const { mutate: changeOrderStatusToPaidMutation } =
+    useMutation({
+      mutationFn: (id: string) => OrderService.changeOrderStatusToPaid(id),
+      onSuccess: () => {
+        toast.success(t.paymentSuccessful)
+        router.push(`/account`)
+      },
+      onError: (error) => {
+        toast.error(error.message)
+      },
+    })
+
   const {
     data: giftCardData,
     isLoading: isSearchingGiftCard,
@@ -280,8 +293,8 @@ export default function OrderPage() {
               toast.error(error.message)
             },
           })
-          toast.success(t.paymentSuccessful)
-          router.push(`/account`)
+
+          changeOrderStatusToPaidMutation(order?.data?.documentId?.toString() || '')
         } else {
           switch (response.data.transaction_result.processor_response_code) {
             case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
