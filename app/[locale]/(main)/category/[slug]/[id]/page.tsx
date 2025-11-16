@@ -50,7 +50,6 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
-import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 
 const Product = () => {
@@ -209,18 +208,6 @@ const Product = () => {
       return selectedVariant?.price
     }
     return data?.data?.variants?.[0]?.price || 0
-  }
-
-  // Get images for selected variant or main product
-  const getCurrentImages = () => {
-    if (
-      selectedVariant &&
-      selectedVariant?.images &&
-      selectedVariant?.images?.length > 0
-    ) {
-      return selectedVariant?.images
-    }
-    return data?.data?.variants?.[0]?.images || []
   }
 
   // Add product to cart
