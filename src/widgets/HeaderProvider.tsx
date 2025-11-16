@@ -13,5 +13,7 @@ export const HeaderProvider = () => {
   //   return <HeaderWithAnimate />
   // }
 
-  return <Header />
+  return <>
+  {/* <Header /> */}
+  </>
 }

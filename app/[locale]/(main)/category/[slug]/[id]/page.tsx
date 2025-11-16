@@ -27,6 +27,7 @@ import {
   ProductService,
   ProductTitle,
   SizeGuideModal,
+  VariantImages,
 } from '@/src/entities/Product'
 import {
   Product as ProductType,
@@ -291,19 +292,23 @@ const Product = () => {
           ]}
         />
       </div>
+      <div className="block md:hidden mb-6">
+        <VariantImages
+          variant={
+            selectedVariant || (data?.data?.variants?.[0] as ProductVariant)
+          }
+        />
+      </div>
       <div className="container">
         <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
-          <div className="flex-1">
-            <div className="relative h-[500px] w-full md:h-[900px]">
-              <Image
-                src={getCurrentImages()[0]?.url || ''}
-                alt="product-image"
-                fill
-                objectFit="cover"
-              />
-            </div>
+          <div className="hidden flex-1 md:block">
+            <VariantImages
+              variant={
+                selectedVariant || (data?.data?.variants?.[0] as ProductVariant)
+              }
+            />
           </div>
-          <div className="relative flex-1 md:p-8" dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="relative flex-1 md:px-8" dir={isRTL ? 'rtl' : 'ltr'}>
             <button
               className="absolute top-2 right-0 flex h-10 w-10 cursor-pointer items-center justify-center p-0"
               onClick={(e) => {
@@ -327,7 +332,9 @@ const Product = () => {
               {getPrice(getCurrentPrice())} {currency}
             </Typography>
             <Typography variant="text_main" className="mt-4">
-              {locale === 'en' ? data?.data?.short_description : data?.data?.short_descriptionHE}
+              {locale === 'en'
+                ? data?.data?.short_description
+                : data?.data?.short_descriptionHE}
             </Typography>
             <div className="mt-6 flex flex-col gap-10">
               <div className="flex flex-col gap-2">
@@ -435,7 +442,11 @@ const Product = () => {
             >
               {selectedVariant?.stock === 0 ? t.outOfStock : t.addToCart}
             </Button>
-            <Tabs defaultValue="description" className="my-10" dir={isRTL ? 'rtl' : 'ltr'}>
+            <Tabs
+              defaultValue="description"
+              className="my-10"
+              dir={isRTL ? 'rtl' : 'ltr'}
+            >
               <TabsList>
                 <TabsTrigger
                   value="description"
