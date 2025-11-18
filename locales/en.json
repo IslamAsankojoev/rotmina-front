@@ -423,7 +423,61 @@
   },
   "privacyPolicy": {
     "home": "HOME",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "title": "Privacy Policy",
+    "intro": "Rotmina is committed to protecting the privacy of our customers and the personal information collected through our website. \n\nThis Privacy Policy explains how we collect, use, process, and safeguard your information.",
+    "informationCollected": {
+      "title": "Information Collected",
+      "description": "The website may collect the following information:",
+      "personalDetails": "Personal details: full name, email address, phone number, shipping address",
+      "orderPayment": "Order and payment information (if stored on our system)",
+      "filesContent": "Files, images, or content uploaded by the site owner (not by the customer)"
+    },
+    "useOfInformation": {
+      "title": "Use of Information",
+      "description": "Collected information is used for the following purposes:",
+      "processingOrders": "Processing and fulfilling orders",
+      "customerSupport": "Providing customer support and services",
+      "updatesNewsletter": "Sending updates about orders, newsletters, and promotional offers",
+      "analysisImprovement": "Analyzing and improving the website experience"
+    },
+    "sharingInformation": {
+      "title": "Sharing Information with Third Parties",
+      "description": "To complete orders and provide services, your information may be shared with third parties, such as:",
+      "paymentProcessing": "Payment processing companies for secure transactions",
+      "shippingCompanies": "Shipping companies for order delivery",
+      "serviceProviders": "External service providers for website management and experience enhancement",
+      "noSharing": "We do not share personal information for advertising or sales purposes without prior consent."
+    },
+    "customerRights": {
+      "title": "Customer Rights",
+      "description": "Customers have the following rights:",
+      "requestCopy": "To request a copy of their personal data",
+      "updateCorrect": "To update or correct inaccurate or outdated personal information",
+      "requestRemoval": "To request removal from mailing lists or marketing communications",
+      "requestDeletion": "To request full deletion of personal data (in accordance with applicable law, including GDPR for EU residents)"
+    },
+    "dataRetention": {
+      "title": "Data Retention",
+      "description": "Information is stored securely according to industry standards. We maintain confidentiality and protect data from unauthorized access, alteration, or disclosure."
+    },
+    "gdprCompliance": {
+      "title": "GDPR Compliance",
+      "description": "For customers in the European Union, Rotmina complies with the General Data Protection Regulation (GDPR). EU residents have the right to:",
+      "accessCorrectDelete": "Access, correct, or delete their personal data",
+      "restrictObject": "Restrict or object to the processing of their data",
+      "withdrawConsent": "Withdraw consent at any time for data processing and marketing communications"
+    },
+    "disclaimer": {
+      "title": "Security Disclaimer",
+      "description": "Despite efforts to protect your information, absolute security cannot be guaranteed against unauthorized access or misuse by third parties."
+    },
+    "contact": {
+      "title": "Contact",
+      "email": "Email: Brand@rotmina.com",
+      "phone": "Phone: +972-55-994-6060"
+    },
+    "closing": "Sincerely,\nRotmina"
   },
   "notFound": {
     "goToMainPage": "Go to mainpage"

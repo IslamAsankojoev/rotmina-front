@@ -144,16 +144,25 @@ export const PersonalStylistForm = () => {
         </TabsList>
         <TabsContent value="online">
           {personalStylists.online.length > 0 ? (
-            <>
-              <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
-                <span className="font-bold">{t.duration}</span>{' '}
-                {formatDuration(personalStylists.online[0].minutes)}
-              </Typography>
-              <Typography variant="text_main" className="mt-2" dir={isRTL ? 'rtl' : 'ltr'}>
-                <span className="font-bold">{t.priceLabel}</span>{' '}
-                {getPrice(personalStylists.online[0].price)} {currency}
-              </Typography>
-            </>
+            <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4">
+            {personalStylists['online'].map((stylist) => (
+              <div
+                key={stylist.id}
+                className={clsx(
+                  'flex cursor-pointer flex-col items-center justify-center',
+                  sessionType === 'online' && selectedProduct === stylist.id ? 'text-black' : 'text-greyy',
+                )}
+                onClick={() => handleProductSelect(stylist.id)}
+              >
+                <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
+                  {formatDuration(stylist.minutes)}
+                </Typography>
+                <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
+                  {getPrice(stylist.price)} {currency}
+                </Typography>
+              </div>
+            ))}
+          </div>
           ) : (
             <Typography variant="text_main" dir={isRTL ? 'rtl' : 'ltr'}>
               {t.onlineUnavailable}
@@ -168,7 +177,7 @@ export const PersonalStylistForm = () => {
                   key={stylist.id}
                   className={clsx(
                     'flex cursor-pointer flex-col items-center justify-center',
-                    selectedProduct === stylist.id ? 'text-black' : 'text-greyy',
+                    sessionType === 'at-your-home' && selectedProduct === stylist.id ? 'text-black' : 'text-greyy',
                   )}
                   onClick={() => handleProductSelect(stylist.id)}
                 >

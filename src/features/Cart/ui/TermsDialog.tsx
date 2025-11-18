@@ -8,12 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/shadcn/components/ui/dialog'
-import { Typography, useDictionary } from '@/src/shared'
+import { Typography, useDictionary, useLocale } from '@/src/shared'
 
 export const TermsDialog = () => {
   const { dictionary } = useDictionary()
   const t = ((dictionary as Record<string, Record<string, unknown>>).terms || {}) as Record<string, unknown>
-
+  const { isRTL } = useLocale()
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -24,11 +24,11 @@ export const TermsDialog = () => {
       <DialogContent className="rounded-none">
         <DialogHeader>
           <DialogTitle>
-            <Typography variant="text_title">{(t.title as string) || 'Terms of Use'}</Typography>
+            <Typography variant="text_title" dir={isRTL ? 'rtl' : 'ltr'}>{(t.title as string) || 'Terms of Use'}</Typography>
           </DialogTitle>
           <div className="h-[600px] w-full overflow-y-scroll">
             <DialogDescription>
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-4" dir={isRTL ? 'rtl' : 'ltr'}>
                 <Typography variant="text_main">
                   <strong>{((t.section1 as Record<string, string>)?.title) || '1. General'}</strong> <br />
                   {((t.section1 as Record<string, string>)?.['1.1']) || ''} <br />

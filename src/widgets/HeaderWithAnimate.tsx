@@ -15,6 +15,7 @@ import {
   Typography,
   useScreenSize,
   useLocale,
+  socialLinks,
 } from '@/src/shared'
 import clsx from 'clsx'
 import {
@@ -458,7 +459,7 @@ export const HeaderWithAnimate = () => {
                     <div className="mb-20 flex justify-between gap-4 px-10">
                       <button
                         onClick={() =>
-                          window.open('https://instagram.com/rotmina', '_blank')
+                          window.open(socialLinks.instagram, '_blank')
                         }
                       >
                         <Instagram
@@ -468,7 +469,7 @@ export const HeaderWithAnimate = () => {
                         />
                       </button>
                       <button
-                        onClick={() => window.open('tel:+1234567890', '_self')}
+                        onClick={() => window.open(socialLinks.phone, '_self')}
                       >
                         <Smartphone
                           strokeWidth={1}
@@ -478,7 +479,7 @@ export const HeaderWithAnimate = () => {
                       </button>
                       <button
                         onClick={() =>
-                          window.open('https://facebook.com/rotmina', '_blank')
+                          window.open(socialLinks.facebook, '_blank')
                         }
                       >
                         <Facebook
@@ -489,7 +490,7 @@ export const HeaderWithAnimate = () => {
                       </button>
                       <button
                         onClick={() =>
-                          window.open('mailto:info@rotmina.com', '_self')
+                          window.open(socialLinks.email, '_self')
                         }
                       >
                         <Mail

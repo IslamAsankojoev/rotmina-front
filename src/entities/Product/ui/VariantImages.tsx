@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { ProductVariant } from '../model'
 
 export const VariantImages = ({ variant }: { variant: ProductVariant }) => {
+  console.log(variant)
   if (!variant) return null
   if (!variant?.images) return null
   if (variant?.images?.length === 0) return null

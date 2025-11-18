@@ -2,7 +2,7 @@
 
 import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
 
-import { Typography, useScreenSize, useDictionary, useLocale } from '../shared'
+import { Typography, useScreenSize, useDictionary, useLocale, socialLinks } from '../shared'
 import { SignUpToNews } from '@/src/features'
 
 
@@ -119,21 +119,29 @@ export const Footer = () => {
           </div>
           <div className="flex md:justify-between justify-start gap-10 md:gap-6" dir="ltr">
             <div>
-              <Instagram strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              <a href={socialLinks.instagram} target="_blank">
+                <Instagram strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              </a>
             </div>
             <div>
+              <a href={socialLinks.phone} target="_blank">
               <Smartphone
                 strokeWidth={1.3}
                 size={md ? 35 : 24}
                 color="white"
                 className='rotate-12'
               />
+              </a>
             </div>
             <div>
-              <Facebook strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              <a href={socialLinks.facebook} target="_blank">
+                <Facebook strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              </a>
             </div>
             <div>
-              <Mail strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              <a href={socialLinks.email} target="_blank">
+                <Mail strokeWidth={1.3} size={md ? 35 : 24} color="white" />
+              </a>
             </div>
           </div>
         </div>

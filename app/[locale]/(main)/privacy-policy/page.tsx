@@ -13,98 +13,223 @@ const PrivacyPolicy = async ({
   const cookieStore = await cookies()
   const locale = await getServerLocale(params, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
-  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+  const isRTL = locale === 'he'
+  const t = (dictionary as unknown as Record<string, Record<string, unknown>>)
     .privacyPolicy || {
     home: 'HOME',
     privacyPolicy: 'Privacy Policy',
+    title: 'Privacy Policy',
+    intro: '',
   }
+
+  const infoCollected = (t.informationCollected as Record<string, string>) || {}
+  const useOfInfo = (t.useOfInformation as Record<string, string>) || {}
+  const sharingInfo = (t.sharingInformation as Record<string, string>) || {}
+  const customerRights = (t.customerRights as Record<string, string>) || {}
+  const dataRetention = (t.dataRetention as Record<string, string>) || {}
+  const gdprCompliance = (t.gdprCompliance as Record<string, string>) || {}
+  const disclaimer = (t.disclaimer as Record<string, string>) || {}
+  const contact = (t.contact as Record<string, string>) || {}
+
   return (
     <>
-     <div className="relative container flex w-full flex-col justify-end">
+      <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
-            { title: t.home, href: addLocaleToPath('/', locale) },
-            { title: t.privacyPolicy, href: addLocaleToPath('/privacy-policy', locale) },
+            { title: (t.home as string) || 'HOME', href: addLocaleToPath('/', locale) },
+            {
+              title: (t.privacyPolicy as string) || 'Privacy Policy',
+              href: addLocaleToPath('/privacy-policy', locale),
+            },
           ]}
         />
       </div>
       <div className="container mt-8 mb-24 flex items-center justify-center">
-        <div className="flex max-w-[800px] flex-col gap-4" dir="rtl">
+        <div
+          className="flex max-w-[800px] flex-col gap-6"
+          dir={isRTL ? 'rtl' : 'ltr'}
+        >
           <Typography
             variant="text_title"
             className="md:text-title text-mobile-title2 italic"
           >
-            הצהרת נגישות
-          </Typography>
-          <Typography variant="text_main">
-            חברת רותמינה הינה חברת אופנה המוכרת הלבשה המיוצרת בישראל מחויבים
-            לאפשר חוויית גלישה נגישה ונוחה לכל לקוחותינו, כולל אנשים עם
-            מוגבלויות. אנו רואים בנגישות ערך עליון ופועלים כדי להבטיח שכל אדם
-            יוכל להשתמש באתר שלנו בצורה מיטבית, בהתאם לתקנות שוויון זכויות
-            לאנשים עם מוגבלות (התאמות נגישות לשירות) התשע&quot;ג-2013 ולתקן
-            הישראלי ברמת AA.
+            {(t.title as string) || 'Privacy Policy'}
           </Typography>
 
-          <Typography variant="text_main" className="my-6">
-            התאמות הנגישות באתר:
+          <Typography variant="text_main" className="whitespace-pre-line">
+            {(t.intro as string) || ''}
           </Typography>
 
-          <Typography variant="text_main">
-            באתר בוצעו התאמות נגישות שונות, בהן:
-            <br />
-            - תמיכה בגלישה בכל הדפדפנים התקניים (Chrome, Firefox, Safari, Edge,
-            Opera). <br />
-            - ניווט נוח באמצעות מקלדת לחיצה על מקש &quot;TAB&quot; תעביר את הסמן
-            לאלמנט הבא, ו-&quot;Enter&quot; יפעיל את הקישור. <br />
-            - תוכן ברור, היררכי ומאורגן שימוש בכותרות, פסקאות ורשימות לסיוע
-            בהתמצאות. <br />
-            - טקסטים קריאים ושפה פשוטה. <br />
-            - ניגודיות צבעים מותאמת לשיפור הקריאות עבור אנשים עם לקויות ראייה.{' '}
-            <br />
-            - תיאורים טקסטואליים (alt text) לתמונות ולרכיבים גרפיים. - התאמת
-            האתר לשימוש ברזולוציות מסכים שונות (רספונסיביות). <br />
-            - כפתורי שליטה להפעלת/עצירת גלריות וסרטונים. <br />
-            - שימוש בטכנולוגיית ARIA לתמיכה בקוראי מסך. <br />
-            - הנגשת תפריטים, טפסים ורכיבי ניווט נוספים. <br />
-            <br />
-            <br />
-            התאמות נוספות למשתמשים עם לקויות ראייה ושמיעה:
-            <br />
-            - אפשרות להגדלת והקטנת גודל הטקסט באמצעות שימוש במקשי
-            &quot;CTRL&quot; + &quot;+&quot; או &quot;CTRL&quot; +
-            &quot;-&quot;.
-            <br />
-            - תמיכה בתוכנות קוראות מסך ותוכנות זיהוי קולי.
-            <br />
-            - האתר אינו כולל תוכן מרצד או מהבהב.
-            <br />
-            <br />
-            <br />
-            סייגים לנגישות
-            <br />
-            <Typography variant="text_main" className="my-6">
-              אנו עושים מאמצים רבים להבטיח שכל דפי האתר יהיו מונגשים במלואם, אך
-              ייתכן כי קיימים עמודים מסוימים או רכיבים שטרם הונגשו באופן מלא.
-              כמו כן, ייתכן שבמודעות חיצוניות שהוטמעו באתר לא הושלמה ההנגשה
-              במלואה.
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {infoCollected.title}
             </Typography>
-            <Typography variant="text_main" className="my-6">
-              נתקלתם בבעיה
+            <Typography variant="text_main">
+              {infoCollected.description}
             </Typography>
-            <Typography variant="text_main" className="my-6">
-              אנחנו כאן כדי לעזור!
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {infoCollected.personalDetails}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {infoCollected.orderPayment}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {infoCollected.filesContent}
+                </Typography>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {useOfInfo.title}
             </Typography>
-            <Typography variant="text_main" className="my-6">
-              אם נתקלתם בקושי בשימוש באתר או שיש לכם הצעה לשיפור, נשמח לשמוע מכם
-              ולטפל בכך בהקדם. <br />
-              📧 מייל: Brand@rotmina.com <br />
-              📞 טלפון: ----------------- <br />
-              🕐 שעות פעילות שירות הלקוחות: ימים א&apos;-ה&apos;, 10:00-16:00{' '}
-              <br />
+            <Typography variant="text_main">{useOfInfo.description}</Typography>
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {useOfInfo.processingOrders}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {useOfInfo.customerSupport}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {useOfInfo.updatesNewsletter}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {useOfInfo.analysisImprovement}
+                </Typography>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {sharingInfo.title}
             </Typography>
-            <Typography variant="text_main" className="my-6">
-              בברכה, צוות רותמינה.
+            <Typography variant="text_main">
+              {sharingInfo.description}
             </Typography>
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {sharingInfo.paymentProcessing}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {sharingInfo.shippingCompanies}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {sharingInfo.serviceProviders}
+                </Typography>
+              </li>
+            </ul>
+            <Typography variant="text_main">{sharingInfo.noSharing}</Typography>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {customerRights.title}
+            </Typography>
+            <Typography variant="text_main">
+              {customerRights.description}
+            </Typography>
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {customerRights.requestCopy}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {customerRights.updateCorrect}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {customerRights.requestRemoval}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {customerRights.requestDeletion}
+                </Typography>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {dataRetention.title}
+            </Typography>
+            <Typography variant="text_main">
+              {dataRetention.description}
+            </Typography>
+          </div>
+
+          {gdprCompliance.title && (gdprCompliance.title as string) && (
+            <div className="flex flex-col gap-4">
+              <Typography variant="text_main" className="font-bold">
+                {gdprCompliance.title}
+              </Typography>
+              <Typography variant="text_main">
+                {gdprCompliance.description}
+              </Typography>
+              <ul className="ml-6 list-disc space-y-2">
+                <li>
+                  <Typography variant="text_main">
+                    {gdprCompliance.accessCorrectDelete}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="text_main">
+                    {gdprCompliance.restrictObject}
+                  </Typography>
+                </li>
+                <li>
+                  <Typography variant="text_main">
+                    {gdprCompliance.withdrawConsent}
+                  </Typography>
+                </li>
+              </ul>
+            </div>
+          )}
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {disclaimer.title}
+            </Typography>
+            <Typography variant="text_main">{disclaimer.description}</Typography>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            <Typography variant="text_main" className="font-bold">
+              {contact.title}
+            </Typography>
+            {contact.description && (contact.description as string) && (
+              <Typography variant="text_main">{contact.description as string}</Typography>
+            )}
+            <Typography variant="text_main">{contact.email}</Typography>
+            <Typography variant="text_main">{contact.phone}</Typography>
+          </div>
+
+          <Typography variant="text_main" className="whitespace-pre-line mt-4">
+            {(t.closing as string) || ''}
           </Typography>
         </div>
       </div>

@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
 import {
   CurrencySwitcher,
   LanguageSwitcher,
+  socialLinks,
   Typography,
   useDictionary,
   useLocale,
@@ -286,7 +287,7 @@ export const Header = () => {
                     <div className="mb-20 flex justify-between gap-4 px-10">
                       <button
                         onClick={() =>
-                          window.open('https://instagram.com/rotmina', '_blank')
+                          window.open(socialLinks.instagram, '_blank')
                         }
                       >
                         <Instagram
@@ -296,7 +297,7 @@ export const Header = () => {
                         />
                       </button>
                       <button
-                        onClick={() => window.open('tel:+1234567890', '_self')}
+                        onClick={() => window.open(socialLinks.phone, '_blank')}
                       >
                         <Smartphone
                           strokeWidth={1}
@@ -306,7 +307,7 @@ export const Header = () => {
                       </button>
                       <button
                         onClick={() =>
-                          window.open('https://facebook.com/rotmina', '_blank')
+                          window.open(socialLinks.facebook, '_blank')
                         }
                       >
                         <Facebook
@@ -317,7 +318,7 @@ export const Header = () => {
                       </button>
                       <button
                         onClick={() =>
-                          window.open('mailto:info@rotmina.com', '_self')
+                          window.open(socialLinks.email, '_blank')
                         }
                       >
                         <Mail

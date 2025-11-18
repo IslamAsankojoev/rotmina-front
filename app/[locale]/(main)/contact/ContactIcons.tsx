@@ -1,6 +1,6 @@
 'use client'
 
-import { Typography } from '@/src/shared'
+import { socialLinks, Typography } from '@/src/shared'
 import { useScreenSize } from '@/src/shared'
 import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
 
@@ -18,19 +18,27 @@ export const ContactIcons = ({ translations }: ContactIconsProps) => {
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
         <Instagram size={md ? 35 : 24} />
-        <Typography variant="text_main">{translations.instagram}</Typography>
+        <a href={socialLinks.instagram} target="_blank">
+          <Typography variant="text_main">{translations.instagram}</Typography>
+        </a>
       </div>
       <div className="flex items-center gap-2">
         <Smartphone size={md ? 35 : 24} />
-        <Typography variant="text_main">+3947201</Typography>
+        <a href={socialLinks.phone} target="_blank">
+          <Typography variant="text_main">{socialLinks.phone}</Typography>
+        </a>
       </div>
       <div className="flex items-center gap-2">
         <Facebook size={md ? 35 : 24} />
-        <Typography variant="text_main">{translations.facebook}</Typography>
+        <a href={socialLinks.facebook} target="_blank">
+          <Typography variant="text_main">{translations.facebook}</Typography>
+        </a>
       </div>
       <div className="flex items-center gap-2">
         <Mail size={md ? 35 : 24} />
-        <Typography variant="text_main">{translations.email}</Typography>
+        <a href={socialLinks.email} target="_blank">
+          <Typography variant="text_main">{socialLinks.email}</Typography>
+        </a>
       </div>
     </div>
   )
