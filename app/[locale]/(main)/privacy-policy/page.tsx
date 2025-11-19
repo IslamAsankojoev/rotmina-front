@@ -34,7 +34,7 @@ const PrivacyPolicy = async ({
 
   return (
     <>
-      <div className="relative container flex w-full flex-col justify-end">
+     <div className="relative container flex w-full flex-col justify-end">
         <Breadcrumbs
           links={[
             { title: (t.home as string) || 'HOME', href: addLocaleToPath('/', locale) },
@@ -315,7 +315,7 @@ const PrivacyPolicy = async ({
                 </Typography>
               </li>
               <li>
-                <Typography variant="text_main">
+          <Typography variant="text_main">
                   {accessibility.additional3}
                 </Typography>
               </li>
@@ -342,7 +342,7 @@ const PrivacyPolicy = async ({
             <Typography variant="text_main">{accessibility.problemHours}</Typography>
             <Typography variant="text_main" className="whitespace-pre-line">
               {accessibility.problemClosing}
-            </Typography>
+          </Typography>
           </div>
         </div>
       </div>

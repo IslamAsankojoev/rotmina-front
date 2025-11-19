@@ -501,7 +501,7 @@ const Product = () => {
                       <Typography variant="text_main" className="font-bold">
                         {t.shippingTitle}
                       </Typography>
-                      <Typography variant="text_main" className="font-bold">
+                <Typography variant="text_main" className="font-bold">
                         {t.shippingSubtitle}
                       </Typography>
                       <Typography variant="text_main" className="whitespace-pre-line">
@@ -515,7 +515,7 @@ const Product = () => {
                       </Typography>
                       <Typography variant="text_main" className="font-bold mt-4">
                         {t.returnsExchangesTitle}
-                      </Typography>
+                </Typography>
                       <Typography variant="text_main" className="whitespace-pre-line">
                         {t.returnsExchangesTextBefore}
                         <Link
@@ -525,7 +525,7 @@ const Product = () => {
                           {t.returnsExchangesFormLink}
                         </Link>
                         {t.returnsExchangesTextAfter}
-                      </Typography>
+                </Typography>
                     </>
                   )}
                 </div>

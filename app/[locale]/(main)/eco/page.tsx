@@ -186,7 +186,7 @@ export default async function ECO({
                   <span className="font-['Arima'] text-sm font-normal text-stone-900">
                     {t.packagingData}{' '}
                   </span>
-                  <span className="font-['Arima'] text-sm font-bold text-stone-900">
+                  <span className="font-['Arima'] text-sm font-normal text-stone-900">
                     {t.packagingOrganizations}
                   </span>
                 </div>
