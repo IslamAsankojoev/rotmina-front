@@ -11,24 +11,30 @@ import {
 } from '@/shadcn/components/ui/form'
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
+import { Spinner } from '@/shadcn/components/ui/spinner'
 import { Typography, useDictionary } from '@/src/shared'
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
+import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import z from 'zod'
 
+import { EmailService } from '../../Email'
 import { ReturnRequestSchema } from '../model/validation'
 
 export const ReturnForm = () => {
   const { dictionary } = useDictionary()
-  const t = ((dictionary as unknown) as Record<string, Record<string, string>>).returns || {
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .returns || {
     personalDetails: 'Personal Details',
     name: 'NAME',
     phone: 'PHONE',
     email: 'EMAIL',
     shippingAddress: "Shipping address in case you'd like an exchange",
     orderNumber: 'ORDER NUMBER',
-    orderNumberDescription: '*The number appears next to the customer details on the invoice',
+    orderNumberDescription:
+      '*The number appears next to the customer details on the invoice',
     comment: 'COMMENT',
     selectOption: 'Please select one of the following options:',
     iWantToExchange: "I'd like to exchange",
@@ -44,12 +50,36 @@ export const ReturnForm = () => {
       shippingAddress: '',
       orderNumber: '',
       comment: '',
-      followingOption: '',
+      followingOption: 'exchange',
     },
   })
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: z.infer<typeof ReturnRequestSchema>) =>
+      EmailService.sendEmail({
+        to: 'Brand@rotmina.com',
+        subject: 'Application for return or exchange',
+        text: `
+<strong>Name:</strong> ${data.name} <br />
+<strong>Phone:</strong> ${data.phone} <br />
+<strong>Email:</strong> ${data.email} <br />
+<strong>Shipping Address:</strong> ${data.shippingAddress} <br />
+<strong>Order Number:</strong> ${data.orderNumber} <br />
+<strong>Comment:</strong> ${data.comment} <br />
+<strong>Following Option:</strong> ${data.followingOption === 'exchange' ? 'Exchange' : 'Return'}
+`,
+      }),
+  })
+
   const onSubmit = (data: z.infer<typeof ReturnRequestSchema>) => {
-    console.log('Form submitted:', data)
+    mutate(data, {
+      onSuccess: () => {
+        toast.success('Application sent successfully')
+      },
+      onError: () => {
+        toast.error('Failed to send application')
+      },
+    })
   }
   return (
     <div className="flex flex-col gap-4">
@@ -100,10 +130,7 @@ export const ReturnForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    placeholder={t.shippingAddress}
-                    {...field}
-                  />
+                  <Input placeholder={t.shippingAddress} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -117,9 +144,7 @@ export const ReturnForm = () => {
                 <FormControl>
                   <Input placeholder={t.orderNumber} {...field} />
                 </FormControl>
-                <FormDescription>
-                  {t.orderNumberDescription}
-                </FormDescription>
+                <FormDescription>{t.orderNumberDescription}</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -171,7 +196,10 @@ export const ReturnForm = () => {
                             value={option.value}
                             id={option.value}
                           />
-                          <Label htmlFor={option.value} className='cursor-pointer'>
+                          <Label
+                            htmlFor={option.value}
+                            className="cursor-pointer"
+                          >
                             <Typography
                               variant="text_main"
                               className="uppercase"
@@ -187,7 +215,14 @@ export const ReturnForm = () => {
               )}
             />
           </div>
-          <Button type="submit" variant="outline-minimal" size='lg' className='uppercase'>
+          <Button
+            type="submit"
+            variant="outline-minimal"
+            size="lg"
+            className="uppercase"
+            disabled={isPending}
+          >
+            {isPending ? <Spinner /> : null}
             {t.returnOrExchange}
           </Button>
         </form>

@@ -93,6 +93,7 @@ export interface Product {
   show_in_carousel: boolean
   short_description: string
   short_descriptionHE: string
+  gallery?: Image[]
 }
 
 // Types for API responses

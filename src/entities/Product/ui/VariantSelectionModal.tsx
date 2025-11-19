@@ -39,31 +39,31 @@ export const VariantSelectionModal = ({
 
   // Get unique colors from variants
   const availableColors = useMemo(() => {
-    if (!product.variants || product.variants.length === 0) return []
+    if (!product?.variants || product?.variants?.length === 0) return []
 
     const uniqueColors = new Map<number, Color>()
-    product.variants.forEach((variant: ProductVariant) => {
-      if (variant?.color && !uniqueColors.has(variant.color.id)) {
-        uniqueColors.set(variant.color.id, variant.color)
+    product?.variants?.forEach((variant: ProductVariant) => {
+      if (variant?.color && !uniqueColors.has(variant?.color?.id)) {
+        uniqueColors.set(variant?.color?.id, variant?.color)
       }
     })
     return Array.from(uniqueColors.values())
-  }, [product.variants])
+  }, [product?.variants])
 
   // Set initial color when modal opens
   useEffect(() => {
-    if (availableColors.length > 0 && !selectedColor && open) {
-      setSelectedColor(availableColors[0].id.toString())
+    if (availableColors?.length > 0 && !selectedColor && open) {
+      setSelectedColor(availableColors?.[0]?.id?.toString())
     }
   }, [availableColors, selectedColor, open])
 
   // Get unique sizes for selected color
   const availableSizes = useMemo(() => {
-    if (!selectedColor || !product.variants || product.variants.length === 0)
+    if (!selectedColor || !product?.variants || product?.variants?.length === 0)
       return []
 
     const colorId = parseInt(selectedColor)
-    const sizesForColor = product.variants
+    const sizesForColor = product?.variants
       .filter((variant) => variant?.color?.id === colorId)
       .map((variant) => variant.size)
 
@@ -75,7 +75,7 @@ export const VariantSelectionModal = ({
       }
     })
     return Array.from(uniqueSizes.values())
-  }, [selectedColor, product.variants])
+  }, [selectedColor, product?.variants])
 
   const handleColorSelect = (colorId: string) => {
     setSelectedColor(colorId)
@@ -89,9 +89,9 @@ export const VariantSelectionModal = ({
     // Find variant with this size and selected color
     const colorId = selectedColor
       ? parseInt(selectedColor)
-      : product.variants[0]?.color?.id
-    const variant = product.variants.find(
-      (v) => v.size.id === parseInt(sizeId) && v.color.id === colorId,
+      : product?.variants?.[0]?.color?.id
+    const variant = product?.variants?.find(
+      (v) => v?.size?.id === parseInt(sizeId) && v?.color?.id === colorId,
     )
 
     setSelectedVariant(variant || null)
@@ -121,9 +121,9 @@ export const VariantSelectionModal = ({
   const isSizeAvailable = (sizeId: number) => {
     const colorId = selectedColor
       ? parseInt(selectedColor)
-      : product.variants[0]?.color?.id
-    return product.variants.some(
-      (v) => v.size.id === sizeId && v.color.id === colorId && v.stock > 0,
+      : product?.variants?.[0]?.color?.id
+    return product?.variants?.some(
+      (v) => v?.size?.id === sizeId && v?.color?.id === colorId && v?.stock > 0,
     )
   }
 
@@ -150,18 +150,18 @@ export const VariantSelectionModal = ({
                   onValueChange={handleColorSelect}
                 >
                   {availableColors.map((color: Color) => {
-                    const isSelected = selectedColor === color.id.toString()
+                    const isSelected = selectedColor === color?.id?.toString()
 
                     return (
                       <div
-                        key={color.id}
+                        key={color?.id}
                         className={clsx(
                           'rounded-full border transition-all hover:scale-110',
                           isSelected ? 'border-black' : 'border-greyy',
                         )}
                       >
                         <ToggleGroupItem
-                          value={color.id.toString()}
+                          value={color?.id?.toString()}
                           className={clsx(
                             'h-10 w-10 cursor-pointer !rounded-full border-2 p-2',
                           )}
@@ -189,7 +189,7 @@ export const VariantSelectionModal = ({
                 onValueChange={handleSizeSelect}
               >
                 {availableSizes.map((size: Size) => {
-                  const isAvailable = isSizeAvailable(size?.id)
+                  const isAvailable = isSizeAvailable(size?.id || 0)
                   const isSelected = selectedSize === size?.id?.toString()
 
                   return (

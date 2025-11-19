@@ -30,6 +30,7 @@ const PrivacyPolicy = async ({
   const gdprCompliance = (t.gdprCompliance as Record<string, string>) || {}
   const disclaimer = (t.disclaimer as Record<string, string>) || {}
   const contact = (t.contact as Record<string, string>) || {}
+  const accessibility = (t.accessibility as Record<string, string>) || {}
 
   return (
     <>
@@ -231,6 +232,118 @@ const PrivacyPolicy = async ({
           <Typography variant="text_main" className="whitespace-pre-line mt-4">
             {(t.closing as string) || ''}
           </Typography>
+
+          <div className="mt-12 flex flex-col gap-6">
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.title}
+            </Typography>
+            <Typography variant="text_main" className="whitespace-pre-line">
+              {accessibility.intro}
+            </Typography>
+
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.featuresTitle}
+            </Typography>
+            <Typography variant="text_main">
+              {accessibility.featuresDescription}
+            </Typography>
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature1}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature2}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature3}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature4}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature5}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature6}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature7}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature8}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature9}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.feature10}
+                </Typography>
+              </li>
+            </ul>
+
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.additionalTitle}
+            </Typography>
+            <ul className="ml-6 list-disc space-y-2">
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.additional1}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.additional2}
+                </Typography>
+              </li>
+              <li>
+                <Typography variant="text_main">
+                  {accessibility.additional3}
+                </Typography>
+              </li>
+            </ul>
+
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.limitationsTitle}
+            </Typography>
+            <Typography variant="text_main" className="whitespace-pre-line">
+              {accessibility.limitationsText}
+            </Typography>
+
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.problemTitle}
+            </Typography>
+            <Typography variant="text_main" className="font-bold">
+              {accessibility.problemSubtitle}
+            </Typography>
+            <Typography variant="text_main" className="whitespace-pre-line">
+              {accessibility.problemText}
+            </Typography>
+            <Typography variant="text_main">{accessibility.problemEmail}</Typography>
+            <Typography variant="text_main">{accessibility.problemPhone}</Typography>
+            <Typography variant="text_main">{accessibility.problemHours}</Typography>
+            <Typography variant="text_main" className="whitespace-pre-line">
+              {accessibility.problemClosing}
+            </Typography>
+          </div>
         </div>
       </div>
     </>

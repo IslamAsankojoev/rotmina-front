@@ -200,8 +200,8 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
             icon="links"
             label="Underline Links"
           />
-          <Tile onClick={increaseText} icon="tplus" label="Increase Text Size" />
-          <Tile onClick={decreaseText} icon="tminus" label="Decrease Text Size" />
+          <Tile onClick={increaseText} icon="tplus" label="Increase Text Size (Ctrl +)" />
+          <Tile onClick={decreaseText} icon="tminus" label="Decrease Text Size (Ctrl -)" />
           <Tile
             onClick={toggleGrayscale}
             pressed={state.grayscale}

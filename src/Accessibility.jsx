@@ -200,12 +200,12 @@ export const A11yToolbar = React.forwardRef(function Toolbar(
           <Tile
             onClick={increaseText}
             icon="tplus"
-            label="Increase Text Size"
+            label="Increase Text Size (Ctrl +)"
           />
           <Tile
             onClick={decreaseText}
             icon="tminus"
-            label="Decrease Text Size"
+            label="Decrease Text Size (Ctrl -)"
           />
           <Tile
             onClick={toggleGrayscale}

@@ -4,14 +4,6 @@ import React from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shadcn/components/ui/table'
-import {
   Tabs,
   TabsContent,
   TabsList,
@@ -24,10 +16,10 @@ import {
 import { useAddToCart, useCartActions } from '@/src/app/store'
 import {
   ProductDescription,
+  ProductImages,
   ProductService,
   ProductTitle,
   SizeGuideModal,
-  VariantImages,
 } from '@/src/entities/Product'
 import {
   Product as ProductType,
@@ -50,6 +42,7 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
 
 const Product = () => {
@@ -60,19 +53,28 @@ const Product = () => {
     colour: 'Colour',
     size: 'Size',
     sizeGuide: 'Size Guide',
-    waist: 'waist',
+    bust: 'Bust',
+    waist: 'Waist',
+    hips: 'Hips',
     addToCart: 'Add to Cart',
     outOfStock: 'Out of stock',
     description: 'Description',
     shippingReturn: 'Shipping&Return',
     internationalShipping: 'International Shipping',
-    shippingDescription:
-      'Shipping is available to the United States, Canada, and Europe only, and typically arrives within 7–15 business days.',
+    shippingTitle: 'International Shipping',
+    shippingSubtitle: 'Shipping',
+    shippingText: 'Shipping is available worldwide at a flat rate of 165 ILS, approximately $47–$50 USD. Price may vary depending on exchange rate. Delivery typically takes 7–15 business days.',
+    orderProcessingTitle: 'Order Processing',
+    orderProcessingText: 'All orders are processed within 1-2 business days. Customers are responsible for providing accurate shipping information to ensure timely delivery. Once the order is confirmed, customers will receive a confirmation email.',
+    shippingIsraelTitle: '',
+    shippingIsraelText: '',
     shippingCosts: 'Shipping Costs:',
     destination: 'Destination',
     returnsExchanges: 'Returns & Exchanges',
-    returnsDescription:
-      "If you like to return an item, please fill out the return form within 14 days of receiving your package. Items that have been used or worn cannot be returned or exchanged. Clothing items may be exchanged only if they still carry their original tag. Once the item is received in its original condition, you'll receive a full refund, excluding shipping costs. In cases of return or exchange, shipping costs are the customer's responsibility.",
+    returnsExchangesTitle: 'Returns & Exchanges',
+    returnsExchangesTextBefore: 'If you would like to return an item, please fill out the ',
+    returnsExchangesFormLink: 'return form',
+    returnsExchangesTextAfter: ' within 14 days of receiving your package. Items that have been used or worn cannot be returned or exchanged. Clothing items may only be exchanged if they still carry their original tags.\n\nOnce the item is received in its original condition, a full refund will be issued, excluding shipping costs. Customers are responsible for return shipping costs unless the item is defective or incorrect.\n\nRefunds are processed within up to 3 business days after the returned item is received and inspected. Customers will be notified via email once the refund has been issued, confirming that the returned item has been accepted and the refund completed. Refunds are issued via the original payment method\n\nPlease note that additional local fees may apply depending on the destination country\'s policies.',
     europeanSurcharge:
       'In the following European countries: Andorra, Austria, Gibraltar, Ireland, Monaco, Greece, and Portugal a 12 $ surcharge applies for shipments weighing 3 kg only. All orders are prepared for shipment within 1–2 business days from my studio in Israel.',
     importantNote:
@@ -279,20 +281,18 @@ const Product = () => {
           ]}
         />
       </div>
-      <div className="block md:hidden mb-6">
-        <VariantImages
-          variant={
-            selectedVariant || (data?.data?.variants?.[0] as ProductVariant)
-          }
+      <div className="mb-6 block md:hidden">
+        <ProductImages
+          product={data?.data as ProductType}
+          selectedVariant={selectedVariant || (data?.data?.variants?.[0] as ProductVariant)}
         />
       </div>
       <div className="container">
         <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
           <div className="hidden flex-1 md:block">
-            <VariantImages
-              variant={
-                selectedVariant || (data?.data?.variants?.[0] as ProductVariant)
-              }
+            <ProductImages
+              product={data?.data as ProductType}
+              selectedVariant={selectedVariant || (data?.data?.variants?.[0] as ProductVariant)}
             />
           </div>
           <div className="relative flex-1 md:px-8" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -409,14 +409,28 @@ const Product = () => {
                     </ToggleGroup>
                   </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 items-end">
                   <SizeGuideModal />
+                  <div className="flex gap-2">
                   <Typography
-                    variant="text_main"
-                    className="text-greyy uppercase"
-                  >
-                    {t.waist}: 66
-                  </Typography>
+                      variant="text_main"
+                      className="text-greyy uppercase"
+                    >
+                      {t.bust}: 88
+                    </Typography>
+                    <Typography
+                      variant="text_main"
+                      className="text-greyy uppercase"
+                    >
+                      {t.waist}: 66
+                    </Typography>
+                    <Typography
+                      variant="text_main"
+                      className="text-greyy uppercase"
+                    >
+                      {t.hips}: 95
+                    </Typography>
+                  </div>
                 </div>
               </div>
             </div>
@@ -456,43 +470,65 @@ const Product = () => {
                 </Typography>
               </TabsContent>
               <TabsContent value="shipping">
-                <Typography variant="text_main" className="font-bold">
-                  {t.internationalShipping}
-                </Typography>
-                <Typography variant="text_main" className="my-4">
-                  {t.shippingDescription}
-                </Typography>
-                <Typography variant="text_main">{t.shippingCosts}</Typography>
-                <Table className="max-w-72 border">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px] font-bold">
-                        {t.destination}
-                      </TableHead>
-                      <TableHead className="font-bold">1 k</TableHead>
-                      <TableHead className="font-bold">2-3 kg</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Canada</TableCell>
-                      <TableCell>30 $</TableCell>
-                      <TableCell>40 $</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">
-                        United States
-                      </TableCell>
-                      <TableCell>32 $</TableCell>
-                      <TableCell>42 $</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Europe</TableCell>
-                      <TableCell>30 $</TableCell>
-                      <TableCell>40 $</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                <div className="flex flex-col gap-6">
+                  {isRTL ? (
+                    <>
+                      <Typography variant="text_main" className="font-bold">
+                        {t.shippingTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="font-bold">
+                        {t.shippingIsraelTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="whitespace-pre-line">
+                        {t.shippingIsraelText}
+                      </Typography>
+                      <Typography variant="text_main" className="font-bold mt-4">
+                        {t.returnsExchangesTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="whitespace-pre-line">
+                        {t.returnsExchangesTextBefore}
+                        <Link
+                          href={localizePath('/returns-&-exchanges')}
+                          className="text-blue-600 underline inline"
+                        >
+                          {t.returnsExchangesFormLink}
+                        </Link>
+                        {t.returnsExchangesTextAfter}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="text_main" className="font-bold">
+                        {t.shippingTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="font-bold">
+                        {t.shippingSubtitle}
+                      </Typography>
+                      <Typography variant="text_main" className="whitespace-pre-line">
+                        {t.shippingText}
+                      </Typography>
+                      <Typography variant="text_main" className="font-bold mt-4">
+                        {t.orderProcessingTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="whitespace-pre-line">
+                        {t.orderProcessingText}
+                      </Typography>
+                      <Typography variant="text_main" className="font-bold mt-4">
+                        {t.returnsExchangesTitle}
+                      </Typography>
+                      <Typography variant="text_main" className="whitespace-pre-line">
+                        {t.returnsExchangesTextBefore}
+                        <Link
+                          href={localizePath('/returns-&-exchanges')}
+                          className="text-blue-600 underline inline"
+                        >
+                          {t.returnsExchangesFormLink}
+                        </Link>
+                        {t.returnsExchangesTextAfter}
+                      </Typography>
+                    </>
+                  )}
+                </div>
               </TabsContent>
             </Tabs>
           </div>

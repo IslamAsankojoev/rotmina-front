@@ -46,6 +46,7 @@ export const ProductService = {
       searchParams.append('populate', 'variants.images')
       searchParams.append('populate', 'users')
       searchParams.append('populate', 'category')
+      searchParams.append('populate', 'gallery')
     }
 
     const url = `${apiMap.getProducts}?${searchParams.toString()}`
@@ -61,7 +62,7 @@ export const ProductService = {
     searchParams.append('populate', 'variants.size')
     searchParams.append('populate', 'variants.images')
     searchParams.append('populate', 'category')
-    
+    searchParams.append('populate', 'gallery')
     const url = `${apiMap.getProduct.replace(':id', id)}?${searchParams.toString()}`
     return api.get(url).json()
   },

@@ -357,8 +357,16 @@ export default function OrderPage() {
   }, [giftCardCode, appliedGiftCard?.code])
 
   useEffect(() => {
-    setDeliveryPrice(currency === 'ILS' ? 0 : 165)
-  }, [currency])
+    if (currency === 'ILS') {
+      if(order?.data?.total_amount && order?.data?.total_amount <= 499){
+        setDeliveryPrice(30)
+      } else {
+        setDeliveryPrice(0)
+      }
+    } else {
+      setDeliveryPrice(165)
+    }
+  }, [currency, order?.data?.total_amount])
 
   useEffect(() => {
     setFinalAmount(

@@ -1,5 +1,7 @@
 'use client'
 
+import { useEffect, useState } from 'react'
+
 import CollectionImage from '@/public/assets/collection.webp'
 import {
   Accordion,
@@ -33,12 +35,25 @@ export const Collections = () => {
   })
 
   const collections = data?.data || []
+  const [openCollectionId, setOpenCollectionId] = useState<string>('')
+
+  useEffect(() => {
+    if (collections.length > 0 && !openCollectionId) {
+      setOpenCollectionId(collections[0].documentId)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data?.data])
+
+  const openCollection = collections.find(
+    (collection: Collection) => collection.documentId === openCollectionId,
+  )
+  const displayImage = openCollection?.image?.url || CollectionImage
 
   return (
     <div className="mb-20 flex flex-col gap-4 md:flex-row">
       <div className="relative order-2 flex h-96 w-full items-center justify-center md:order-1 md:h-[700px] md:flex-1">
         <Image
-          src={CollectionImage}
+          src={displayImage}
           objectFit="cover"
           objectPosition="center"
           alt="hero"
@@ -48,8 +63,12 @@ export const Collections = () => {
       <div className="order-1 flex items-center justify-center overflow-hidden md:order-2 md:flex-1">
         <Accordion
           type="single"
-          collapsible
-          defaultValue={collections?.[0]?.documentId}
+          value={openCollectionId}
+          onValueChange={(value) => {
+            if (value) {
+              setOpenCollectionId(value)
+            }
+          }}
         >
           {collections?.map((collection: Collection, index: number) => (
             <div

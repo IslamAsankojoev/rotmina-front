@@ -1,4 +1,7 @@
 export const apiMap = {
+  // Email
+  sendEmail: 'orders/send-email',
+
   // Site Images
   getSiteImages: 'site-image?populate=*',
 
