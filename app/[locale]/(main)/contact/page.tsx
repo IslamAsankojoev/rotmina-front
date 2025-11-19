@@ -21,7 +21,8 @@ export default async function Contact({
     title: 'Love to hear from you',
     instagram: 'Instagram',
     facebook: 'Facebook',
-    email: 'Email',
+    phone: '+972-55-994-6060',
+    email: 'Brand@rotmina.com',
     description:
       'Have a question, thought or something you would like to share? You are welcome to reach out. I read every message and will get back to you as soon as possible.',
   }
@@ -55,6 +56,7 @@ export default async function Contact({
               instagram: t.instagram,
               facebook: t.facebook,
               email: t.email,
+              phone: t.phone,
             }}
           />
           <Typography variant="text_main" className="mt-8">

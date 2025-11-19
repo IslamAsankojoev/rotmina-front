@@ -9,6 +9,7 @@ interface ContactIconsProps {
     instagram: string
     facebook: string
     email: string
+    phone: string
   }
 }
 
@@ -25,7 +26,7 @@ export const ContactIcons = ({ translations }: ContactIconsProps) => {
       <div className="flex items-center gap-2">
         <Smartphone size={md ? 35 : 24} />
         <a href={socialLinks.phone} target="_blank">
-          <Typography variant="text_main">{socialLinks.phone}</Typography>
+          <Typography variant="text_main">{translations.phone}</Typography>
         </a>
       </div>
       <div className="flex items-center gap-2">
@@ -37,7 +38,7 @@ export const ContactIcons = ({ translations }: ContactIconsProps) => {
       <div className="flex items-center gap-2">
         <Mail size={md ? 35 : 24} />
         <a href={socialLinks.email} target="_blank">
-          <Typography variant="text_main">{socialLinks.email}</Typography>
+          <Typography variant="text_main">{translations.email}</Typography>
         </a>
       </div>
     </div>
