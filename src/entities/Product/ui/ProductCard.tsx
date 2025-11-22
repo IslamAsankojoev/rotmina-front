@@ -72,16 +72,15 @@ export const ProductCard = ({
     }
   }
 
-  const handleClickProduct = (
-    productId: string,
-    e: React.MouseEvent,
-  ) => {
+  const handleClickProduct = (productId: string, e: React.MouseEvent) => {
     // Don't navigate if clicking on the add button
     const target = e.target as HTMLElement
     if (target.closest('.add-to-cart-btn')) {
       return
     }
-    router.push(localizePath(`/category/${product?.category?.slug}/${productId}`))
+    router.push(
+      localizePath(`/category/${product?.category?.slug}/${productId}`),
+    )
   }
 
   const handleAddToCartClick = (e: React.MouseEvent) => {
@@ -96,10 +95,13 @@ export const ProductCard = ({
 
   // Get current image based on hover state and variant
   const getCurrentImage = () => {
-    const hoverVariantIndex =
-      isHovered ? 1 : 0
+    const hoverVariantIndex = isHovered ? 1 : 0
 
-    if (product?.gallery && product?.gallery?.length > 0 && product?.gallery?.[hoverVariantIndex]?.url) {
+    if (
+      product?.gallery &&
+      product?.gallery?.length > 0 &&
+      product?.gallery?.[hoverVariantIndex]?.url
+    ) {
       return product?.gallery?.[hoverVariantIndex]?.url
     }
     return ''
@@ -111,20 +113,12 @@ export const ProductCard = ({
   return (
     <>
       <div
-        onClick={(e) =>
-          handleClickProduct(product?.documentId, e)
-        }
+        onClick={(e) => handleClickProduct(product?.documentId, e)}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         key={product?.documentId}
         className={clsx(
-          'group cols-span-6 relative col-span-6 flex w-full cursor-pointer flex-col items-center gap-1 md:col-span-4 lg:col-span-3',
-          index === 4
-            ? 'col-span-12 min-h-[544px] md:col-span-6 md:row-span-2'
-            : '',
-          index === 9 ? 'md:col-span-4' : '',
-          index === 10 ? 'md:col-span-4' : '',
-          index === 11 ? 'md:col-span-4' : '',
+          'group cols-span-6 relative col-span-6 flex w-full cursor-pointer flex-col items-center gap-1 md:col-span-6 lg:col-span-3 sm:col-span-6 xl:col-span-3',
         )}
       >
         <div className="relative h-[300px] w-full overflow-hidden md:h-full md:min-h-[544px]">

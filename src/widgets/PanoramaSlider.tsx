@@ -126,10 +126,10 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
                 priority={i < 6}
               />
             </div>
-            <div className="meta !text-black">
+            {/* <div className="meta !text-black">
               <span className="title">{s.alt}</span>
               {s.price && <span className="price">{s.price}</span>}
-            </div>
+            </div> */}
           </SwiperSlide>
         ))}
       </Swiper>
