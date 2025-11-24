@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import GiftCardImage from '@/public/assets/gift-card-preview.webp'
+import GiftCardImage from '@/public/assets/gift.png'
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import ShirtImage from '@/public/assets/products/shirt.webp'
 import {

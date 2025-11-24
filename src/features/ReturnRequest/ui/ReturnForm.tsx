@@ -12,7 +12,7 @@ import {
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
-import { Typography, useDictionary } from '@/src/shared'
+import { Typography, useDictionary, useLocale } from '@/src/shared'
 import { RadioGroup, RadioGroupItem } from '@radix-ui/react-radio-group'
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -25,6 +25,7 @@ import { ReturnRequestSchema } from '../model/validation'
 
 export const ReturnForm = () => {
   const { dictionary } = useDictionary()
+  const { isRTL } = useLocale()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .returns || {
     personalDetails: 'Personal Details',
@@ -175,6 +176,9 @@ export const ReturnForm = () => {
                       value={field.value}
                       onValueChange={field.onChange}
                       className="flex gap-4"
+                      style={{
+                        justifyContent: isRTL ? 'flex-start' : 'flex-end',
+                      }}
                     >
                       {[
                         {
@@ -202,7 +206,7 @@ export const ReturnForm = () => {
                           >
                             <Typography
                               variant="text_main"
-                              className="uppercase"
+                              className="capitalize"
                             >
                               {option.label}
                             </Typography>

@@ -30,7 +30,6 @@ interface ProductCardProps {
 
 export const ProductCard = ({
   product,
-  index,
   refetchProducts,
 }: ProductCardProps) => {
   const { user } = useUser()

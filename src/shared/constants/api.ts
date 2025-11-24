@@ -28,7 +28,7 @@ export const apiMap = {
   // Product
   getProducts: 'products',
   getProduct: 'products/:id',
-  getRelatedProducts: 'products/get-related/:id',
+  getRelatedProducts: 'products/get-related/:id?populate=gallery',
 
   // Personal Stylist
   getPersonalStylists: 'personal-stylists',

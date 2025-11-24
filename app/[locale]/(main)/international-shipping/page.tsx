@@ -53,14 +53,14 @@ const InternationalShipping = async ({
   return (
     <div className="container mx-auto">
       <div
-        className="mx-auto mb-24 flex max-w-[800px] flex-col gap-6"
+        className="mx-auto mb-24 flex max-w-[800px] flex-col gap-2"
         dir={isRTL ? 'rtl' : 'ltr'}
       >
         {isRTL ? (
           <>
             <Typography
               variant="text_title"
-              className="text-mobile-title2 md:text-title font-bold"
+              className="text-mobile-title2 md:text-title italic"
             >
               {t.shippingTitle}
             </Typography>
@@ -77,7 +77,7 @@ const InternationalShipping = async ({
               {t.returnsExchangesTextBefore}
               <Link
                 href={addLocaleToPath('/returns-&-exchanges', locale)}
-                className="inline text-blue-600 underline"
+                className="inline text-greyy underline"
               >
                 {t.returnsExchangesFormLink}
               </Link>
@@ -88,7 +88,7 @@ const InternationalShipping = async ({
           <>
             <Typography
               variant="text_title"
-              className="text-mobile-title2 md:text-title font-bold"
+              className="text-mobile-title2 md:text-title italic"
             >
               {t.shippingTitle}
             </Typography>
@@ -111,7 +111,7 @@ const InternationalShipping = async ({
               {t.returnsExchangesTextBefore}
               <Link
                 href={addLocaleToPath('/returns-&-exchanges', locale)}
-                className="inline text-blue-600 underline"
+                className="inline text-greyy underline"
               >
                 {t.returnsExchangesFormLink}
               </Link>

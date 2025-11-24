@@ -17,8 +17,8 @@ const PrivacyPolicy = async ({
   const t = (dictionary as unknown as Record<string, Record<string, unknown>>)
     .privacyPolicy || {
     home: 'HOME',
-    privacyPolicy: 'Privacy Policy',
-    title: 'Privacy Policy',
+    privacyPolicy: 'Privacy & Accessibility',
+    title: 'Privacy & Accessibility',
     intro: '',
   }
 
@@ -39,8 +39,8 @@ const PrivacyPolicy = async ({
           links={[
             { title: (t.home as string) || 'HOME', href: addLocaleToPath('/', locale) },
             {
-              title: (t.privacyPolicy as string) || 'Privacy Policy',
-              href: addLocaleToPath('/privacy-policy', locale),
+              title: (t.privacyPolicy as string) || 'Privacy & Accessibility',
+              href: addLocaleToPath('/privacy-&-accessibility', locale),
             },
           ]}
         />
@@ -54,7 +54,7 @@ const PrivacyPolicy = async ({
             variant="text_title"
             className="md:text-title text-mobile-title2 italic"
           >
-            {(t.title as string) || 'Privacy Policy'}
+            {(t.title as string) || 'Privacy & Accessibility'}
           </Typography>
 
           <Typography variant="text_main" className="whitespace-pre-line">
@@ -234,7 +234,7 @@ const PrivacyPolicy = async ({
           </Typography>
 
           <div className="mt-12 flex flex-col gap-6">
-            <Typography variant="text_main" className="font-bold">
+            <Typography variant="text_title" className="md:text-title text-mobile-title2 italic">
               {accessibility.title}
             </Typography>
             <Typography variant="text_main" className="whitespace-pre-line">

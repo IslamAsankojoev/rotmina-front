@@ -1,6 +1,6 @@
 'use client'
 
-import GiftCardImage from '@/public/assets/gift-card-preview.webp'
+import GiftCardImage from '@/public/assets/gift.png'
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
 import { Button } from '@/shadcn/components/ui/button'
 import {

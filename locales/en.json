@@ -39,7 +39,7 @@
     "send": "SEND",
     "contact": "Contact",
     "termsOfUse": "Terms of conditions",
-    "privacyPolicy": "Privacy Policy",
+    "privacyPolicy": "Privacy & Accessibility",
     "shippingAndReturns": "Shipping & Returns",
     "paymentAndDelivery": "Returns & Exchanges"
   },
@@ -434,8 +434,8 @@
   },
   "privacyPolicy": {
     "home": "HOME",
-    "privacyPolicy": "Privacy Policy",
-    "title": "Privacy Policy",
+    "privacyPolicy": "Privacy & Accessibility",
+    "title": "Privacy & Accessibility",
     "intro": "Rotmina is committed to protecting the privacy of our customers and the personal information collected through our website. \n\nThis Privacy Policy explains how we collect, use, process, and safeguard your information.",
     "informationCollected": {
       "title": "Information Collected",

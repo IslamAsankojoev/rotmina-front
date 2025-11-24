@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 import React from 'react'
 
-import GiftCardImage from '@/public/assets/gift-card.webp'
+import GiftCardImage from '@/public/assets/gift.png'
 import { GiftCardForm } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'

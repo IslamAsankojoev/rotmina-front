@@ -470,7 +470,7 @@ const Product = () => {
                 </Typography>
               </TabsContent>
               <TabsContent value="shipping">
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-2">
                   {isRTL ? (
                     <>
                       <Typography variant="text_main" className="font-bold">
@@ -489,7 +489,7 @@ const Product = () => {
                         {t.returnsExchangesTextBefore}
                         <Link
                           href={localizePath('/returns-&-exchanges')}
-                          className="text-blue-600 underline inline"
+                          className="text-greyy underline inline"
                         >
                           {t.returnsExchangesFormLink}
                         </Link>
@@ -520,7 +520,7 @@ const Product = () => {
                         {t.returnsExchangesTextBefore}
                         <Link
                           href={localizePath('/returns-&-exchanges')}
-                          className="text-blue-600 underline inline"
+                          className="text-greyy underline inline"
                         >
                           {t.returnsExchangesFormLink}
                         </Link>

@@ -43,7 +43,7 @@ export default async function ECO({
           {t.title}
         </Typography>
       </div>
-      <div className="relative h-[450px] w-full">
+      <div className="relative h-[450px] w-full min-h-[450px]">
         <Image src={EcoImage} alt="eco-image" objectFit="cover" fill />
       </div>
       <div className="container mt-10">
@@ -120,7 +120,7 @@ export default async function ECO({
             </Typography>
           </div>
           <div className="flex min-h-full flex-1 items-center justify-center">
-            <div className="relative h-full w-full">
+            <div className="relative h-full w-full min-h-[550px]">
               <Image
                 src={EcoSheep}
                 alt="product-image"
@@ -132,9 +132,9 @@ export default async function ECO({
         </div>
       </div>
       <div className="container mt-10">
-        <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
+        <div className="flex flex-col-reverse gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex min-h-full flex-1 items-center justify-center">
-            <div className="relative h-full w-full">
+            <div className="relative h-full w-full min-h-[550px]">
               <Image src={EcoCurv} alt="product-image" fill objectFit="cover" />
             </div>
           </div>

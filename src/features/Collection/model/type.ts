@@ -5,6 +5,7 @@ export type Collection = {
   nameHE: string
   descriptionHE: string
   count?: number
+  link?: string
   image?: {
     id: number
     documentId: string

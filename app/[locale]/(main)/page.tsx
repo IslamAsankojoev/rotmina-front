@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import NatureImage from '@/public/assets/nature.webp'
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
-import Hero from '@/public/main-hero.webp'
+import Hero from '@/public/rotmina-home.jpg'
 import { Categories, Collections, SalePopup } from '@/src/features'
 import { ProductService } from '@/src/entities/Product'
 import { Loader, Typography } from '@/src/shared'
@@ -68,7 +68,7 @@ export default async function Home({
           src={Hero}
           fill
           objectFit="cover"
-          objectPosition="top"
+          objectPosition="center"
           alt="hero"
         />
       </div>
@@ -77,7 +77,7 @@ export default async function Home({
           src={Hero}
           fill
           objectFit="cover"
-          objectPosition="80% 0%"
+          objectPosition="70% 0%"
           alt="hero"
         />
       </div>

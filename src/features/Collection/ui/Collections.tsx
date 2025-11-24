@@ -85,8 +85,7 @@ export const Collections = () => {
                     variant="text_pageTitle"
                     className="text-center !text-2xl uppercase italic"
                   >
-                    <CollectionTitle collection={collection} /> (
-                    {new Date().getFullYear().toString().slice(-2)})
+                    <CollectionTitle collection={collection} />
                   </Typography>
                 </AccordionTrigger>
                 <AccordionContent className="mt-4 flex flex-col items-center justify-center">
@@ -102,14 +101,15 @@ export const Collections = () => {
                     alt={collection.name}
                     width={200}
                     height={200}
+                    objectFit="cover"
                     objectPosition="center"
                     className="mt-4"
-                    style={{
-                      objectFit: 'none',
-                      objectPosition: 'left bottom',
-                    }}
                   />
-                  <Button variant="link" className="mt-4">
+                  <Button variant="link" className="mt-4" onClick={() => {
+                    if (collection.link) {
+                      window.location.href = collection.link
+                    }
+                  }}>
                     <Typography
                       variant="text_main"
                       className="uppercase underline"

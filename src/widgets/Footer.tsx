@@ -42,7 +42,7 @@ const getRightMenu = (t: {
   },
   {
     title: t.privacyPolicy,
-    href: '/privacy-policy',
+    href: '/privacy-&-accessibility',
   },
   {
     title: t.shippingAndReturns,
@@ -67,7 +67,7 @@ export const Footer = () => {
   const footerT = ((dictionary as unknown) as Record<string, Record<string, string>>).footer || {
     contact: 'Contact',
     termsOfUse: 'Terms of conditions',
-    privacyPolicy: 'Privacy Policy',
+    privacyPolicy: 'Privacy & Accessibility',
     shippingAndReturns: 'Shipping & Returns',
     paymentAndDelivery: 'Payment & Delivery',
   }
