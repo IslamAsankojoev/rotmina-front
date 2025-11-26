@@ -85,8 +85,8 @@ export const useProducts = (): UseProductsReturn => {
       { field: ProductSortField; order: 'asc' | 'desc' }
     > = {
       Popularity: { field: 'createdAt', order: 'desc' },
-      'Price up': { field: 'updatedAt', order: 'asc' }, // Используем updatedAt для имитации сортировки по цене
-      'price down': { field: 'updatedAt', order: 'desc' }, // Используем updatedAt для имитации сортировки по цене
+      'Price up': { field: 'price', order: 'asc' },
+      'price down': { field: 'price', order: 'desc' },
       sale: { field: 'createdAt', order: 'desc' },
     }
     return sortMap[sortString] || { field: 'createdAt', order: 'desc' }

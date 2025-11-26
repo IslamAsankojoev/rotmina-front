@@ -160,7 +160,7 @@ export interface ProductFilters {
 }
 
 // Types for product sorting
-export type ProductSortField = 'title' | 'createdAt' | 'updatedAt'
+export type ProductSortField = 'title' | 'createdAt' | 'updatedAt' | 'price'
 export type ProductSortOrder = 'asc' | 'desc'
 
 export interface ProductSortOptions {
