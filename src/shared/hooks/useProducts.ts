@@ -9,6 +9,7 @@ import {
 } from '@/src/entities/Product'
 import { useQuery } from '@tanstack/react-query'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useLocale } from './useLocale'
 
 interface ProductParams {
   page?: number
@@ -53,6 +54,7 @@ export const useProducts = (): UseProductsReturn => {
   const router = useRouter()
   const params = useSearchParams()
   const { slug, id } = useParams()
+  const { localizePath } = useLocale()
   // Получаем параметры из URL
   const urlPage = params.get('page')
   const urlPageSize = params.get('pageSize')
@@ -103,15 +105,18 @@ export const useProducts = (): UseProductsReturn => {
         }
       })
 
+      const queryString = currentParams.toString()
+      const query = queryString ? `?${queryString}` : ''
+
       if(urlCategory) {
-        router.push(`/category/${urlCategory}?${currentParams.toString()}`)
+        router.push(localizePath(`/category/${urlCategory}${query}`))
       } else if(urlCollection) {
-        router.push(`/collection/${urlCollection}?${currentParams.toString()}`)
+        router.push(localizePath(`/collection/${urlCollection}${query}`))
       } else {
-        router.push(`/shop?${currentParams.toString()}`)  
+        router.push(localizePath(`/shop${query}`))
       }
     },
-    [router, params, urlCategory, urlCollection],
+    [router, params, urlCategory, urlCollection, localizePath],
   )
 
   // Запрос данных

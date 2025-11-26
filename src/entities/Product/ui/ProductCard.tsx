@@ -102,6 +102,8 @@ export const ProductCard = ({
       product?.gallery?.[hoverVariantIndex]?.url
     ) {
       return product?.gallery?.[hoverVariantIndex]?.url
+    } else if (product?.gallery && product?.gallery?.length === 1) {
+      return product?.gallery?.[0]?.url || ''
     }
     return ''
   }
