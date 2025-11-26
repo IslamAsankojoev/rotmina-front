@@ -19,8 +19,10 @@ import { Collection } from '../model'
 import { CollectionService } from '../model/api'
 import { CollectionDescription } from './CollectionDescription'
 import { CollectionTitle } from './CollectionTitle'
+import { useRouter } from 'next/navigation'
 
 export const Collections = () => {
+  const router = useRouter()
   const { dictionary } = useDictionary()
   const collectionsT = (
     dictionary as unknown as Record<string, Record<string, string>>
@@ -106,9 +108,7 @@ export const Collections = () => {
                     className="mt-4"
                   />
                   <Button variant="link" className="mt-4" onClick={() => {
-                    if (collection.link) {
-                      window.location.href = collection.link
-                    }
+                    router.push(`/collection/${collection.documentId}`)
                   }}>
                     <Typography
                       variant="text_main"

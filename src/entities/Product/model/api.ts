@@ -13,7 +13,8 @@ export const ProductService = {
   // Get products list
   getProducts: (params?: GetProductsParams): Promise<ProductListResponse> => {
     const searchParams = new URLSearchParams()
-    if (params?.category) searchParams.append('filters[category][documentId][$eq]', params.category)
+    if (params?.category) searchParams.append('filters[category][slug][$eq]', params.category)
+    if (params?.collection) searchParams.append('filters[collection][documentId][$eq]', params.collection)
     if (params?.page) searchParams.append('pagination[page]', params.page.toString())
     if (params?.pageSize) searchParams.append('pagination[pageSize]', params.pageSize.toString())
     if (params?.search) searchParams.append('filters[title][$containsi]', params.search)

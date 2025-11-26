@@ -3,9 +3,9 @@ import { Suspense } from 'react'
 
 import { ProductGrid } from '@/src/entities/Product'
 import {
-  CategoryService,
   CategoryTitle,
   Category as CategoryType,
+  CollectionService,
   ProductFilter,
   ProductPagination,
   ProductSort,
@@ -15,18 +15,18 @@ import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
 import { ArrowDownUp } from 'lucide-react'
 
-const getCategory = async (slug: string) => {
-  const category = await CategoryService.getCategoryBySlug(slug)
+const getCollection = async (id: string) => {
+  const category = await CollectionService.getCollection(id)
   return category?.data
 }
 
-export default async function Category({
+export default async function Collection({
   params,
 }: {
-  params: Promise<{ slug: string }>
+  params: Promise<{ id: string }>
 }) {
-  const { slug } = await params
-  const category = await getCategory(slug)
+  const { id } = await params
+  const collection = await getCollection(id)
   const cookieStore = await cookies()
   const locale = await getServerLocale(undefined, cookieStore)
   const dictionary = await getDictionary(locale as 'en' | 'he')
@@ -41,7 +41,7 @@ export default async function Category({
       <div
         className="relative flex h-[390px] w-full flex-col justify-end"
         style={{
-          backgroundImage: `url(${category?.top_image?.url || category?.image?.url || ''})`,
+          backgroundImage: `url(${collection?.top_image?.url || collection?.image?.url || ''})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: '100% 40%',
@@ -49,7 +49,7 @@ export default async function Category({
       >
         <div className="container">
           <Typography variant="text_pageTitle" className="text-white">
-            <CategoryTitle category={category as unknown as CategoryType} /> ({category?.count || 0})
+            <CategoryTitle category={collection as unknown as CategoryType} /> ({collection?.count || 0})
           </Typography>
         </div>
       </div>
@@ -59,9 +59,9 @@ export default async function Category({
             { title: t.home, href: addLocaleToPath('/', locale) },
             {
               title: (
-                <CategoryTitle category={category as unknown as CategoryType} />
+                <CategoryTitle category={collection as unknown as CategoryType} />
               ),
-              href: addLocaleToPath(`/category/${category?.slug}`, locale),
+              href: addLocaleToPath(`/category/${collection?.documentId}`, locale),
             },
           ]}
         />

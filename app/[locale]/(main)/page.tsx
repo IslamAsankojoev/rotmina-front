@@ -1,16 +1,16 @@
 import { Suspense } from 'react'
-import { cookies } from 'next/headers'
 
 import NatureImage from '@/public/assets/nature.webp'
 import RabbitImage from '@/public/assets/rabbit-in-heart.svg'
 import LeavesImage from '@/public/assets/two-leaves-inside-a-circle.svg'
 import Hero from '@/public/rotmina-home.jpg'
-import { Categories, Collections, SalePopup } from '@/src/features'
 import { ProductService } from '@/src/entities/Product'
+import { Categories, Collections, SalePopup } from '@/src/features'
 import { Loader, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale } from '@/src/shared/utils/locale'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
@@ -25,16 +25,19 @@ export default async function Home({
   const locale = await getServerLocale(params, cookieStore)
   const isRTL = locale === 'he'
   const dictionary = await getDictionary(locale as 'en' | 'he')
-  
+
   const homeDict = dictionary as Record<string, unknown>
   const homeSection = homeDict.home as Record<string, unknown>
-  
-  const separationDict = (homeSection?.separation as Record<string, string>) || {
+
+  const separationDict = (homeSection?.separation as Record<
+    string,
+    string
+  >) || {
     title: 'Separation',
     content:
       "There comes a moment when the self longs for separation,\na healthy space between me and you, me and the other,\na dividing line between me and the world, not to escape or\ndisconnect, but to begin to exist.\n\nThis collection blossomed out of an inner journey, a\npersonal path of separation. In the world of developmental\npsychology, the separation phase refers to the stage when a\nchild begins to realize that they are not a direct extension\nof their mother. They have their own emotions, sensations,\nand desires.\n\nIt's a profound, healthy, delicate, and necessary phase, at\ntimes unsteady, moving between closeness and detachment,\nsafety and vulnerability, between the need for a bond and\nthe longing for autonomy.\n\nThis journey found its course through fabric, silhouettes,\nand lines, into structures that hold the tension between\nsoftness and resilience, expansion and containment, shapes\nthat support the body while allowing it to breathe, like the\nsoul, yearning for boundaries, but not confinement, just\nperfectly whole.\n\nThis collection tells a story of connected separation, an\ninner voice seeking to become.",
   }
-  
+
   const ethicsDict = (homeSection?.ethics as Record<string, string>) || {
     title: 'Rothmina - Between Beauty and Ethics',
     content:
@@ -42,7 +45,7 @@ export default async function Home({
     crueltyFree: 'Cruelty free',
     vegan: 'Vegan',
   }
-  
+
   const homeT = (homeSection as Record<string, string>) || {
     categories: 'Categories',
     collections: 'Collections',
@@ -54,11 +57,12 @@ export default async function Home({
 
   // Получаем данные для карусели
   const slidesData = await ProductService.getProductSlides()
-  const slides = slidesData?.data?.map((product) => ({
-    src: product?.variants?.[0]?.images?.[0]?.url || '',
-    alt: product?.title || '',
-    price: product?.variants?.[0]?.price?.toString() || '',
-  })) || []
+  const slides =
+    slidesData?.data?.map((product) => ({
+      src: product?.variants?.[0]?.images?.[0]?.url || '',
+      alt: product?.title || '',
+      price: product?.variants?.[0]?.price?.toString() || '',
+    })) || []
 
   return (
     <section>
@@ -128,40 +132,58 @@ export default async function Home({
       </div>
       <div className="relative mb-20 flex w-full items-center justify-center">
         <div className="container">
-          <div className="inline-flex w-full flex-col items-start justify-start gap-5 self-stretch md:flex-row" dir='ltr'>
+          <div
+            className="inline-flex w-full flex-col items-start justify-start gap-5 self-stretch md:flex-row"
+            dir="ltr"
+          >
             <div className="order-2 inline-flex flex-1 items-center gap-10 md:order-1">
               <div className="flex flex-col items-center gap-4">
-                <Image
-                  src={RabbitImage}
-                  width={95}
-                  height={95}
-                  alt="rabbit-in-hearow"
-                />
-                <Typography variant="text_mobile_title">
+                <div className="relative h-[50px] w-[50px] md:h-[95px] md:w-[95px]">
+                  <Image
+                    src={RabbitImage}
+                    fill
+                    alt="rabbit-in-heart"
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                </div>
+                <Typography
+                  variant="text_mobile_title"
+                  className="md:text_mobile_title !text-sm"
+                >
                   {ethicsDict.crueltyFree}
                 </Typography>
               </div>
-              <div className="flex flex-col items-center gap-4">
-                <Image
-                  src={LeavesImage}
-                  width={95}
-                  height={95}
-                  alt="two-leaves"
-                />
-                <Typography variant="text_mobile_title">
+              <div className="relative flex flex-col items-center gap-4">
+                <div className="relative h-[50px] w-[50px] md:h-[95px] md:w-[95px]">
+                  <Image
+                    src={LeavesImage}
+                    fill
+                    alt="two-leaves"
+                    objectFit="cover"
+                    objectPosition="center"
+                  />
+                </div>
+                <Typography
+                  variant="text_mobile_title"
+                  className="md:text_mobile_title !text-sm"
+                >
                   {ethicsDict.vegan}
                 </Typography>
               </div>
             </div>
             <div className="order-1 inline-flex flex-1 flex-col items-start justify-start md:order-2">
               <div className="flex flex-col items-center justify-end self-stretch">
-                <div className="justify-start self-stretch text-stone-900" dir={isRTL ? 'rtl' : 'ltr'}>
+                <div
+                  className="justify-start self-stretch text-stone-900"
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                >
                   <Typography variant="text_main">
                     {ethicsContentLines.map((line: string, index: number) => (
-                        <span key={index}>
-                          {line}
+                      <span key={index}>
+                        {line}
                         {index < ethicsContentLines.length - 1 && <br />}
-                        </span>
+                      </span>
                     ))}
                   </Typography>
                 </div>

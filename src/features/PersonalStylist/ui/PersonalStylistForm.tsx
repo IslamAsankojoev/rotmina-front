@@ -144,7 +144,7 @@ export const PersonalStylistForm = () => {
         </TabsList>
         <TabsContent value="online">
           {personalStylists.online.length > 0 ? (
-            <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4">
+            <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4 justify-between md:justify-start">
             {personalStylists['online'].map((stylist) => (
               <div
                 key={stylist.id}
@@ -171,7 +171,7 @@ export const PersonalStylistForm = () => {
         </TabsContent>
         <TabsContent value="at-your-home">
           {personalStylists['at-your-home'].length > 0 ? (
-            <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4">
+            <div className="flex max-w-[600px] flex-wrap gap-6 bg-[#EFEFEF] p-4 justify-between md:justify-start">
               {personalStylists['at-your-home'].map((stylist) => (
                 <div
                   key={stylist.id}

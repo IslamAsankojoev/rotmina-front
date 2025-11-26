@@ -156,6 +156,7 @@ export interface ProductFilters {
   inStock?: boolean
   search?: string
   sort?: ProductSortOptions
+  collection?: string
 }
 
 // Types for product sorting

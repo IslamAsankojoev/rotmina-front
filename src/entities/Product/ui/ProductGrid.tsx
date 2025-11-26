@@ -6,17 +6,13 @@ import { ProductCard } from './ProductCard'
 
 export const dynamic = 'force-dynamic'
 
-interface ProductGridProps {
-  categoryId?: string
-}
-
-export const ProductGrid = ({ categoryId }: ProductGridProps) => {
+export const ProductGrid = () => {
   const { dictionary } = useDictionary()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .common || {
     loading: 'Loading...',
   }
-  const { data, isLoading, error, refetchProducts } = useProducts(categoryId)
+  const { data, isLoading, error, refetchProducts } = useProducts()
 
   if (isLoading) return <Typography variant="text_main">{t.loading}</Typography>
   if (error) return <div>Error: {error.message}</div>

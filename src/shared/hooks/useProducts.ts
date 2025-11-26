@@ -8,7 +8,7 @@ import {
   ProductSortField,
 } from '@/src/entities/Product'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 
 interface ProductParams {
   page?: number
@@ -49,12 +49,10 @@ interface UseProductsReturn {
   refetchProducts: () => void
 }
 
-export const useProducts = (
-  categoryId?: string,
-): UseProductsReturn => {
+export const useProducts = (): UseProductsReturn => {
   const router = useRouter()
   const params = useSearchParams()
-
+  const { slug, id } = useParams()
   // Получаем параметры из URL
   const urlPage = params.get('page')
   const urlPageSize = params.get('pageSize')
@@ -62,7 +60,8 @@ export const useProducts = (
   const urlColors = params.get('colors')
   const urlSizes = params.get('sizes')
   const urlSort = params.get('sort')
-
+  const urlCategory = slug as string
+  const urlCollection = id as string
   // Локальное состояние
   const [selectedColors, setSelectedColors] = useState<string[]>(
     urlColors ? urlColors.split(',') : [],
@@ -104,9 +103,15 @@ export const useProducts = (
         }
       })
 
-      router.push(`/shop?${currentParams.toString()}`)
+      if(urlCategory) {
+        router.push(`/category/${urlCategory}?${currentParams.toString()}`)
+      } else if(urlCollection) {
+        router.push(`/collection/${urlCollection}?${currentParams.toString()}`)
+      } else {
+        router.push(`/shop?${currentParams.toString()}`)  
+      }
     },
-    [router, params],
+    [router, params, urlCategory, urlCollection],
   )
 
   // Запрос данных
@@ -119,7 +124,8 @@ export const useProducts = (
       urlColors,
       urlSizes,
       urlSort,
-      categoryId,
+      urlCategory,
+      urlCollection,
     ],
     queryFn: () =>
       ProductService.getProducts(
@@ -132,7 +138,8 @@ export const useProducts = (
           sort: urlSort
             ? getSortOptions(urlSort)
             : { field: 'createdAt', order: 'desc' },
-          category: categoryId || undefined,
+          category: urlCategory || undefined,
+          collection: urlCollection || undefined,
         },
       ),
   })

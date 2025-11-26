@@ -473,9 +473,9 @@ const Product = () => {
                 <div className="flex flex-col gap-2">
                   {isRTL ? (
                     <>
-                      <Typography variant="text_main" className="font-bold">
+                      {/* <Typography variant="text_main" className="font-bold">
                         {t.shippingTitle}
-                      </Typography>
+                      </Typography> */}
                       <Typography variant="text_main" className="font-bold">
                         {t.shippingIsraelTitle}
                       </Typography>
@@ -501,9 +501,9 @@ const Product = () => {
                       <Typography variant="text_main" className="font-bold">
                         {t.shippingTitle}
                       </Typography>
-                <Typography variant="text_main" className="font-bold">
+                {/* <Typography variant="text_main" className="font-bold">
                         {t.shippingSubtitle}
-                      </Typography>
+                      </Typography> */}
                       <Typography variant="text_main" className="whitespace-pre-line">
                         {t.shippingText}
                       </Typography>

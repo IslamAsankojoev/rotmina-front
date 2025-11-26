@@ -10,7 +10,7 @@
   background: rgba(0, 0, 0, 0.75);
   padding: 8px 10px;
   border-radius: 12px;
-  z-index: 9999;
+  z-index: 49;
   backdrop-filter: blur(6px);
 }
 
@@ -72,7 +72,7 @@ body.a11y--dyslexic {
   border-radius: 50%;
   border: 1px solid #fff; /* will invert via mix-blend-mode */
   cursor: pointer;
-  z-index: 9999;
+  z-index: 49;
   background: transparent; /* avoid tint when blending */
   color: #fff; /* will invert via mix-blend-mode */
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);

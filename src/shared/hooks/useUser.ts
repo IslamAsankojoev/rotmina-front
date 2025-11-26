@@ -19,7 +19,7 @@ export const useUser = ({ allPopulates = false }: UseUserProps = {}) => {
       return user
     },
     staleTime: 1000 * 60 * 5,
-    retry: 2,
+    retry: false,
   })
 
   return {
