@@ -65,6 +65,9 @@ export async function middleware(request: NextRequest) {
     const locale = getLocale(request)
     const newUrl = new URL(`/${locale}${pathname}`, request.url)
     
+    // Сохраняем query параметры (search params)
+    newUrl.search = request.nextUrl.search
+    
     // Сохраняем locale в cookie
     const response = NextResponse.redirect(newUrl)
     response.cookies.set('locale', locale, { path: '/' })
