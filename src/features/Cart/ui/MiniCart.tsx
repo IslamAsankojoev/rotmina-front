@@ -78,7 +78,7 @@ export const MiniCart = () => {
           </PopoverTrigger>
           <PopoverContent
             align="end"
-            className="z-[49] flex w-screen max-w-full flex-col gap-4 overflow-hidden p-4 md:max-h-[771px] md:w-[567px] md:p-8"
+            className="z-[9999] flex w-screen max-w-full flex-col gap-4 overflow-hidden p-4 md:max-h-[771px] md:w-[567px] md:p-8"
           >
             <div className="flex flex-col gap-4">
               <div className="flex items-center justify-between">

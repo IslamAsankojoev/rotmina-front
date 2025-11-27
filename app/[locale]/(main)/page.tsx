@@ -52,7 +52,6 @@ export default async function Home({
   }
 
   const t = separationDict
-  const contentLines = t.content.split('\n')
   const ethicsContentLines = ethicsDict.content.split('\n')
 
   // Получаем данные для карусели
@@ -98,13 +97,11 @@ export default async function Home({
             <div className="inline-flex flex-1 flex-col items-start justify-start">
               <div className="flex flex-col items-center justify-end self-stretch">
                 <div className="justify-start self-stretch text-stone-900">
-                  <Typography variant="text_main">
-                    {contentLines.map((line: string, index: number) => (
-                      <span key={index}>
-                        {line}
-                        {index < contentLines.length - 1 && <br />}
-                      </span>
-                    ))}
+                  <Typography 
+                    variant="text_main" 
+                    className="whitespace-pre-line leading-relaxed md:leading-normal"
+                  >
+                    {t.content}
                   </Typography>
                 </div>
               </div>
