@@ -268,6 +268,49 @@ export default function OrderPage() {
       return
     }
 
+    // Распределяем доставку пропорционально стоимости товаров
+    const itemsWithDelivery = (() => {
+      if (deliveryPrice === 0 || orderItems.length === 0) {
+        return orderItems
+      }
+
+      // Рассчитываем общую стоимость всех товаров (с учетом количества)
+      const totalItemsValue = orderItems.reduce(
+        (sum, item) => sum + item.unit_price * item.units_number,
+        0,
+      )
+
+      if (totalItemsValue === 0) {
+        return orderItems
+      }
+
+      // Распределяем доставку пропорционально стоимости каждого товара
+      // Последнему товару даем остаток, чтобы сумма была точной
+      let remainingDelivery = deliveryPrice
+      
+      return orderItems.map((item, index) => {
+        const itemTotalValue = item.unit_price * item.units_number
+        let deliveryShare: number
+        
+        if (index === orderItems.length - 1) {
+          // Последнему товару даем остаток, чтобы сумма была точно равна deliveryPrice
+          deliveryShare = remainingDelivery
+        } else {
+          // Рассчитываем долю пропорционально стоимости
+          deliveryShare = (itemTotalValue / totalItemsValue) * deliveryPrice
+          remainingDelivery -= deliveryShare
+        }
+        
+        // Добавляем долю доставки к цене за единицу
+        const unitPriceWithDelivery = item.unit_price + deliveryShare / item.units_number
+
+        return {
+          ...item,
+          unit_price: Number(unitPriceWithDelivery.toFixed(2)),
+        }
+      })
+    })()
+
     const paymentData = {
       orderId: order?.data?.id?.toString() || '',
       clientId: user?.data?.id?.toString() || '',
@@ -277,7 +320,7 @@ export default function OrderPage() {
       expire_year: data.expirationDate.split('/')[1],
       cvv: data.cvv,
       discount: discount,
-      items: orderItems,
+      items: itemsWithDelivery,
     }
 
     payOrder(paymentData, {
