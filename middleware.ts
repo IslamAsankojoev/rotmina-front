@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 const locales = ['en', 'he']
 const defaultLocale = 'en'
 
-const authRoutes = ['/login', '/signup', '/reset-password']
+const authRoutes = ['/login', '/signup', '/reset-password', '/new-password']
 
 const protectedRoutes = ['/account', '/cart', '/checkout', '/orders', '/wishlist']
 

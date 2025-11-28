@@ -14,8 +14,8 @@ export const useAuth = () => {
     mutationFn: async (credentials: SignupCredentials) =>
       AuthService.signup(credentials),
     onSuccess: async () => {
-      router.refresh()
       toast.success('Account created successfully, please verify your email')
+      router.push('/login')
     },
     onError: createAsyncErrorHandler(),
   })
@@ -52,6 +52,7 @@ export const useAuth = () => {
       AuthService.newPassword(credentials),
     onSuccess: async () => {
       toast.success('Password updated successfully!')
+      router.push('/login')
     },
     onError: createAsyncErrorHandler(),
   })

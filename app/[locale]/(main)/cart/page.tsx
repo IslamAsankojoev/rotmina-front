@@ -34,7 +34,7 @@ export default function CartPage() {
   }
   const router = useRouter()
   const { items, totalPrice } = useCartInfo()
-  const { updateQuantity, removeItem } = useCartActions()
+  const { updateQuantity, removeItem, clearCart } = useCartActions()
   const { getPrice, currency } = useLangCurrency()
   const [shippingAddress, setShippingAddress] = useState<Address | null>(null)
   const [isCreatingOrder, setIsCreatingOrder] = useState(false)
@@ -145,6 +145,7 @@ export default function CartPage() {
       if (orderSuccess.success) {
         setSuccessOrder(orderSuccess)
         setOpenConfirmModal(true)
+        clearCart()
       } else {
         toast.error(orderSuccess.message)
       }
