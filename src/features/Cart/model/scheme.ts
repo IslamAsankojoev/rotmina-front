@@ -19,7 +19,11 @@ export const paymentFormSchema = z.object({
 })
 
 export const addressFormSchema = z.object({
-  address: z.string().min(1, 'Address is required'),
   city: z.string().min(1, 'City is required'),
+  streetName: z.string().min(1, 'Street name is required'),
+  houseNum: z.string().min(1, 'House number is required'),
+  apartment: z.string(),
+  floor: z.string(),
+  entrance: z.string(),
   zip_code: z.string().min(1, 'Zipcode is required'),
 })

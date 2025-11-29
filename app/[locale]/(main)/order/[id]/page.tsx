@@ -138,7 +138,6 @@ export default function OrderPage() {
     queryKey: ['order', id],
     queryFn: () => OrderService.getOrderById(id as string),
   })
-  const { totalPrice } = useCartInfo()
   const { getPrice, currency } = useLangCurrency()
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
@@ -183,7 +182,7 @@ export default function OrderPage() {
   const handleApplyGiftCard = () => {
     if (giftCardData) {
       setAppliedGiftCard(giftCardData)
-      setTotalPriceWithGiftCard(totalPrice - giftCardData?.amount)
+      setTotalPriceWithGiftCard(Number(order?.data?.total_amount || 0) - Number(giftCardData?.amount || 0))
     }
   }
 
@@ -312,7 +311,7 @@ export default function OrderPage() {
     })()
 
     const paymentData = {
-      orderId: order?.data?.id?.toString() || '',
+      orderId: order?.data?.order_number?.toString() || '',
       clientId: user?.data?.id?.toString() || '',
       txn_currency_code: order?.data?.currency_code || 'ILS',
       card_number: data.cardNumber,
@@ -413,9 +412,9 @@ export default function OrderPage() {
 
   useEffect(() => {
     setFinalAmount(
-      (appliedGiftCard ? totalPriceWithGiftCard : totalPrice) + deliveryPrice,
+      (appliedGiftCard ? totalPriceWithGiftCard : Number(order?.data?.total_amount || 0)) + deliveryPrice,
     )
-  }, [appliedGiftCard, totalPriceWithGiftCard, totalPrice, deliveryPrice])
+  }, [appliedGiftCard, totalPriceWithGiftCard, order?.data?.total_amount, deliveryPrice])
 
   return (
     <>
@@ -642,7 +641,7 @@ export default function OrderPage() {
                     {t.subtotal}
                   </Typography>
                   <Typography variant="text_main">
-                    {getPrice(totalPrice)} {currency}
+                    {getPrice(Number(order?.data?.total_amount || 0))} {currency}
                   </Typography>
                 </div>
                 <div className="flex w-full items-center justify-between gap-4">

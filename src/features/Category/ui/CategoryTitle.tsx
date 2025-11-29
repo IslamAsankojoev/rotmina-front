@@ -9,8 +9,8 @@ export const CategoryTitle = ({ category }: { category: Category }) => {
   return (
     <>
       {locale === 'en'
-        ? category.name || category.nameHE
-        : category.nameHE || category.name}
+        ? category?.name || category?.nameHE
+        : category?.nameHE || category?.name}
     </>
   )
 }

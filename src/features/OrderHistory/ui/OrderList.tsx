@@ -42,7 +42,7 @@ export const OrderList = () => {
   })
 
   const orderWithPaymentStatus = orders?.data.map((order) => {
-    const paymentStatus = paymentStatuses?.find((status) => status.orderId === order.id)
+    const paymentStatus = paymentStatuses?.find((status) => status.orderId === order.order_number)
     return {
       ...order,
       paymentStatus: paymentStatus,
@@ -72,7 +72,7 @@ export const OrderList = () => {
       </TableHeader>
       <TableBody>
         {orderWithPaymentStatus?.map((order) => (
-          <OrderCard key={order.id} order={order as OrderWithPaymentStatus} />
+          <OrderCard key={order.order_number} order={order as OrderWithPaymentStatus} />
         ))}
       </TableBody>
     </Table>

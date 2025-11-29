@@ -108,10 +108,10 @@ export const OrderCard = ({ order }: OrderCardProps) => {
   }
 
   return (
-    <TableRow key={order.id} className="w-full">
+    <TableRow key={order.order_number} className="w-full">
       <TableCell className="p-0" colSpan={5}>
         <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value={`order-${order.id}`} className="w-full">
+          <AccordionItem value={`order-${order.order_number}`} className="w-full">
             <AccordionTrigger className="flex w-full cursor-pointer items-center justify-between">
               <Table>
                 <TableBody className="w-full">
@@ -122,7 +122,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                         isRTL ? 'text-right' : 'text-left',
                       )}
                     >
-                      № {order.id}
+                      № {order.order_number}
                     </TableCell>
                     <TableCell
                       className={clsx(
@@ -155,7 +155,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                 <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
                   {order.order_items.map((item) => (
                     <div
-                      key={item.id}
+                      key={item.documentId}
                       className="mb-2 flex flex-col justify-between"
                     >
                       <div className="relative h-[260px] w-full">

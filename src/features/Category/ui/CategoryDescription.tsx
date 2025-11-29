@@ -9,8 +9,8 @@ export const CategoryDescription = ({ category }: { category: Category }) => {
   return (
     <>
       {locale === 'en'
-        ? category.description || category.descriptionHE
-        : category.descriptionHE || category.description}
+        ? category?.description || category?.descriptionHE
+        : category?.descriptionHE || category?.description}
     </>
   )
 }

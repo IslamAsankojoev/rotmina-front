@@ -9,8 +9,8 @@ export const ProductDescription = ({ product }: { product: Product }) => {
   const { locale } = useLocale()
   const rightContent =
     locale === 'en'
-      ? product.description || product.descriptionHE
-      : product.descriptionHE || product.description
+      ? product?.description || product?.descriptionHE
+      : product?.descriptionHE || product?.description
 
   if (!rightContent) return <></>
 

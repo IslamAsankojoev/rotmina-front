@@ -88,7 +88,7 @@ export function OrderConfirmModal({
               </Typography>
               <Typography variant="text_main" className="text-center font-bold">
                 {t.yourOrder}
-                {order?.data?.id}
+                {order?.data?.order_number}
               </Typography>
               <Typography variant="text_main" className="text-center">
                 {t.thankYou}

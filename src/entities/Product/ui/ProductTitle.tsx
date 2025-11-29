@@ -9,8 +9,8 @@ export const ProductTitle = ({ product }: { product: Product }) => {
   return (
     <>
       {locale === 'en'
-        ? product.title || product.titleHE
-        : product.titleHE || product.title}
+        ? product?.title || product?.titleHE
+        : product?.titleHE || product?.title}
     </>
   )
 }

@@ -177,10 +177,11 @@ export interface PayOrderRequest {
 }
 
 export interface Order {
-  id: number
+  // id: number
   documentId: string
+  order_number: number
   number: number
-  order_status: 'Delivered' | 'Pending' | 'Cancelled'
+  order_status: 'delivered' | 'pending' | 'cancelled'
   total_amount: number
   payment_method: 'cash' | 'card'
   payment_status: 'unpaid' | 'paid' | 'refunded' | 'partially_refunded'
