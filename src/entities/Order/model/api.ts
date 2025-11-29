@@ -1,6 +1,6 @@
 import { api } from "@/src/app"
 import { apiMap } from "@/src/shared"
-import type { CreateOrderRequest, OrderResponse, OrderListResponse, PayOrderRequest, OrderResponseStrapi, PayOrderResponse, OrderPaymentStatus } from './types'
+import type { CreateOrderRequest, OrderResponse, OrderListResponse, PayOrderRequest, OrderResponseStrapi, PayOrderResponse, OrderPaymentStatus, CreateShipmentRequest, ShipmentResponse } from './types'
 
 export const OrderService = {
   getMyOrders: (): Promise<OrderListResponse> => 
@@ -24,4 +24,7 @@ export const OrderService = {
 
   changeOrderStatusToPaid: (id: string): Promise<void> =>
     api.put(apiMap.changeOrderStatus.replace(':id', id)).json(),
+
+  createShipment: (request: CreateShipmentRequest): Promise<ShipmentResponse> =>
+    api.post(apiMap.createShipment, { json: request }).json(),
 }

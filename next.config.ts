@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
         destination: `${process.env.API_PAY_SERVICE}/api/TranzillaMakeTransaction/:path`,
       },
       {
+        source: '/api/shipment/:path',
+        destination: `${process.env.API_PAY_SERVICE}/api/IsraelShippment/:path`,
+      },
+      {
         source: '/api/:path*',
         destination: `${process.env.API_INTERNAL_URL}/api/:path*`,
       },

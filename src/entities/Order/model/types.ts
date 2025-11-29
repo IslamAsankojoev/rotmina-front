@@ -27,12 +27,8 @@ export interface Image {
 export interface Address {
   id: number
   documentId: string
-  label: string
-  country: string
   city: string
-  street: string
-  house: string
-  apartment: string
+  address: string
   is_default: boolean
 }
 
@@ -294,4 +290,62 @@ export interface OrderPaymentStatus {
   orderId: number
   processor_response_code: keyof typeof PAYMENT_ERROR_CODES,
   transaction_id: string
+}
+
+export interface Govina {
+  code: number
+  sum: number
+  date: string
+  remarks: string
+}
+
+export interface CreateShipmentRequest {
+  clientNumber?: number
+  mesiraIsuf?: string
+  shipmentTypeCode?: number
+  stageCode?: number
+  ordererName?: string
+  cargoTypeHaloch?: number
+  cargoTypeHazor?: number
+  packsHaloch?: string
+  packsHazor?: number
+  nameTo?: string
+  cityCode?: string
+  cityName?: string
+  streetCode?: string
+  streetName?: string
+  houseNum?: string
+  entrance?: string
+  floor?: string
+  apartment?: string
+  telFirst?: string
+  telSecond?: string
+  addressRemarks?: string
+  shipmentRemarks?: string
+  referenceNum1?: string
+  referenceNum2?: string
+  futureDate?: string
+  futureTime?: string
+  pudoCodeOrigin?: number
+  pudoCodeDestination?: number
+  autoBindPudo?: string
+  email?: string
+  productsPrice?: number
+  productPriceCurrency?: string
+  shipmentWeight?: number
+  govina?: Govina
+}
+
+export interface ShipmentResponse {
+  shipmentNumber?: number
+  randNumber?: string
+  referenceNumber1?: string
+  referenceNumber2?: string
+  deliveryLine?: number
+  deliveryArea?: number
+  errorCode?: string
+  errorMessage?: string
+  existingShipmentNumber?: number
+  sortingCode?: number
+  pickUpCode?: number
 }

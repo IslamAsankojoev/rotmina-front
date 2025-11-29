@@ -66,4 +66,7 @@ export const apiMap = {
 
   // Newsletter
   subscribe: 'newsletter-subscribers',
+
+  // Shipment
+  createShipment: 'shipment/create',
 }

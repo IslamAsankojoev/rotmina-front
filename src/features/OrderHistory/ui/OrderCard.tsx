@@ -57,18 +57,6 @@ export const OrderCard = ({ order }: OrderCardProps) => {
   const router = useRouter()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
-  const getStatusTranslation = (status: string) => {
-    const statusMap: Record<string, string> = {
-      delivered: t.delivered,
-      canceled: t.canceled,
-      pending: t.pending,
-      processing: t.processing,
-      נמסר: t.delivered,
-      בוטל: t.canceled,
-    }
-    return statusMap[status.toLowerCase()] || status
-  }
-
   const renderPayButtonOrStatus = () => {
     if (order.paymentStatus?.processor_response_code === '000') {
       return (
@@ -96,6 +84,22 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         />
       </div>
     )
+  }
+
+  const renderShipmentStatus = () => {
+    if(order.order_status === 'delivered') {
+      return order.order_status
+    }
+    if(order.order_status === 'cancelled') {
+      return order.order_status
+    }
+    if(order.order_status === 'pending') {
+      if(order.shipment_tracking) {
+        return `delivering ${order.shipment_tracking}`
+      }
+      return order.order_status
+    }
+    return order.order_status
   }
 
   const getImage = (item: OrderItem) => {
@@ -138,7 +142,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                         isRTL ? 'text-right' : 'text-left',
                       )}
                     >
-                      {getStatusTranslation(order.order_status)}
+                      {renderShipmentStatus()}
                     </TableCell>
                     <TableCell className={isRTL ? 'text-right' : 'text-left'}>
                       {getPrice(Number(order.total_amount))} {currency}

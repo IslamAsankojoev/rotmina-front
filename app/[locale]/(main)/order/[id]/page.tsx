@@ -14,7 +14,6 @@ import {
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
-import { useCartInfo } from '@/src/app'
 import { OrderService, PayOrderRequest } from '@/src/entities/Order'
 import { GiftCardService, TermsDialog } from '@/src/features'
 import { paymentFormSchema } from '@/src/features/Cart/model'
@@ -310,78 +309,137 @@ export default function OrderPage() {
       })
     })()
 
-    const paymentData = {
-      orderId: order?.data?.order_number?.toString() || '',
-      clientId: user?.data?.id?.toString() || '',
-      txn_currency_code: order?.data?.currency_code || 'ILS',
-      card_number: data.cardNumber,
-      expire_month: data.expirationDate.split('/')[0],
-      expire_year: data.expirationDate.split('/')[1],
-      cvv: data.cvv,
-      discount: discount,
-      items: itemsWithDelivery,
+    
+    
+    const addressArray = order?.data?.shipping_address?.address.split('|') || []
+    const streetName = addressArray[0] || ''
+    const houseNum = addressArray[1] || ''
+    const entrance = addressArray[2] || ''
+    const floor = addressArray[3] || ''
+    const apartment = addressArray[4] || ''
+
+    try {
+      const shipmentResponse = await OrderService.createShipment({
+        clientNumber: user?.data?.id || 0,
+        mesiraIsuf: order?.data?.order_number?.toString() || '',
+        cityName: order?.data?.shipping_address?.city || '',
+        streetName,
+        houseNum,
+        apartment,
+        floor,
+        entrance,
+        telFirst: data.phone || '',
+        telSecond: data.phone || '',
+        email: user?.data?.email || '',
+        productsPrice: Number(order?.data?.total_amount || 0),
+        productPriceCurrency: order?.data?.currency_code || 'ILS',
+        shipmentWeight: 0,
+        govina: {
+          code: 0,
+          sum: 0,
+          date: '',
+          remarks: '',
+        },
+        pudoCodeOrigin: 0,
+        pudoCodeDestination: 0,
+        autoBindPudo: 'false',
+        futureDate: '',
+        futureTime: '',
+        addressRemarks: '',
+        shipmentRemarks: '',
+        referenceNum1: '',
+        referenceNum2: '',
+        ordererName: 'Rotmina',
+        nameTo: user?.data?.username || '',
+        cityCode: '200',
+        streetCode: '100',
+        packsHaloch: '',
+      })
+
+      if (shipmentResponse.shipmentNumber) {
+        toast.success(t.shipmentCreatedSuccess)
+      } else {
+        toast.error('Failed to create shipment')
+      }
+
+      const paymentData = {
+        orderId: order?.data?.order_number?.toString() || '',
+        clientId: user?.data?.id?.toString() || '',
+        txn_currency_code: order?.data?.currency_code || 'ILS',
+        card_number: data.cardNumber,
+        expire_month: data.expirationDate.split('/')[0],
+        expire_year: data.expirationDate.split('/')[1],
+        cvv: data.cvv,
+        discount: discount,
+        items: itemsWithDelivery,
+        shipmentNumber: shipmentResponse.shipmentNumber,
+      }
+
+      payOrder(paymentData, {
+        onSuccess: (response) => {
+          if (
+            response.data.transaction_result.processor_response_code === '000'
+          ) {
+            applyGiftCardMutation(appliedGiftCard?.code || '', {
+              onSuccess: () => {
+                toast.success(t.giftCardAppliedSuccess)
+              },
+              onError: (error) => {
+                toast.error(error.message)
+              },
+            })
+  
+            changeOrderStatusToPaidMutation(order?.data?.documentId?.toString() || '')
+          } else {
+            switch (response.data.transaction_result.processor_response_code) {
+              case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
+                form.setError('cardNumber', {
+                  message: t.wrongCardNumber,
+                })
+                break
+              case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
+                form.setError('expirationDate', {
+                  message: t.wrongExpirationDate,
+                })
+                break
+              case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
+                form.setError('cvv', {
+                  message: t.wrongCvv,
+                })
+                break
+              case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
+                form.setError('expirationDate', {
+                  message: t.expiredCard,
+                })
+                break
+              case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
+                toast.error(
+                  PAYMENT_ERROR_CODES[
+                    response.data.transaction_result.processor_response_code
+                  ],
+                  { position: 'top-center' },
+                )
+                break
+              default:
+                toast.error(
+                  PAYMENT_ERROR_CODES[
+                    response.data.transaction_result.processor_response_code
+                  ],
+                  { position: 'top-center' },
+                )
+                break
+            }
+          }
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      })
+    } catch (error: unknown) {
+      toast.error(error as string)
     }
 
-    payOrder(paymentData, {
-      onSuccess: (response) => {
-        if (
-          response.data.transaction_result.processor_response_code === '000'
-        ) {
-          applyGiftCardMutation(appliedGiftCard?.code || '', {
-            onSuccess: () => {
-              toast.success(t.giftCardAppliedSuccess)
-            },
-            onError: (error) => {
-              toast.error(error.message)
-            },
-          })
-
-          changeOrderStatusToPaidMutation(order?.data?.documentId?.toString() || '')
-        } else {
-          switch (response.data.transaction_result.processor_response_code) {
-            case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
-              form.setError('cardNumber', {
-                message: t.wrongCardNumber,
-              })
-              break
-            case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
-              form.setError('expirationDate', {
-                message: t.wrongExpirationDate,
-              })
-              break
-            case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
-              form.setError('cvv', {
-                message: t.wrongCvv,
-              })
-              break
-            case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
-              form.setError('expirationDate', {
-                message: t.expiredCard,
-              })
-              break
-            case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
-              toast.error(
-                PAYMENT_ERROR_CODES[
-                  response.data.transaction_result.processor_response_code
-                ],
-                { position: 'top-center' },
-              )
-              break
-            default:
-              toast.error(
-                PAYMENT_ERROR_CODES[
-                  response.data.transaction_result.processor_response_code
-                ],
-                { position: 'top-center' },
-              )
-              break
-          }
-        }
-      },
-      onError: (error) => {
-        toast.error(error.message)
-      },
-    })
+    
   }
 
   useEffect(() => {
