@@ -10,7 +10,7 @@ export const OrderService = {
     api.post(apiMap.createOrder, { json: order }).json(),
 
   getOrderById: (id: string): Promise<OrderResponseStrapi> =>
-    api.get(apiMap.getOrder.replace(':id', id) + '?populate[order_items][populate][0]=gift_card&populate[order_items][populate][1]=personal_stylist&populate[order_items][populate][2]=variant&populate[order_items][populate][3]=variant.product&populate[order_items][populate][4]=variant.size&populate[order_items][populate][5]=variant.color').json(),
+    api.get(apiMap.getOrder.replace(':id', id) + '?populate[order_items][populate][0]=gift_card&populate[order_items][populate][1]=personal_stylist&populate[order_items][populate][2]=variant&populate[order_items][populate][3]=variant.product&populate[order_items][populate][4]=variant.size&populate[order_items][populate][5]=variant.color&populate[shipping_address]=true').json(),
 
 
   payOrder: (order: PayOrderRequest): Promise<PayOrderResponse> =>
@@ -22,8 +22,11 @@ export const OrderService = {
   deleteOrder: (id: string): Promise<void> =>
     api.delete(apiMap.deleteOrder.replace(':id', id)).json(),
 
-  changeOrderStatusToPaid: (id: string): Promise<void> =>
-    api.put(apiMap.changeOrderStatus.replace(':id', id)).json(),
+  changeOrderStatusToPaid: (orderId: number, shipment_tracking: number): Promise<void> =>
+    api.put(apiMap.changeOrderStatus, { json: { 
+      orderId,
+      shipment_tracking,
+     } }).json(),
 
   createShipment: (request: CreateShipmentRequest): Promise<ShipmentResponse> =>
     api.post(apiMap.createShipment, { json: request }).json(),

@@ -58,7 +58,7 @@ export const apiMap = {
   createOrder: 'orders/make-order',
   payOrder: 'pay-service/create',
   getOrderPaymentStatus: 'pay-service/receipts',
-  changeOrderStatus: 'orders/:id/change-status',
+  changeOrderStatus: 'orders/change-status',
   // Address
   getMyAddresses: 'my-addresses',
   addAddress: 'addresses/add-address',

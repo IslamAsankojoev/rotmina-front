@@ -10,6 +10,7 @@ interface ExtendedHTTPError extends HTTPError {
 export const api = ky.create({
   prefixUrl: typeof window !== 'undefined' ? '/api' : process.env.API_INTERNAL_URL + '/api',
   credentials: 'include',
+  timeout: 10000,
   hooks: {
     beforeRequest: [
       (request, options) => {

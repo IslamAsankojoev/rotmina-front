@@ -1,6 +1,6 @@
 import { GiftCard, PersonalStylist } from "@/src/features"
 import { ProductVariant } from "../../Product"
-import { PAYMENT_ERROR_CODES } from "@/src/shared"
+import { Currency, PAYMENT_ERROR_CODES } from "@/src/shared"
 
 // Types for images
 export interface Image {
@@ -146,7 +146,7 @@ export interface CreateOrderRequest {
   totalPrice: number
   notes?: string
   payment_status: 'unpaid' | 'paid' | 'failed'
-  currency_code: string
+  currency_code: Currency
 }
 
 export interface PayOrderRequest {
@@ -164,7 +164,7 @@ export interface PayOrderRequest {
     unit_price: number
     unit_type: number
     units_number: number
-    currency_code: string
+    currency_code: Currency
     attributes: Array<{
       name: string
       value: string
@@ -188,7 +188,7 @@ export interface Order {
   billing_address?: Address
   createdAt: string
   updatedAt: string
-  currency_code: string
+  currency_code: Currency
 }
 
 export interface OrderResponseStrapi {
@@ -239,7 +239,7 @@ export interface PayOrderResponse {
           auth_number: string
           card_type: string
           card_type_name: string
-          currency_code: string
+          currency_code: Currency
           expiry_month: string
           expiry_year: string
           payment_plan: string
@@ -271,7 +271,7 @@ export interface PayOrderResponse {
             unit_type: number
             price_type: string
             units_number: number
-            currency_code: string
+            currency_code: Currency
             discount_type: string
             discount: number
             vat_percent: number
@@ -300,52 +300,28 @@ export interface Govina {
 }
 
 export interface CreateShipmentRequest {
-  clientNumber?: number
-  mesiraIsuf?: string
-  shipmentTypeCode?: number
-  stageCode?: number
-  ordererName?: string
-  cargoTypeHaloch?: number
-  cargoTypeHazor?: number
-  packsHaloch?: string
-  packsHazor?: number
-  nameTo?: string
-  cityCode?: string
-  cityName?: string
-  streetCode?: string
-  streetName?: string
-  houseNum?: string
-  entrance?: string
-  floor?: string
-  apartment?: string
-  telFirst?: string
-  telSecond?: string
-  addressRemarks?: string
-  shipmentRemarks?: string
-  referenceNum1?: string
-  referenceNum2?: string
-  futureDate?: string
-  futureTime?: string
-  pudoCodeOrigin?: number
-  pudoCodeDestination?: number
-  autoBindPudo?: string
-  email?: string
-  productsPrice?: number
-  productPriceCurrency?: string
-  shipmentWeight?: number
-  govina?: Govina
+  clientId: number
+  orderId: number
+  cityName: string
+  streetName: string
+  houseNum: string
+  apartment: string
+  floor: string
+  entrance: string
+  telFirst: string
+  telSecond: string
+  email: string
+  productsPrice: number
+  productPriceCurrency: Currency
+  shipmentWeight: number
+  govina: Govina
+  ordererName: "Rotmina",
+  nameTo: string
+  cityCode: string
+  streetCode: string
+  packsHaloch: string
 }
 
 export interface ShipmentResponse {
   shipmentNumber?: number
-  randNumber?: string
-  referenceNumber1?: string
-  referenceNumber2?: string
-  deliveryLine?: number
-  deliveryArea?: number
-  errorCode?: string
-  errorMessage?: string
-  existingShipmentNumber?: number
-  sortingCode?: number
-  pickUpCode?: number
 }

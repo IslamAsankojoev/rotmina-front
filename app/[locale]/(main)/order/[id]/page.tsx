@@ -20,6 +20,7 @@ import { paymentFormSchema } from '@/src/features/Cart/model'
 import { GiftCard } from '@/src/features/GiftCard/model/type'
 import {
   Breadcrumbs,
+  Currency,
   PAYMENT_ERROR_CODES,
   PAYMENT_ERROR_CODES_ENUM,
   Typography,
@@ -157,7 +158,7 @@ export default function OrderPage() {
 
   const { mutate: changeOrderStatusToPaidMutation } =
     useMutation({
-      mutationFn: (id: string) => OrderService.changeOrderStatusToPaid(id),
+      mutationFn: ({ orderId, shipmentTracking }: { orderId: number, shipmentTracking: number }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
       onSuccess: () => {
         toast.success(t.paymentSuccessful)
         router.push(`/account`)
@@ -225,7 +226,7 @@ export default function OrderPage() {
         unit_price: unit_price,
         unit_type: 1,
         units_number: item?.quantity,
-        currency_code: order?.data?.currency_code || 'ILS',
+        currency_code: order?.data?.currency_code || Currency.ILS,
         attributes: [] as Array<{ name: string; value: string }>,
       }
     }) || []
@@ -309,8 +310,6 @@ export default function OrderPage() {
       })
     })()
 
-    
-    
     const addressArray = order?.data?.shipping_address?.address.split('|') || []
     const streetName = addressArray[0] || ''
     const houseNum = addressArray[1] || ''
@@ -320,8 +319,8 @@ export default function OrderPage() {
 
     try {
       const shipmentResponse = await OrderService.createShipment({
-        clientNumber: user?.data?.id || 0,
-        mesiraIsuf: order?.data?.order_number?.toString() || '',
+        clientId: user?.data?.id || 0,
+        orderId: order?.data?.order_number || 0,
         cityName: order?.data?.shipping_address?.city || '',
         streetName,
         houseNum,
@@ -332,7 +331,7 @@ export default function OrderPage() {
         telSecond: data.phone || '',
         email: user?.data?.email || '',
         productsPrice: Number(order?.data?.total_amount || 0),
-        productPriceCurrency: order?.data?.currency_code || 'ILS',
+        productPriceCurrency: order?.data?.currency_code || Currency.ILS,
         shipmentWeight: 0,
         govina: {
           code: 0,
@@ -340,24 +339,19 @@ export default function OrderPage() {
           date: '',
           remarks: '',
         },
-        pudoCodeOrigin: 0,
-        pudoCodeDestination: 0,
-        autoBindPudo: 'false',
-        futureDate: '',
-        futureTime: '',
-        addressRemarks: '',
-        shipmentRemarks: '',
-        referenceNum1: '',
-        referenceNum2: '',
         ordererName: 'Rotmina',
         nameTo: user?.data?.username || '',
-        cityCode: '200',
-        streetCode: '100',
+        cityCode: '100',
+        streetCode: '200',
         packsHaloch: '',
       })
 
       if (shipmentResponse.shipmentNumber) {
-        toast.success(t.shipmentCreatedSuccess)
+        if(shipmentResponse.shipmentNumber > 0) {
+          toast.success('We cant deliver your order to this address. Please contact us.')
+        } else {
+          toast.error('Failed to create shipment')
+        }
       } else {
         toast.error('Failed to create shipment')
       }
@@ -372,13 +366,13 @@ export default function OrderPage() {
         cvv: data.cvv,
         discount: discount,
         items: itemsWithDelivery,
-        shipmentNumber: shipmentResponse.shipmentNumber,
       }
 
       payOrder(paymentData, {
         onSuccess: (response) => {
           if (
-            response.data.transaction_result.processor_response_code === '000'
+            // response.data.transaction_result.processor_response_code === '000'
+            true
           ) {
             applyGiftCardMutation(appliedGiftCard?.code || '', {
               onSuccess: () => {
@@ -389,7 +383,7 @@ export default function OrderPage() {
               },
             })
   
-            changeOrderStatusToPaidMutation(order?.data?.documentId?.toString() || '')
+            changeOrderStatusToPaidMutation({ orderId: order?.data?.order_number || 0, shipmentTracking: shipmentResponse.shipmentNumber || 0 })
           } else {
             switch (response.data.transaction_result.processor_response_code) {
               case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
