@@ -20,6 +20,7 @@ import { paymentFormSchema } from '@/src/features/Cart/model'
 import { GiftCard } from '@/src/features/GiftCard/model/type'
 import {
   Breadcrumbs,
+  Code,
   Currency,
   PAYMENT_ERROR_CODES,
   PAYMENT_ERROR_CODES_ENUM,
@@ -138,7 +139,7 @@ export default function OrderPage() {
     queryKey: ['order', id],
     queryFn: () => OrderService.getOrderById(id as string),
   })
-  const { getPrice, currency } = useLangCurrency()
+  const { getPrice, currency, lang } = useLangCurrency()
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethods>(
     PaymentMethods.CARD,
@@ -158,7 +159,7 @@ export default function OrderPage() {
 
   const { mutate: changeOrderStatusToPaidMutation } =
     useMutation({
-      mutationFn: ({ orderId, shipmentTracking }: { orderId: number, shipmentTracking: number }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
+      mutationFn: ({ orderId, shipmentTracking }: { orderId: string, shipmentTracking: string }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
       onSuccess: () => {
         toast.success(t.paymentSuccessful)
         router.push(`/account`)
@@ -318,7 +319,7 @@ export default function OrderPage() {
     const apartment = addressArray[4] || ''
 
     try {
-      const shipmentResponse = await OrderService.createShipment({
+      const shipmentNumber: string = await OrderService.createShipment({
         clientId: user?.data?.id || 0,
         orderId: order?.data?.order_number || 0,
         cityName: order?.data?.shipping_address?.city || '',
@@ -344,13 +345,12 @@ export default function OrderPage() {
         cityCode: '100',
         streetCode: '200',
         packsHaloch: '',
-      })
-
-      if (shipmentResponse.shipmentNumber) {
-        if(shipmentResponse.shipmentNumber > 0) {
-          toast.success('We cant deliver your order to this address. Please contact us.')
+      }).then((response) => response)
+      if (shipmentNumber) {
+        if(Number(shipmentNumber) > 0) {
+          toast.success('Shipment created successfully')
         } else {
-          toast.error('Failed to create shipment')
+          toast.success('We cant deliver your order to this address. Please contact us.')
         }
       } else {
         toast.error('Failed to create shipment')
@@ -366,6 +366,8 @@ export default function OrderPage() {
         cvv: data.cvv,
         discount: discount,
         items: itemsWithDelivery,
+        clientEmail: user?.data?.email || '',
+        language: lang || Code.EN,
       }
 
       payOrder(paymentData, {
@@ -374,16 +376,17 @@ export default function OrderPage() {
             // response.data.transaction_result.processor_response_code === '000'
             true
           ) {
-            applyGiftCardMutation(appliedGiftCard?.code || '', {
-              onSuccess: () => {
-                toast.success(t.giftCardAppliedSuccess)
-              },
-              onError: (error) => {
-                toast.error(error.message)
-              },
-            })
-  
-            changeOrderStatusToPaidMutation({ orderId: order?.data?.order_number || 0, shipmentTracking: shipmentResponse.shipmentNumber || 0 })
+            if(appliedGiftCard) {
+              applyGiftCardMutation(appliedGiftCard?.code || '', {
+                onSuccess: () => {
+                  toast.success(t.giftCardAppliedSuccess)
+                },
+                onError: (error) => {
+                  toast.error(error.message)
+                },
+              })
+            }
+            changeOrderStatusToPaidMutation({ orderId: order?.data?.documentId || '', shipmentTracking: shipmentNumber })
           } else {
             switch (response.data.transaction_result.processor_response_code) {
               case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:

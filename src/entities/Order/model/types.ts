@@ -1,6 +1,6 @@
 import { GiftCard, PersonalStylist } from "@/src/features"
 import { ProductVariant } from "../../Product"
-import { Currency, PAYMENT_ERROR_CODES } from "@/src/shared"
+import { Code, Currency, PAYMENT_ERROR_CODES } from "@/src/shared"
 
 // Types for images
 export interface Image {
@@ -158,6 +158,8 @@ export interface PayOrderRequest {
   expire_year: string
   cvv: string
   discount?: number | null
+  clientEmail: string
+  language: Code
   items: Array<{
     code: string
     name: string

@@ -22,12 +22,12 @@ export const OrderService = {
   deleteOrder: (id: string): Promise<void> =>
     api.delete(apiMap.deleteOrder.replace(':id', id)).json(),
 
-  changeOrderStatusToPaid: (orderId: number, shipment_tracking: number): Promise<void> =>
+  changeOrderStatusToPaid: (orderId: string, shipment_tracking: string): Promise<void> =>
     api.put(apiMap.changeOrderStatus, { json: { 
       orderId,
       shipment_tracking,
      } }).json(),
 
-  createShipment: (request: CreateShipmentRequest): Promise<ShipmentResponse> =>
-    api.post(apiMap.createShipment, { json: request }).json(),
+  createShipment: (request: CreateShipmentRequest): Promise<string> =>
+    api.post(apiMap.createShipment, { json: request }).text().then((text) => text?.match(/\d+/)?.[0] || ''),
 }

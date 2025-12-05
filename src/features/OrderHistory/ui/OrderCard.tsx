@@ -58,11 +58,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
 
   const renderPayButtonOrStatus = () => {
-    if (order.paymentStatus?.processor_response_code === '000') {
+    if (order.payment_status === 'paid') {
       return (
-        <Typography variant="text_main" className="text-greyy min-w-[40px]">
+        <Button variant="ghost" disabled className="text-black min-w-[40px]">
           {t.paid}
-        </Typography>
+        </Button>
       )
     }
     return (
@@ -95,7 +95,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
     }
     if(order.order_status === 'pending') {
       if(order.shipment_tracking) {
-        return `delivering ${order.shipment_tracking}`
+        return <span>delivering <a href={`https://t.17track.net/en#nums=${order.shipment_tracking}&fc=100327`} target="_blank" rel="noopener noreferrer" className="text-blue-500">{order.shipment_tracking}</a></span>
       }
       return order.order_status
     }
