@@ -373,8 +373,7 @@ export default function OrderPage() {
       payOrder(paymentData, {
         onSuccess: (response) => {
           if (
-            // response.data.transaction_result.processor_response_code === '000'
-            true
+            response.data.transaction_result.processor_response_code === '000'
           ) {
             if(appliedGiftCard) {
               applyGiftCardMutation(appliedGiftCard?.code || '', {
