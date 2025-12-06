@@ -55,11 +55,9 @@ export const TermsDialog = () => {
                   {((t.section4 as Record<string, string>)?.['4.3']) || ''}
                 </Typography>
                 <Typography variant="text_main">
-                  <strong>{((t.section5 as Record<string, string>)?.title) || '5. Shipping and In-Store Pickup in Israel'}</strong> <br />
+                  <strong>{((t.section5 as Record<string, string>)?.title) || '5. Shipping & Pickup'}</strong> <br />
                   {((t.section5 as Record<string, string>)?.['5.1']) || ''} <br />
-                  {((t.section5 as Record<string, string>)?.['5.2']) || ''} <br />
-                  {((t.section5 as Record<string, string>)?.['5.3']) || ''} <br />
-                  {((t.section5 as Record<string, string>)?.['5.4']) || ''}
+                  {((t.section5 as Record<string, string>)?.['5.2']) || ''}
                 </Typography>
                 <Typography variant="text_main">
                   <strong>{((t.section6 as Record<string, string>)?.title) || '6. General Shipping Provisions'}</strong> <br />
@@ -68,10 +66,11 @@ export const TermsDialog = () => {
                   {((t.section6 as Record<string, string>)?.['6.3']) || ''}
                 </Typography>
                 <Typography variant="text_main">
-                  <strong>{((t.section7 as Record<string, string>)?.title) || '7. Cancellation and Returns Policy'}</strong> <br />
+                  <strong>{((t.section7 as Record<string, string>)?.title) || '7. Cancellation, Returns & Refunds'}</strong> <br />
                   {((t.section7 as Record<string, string>)?.['7.1']) || ''} <br />
                   {((t.section7 as Record<string, string>)?.['7.2']) || ''} <br />
-                  {((t.section7 as Record<string, string>)?.['7.3']) || ''}
+                  {((t.section7 as Record<string, string>)?.['7.3']) || ''} <br />
+                  {((t.section7 as Record<string, string>)?.['7.4']) || ''}
                 </Typography>
                 <Typography variant="text_main">
                   <strong>{((t.section8 as Record<string, string>)?.title) || '8. Links, Advertisements, and External Referrals'}</strong> <br />
@@ -105,10 +104,15 @@ export const TermsDialog = () => {
                   {((t.section13 as Record<string, string>)?.['13.2']) || ''}
                 </Typography>
                 <Typography variant="text_main">
-                  <strong>{((t.section14 as Record<string, string>)?.title) || '14. Contact'}</strong> <br />
-                  {((t.section14 as Record<string, string>)?.['14.1']) || ''} <br />
-                  {((t.section14 as Record<string, string>)?.tel) || ''} <br />
-                  {((t.section14 as Record<string, string>)?.email) || ''}
+                  <strong>{((t.section14 as Record<string, string>)?.title) || '14. Privacy Policy'}</strong> <br />
+                  {((t.section14 as Record<string, string>)?.['14.1']) || ''}
+                </Typography>
+                <Typography variant="text_main">
+                  <strong>{((t.section15 as Record<string, string>)?.title) || '15. Contact'}</strong> <br />
+                  {((t.section15 as Record<string, string>)?.['15.1']) || ''} <br />
+                  {((t.section15 as Record<string, string>)?.tel) || ''} <br />
+                  {((t.section15 as Record<string, string>)?.address) || ''} <br />
+                  {((t.section15 as Record<string, string>)?.email) || ''}
                 </Typography>
               </div>
             </DialogDescription>

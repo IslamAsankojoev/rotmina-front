@@ -1,6 +1,6 @@
 import { api } from "@/src/app"
 import { apiMap } from "@/src/shared"
-import type { CreateOrderRequest, OrderResponse, OrderListResponse, PayOrderRequest, OrderResponseStrapi, PayOrderResponse, OrderPaymentStatus, CreateShipmentRequest, ShipmentResponse } from './types'
+import type { CreateOrderRequest, OrderResponse, OrderListResponse, PayOrderRequest, OrderResponseStrapi, PayOrderResponse, OrderPaymentStatus, CreateShipmentRequest } from './types'
 
 export const OrderService = {
   getMyOrders: (): Promise<OrderListResponse> => 

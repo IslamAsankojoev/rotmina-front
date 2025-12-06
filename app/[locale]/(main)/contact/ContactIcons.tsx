@@ -2,7 +2,7 @@
 
 import { socialLinks, Typography } from '@/src/shared'
 import { useScreenSize } from '@/src/shared'
-import { Facebook, Instagram, Mail, Smartphone } from 'lucide-react'
+import { Facebook, Instagram, Mail, MapPin, Smartphone } from 'lucide-react'
 
 interface ContactIconsProps {
   translations: {
@@ -10,6 +10,7 @@ interface ContactIconsProps {
     facebook: string
     email: string
     phone: string
+    address: string
   }
 }
 
@@ -18,28 +19,32 @@ export const ContactIcons = ({ translations }: ContactIconsProps) => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <Instagram size={md ? 35 : 24} />
+        <Instagram size={md ? 35 : 24} strokeWidth={1.2}/>
         <a href={socialLinks.instagram} target="_blank">
           <Typography variant="text_main">{translations.instagram}</Typography>
         </a>
       </div>
       <div className="flex items-center gap-2">
-        <Smartphone size={md ? 35 : 24} />
+        <Smartphone size={md ? 35 : 24} strokeWidth={1.2} />
         <a href={socialLinks.phone} target="_blank">
           <Typography variant="text_main">{translations.phone}</Typography>
         </a>
       </div>
       <div className="flex items-center gap-2">
-        <Facebook size={md ? 35 : 24} />
+        <Facebook size={md ? 35 : 24} strokeWidth={1.2} />
         <a href={socialLinks.facebook} target="_blank">
           <Typography variant="text_main">{translations.facebook}</Typography>
         </a>
       </div>
       <div className="flex items-center gap-2">
-        <Mail size={md ? 35 : 24} />
+        <Mail size={md ? 35 : 24} strokeWidth={1.2} />
         <a href={socialLinks.email} target="_blank">
           <Typography variant="text_main">{translations.email}</Typography>
         </a>
+      </div>
+      <div className="flex items-center gap-2">
+        <MapPin size={md ? 35 : 24} strokeWidth={1.2} />
+        <Typography variant="text_main">{translations.address}</Typography>
       </div>
     </div>
   )

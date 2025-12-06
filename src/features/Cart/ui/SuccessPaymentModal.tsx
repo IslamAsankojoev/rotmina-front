@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 
 import ConfirmImage from '@/public/order-confirm.png'
 import { Button } from '@/shadcn/components/ui/button'
@@ -9,26 +9,29 @@ import {
   DialogClose,
   DialogContent,
 } from '@/shadcn/components/ui/dialog'
-import { SiteImagesApi } from '@/src/features'
 import {
   Typography,
+  useDictionary,
+  useLocale,
   useScreenSize,
 } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { X } from 'lucide-react'
+import { BadgeCheck, X } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 
-export interface SorryModalProps {
-  isOpen: boolean
+import { SiteImagesApi } from '../../SiteImages'
+
+export interface SuccessPaymentModalProps {
+  open: boolean
   onOpenChange: (open: boolean) => void
-  title: string
-  description: string
-  buttonText?: string
 }
 
-export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description = 'Something went wrongYour order cannot be confirmed', buttonText = 'TRY AGAIN' }: SorryModalProps) {
-  const [open, setOpen] = useState(false)
+export function SuccessPaymentModal({
+  open,
+  onOpenChange,
+}: SuccessPaymentModalProps) {
   const { data: siteImages } = useQuery({
     queryKey: ['site-images'],
     queryFn: () => SiteImagesApi.getSiteImages(),
@@ -37,11 +40,16 @@ export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description 
     () => siteImages?.data.order_success_modal?.url || ConfirmImage.src,
     [siteImages],
   )
+  const { dictionary } = useDictionary()
+  const { localizePath } = useLocale()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .successPayment || {
+    title: 'Payment Successful!',
+    thankYou:
+      'Thank you for choosing Rotmina. Your order is being carefully packed and will be shipped soon.',
+    exploreMore: 'Explore More',
+  }
   const { md } = useScreenSize()
-
-  useEffect(() => {
-    setOpen(isOpen)
-  }, [isOpen])
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -66,23 +74,25 @@ export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description 
             />
           </div>
           <div className="relative bg-white p-10 md:h-full md:w-1/2">
-            <div className="flex h-full flex-col items-center justify-center gap-2">
-              <Typography variant="text_title" className="text-center">
-                {title}
+            <div className="flex h-full flex-col items-center justify-center gap-4">
+              <div className="flex flex-col items-center gap-0 mb-2">
+                <BadgeCheck size={34} strokeWidth={1} className="text-green-700" />
+                <Typography
+                  variant="text_title"
+                  className="text-center font-bold text-green-700 text-3xl"
+                >
+                  {t.title}
+                </Typography>
+              </div>
+              <Typography variant="text_main" className="text-center">
+                {t.thankYou}
               </Typography>
-              <Typography
-                variant="text_main"
-                className="text-center font-bold text-[#FF3F3F]"
-              >
-                {description}
-              </Typography>
-              <Button
-                onClick={() => setOpen(false)}
-                variant="link"
+              <Link
+                href={localizePath('/shop')}
                 className="text-primary uppercase underline"
               >
-                {buttonText}
-              </Button>
+                {t.exploreMore}
+              </Link>
             </div>
             <DialogClose asChild>
               <Button

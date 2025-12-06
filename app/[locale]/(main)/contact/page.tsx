@@ -25,6 +25,7 @@ export default async function Contact({
     email: 'Brand@rotmina.com',
     description:
       'Have a question, thought or something you would like to share? You are welcome to reach out. I read every message and will get back to you as soon as possible.',
+    address: 'Rishon LeZion, Israel',
   }
 
   return (
@@ -57,6 +58,7 @@ export default async function Contact({
               facebook: t.facebook,
               email: t.email,
               phone: t.phone,
+              address: t.address,
             }}
           />
           <Typography variant="text_main" className="mt-8">

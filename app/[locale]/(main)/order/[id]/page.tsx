@@ -15,7 +15,7 @@ import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
 import { OrderService, PayOrderRequest } from '@/src/entities/Order'
-import { GiftCardService, TermsDialog } from '@/src/features'
+import { GiftCardService, SuccessPaymentModal, TermsDialog } from '@/src/features'
 import { paymentFormSchema } from '@/src/features/Cart/model'
 import { GiftCard } from '@/src/features/GiftCard/model/type'
 import {
@@ -150,6 +150,7 @@ export default function OrderPage() {
   const [totalPriceWithGiftCard, setTotalPriceWithGiftCard] = useState(0)
   const [deliveryPrice, setDeliveryPrice] = useState(0)
   const [finalAmount, setFinalAmount] = useState(0)
+  const [openSuccessPaymentModal, setOpenSuccessPaymentModal] = useState(false)
 
   const { mutate: applyGiftCardMutation, isPending: isUsingGiftCard } =
     useMutation({
@@ -161,11 +162,7 @@ export default function OrderPage() {
     useMutation({
       mutationFn: ({ orderId, shipmentTracking }: { orderId: string, shipmentTracking: string }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
       onSuccess: () => {
-        toast.success(t.paymentSuccessful)
-        router.push(`/account`)
-      },
-      onError: (error) => {
-        toast.error(error.message)
+        setOpenSuccessPaymentModal(true)
       },
     })
 
@@ -185,6 +182,11 @@ export default function OrderPage() {
       setAppliedGiftCard(giftCardData)
       setTotalPriceWithGiftCard(Number(order?.data?.total_amount || 0) - Number(giftCardData?.amount || 0))
     }
+  }
+
+  const handleCloseSuccessPaymentModal = () => {
+    setOpenSuccessPaymentModal(false)
+    router.push(`/account`)
   }
 
   const orderItems =
@@ -348,7 +350,7 @@ export default function OrderPage() {
       }).then((response) => response)
       if (shipmentNumber) {
         if(Number(shipmentNumber) > 0) {
-          toast.success('Shipment created successfully')
+          console.log('Shipment created successfully')
         } else {
           toast.success('We cant deliver your order to this address. Please contact us.')
         }
@@ -377,9 +379,6 @@ export default function OrderPage() {
           ) {
             if(appliedGiftCard) {
               applyGiftCardMutation(appliedGiftCard?.code || '', {
-                onSuccess: () => {
-                  toast.success(t.giftCardAppliedSuccess)
-                },
                 onError: (error) => {
                   toast.error(error.message)
                 },
@@ -729,6 +728,10 @@ export default function OrderPage() {
           </div>
         </div>
       </div>
+      <SuccessPaymentModal
+        open={openSuccessPaymentModal}
+        onOpenChange={handleCloseSuccessPaymentModal}
+      />
     </>
   )
 }

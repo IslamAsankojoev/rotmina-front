@@ -27,31 +27,22 @@ const TermsOfConditions = async ({
     .terms || {}
   const fullText = (terms.fullText as string) || ''
 
-  // Функция для обработки текста и выделения главных пунктов жирным
   const renderTextWithBoldNumbers = (text: string) => {
-    // Регулярное выражение для поиска главных пунктов (1. Title, 2. Title и т.д.)
-    // Ищем начало строки, затем цифру, точку, пробел и весь текст до следующего переноса строки
-    // Убеждаемся, что это не подпункт (не 1.1, 1.2 и т.д.)
     const regex = /(^|\n)(\d+\.\s[^\n]+)/gm
     const parts: (string | React.ReactElement)[] = []
     let lastIndex = 0
     let match
 
     while ((match = regex.exec(text)) !== null) {
-      // Проверяем, что это главный пункт (не подпункт типа 1.1, 2.3 и т.д.)
-      const fullMatch = match[2] // Полный текст пункта (например, "1. General")
+      const fullMatch = match[2]
       
-      // Если после первой цифры и точки идет еще одна цифра (например, "1.1"), пропускаем
-      // Проверяем паттерн: цифра.цифра (подпункт)
       if (fullMatch.match(/^\d+\.\d+/)) {
         continue
       }
 
-      // Добавляем текст до совпадения
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index))
       }
-      // Добавляем весь пункт (номер + текст) жирным
       parts.push(
         <strong key={match.index}>
           {match[1]}
@@ -61,7 +52,6 @@ const TermsOfConditions = async ({
       lastIndex = regex.lastIndex
     }
 
-    // Добавляем оставшийся текст
     if (lastIndex < text.length) {
       parts.push(text.substring(lastIndex))
     }
