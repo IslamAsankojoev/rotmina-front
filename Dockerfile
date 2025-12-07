@@ -1,30 +1,36 @@
-FROM node:18 AS dependencies
+FROM node:18-alpine AS deps
 WORKDIR /app
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm ci --legacy-peer-deps
 
-FROM node:18 AS builder
-# Добавляем возможность передавать переменную окружения BACKEND_API_URL
+FROM node:18-alpine AS builder
+WORKDIR /app
+
 ARG API_INTERNAL_URL
 ARG API_PAY_SERVICE
+
 ENV API_INTERNAL_URL=${API_INTERNAL_URL}
 ENV API_PAY_SERVICE=${API_PAY_SERVICE}
-WORKDIR /app
+
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
-# Выводим значение API_INTERNAL_URL для проверки
-RUN echo "API_INTERNAL_URL: ${API_INTERNAL_URL}"
-RUN echo "API_PAY_SERVICE: ${API_PAY_SERVICE}"
+COPY --from=deps /app/node_modules ./node_modules
+
 RUN npm run build
 
-FROM node:18 AS runner
+FROM node:18-alpine AS runner
 WORKDIR /app
-ENV NODE_ENV production
+
+ENV NODE_ENV=production
 ENV PORT=3000
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
+
+# создаём пользователя app
+RUN addgroup -S app && adduser -S app -G app
+
+COPY --from=builder /app ./
+
+RUN chown -R app:app /app
+USER app
 
 EXPOSE 3000
-CMD npm run start
+
+CMD ["npm", "run", "start"]

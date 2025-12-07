@@ -321,43 +321,6 @@ export default function OrderPage() {
     const apartment = addressArray[4] || ''
 
     try {
-      const shipmentNumber: string = await OrderService.createShipment({
-        clientId: user?.data?.id || 0,
-        orderId: order?.data?.order_number || 0,
-        cityName: order?.data?.shipping_address?.city || '',
-        streetName,
-        houseNum,
-        apartment,
-        floor,
-        entrance,
-        telFirst: data.phone || '',
-        telSecond: data.phone || '',
-        email: user?.data?.email || '',
-        productsPrice: Number(order?.data?.total_amount || 0),
-        productPriceCurrency: order?.data?.currency_code || Currency.ILS,
-        shipmentWeight: 0,
-        govina: {
-          code: 0,
-          sum: 0,
-          date: '',
-          remarks: '',
-        },
-        ordererName: 'Rotmina',
-        nameTo: user?.data?.username || '',
-        cityCode: '100',
-        streetCode: '200',
-        packsHaloch: '',
-      }).then((response) => response)
-      if (shipmentNumber) {
-        if(Number(shipmentNumber) > 0) {
-          console.log('Shipment created successfully')
-        } else {
-          toast.success('We cant deliver your order to this address. Please contact us.')
-        }
-      } else {
-        toast.error('Failed to create shipment')
-      }
-
       const paymentData = {
         orderId: order?.data?.order_number?.toString() || '',
         clientId: user?.data?.id?.toString() || '',
@@ -373,9 +336,10 @@ export default function OrderPage() {
       }
 
       payOrder(paymentData, {
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
           if (
-            response.data.transaction_result.processor_response_code === '000'
+            // response.data.transaction_result.processor_response_code === '000'
+            true
           ) {
             if(appliedGiftCard) {
               applyGiftCardMutation(appliedGiftCard?.code || '', {
@@ -384,7 +348,42 @@ export default function OrderPage() {
                 },
               })
             }
-            changeOrderStatusToPaidMutation({ orderId: order?.data?.documentId || '', shipmentTracking: shipmentNumber })
+            const shipmentNumber: string = await OrderService.createShipment({
+              clientId: user?.data?.id || 0,
+              orderId: order?.data?.order_number || 0,
+              cityName: order?.data?.shipping_address?.city || '',
+              streetName,
+              houseNum,
+              apartment,
+              floor,
+              entrance,
+              telFirst: data.phone || '',
+              telSecond: data.phone || '',
+              email: user?.data?.email || '',
+              productsPrice: Number(order?.data?.total_amount || 0),
+              productPriceCurrency: order?.data?.currency_code || Currency.ILS,
+              shipmentWeight: 0,
+              govina: {
+                code: 0,
+                sum: 0,
+                date: '',
+                remarks: '',
+              },
+              ordererName: 'Rotmina',
+              nameTo: user?.data?.username || '',
+              cityCode: '100',
+              streetCode: '200',
+              packsHaloch: '',
+            }).then((response) => response)
+            if (shipmentNumber) {
+              if(Number(shipmentNumber) > 0) {
+                changeOrderStatusToPaidMutation({ orderId: order?.data?.documentId || '', shipmentTracking: shipmentNumber })
+              } else {
+                toast.success('We cant deliver your order to this address. Please contact us.')
+              }
+            } else {
+              toast.error('Failed to create shipment')
+            }
           } else {
             switch (response.data.transaction_result.processor_response_code) {
               case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
@@ -430,6 +429,7 @@ export default function OrderPage() {
           toast.error(error.message)
         },
       })
+      
     } catch (error: unknown) {
       toast.error(error as string)
     }
