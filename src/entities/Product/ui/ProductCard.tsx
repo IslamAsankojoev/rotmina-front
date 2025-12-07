@@ -15,7 +15,6 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { HeartIcon, Plus } from 'lucide-react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { Product as ProductType, ProductVariant } from '../model'
@@ -123,12 +122,11 @@ export const ProductCard = ({
         )}
       >
         <div className="relative h-[300px] w-full overflow-hidden md:h-full md:min-h-[544px]">
-          <Image
+          <img
             src={getCurrentImage()}
             alt={product?.title}
-            objectFit="cover"
-            fill
-            className="transition-all duration-300"
+            style={{ objectFit: 'cover' }}
+            className="transition-all duration-300 w-full h-full"
           />
         </div>
 

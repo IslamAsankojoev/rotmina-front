@@ -13,7 +13,6 @@ import { Button } from '@/shadcn/components/ui/button'
 import { Typography, useDictionary } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import Image from 'next/image'
 
 import { Collection } from '../model'
 import { CollectionService } from '../model/api'
@@ -54,12 +53,10 @@ export const Collections = () => {
   return (
     <div className="mb-20 flex flex-col gap-4 md:flex-row">
       <div className="relative order-2 flex h-96 w-full items-center justify-center md:order-1 md:h-[700px] md:flex-1">
-        <Image
-          src={displayImage}
-          objectFit="cover"
-          objectPosition="center"
-          alt="hero"
-          fill
+        <img
+          src={displayImage as string}
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
         />
       </div>
       <div className="order-1 flex items-center justify-center overflow-hidden md:order-2 md:flex-1">
@@ -98,13 +95,12 @@ export const Collections = () => {
                       collectionsT.noDescription
                     )}
                   </Typography>
-                  <Image
+                  <img
                     src={collection.image?.url || ''}
                     alt={collection.name}
                     width={200}
                     height={200}
-                    objectFit="cover"
-                    objectPosition="center"
+                    style={{ objectFit: 'cover', objectPosition: 'center' }}
                     className="mt-4"
                   />
                   <Button variant="link" className="mt-4" onClick={() => {

@@ -33,7 +33,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -515,7 +514,7 @@ export default function OrderPage() {
                     }
                   }}
                 >
-                  <Image
+                  <img
                     src={method.image}
                     alt={method.label}
                     width={100}

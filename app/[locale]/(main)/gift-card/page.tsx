@@ -6,7 +6,6 @@ import { GiftCardForm } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
-import Image from 'next/image'
 
 export default async function GiftCard({
   params,
@@ -65,11 +64,11 @@ export default async function GiftCard({
                 ))}
               </Typography>
               <div className="relative h-[250px] w-[420px] max-w-full overflow-hidden rounded-md">
-                <Image
-                  src={GiftCardImage}
+                <img
+                  src={GiftCardImage.src}
                   alt="product-image"
-                  objectFit="cover"
-                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="w-full h-full"
                 />
               </div>
             </div>

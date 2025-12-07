@@ -2,7 +2,6 @@
 
 import { useCallback, useRef } from 'react'
 
-import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import { Pagination } from 'swiper/modules'
@@ -118,12 +117,11 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
         {data.map((s, i) => (
           <SwiperSlide key={i} className="slide-card">
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
-              <Image
+              <img
                 src={s.src}
                 alt={s.alt}
-                fill
                 style={{ objectFit: 'cover' }}
-                priority={i < 6}
+                className="w-full h-full"
               />
             </div>
             {/* <div className="meta !text-black">

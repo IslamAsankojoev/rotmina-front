@@ -17,7 +17,6 @@ import {
 } from '@/src/shared'
 import clsx from 'clsx'
 import { Minus, Plus } from 'lucide-react'
-import Image from 'next/image'
 
 interface CartItemProps {
   item: CartItemType
@@ -51,11 +50,11 @@ export const CartItem = ({
   const ProductItem = ({ item }: { item: ProductCartItem }) => (
     <div className="relative flex items-center gap-4">
       <div className="relative h-[150px] w-[110px]">
-        <Image
+        <img
           src={item?.variant?.images?.[0]?.url || '/assets/products/shirt.webp'}
           alt={item?.productTitle}
-          fill
-          className="object-cover"
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
         />
       </div>
       <div className="relative flex min-h-[150px] flex-1 flex-col justify-between gap-2">
@@ -148,11 +147,11 @@ export const CartItem = ({
   const GiftCardItem = ({ item }: { item: GiftCardCartItem }) => (
     <div className="relative flex items-center gap-2">
       <div className="relative h-[150px] w-[110px]">
-        <Image
-          src={GiftCardImage}
+        <img
+          src={GiftCardImage.src}
           alt="Gift Card"
-          fill
-          className="object-cover"
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
         />
       </div>
       <div className="relative flex min-h-[150px] flex-1 flex-col justify-between gap-2">
@@ -240,11 +239,11 @@ export const CartItem = ({
   const PersonalStylistItem = ({ item }: { item: PersonalStylistCartItem }) => (
     <div className="relative flex gap-4">
       <div className="relative h-[150px] w-[110px] flex-shrink-0">
-        <Image
-          src={PersonalStylistImage}
+        <img
+          src={PersonalStylistImage.src}
           alt="Personal Stylist"
-          fill
-          className="object-cover"
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
         />
       </div>
       <div className="relative flex min-h-[150px] flex-1 flex-col justify-between">

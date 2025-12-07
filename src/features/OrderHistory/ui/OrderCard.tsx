@@ -26,7 +26,6 @@ import {
   useLocale,
 } from '@/src/shared'
 import clsx from 'clsx'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import { OrderDeleteModal } from '../..'
@@ -163,11 +162,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       className="mb-2 flex flex-col justify-between"
                     >
                       <div className="relative h-[260px] w-full">
-                        <Image
+                        <img
                           src={getImage(item)}
                           alt={item.title_snapshot}
-                          fill
-                          objectFit="cover"
+                          style={{ objectFit: 'cover' }}
+                          className="w-full h-full"
                         />
                       </div>
                       <div

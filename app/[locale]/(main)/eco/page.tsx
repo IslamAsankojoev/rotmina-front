@@ -6,7 +6,6 @@ import EcoImage from '@/public/assets/eco.webp'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
-import Image from 'next/image'
 
 export default async function ECO({
   params,
@@ -44,7 +43,7 @@ export default async function ECO({
         </Typography>
       </div>
       <div className="relative h-[450px] w-full min-h-[450px]">
-        <Image src={EcoImage} alt="eco-image" objectFit="cover" fill />
+        <img src={EcoImage.src} alt="eco-image" style={{ objectFit: 'cover' }} className="w-full h-full" />
       </div>
       <div className="container mt-10">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
@@ -121,11 +120,11 @@ export default async function ECO({
           </div>
           <div className="flex min-h-full flex-1 items-center justify-center">
             <div className="relative h-full w-full min-h-[550px]">
-              <Image
-                src={EcoSheep}
+              <img
+                src={EcoSheep.src}
                 alt="product-image"
-                fill
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
+                className="w-full h-full"
               />
             </div>
           </div>
@@ -135,7 +134,7 @@ export default async function ECO({
         <div className="flex flex-col-reverse gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex min-h-full flex-1 items-center justify-center">
             <div className="relative h-full w-full min-h-[550px]">
-              <Image src={EcoCurv} alt="product-image" fill objectFit="cover" />
+              <img src={EcoCurv.src} alt="product-image" style={{ objectFit: 'cover' }} className="w-full h-full" />
             </div>
           </div>
           <div className="flex-1 md:p-4">

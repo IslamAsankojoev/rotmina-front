@@ -12,7 +12,6 @@ import { Typography, useScreenSize } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
-import Image from 'next/image'
 
 import { SalePopupService } from '../model'
 
@@ -72,11 +71,11 @@ export function SalePopup() {
           }}
         >
           <div className="relative hidden h-full md:block md:w-1/2">
-            <Image
+            <img
               src={data?.data?.image?.url || ''}
               alt={data?.data?.image?.alternativeText || ''}
-              fill
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
+              className="w-full h-full"
             />
           </div>
           <div className="relative bg-white p-6 py-20 md:h-full md:w-1/2">

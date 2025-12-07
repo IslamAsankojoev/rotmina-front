@@ -5,7 +5,6 @@ import MyStoryImage from '@/public/assets/my-story.webp'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
-import Image from 'next/image'
 import { SiteImagesApi } from '@/src/features'
 
 const getImage = async () => {
@@ -52,11 +51,11 @@ export default async function MyStory({
         <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
           <div className="flex-1 pt-10">
             <div className="relative h-[500px] w-full md:h-[600px]">
-              <Image
+              <img
                 src={image}
                 alt="product-image"
-                objectFit="contain"
-                fill
+                style={{ objectFit: 'contain' }}
+                className="w-full h-full"
               />
             </div>
           </div>

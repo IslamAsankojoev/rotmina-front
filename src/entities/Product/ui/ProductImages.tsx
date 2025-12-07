@@ -3,7 +3,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/shadcn/components/ui/carousel'
-import Image from 'next/image'
 
 import { Product, ProductVariant } from '../model'
 
@@ -23,7 +22,7 @@ export const ProductImages = ({
             className="relative h-[500px] w-full md:h-[900px]"
             key={image.id}
           >
-            <Image src={image.url} alt={image.name} fill objectFit="cover" />
+            <img src={image.url} alt={image.name} style={{ objectFit: 'cover' }} className="w-full h-full" />
           </div>
         ))}
       </div>
@@ -31,11 +30,10 @@ export const ProductImages = ({
         {images?.length === 1 ? (
           <div className="-mt-1 flex h-[500px] justify-center">
             <div className="relative h-[500px] w-[90%]">
-              <Image
+              <img
                 src={images?.[0]?.url}
                 alt={images?.[0]?.name}
-                objectFit="cover"
-                fill
+                style={{ objectFit: 'cover' }}
               />
             </div>
           </div>
@@ -52,11 +50,11 @@ export const ProductImages = ({
               {images?.map((image, index) => (
                 <CarouselItem key={index} className="basis-[90%]">
                   <div className="relative h-[500px] w-full">
-                    <Image
+                    <img
                       src={image?.url}
                       alt={image?.name}
-                      objectFit="cover"
-                      fill
+                      style={{ objectFit: 'cover' }}
+                      className='w-full h-full'
                     />
                   </div>
                 </CarouselItem>

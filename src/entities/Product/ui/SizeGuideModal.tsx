@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from '@/shadcn/components/ui/dialog'
 import { Typography, useDictionary, useLocale } from '@/src/shared'
-import Image from 'next/image'
 
 export const SizeGuideModal = () => {
   const { dictionary } = useDictionary()
@@ -64,11 +63,11 @@ export const SizeGuideModal = () => {
 
               <div className="flex flex-col gap-8 md:flex-row md:gap-0">
                 <div className="relative order-2 min-h-56 w-full flex-1 md:order-1 md:w-1/2">
-                  <Image
+                  <img
                     src={BustImage.src}
                     alt="bust"
-                    fill
-                    objectFit="cover"
+                    style={{ objectFit: 'cover' }}
+                    className="w-full h-full"
                   />
                 </div>
                 <div className="order-1 w-full flex-1 md:order-2 md:w-1/2">

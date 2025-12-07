@@ -5,7 +5,6 @@ import { ReturnForm } from '@/src/features'
 import { Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale } from '@/src/shared/utils/locale'
-import Image from 'next/image'
 import { SiteImagesApi } from '@/src/features'
 
 const getImage = async () => {
@@ -45,11 +44,11 @@ export default async function ReturnsAndExchanges({
           </div>
           <div className="flex min-h-full flex-2 items-center justify-center">
             <div className="relative h-full min-h-[500px] w-full md:min-h-[600px]">
-              <Image
+              <img
                 src={image}
                 alt="product-image"
-                fill
-                objectFit="cover"
+                style={{ objectFit: 'cover' }}
+                className="w-full h-full"
               />
             </div>
           </div>

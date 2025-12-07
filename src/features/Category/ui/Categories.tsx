@@ -3,7 +3,6 @@
 import { Typography } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import Image from 'next/image'
 import Link from 'next/link'
 
 import { CategoryService } from '../model/api'
@@ -28,11 +27,10 @@ export const Categories = () => {
           )}
         >
           <div className="absolute inset-0">
-            <Image
+            <img
               src={category?.image?.url || ''}
               alt={category?.name || ''}
-              fill
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
               className="saturate-0 transition-all duration-1000 group-hover:scale-[1.3] group-hover:saturate-100"
             />
           </div>

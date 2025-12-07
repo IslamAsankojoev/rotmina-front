@@ -17,7 +17,6 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
-import Image from 'next/image'
 
 export interface SorryModalProps {
   isOpen: boolean
@@ -58,11 +57,11 @@ export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description 
           }}
         >
           <div className="relative hidden h-full md:block md:w-1/2">
-            <Image
-              src={image}
+            <img
+              src={image as string}
               alt="Order Confirmation"
-              fill
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
+              className="w-full h-full"
             />
           </div>
           <div className="relative bg-white p-10 md:h-full md:w-1/2">

@@ -6,7 +6,6 @@ import { Breadcrumbs, Loader, Typography, useLangCurrency, useDictionary, useLoc
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 export default function WishlistPage() {
@@ -72,11 +71,11 @@ export default function WishlistPage() {
               )}
             >
               <div className="relative h-[300px] w-full md:h-full md:min-h-[544px]">
-                <Image
+                <img
                   src={product?.variants?.[0]?.images?.[0]?.url || ''}
                   alt={product?.title}
-                  objectFit="cover"
-                  fill
+                  style={{ objectFit: 'cover' }}
+                  className="w-full h-full"
                 />
               </div>
               <div className="bottom-4 flex w-full justify-between gap-2 px-2">

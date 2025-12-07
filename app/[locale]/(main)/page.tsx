@@ -11,7 +11,6 @@ import { getDictionary } from '@/src/shared/utils/dictionaries'
 import { getServerLocale } from '@/src/shared/utils/locale'
 import PanoramaSlider from '@/src/widgets/PanoramaSlider'
 import { cookies } from 'next/headers'
-import Image from 'next/image'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
@@ -67,20 +66,18 @@ export default async function Home({
     <section>
       <SalePopup />
       <div className="relative hidden h-screen w-full items-center justify-center md:flex">
-        <Image
-          src={Hero}
-          fill
-          objectFit="cover"
-          objectPosition="center"
+        <img
+          src={Hero.src}
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
           alt="hero"
         />
       </div>
       <div className="relative flex h-screen w-full items-center justify-center md:hidden">
-        <Image
-          src={Hero}
-          fill
-          objectFit="cover"
-          objectPosition="70% 0%"
+        <img
+          src={Hero.src}
+          style={{ objectFit: 'cover' }}
+          className="w-full h-full"
           alt="hero"
         />
       </div>
@@ -119,12 +116,11 @@ export default async function Home({
         </Typography>
       </div>
       <div className="relative my-10 flex h-[264px] w-full items-center justify-center md:my-24 md:h-[519px]">
-        <Image
-          src={NatureImage}
-          fill
+        <img
+          src={NatureImage.src}
           alt="nature"
-          objectFit="cover"
-          objectPosition="40% 0%"
+          className='w-full h-full'
+          style={{ objectFit: 'cover', objectPosition: '0% 20%' }}
         />
       </div>
       <div className="relative mb-20 flex w-full items-center justify-center">
@@ -136,12 +132,11 @@ export default async function Home({
             <div className="order-2 inline-flex flex-1 items-center gap-10 md:order-1">
               <div className="flex flex-col items-center gap-4">
                 <div className="relative h-[50px] w-[50px] md:h-[95px] md:w-[95px]">
-                  <Image
-                    src={RabbitImage}
-                    fill
+                  <img
+                    src={RabbitImage.src}
+                    style={{ objectFit: 'cover' }}
                     alt="rabbit-in-heart"
-                    objectFit="cover"
-                    objectPosition="center"
+                    className='w-full h-full'
                   />
                 </div>
                 <Typography
@@ -153,12 +148,11 @@ export default async function Home({
               </div>
               <div className="relative flex flex-col items-center gap-4">
                 <div className="relative h-[50px] w-[50px] md:h-[95px] md:w-[95px]">
-                  <Image
-                    src={LeavesImage}
-                    fill
+                  <img
+                    src={LeavesImage.src}
+                    style={{ objectFit: 'cover' }}
                     alt="two-leaves"
-                    objectFit="cover"
-                    objectPosition="center"
+                    className='w-full h-full'
                   />
                 </div>
                 <Typography

@@ -17,7 +17,6 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -69,11 +68,11 @@ export function OrderConfirmModal({
           }}
         >
           <div className="relative hidden h-full md:block md:w-1/2">
-            <Image
+            <img
               src={image}
               alt="Order Confirmation"
-              fill
-              objectFit="cover"
+              style={{ objectFit: 'cover' }}
+              className="w-full h-full"
             />
           </div>
           <div className="relative bg-white p-10 md:h-full md:w-1/2">
