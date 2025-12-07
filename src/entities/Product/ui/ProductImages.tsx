@@ -34,6 +34,7 @@ export const ProductImages = ({
                 src={images?.[0]?.url}
                 alt={images?.[0]?.name}
                 style={{ objectFit: 'cover' }}
+                className="w-full h-full"
               />
             </div>
           </div>

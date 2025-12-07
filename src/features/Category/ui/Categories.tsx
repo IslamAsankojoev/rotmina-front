@@ -26,12 +26,12 @@ export const Categories = () => {
             index === 4 && 'col-span-2 md:col-span-2 lg:col-span-4',
           )}
         >
-          <div className="absolute inset-0">
+          <div className="relative h-full w-full">
             <img
               src={category?.image?.url || ''}
               alt={category?.name || ''}
               style={{ objectFit: 'cover' }}
-              className="saturate-0 transition-all duration-1000 group-hover:scale-[1.3] group-hover:saturate-100"
+              className="w-full h-full saturate-0 transition-all duration-1000 group-hover:scale-[1.3] group-hover:saturate-100"
             />
           </div>
           <div className="bg-opacity-50 absolute inset-0 z-10 flex items-center justify-center">

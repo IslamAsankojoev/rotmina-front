@@ -76,7 +76,7 @@ export default async function Home({
       <div className="relative flex h-screen w-full items-center justify-center md:hidden">
         <img
           src={Hero.src}
-          style={{ objectFit: 'cover' }}
+          style={{ objectFit: 'cover', objectPosition: '70% 0%' }}
           className="w-full h-full"
           alt="hero"
         />
