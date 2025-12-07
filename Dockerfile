@@ -11,6 +11,7 @@ ARG API_PAY_SERVICE
 
 ENV API_INTERNAL_URL=${API_INTERNAL_URL}
 ENV API_PAY_SERVICE=${API_PAY_SERVICE}
+ENV NODE_ENV=production
 
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
@@ -23,12 +24,14 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# создаём пользователя app
 RUN addgroup -S app && adduser -S app -G app
 
-COPY --from=builder /app ./
+COPY package*.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=deps /app/node_modules ./node_modules
 
-RUN chown -R app:app /app
+RUN chown -R app:app /app && npm prune --omit=dev
 USER app
 
 EXPOSE 3000
