@@ -8,8 +8,8 @@ import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
 import {
   CurrencySwitcher,
   LanguageSwitcher,
-  socialLinks,
   Typography,
+  socialLinks,
   useDictionary,
   useLocale,
   useScreenSize,
@@ -31,7 +31,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { MiniCart } from '../features'
-
+import ky from 'ky'
 // const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
 
 const getLeftMenu = (t: {
@@ -132,13 +132,26 @@ export const Header = () => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    const fetchExchangeRates = async () => {
+      try {
+        // Запрос к API route, который установит куки на сервере
+        await ky.get('/api/exchange-rates').json()
+        console.log('Exchange rates fetched and cookies set by server')
+      } catch (error) {
+        console.error('Failed to fetch exchange rates:', error)
+      }
+    }
+    fetchExchangeRates()
+  }, [])
   return (
     <>
       <header
         className={clsx(
           `fixed top-0 left-0 z-50 w-full transition-all duration-300`,
           scrolled ? 'bg-white shadow-lg' : 'bg-transparent',
-         !isHomePage && 'bg-white',
+          !isHomePage && 'bg-white',
         )}
       >
         <div className="container">
@@ -317,9 +330,7 @@ export const Header = () => {
                         />
                       </button>
                       <button
-                        onClick={() =>
-                          window.open(socialLinks.email, '_blank')
-                        }
+                        onClick={() => window.open(socialLinks.email, '_blank')}
                       >
                         <Mail
                           strokeWidth={1}

@@ -7,9 +7,11 @@ interface LangCurrencyStore {
   lang: Code
   currency: Currency
   exchangeRates: ExchangeRate[]
+  allowedCurrencies: Currency[]
   setLang: (lang: Code) => void
   setCurrency: (currency: Currency) => void
   setExchangeRates: (exchangeRates: ExchangeRate[]) => void
+  setAllowedCurrencies: (allowedCurrencies: Currency[]) => void
 }
 
 export const langCurrencyStore = create<LangCurrencyStore>()(
@@ -18,6 +20,7 @@ export const langCurrencyStore = create<LangCurrencyStore>()(
       lang: Code.EN,
       currency: Currency.ILS,
       exchangeRates: [],
+      allowedCurrencies: [Currency.ILS],
       setLang: (lang) => set({ lang }),
       setCurrency: (currency) => set({ currency }),
       setExchangeRates: (exchangeRates) =>
@@ -27,6 +30,7 @@ export const langCurrencyStore = create<LangCurrencyStore>()(
             { currency: Currency.ILS, rate: 1 },
           ],
         }),
+      setAllowedCurrencies: (allowedCurrencies) => set({ allowedCurrencies }),
     }),
     {
       name: 'langCurrancy',

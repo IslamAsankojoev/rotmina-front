@@ -96,12 +96,6 @@ export async function middleware(request: NextRequest) {
   if(authRoutes.some(route => pathWithoutLocale.startsWith(route)) && isAuthorized) {
     return NextResponse.redirect(new URL(`/${locale}/account`, request.url))
   }
-
-  // Получаем курсы валют
-  const exchangeRates = await fetch(`http://31.97.79.157:7070/api/ExchangeRates`)
-  const exchangeRatesData = await exchangeRates.json()
-  
-  response.cookies.set('rates', JSON.stringify(exchangeRatesData))
   
   return response
 }

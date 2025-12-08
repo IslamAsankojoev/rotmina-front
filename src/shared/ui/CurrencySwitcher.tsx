@@ -13,7 +13,7 @@ import { useLangCurrency } from '../hooks'
 import { Typography } from './Typography'
 
 export const CurrencySwitcher = () => {
-  const { currency, setCurrency } = useLangCurrency()
+  const { currency, setCurrency, allowedCurrencies } = useLangCurrency()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,9 +27,9 @@ export const CurrencySwitcher = () => {
           onValueChange={(value) => setCurrency(value as Currency)}
           className='w-fit'
         >
-          {Object.keys(Currency).map((key) => (
-            <DropdownMenuRadioItem className="uppercase" value={key} key={key}>
-              {key}
+          {allowedCurrencies.map((currency) => (
+            <DropdownMenuRadioItem className="uppercase" value={currency} key={currency}>
+              {currency}
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>

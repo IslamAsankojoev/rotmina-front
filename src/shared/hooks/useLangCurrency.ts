@@ -4,15 +4,18 @@ import { useEffect } from 'react'
 
 import { langCurrencyStore } from '@/src/app'
 import { parse } from 'cookie'
+import { Currency, ExchangeRate } from '../constants'
 
 export const useLangCurrency = () => {
   const {
     lang,
     currency,
     exchangeRates,
+    allowedCurrencies,
     setLang,
     setCurrency,
     setExchangeRates,
+    setAllowedCurrencies,
   } = langCurrencyStore()
 
   const getPrice = (price: number | undefined) => {
@@ -37,16 +40,18 @@ export const useLangCurrency = () => {
       try {
         const ratesData = JSON.parse(cookies.rates)
         setExchangeRates(ratesData)
-      } catch (error) {
-        console.error('Error parsing rates cookie:', error)
+        setAllowedCurrencies(ratesData.map((rate: ExchangeRate) => rate.currency))
+      } catch {
+        setAllowedCurrencies([Currency.ILS])
       }
     }
-  }, [setExchangeRates])
+  }, [setExchangeRates, setAllowedCurrencies])
 
   return {
     lang,
     currency,
     exchangeRates,
+    allowedCurrencies,
     setLang,
     setCurrency,
     setExchangeRates,
