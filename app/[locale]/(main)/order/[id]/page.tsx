@@ -284,7 +284,7 @@ export default function OrderPage() {
         items: itemsWithDelivery.map((item) => ({
           code: item.code,
           name: item.name,
-          unit_price: Number(0.01.toFixed(2)),
+          unit_price: item.unit_price,
           type: 'I',
           units_number: item.units_number,
           unit_type: item.unit_type,
@@ -389,7 +389,7 @@ export default function OrderPage() {
                 card_number: form.getValues('cardNumber'),
                 expire_month: form.getValues('expirationDate').split('/')[0],
                 expire_year: form.getValues('expirationDate').split('/')[1],
-                cvv: form.getValues('cvv'),
+                // cvv: form.getValues('cvv'),
                 clientEmail: user?.data?.email as string,
                 language: lang as Code,
                 items: getItemsWithDelivery(orderItems, deliveryPrice).map((item) => ({
