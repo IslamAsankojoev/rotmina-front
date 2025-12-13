@@ -498,7 +498,7 @@ export interface PayServiceCreateRequest {
   card_number: string
   expire_month: string
   expire_year: string
-  // cvv: string
+  cvv: string
   discount?: number | null
   clientEmail: string
   language: Code

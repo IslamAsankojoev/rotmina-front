@@ -389,7 +389,7 @@ export default function OrderPage() {
                 card_number: form.getValues('cardNumber'),
                 expire_month: form.getValues('expirationDate').split('/')[0],
                 expire_year: form.getValues('expirationDate').split('/')[1],
-                // cvv: form.getValues('cvv'),
+                cvv: form.getValues('cvv'),
                 clientEmail: user?.data?.email as string,
                 language: lang as Code,
                 items: getItemsWithDelivery(orderItems, deliveryPrice).map((item) => ({
