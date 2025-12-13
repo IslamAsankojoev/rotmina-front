@@ -395,7 +395,7 @@ export default function OrderPage() {
                 items: getItemsWithDelivery(orderItems, deliveryPrice).map((item) => ({
                   code: item.code,
                   name: item.name,
-                  unit_price: Number(0.01.toFixed(2)),
+                  unit_price: item.unit_price,
                   unit_type: item.unit_type,
                   units_number: item.units_number,
                   currency_code: item.currency_code,
