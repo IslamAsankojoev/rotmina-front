@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/shadcn/components/ui/button'
 import { Checkbox } from '@/shadcn/components/ui/checkbox'
@@ -14,8 +14,20 @@ import {
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { Spinner } from '@/shadcn/components/ui/spinner'
-import { OrderService, PayOrderRequest } from '@/src/entities/Order'
-import { GiftCardService, SuccessPaymentModal, TermsDialog } from '@/src/features'
+import {
+  CompletePaymentRequest,
+  OrderResponseStrapi,
+  OrderService,
+  PayOrderRequest,
+  PayServiceCreateRequest,
+} from '@/src/entities/Order'
+import { getPaySettings } from '@/src/entities/Order/model/getPaySettings'
+import {
+  GiftCardService,
+  SuccessPaymentModal,
+  TermsDialog,
+} from '@/src/features'
+import { User } from '@/src/features/Auth/model/type'
 import { paymentFormSchema } from '@/src/features/Cart/model'
 import { GiftCard } from '@/src/features/GiftCard/model/type'
 import {
@@ -23,7 +35,6 @@ import {
   Code,
   Currency,
   PAYMENT_ERROR_CODES,
-  PAYMENT_ERROR_CODES_ENUM,
   Typography,
   useDictionary,
   useLangCurrency,
@@ -31,12 +42,18 @@ import {
   useUser,
 } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
+
+import {
+  getItemsWithDelivery,
+  getOrderItems,
+  getShipmentData,
+} from './utils'
 
 enum PaymentMethods {
   CARD = 'card',
@@ -132,6 +149,11 @@ export default function OrderPage() {
   ]
 
   const { id } = useParams()
+  const searchParams = useSearchParams()
+  const status: 'success' | 'error' | 'cancel' | null = searchParams.get(
+    'status',
+  ) as 'success' | 'error' | 'cancel' | null
+  const track_id: string | null = searchParams.get('track_id') as string | null
   const router = useRouter()
   const { user } = useUser()
   const { data: order } = useQuery({
@@ -156,14 +178,20 @@ export default function OrderPage() {
       mutationFn: (code: string) => GiftCardService.applyGiftCard(code),
     })
 
+  const { mutate: changeOrderStatusToPaidMutation } = useMutation({
+    mutationFn: ({
+      orderId,
+      shipmentTracking,
+    }: {
+      orderId: string
+      shipmentTracking: string
+    }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
+    onSuccess: () => {
+      setOpenSuccessPaymentModal(true)
+    },
+  })
 
-  const { mutate: changeOrderStatusToPaidMutation } =
-    useMutation({
-      mutationFn: ({ orderId, shipmentTracking }: { orderId: string, shipmentTracking: string }) => OrderService.changeOrderStatusToPaid(orderId, shipmentTracking),
-      onSuccess: () => {
-        setOpenSuccessPaymentModal(true)
-      },
-    })
+  const completedPaymentRef = useRef<string | null>(null)
 
   const {
     data: giftCardData,
@@ -179,59 +207,23 @@ export default function OrderPage() {
   const handleApplyGiftCard = () => {
     if (giftCardData) {
       setAppliedGiftCard(giftCardData)
-      setTotalPriceWithGiftCard(Number(order?.data?.total_amount || 0) - Number(giftCardData?.amount || 0))
+      setTotalPriceWithGiftCard(
+        Number(order?.data?.total_amount || 0) -
+          Number(giftCardData?.amount || 0),
+      )
     }
   }
 
-  const handleCloseSuccessPaymentModal = () => {
+  const handleCloseSuccessPaymentModal = async () => {
+    
     setOpenSuccessPaymentModal(false)
     router.push(`/account`)
   }
 
-  const orderItems =
-    order?.data?.order_items?.map((item) => {
-      let code: string
-      let name: string
-      let unit_price: number
-
-      switch (item?.type) {
-        case 'giftcard':
-          code = `GIFT-${item?.price_snapshot}`
-          name = `${t.giftCardFor} ${item.gift_card?.recipientsName}.`
-          unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
-          break
-
-        case 'personalStylist':
-          code = `STYLIST-${item?.personal_stylist?.minutes}`
-          name = `${t.personalStylist} (${item?.personal_stylist?.minutes} ${t.minutes})`
-          unit_price = parseFloat(
-            item?.personal_stylist?.price?.toString() || '0',
-          )
-          break
-
-        case 'product':
-          code =
-            item?.variant?.sku || `PRODUCT-${item?.variant?.id || 'unknown'}`
-          name = item.variant?.product?.title || t.product
-          unit_price = parseFloat(item?.variant?.price?.toString() || '0')
-          break
-
-        default:
-          code = `UNKNOWN-${item?.type}`
-          name = t.unknownProduct
-          unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
-      }
-
-      return {
-        code: code,
-        name: name,
-        unit_price: unit_price,
-        unit_type: 1,
-        units_number: item?.quantity,
-        currency_code: order?.data?.currency_code || Currency.ILS,
-        attributes: [] as Array<{ name: string; value: string }>,
-      }
-    }) || []
+  const orderItems = getOrderItems(
+    order as OrderResponseStrapi,
+    t as unknown as Record<string, Record<string, string>>,
+  )
 
   const form = useForm<z.infer<typeof paymentFormSchema>>({
     defaultValues: {
@@ -248,10 +240,17 @@ export default function OrderPage() {
   const { mutate: payOrder, isPending } = useMutation({
     mutationFn: (data: PayOrderRequest) => OrderService.payOrder(data),
   })
+  const { mutate: completePayment, isPending: isCompletingPayment } =
+    useMutation({
+      mutationFn: (data: CompletePaymentRequest) =>
+        OrderService.completePayment(data),
+    })
+
+  const { mutate: payServiceCreate, isPending: isPayingService } = useMutation({
+    mutationFn: (data: PayServiceCreateRequest) => OrderService.payServiceCreate(data),
+  })
 
   const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
-    const discount = appliedGiftCard ? appliedGiftCard.amount : 0
-
     const itemsWithLowPrice = orderItems.filter((item) => item.unit_price < 1)
     if (itemsWithLowPrice.length > 0) {
       toast.error(
@@ -269,158 +268,51 @@ export default function OrderPage() {
       return
     }
 
-    // Распределяем доставку пропорционально стоимости товаров
-    const itemsWithDelivery = (() => {
-      if (deliveryPrice === 0 || orderItems.length === 0) {
-        return orderItems
-      }
-
-      // Рассчитываем общую стоимость всех товаров (с учетом количества)
-      const totalItemsValue = orderItems.reduce(
-        (sum, item) => sum + item.unit_price * item.units_number,
-        0,
-      )
-
-      if (totalItemsValue === 0) {
-        return orderItems
-      }
-
-      // Распределяем доставку пропорционально стоимости каждого товара
-      // Последнему товару даем остаток, чтобы сумма была точной
-      let remainingDelivery = deliveryPrice
-      
-      return orderItems.map((item, index) => {
-        const itemTotalValue = item.unit_price * item.units_number
-        let deliveryShare: number
-        
-        if (index === orderItems.length - 1) {
-          // Последнему товару даем остаток, чтобы сумма была точно равна deliveryPrice
-          deliveryShare = remainingDelivery
-        } else {
-          // Рассчитываем долю пропорционально стоимости
-          deliveryShare = (itemTotalValue / totalItemsValue) * deliveryPrice
-          remainingDelivery -= deliveryShare
-        }
-        
-        // Добавляем долю доставки к цене за единицу
-        const unitPriceWithDelivery = item.unit_price + deliveryShare / item.units_number
-
-        return {
-          ...item,
-          unit_price: Number(unitPriceWithDelivery.toFixed(2)),
-        }
-      })
-    })()
-
-    const addressArray = order?.data?.shipping_address?.address.split('|') || []
-    const streetName = addressArray[0] || ''
-    const houseNum = addressArray[1] || ''
-    const entrance = addressArray[2] || ''
-    const floor = addressArray[3] || ''
-    const apartment = addressArray[4] || ''
+    const itemsWithDelivery = getItemsWithDelivery(orderItems, deliveryPrice)
 
     try {
-      const paymentData = {
-        orderId: order?.data?.order_number?.toString() || '',
-        clientId: user?.data?.id?.toString() || '',
-        txn_currency_code: order?.data?.currency_code || 'ILS',
+      const payData = getPaySettings({
+        txn_currency_code: order?.data?.currency_code || Currency.ILS,
         card_number: data.cardNumber,
-        expire_month: data.expirationDate.split('/')[0],
-        expire_year: data.expirationDate.split('/')[1],
-        cvv: data.cvv,
-        discount: discount,
-        items: itemsWithDelivery,
-        clientEmail: user?.data?.email || '',
-        language: lang || Code.EN,
-      }
+        expire_month: Number(data.expirationDate.split('/')[0]),
+        expire_year: Number(data.expirationDate.split('/')[1]),
+        client: {
+          email: user?.data?.email || '',
+          address_line_1: order?.data?.shipping_address?.address || '',
+          address_line_2: order?.data?.shipping_address?.address || '',
+        },
+        items: itemsWithDelivery.map((item) => ({
+          code: item.code,
+          name: item.name,
+          unit_price: Number(0.01.toFixed(2)),
+          type: 'I',
+          units_number: item.units_number,
+          unit_type: item.unit_type,
+          price_type: 'G',
+          currency_code: item.currency_code,
+          to_txn_currency_exchange_rate: 1,
+        })),
+        auth_3ds_redirect: {
+          url: `${process.env.URL}/${lang}/order/${id}`,
+          params: [],
+        },
+      })
 
-      payOrder(paymentData, {
+      payOrder(payData as PayOrderRequest, {
         onSuccess: async (response) => {
-          if (
-            // response.data.transaction_result.processor_response_code === '000'
-            true
-          ) {
-            if(appliedGiftCard) {
-              applyGiftCardMutation(appliedGiftCard?.code || '', {
-                onError: (error) => {
-                  toast.error(error.message)
-                },
-              })
-            }
-            const shipmentNumber: string = await OrderService.createShipment({
-              clientId: user?.data?.id || 0,
-              orderId: order?.data?.order_number || 0,
-              cityName: order?.data?.shipping_address?.city || '',
-              streetName,
-              houseNum,
-              apartment,
-              floor,
-              entrance,
-              telFirst: data.phone || '',
-              telSecond: data.phone || '',
-              email: user?.data?.email || '',
-              productsPrice: Number(order?.data?.total_amount || 0),
-              productPriceCurrency: order?.data?.currency_code || Currency.ILS,
-              shipmentWeight: 0,
-              govina: {
-                code: 0,
-                sum: 0,
-                date: '',
-                remarks: '',
-              },
-              ordererName: 'Rotmina',
-              nameTo: user?.data?.username || '',
-              cityCode: '100',
-              streetCode: '200',
-              packsHaloch: '',
-            }).then((response) => response)
-            if (shipmentNumber) {
-              if(Number(shipmentNumber) > 0) {
-                changeOrderStatusToPaidMutation({ orderId: order?.data?.documentId || '', shipmentTracking: shipmentNumber })
-              } else {
-                toast.success('We cant deliver your order to this address. Please contact us.')
-              }
+          if (response.error_code === 0) {
+            if (
+              response.transaction_result &&
+              response.transaction_result?.processor_response_code !== '000'
+            ) {
+              toast.error(
+                PAYMENT_ERROR_CODES[
+                  response.transaction_result
+                    ?.processor_response_code as keyof typeof PAYMENT_ERROR_CODES
+                ] || 'Payment failed, please try again',
+              )
             } else {
-              toast.error('Failed to create shipment')
-            }
-          } else {
-            switch (response.data.transaction_result.processor_response_code) {
-              case PAYMENT_ERROR_CODES_ENUM.WRONG_CARD_NUMBER:
-                form.setError('cardNumber', {
-                  message: t.wrongCardNumber,
-                })
-                break
-              case PAYMENT_ERROR_CODES_ENUM.WRONG_EXPIRATION_DATE:
-                form.setError('expirationDate', {
-                  message: t.wrongExpirationDate,
-                })
-                break
-              case PAYMENT_ERROR_CODES_ENUM.WRONG_CVV:
-                form.setError('cvv', {
-                  message: t.wrongCvv,
-                })
-                break
-              case PAYMENT_ERROR_CODES_ENUM.EXPIRED_CARD:
-                form.setError('expirationDate', {
-                  message: t.expiredCard,
-                })
-                break
-              case PAYMENT_ERROR_CODES_ENUM.REFUSAL:
-                toast.error(
-                  PAYMENT_ERROR_CODES[
-                    response.data.transaction_result.processor_response_code
-                  ],
-                  { position: 'top-center' },
-                )
-                break
-              default:
-                toast.error(
-                  PAYMENT_ERROR_CODES[
-                    response.data.transaction_result.processor_response_code
-                  ],
-                  { position: 'top-center' },
-                )
-                break
+              window.location.href = response['3ds_data'].challengeUrl
             }
           }
         },
@@ -432,8 +324,6 @@ export default function OrderPage() {
     } catch (error: unknown) {
       toast.error(error as string)
     }
-
-    
   }
 
   useEffect(() => {
@@ -452,7 +342,7 @@ export default function OrderPage() {
 
   useEffect(() => {
     if (currency === 'ILS') {
-      if(order?.data?.total_amount && order?.data?.total_amount <= 499){
+      if (order?.data?.total_amount && order?.data?.total_amount <= 499) {
         setDeliveryPrice(30)
       } else {
         setDeliveryPrice(0)
@@ -464,9 +354,104 @@ export default function OrderPage() {
 
   useEffect(() => {
     setFinalAmount(
-      (appliedGiftCard ? totalPriceWithGiftCard : Number(order?.data?.total_amount || 0)) + deliveryPrice,
+      (appliedGiftCard
+        ? totalPriceWithGiftCard
+        : Number(order?.data?.total_amount || 0)) + deliveryPrice,
     )
-  }, [appliedGiftCard, totalPriceWithGiftCard, order?.data?.total_amount, deliveryPrice])
+  }, [
+    appliedGiftCard,
+    totalPriceWithGiftCard,
+    order?.data?.total_amount,
+    deliveryPrice,
+  ])
+
+  useEffect(() => {
+    const handleCompletePayment = async (track_id: string) => {
+      if (completedPaymentRef.current === track_id) {
+        return
+      }
+      
+      completedPaymentRef.current = track_id
+      
+      completePayment(
+        {
+          track_id: track_id,
+          terminal_name: 'rotmina',
+        },
+        {
+          onSuccess: async (response) => {
+            if(response.error_code === 0){
+              payServiceCreate({
+                TransactionId: response.transaction_result.transaction_id,
+                orderId: order?.data?.order_number?.toString() as string,
+                clientId: user?.data?.id?.toString() as string,
+                txn_currency_code: order?.data?.currency_code || Currency.ILS,
+                card_number: form.getValues('cardNumber'),
+                expire_month: form.getValues('expirationDate').split('/')[0],
+                expire_year: form.getValues('expirationDate').split('/')[1],
+                cvv: form.getValues('cvv'),
+                clientEmail: user?.data?.email as string,
+                language: lang as Code,
+                items: getItemsWithDelivery(orderItems, deliveryPrice).map((item) => ({
+                  code: item.code,
+                  name: item.name,
+                  unit_price: Number(0.01.toFixed(2)),
+                  unit_type: item.unit_type,
+                  units_number: item.units_number,
+                  currency_code: item.currency_code,
+                  attributes: [],
+                })),
+              })
+              const shipmentNumber: string = await OrderService.createShipment(
+                getShipmentData(
+                  order as OrderResponseStrapi,
+                  user as UseQueryResult<User, Error>,
+                ),
+              ).then((response) => response)
+              if (shipmentNumber) {
+                if (Number(shipmentNumber) > 0) {
+                  changeOrderStatusToPaidMutation({
+                    orderId: order?.data?.documentId || '',
+                    shipmentTracking: shipmentNumber,
+                  })
+                } else {
+                  toast.success(
+                    'We cant deliver your order to this address. Please contact us.',
+                  )
+                }
+              } else {
+                toast.error('Failed to create shipment')
+              }
+            }
+          },
+          onError: (error) => {
+            toast.error(error.message)
+            completedPaymentRef.current = null
+          },
+        },
+      )
+    }
+    
+    if (
+      status === 'success' &&
+      track_id &&
+      order?.data?.documentId &&
+      user?.data?.id &&
+      completedPaymentRef.current !== track_id
+    ) {
+      handleCompletePayment(track_id)
+    }
+    if(status === 'cancel'){
+      toast.error('Payment canceled')
+    }
+  }, [
+    status,
+    track_id,
+    order?.data?.documentId,
+    user?.data?.id,
+    completePayment,
+    changeOrderStatusToPaidMutation,
+  ])
 
   return (
     <>
@@ -617,9 +602,9 @@ export default function OrderPage() {
                   className="uppercase"
                   variant="default"
                   size="lg"
-                  disabled={isPending || isUsingGiftCard}
+                  disabled={isPending || isUsingGiftCard || isCompletingPayment || isPayingService}
                 >
-                  {isPending ? <Spinner /> : t.pay}
+                  {(isPending || isCompletingPayment || isPayingService) ? <Spinner /> : t.pay}
                 </Button>
               </form>
             </Form>
@@ -693,7 +678,8 @@ export default function OrderPage() {
                     {t.subtotal}
                   </Typography>
                   <Typography variant="text_main">
-                    {getPrice(Number(order?.data?.total_amount || 0))} {currency}
+                    {getPrice(Number(order?.data?.total_amount || 0))}{' '}
+                    {currency}
                   </Typography>
                 </div>
                 <div className="flex w-full items-center justify-between gap-4">

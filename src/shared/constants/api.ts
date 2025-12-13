@@ -56,7 +56,8 @@ export const apiMap = {
   deleteOrder: 'orders/:id',
   getOrder: 'orders/:id',
   createOrder: 'orders/make-order',
-  payOrder: 'pay-service/create',
+  payServiceCreate: 'pay-service/create',
+  // completePayment: 'pay-service/complete',
   getOrderPaymentStatus: 'pay-service/receipts',
   changeOrderStatus: 'orders/change-status',
   // Address
@@ -69,4 +70,7 @@ export const apiMap = {
 
   // Shipment
   createShipment: 'shipment/create',
+
+  payOrder: 'tranzilla/create',
+  completePayment: 'tranzilla/3ds/complete',
 }

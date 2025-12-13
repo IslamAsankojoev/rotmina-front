@@ -145,7 +145,7 @@ export default function CartPage() {
       if (orderSuccess.success) {
         setSuccessOrder(orderSuccess)
         setOpenConfirmModal(true)
-        clearCart()
+        // clearCart()
       } else {
         toast.error(orderSuccess.message)
       }

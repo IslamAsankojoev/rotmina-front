@@ -15,15 +15,20 @@ export const api = ky.create({
     beforeRequest: [
       (request, options) => {
         if (options.method && ['post', 'put', 'patch'].includes(options.method.toLowerCase())) {
-          if (!options.headers) {
-            options.headers = new Headers()
+          // Сохраняем существующие заголовки
+          const existingHeaders = options.headers instanceof Headers 
+            ? options.headers 
+            : options.headers 
+              ? new Headers(options.headers)
+              : new Headers()
+          
+          // Добавляем Content-Type только если его нет
+          if (!existingHeaders.has('Content-Type') && !existingHeaders.has('content-type')) {
+            existingHeaders.set('Content-Type', 'application/json')
           }
           
-          const headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
-          if (!headers.has('Content-Type') && !headers.has('content-type')) {
-            headers.set('Content-Type', 'application/json')
-            options.headers = headers
-          }
+          // Сохраняем обновленные заголовки обратно в options
+          options.headers = existingHeaders
         }
       },
     ],

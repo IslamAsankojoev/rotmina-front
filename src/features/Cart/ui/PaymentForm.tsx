@@ -30,7 +30,6 @@ export const PaymentForm = ({
       nameOnCard: 'John Doe',
       phone: '+1234567890',
       expirationDate: '12/25',
-      cvv: '123',
     },
   })
 
@@ -84,13 +83,13 @@ export const PaymentForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="EXP DATE" {...field} />
+                  <Input placeholder="EXP DATE MM/YY" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="cvv"
             render={({ field }) => (
@@ -101,7 +100,7 @@ export const PaymentForm = ({
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <Button
             type="submit"

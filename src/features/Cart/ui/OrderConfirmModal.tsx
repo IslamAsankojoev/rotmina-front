@@ -86,10 +86,10 @@ export function OrderConfirmModal({
                 ))}
               </Typography>
               <Typography variant="text_main" className="text-center font-bold">
-                {t.yourOrder}
+                {t.yourOrder}{' '}
                 {order?.data?.order_number}
               </Typography>
-              <Typography variant="text_main" className="text-center">
+              <Typography variant="text_main" className="text-center text-balance">
                 {t.thankYou}
               </Typography>
               <Link

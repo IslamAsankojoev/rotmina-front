@@ -208,7 +208,7 @@
     "city": "CITY",
     "zipCode": "ZIP CODE",
     "adding": "Adding...",
-    "addNewAddress": "Add new address"
+    "addNewAddress": "Add address"
   },
   "payment": {
     "home": "HOME",
@@ -220,7 +220,7 @@
     "nameOnCard": "NAME ON CARD",
     "cardNumber": "CARD NUMBER",
     "telephone": "TELEPHONE",
-    "expDate": "EXP DATE",
+    "expDate": "EXP DATE MM/YY",
     "cvv": "CVV",
     "iHaveReadAndAgree": "I have read and agree to the",
     "pay": "Pay",

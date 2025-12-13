@@ -83,9 +83,9 @@ export function SuccessPaymentModal({
                   {t.title}
                 </Typography>
               </div>
-              <Typography variant="text_main" className="text-center">
+              {/* <Typography variant="text_main" className="text-center">
                 {t.thankYou}
-              </Typography>
+              </Typography> */}
               <Link
                 href={localizePath('/shop')}
                 className="text-primary uppercase underline"
