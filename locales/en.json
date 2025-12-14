@@ -250,7 +250,8 @@
     "unknownProduct": "Unknown product",
     "minItemPriceError": "Each item must cost at least 1",
     "minPaymentAmountError": "Minimum payment amount is 1",
-    "paymentNotAvailable": "This payment method is not available yet"
+    "paymentNotAvailable": "This payment method is not available yet",
+    "cardHolderId": "CARD HOLDER ID"
   },
   "productPage": {
     "home": "HOME",

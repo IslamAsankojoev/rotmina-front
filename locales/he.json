@@ -250,7 +250,8 @@
     "unknownProduct": "מוצר לא ידוע",
     "minItemPriceError": "כל פריט חייב לעלות לפחות 1",
     "minPaymentAmountError": "סכום התשלום המינימלי הוא 1",
-    "paymentNotAvailable": "אמצעי תשלום זה עדיין לא זמין"
+    "paymentNotAvailable": "אמצעי תשלום זה עדיין לא זמין",
+    "cardHolderId": "מספר תעודת זהות"
   },
   "productPage": {
     "home": "בית",

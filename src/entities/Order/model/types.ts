@@ -157,6 +157,8 @@ export interface PayOrderRequest {
   card_number: string
   expire_month: number
   expire_year: number
+  card_holder_id: string
+  cvv: string
   payment_plan: number
   activate_3ds: 'Y' | 'N'
   force_txn_on_3ds_fail: 'Y' | 'N'

@@ -5,6 +5,8 @@ interface PaySettings {
   card_number: string
   expire_month: number
   expire_year: number
+  card_holder_id: string
+  cvv: string
   client: {
     email: string
     address_line_1: string
@@ -35,6 +37,8 @@ export const getPaySettings = ({
   card_number,
   expire_month,
   expire_year,
+  card_holder_id,
+  cvv,
   client,
   items,
   auth_3ds_redirect,
@@ -46,6 +50,8 @@ export const getPaySettings = ({
     card_number: card_number,
     expire_month: expire_month,
     expire_year: expire_year,
+    card_holder_id: card_holder_id,
+    cvv: cvv,
     payment_plan: 1,
     activate_3ds: 'Y',
     force_txn_on_3ds_fail: 'N',

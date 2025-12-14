@@ -4,7 +4,8 @@ import { useEffect } from 'react'
 
 import { langCurrencyStore } from '@/src/app'
 import { parse } from 'cookie'
-import { Currency, ExchangeRate } from '../constants'
+
+import { Code, Currency } from '../constants'
 
 export const useLangCurrency = () => {
   const {
@@ -23,7 +24,7 @@ export const useLangCurrency = () => {
     const exchangeRate = exchangeRates.find(
       (rate) => rate.currency === currency,
     )
-    return (price / (exchangeRate?.rate || 1)).toFixed(0)
+    return Number((price / (exchangeRate?.rate || 1)).toFixed(0))
   }
 
   const convertToILS = (price: number) => {
@@ -38,14 +39,30 @@ export const useLangCurrency = () => {
     const cookies = parse(document.cookie)
     if (cookies.rates) {
       try {
-        const ratesData = JSON.parse(cookies.rates)
+        const ratesData = [
+          ...JSON.parse(cookies.rates),
+          { currency: Currency.ILS, rate: 1 },
+        ]
         setExchangeRates(ratesData)
-        setAllowedCurrencies(ratesData.map((rate: ExchangeRate) => rate.currency))
+        if (lang === Code.HE) {
+          setCurrency(Currency.ILS)
+          setAllowedCurrencies([Currency.ILS])
+        } else {
+          setCurrency(Currency.USD)
+          setAllowedCurrencies([
+            Currency.GBP,
+            Currency.CHF,
+            Currency.EUR,
+            Currency.USD,
+            Currency.AUD,
+            Currency.CAD,
+          ])
+        }
       } catch {
         setAllowedCurrencies([Currency.ILS])
       }
     }
-  }, [setExchangeRates, setAllowedCurrencies])
+  }, [setExchangeRates, setAllowedCurrencies, lang, setCurrency])
 
   return {
     lang,
@@ -55,6 +72,7 @@ export const useLangCurrency = () => {
     setLang,
     setCurrency,
     setExchangeRates,
+    setAllowedCurrencies,
     getPrice,
     convertToILS,
   }

@@ -49,11 +49,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import {
-  getItemsWithDelivery,
-  getOrderItems,
-  getShipmentData,
-} from './utils'
+import { getItemsWithDelivery, getOrderItems, getShipmentData } from './utils'
 
 enum PaymentMethods {
   CARD = 'card',
@@ -113,6 +109,7 @@ export default function OrderPage() {
     minItemPriceError: 'Each item must cost at least 1',
     minPaymentAmountError: 'Minimum payment amount is 1',
     paymentNotAvailable: 'This payment method is not available yet',
+    cardHolderId: 'CARD HOLDER ID',
   }
 
   const paymentMethods = [
@@ -215,7 +212,6 @@ export default function OrderPage() {
   }
 
   const handleCloseSuccessPaymentModal = async () => {
-    
     setOpenSuccessPaymentModal(false)
     router.push(`/account`)
   }
@@ -233,6 +229,7 @@ export default function OrderPage() {
       expirationDate: '',
       cvv: '',
       terms: false,
+      cardHolderId: lang === Code.EN ? '201551074' : '',
     },
     resolver: zodResolver(paymentFormSchema),
   })
@@ -247,7 +244,8 @@ export default function OrderPage() {
     })
 
   const { mutate: payServiceCreate, isPending: isPayingService } = useMutation({
-    mutationFn: (data: PayServiceCreateRequest) => OrderService.payServiceCreate(data),
+    mutationFn: (data: PayServiceCreateRequest) =>
+      OrderService.payServiceCreate(data),
   })
 
   const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
@@ -269,13 +267,14 @@ export default function OrderPage() {
     }
 
     const itemsWithDelivery = getItemsWithDelivery(orderItems, deliveryPrice)
-
     try {
       const payData = getPaySettings({
         txn_currency_code: order?.data?.currency_code || Currency.ILS,
         card_number: data.cardNumber,
         expire_month: Number(data.expirationDate.split('/')[0]),
         expire_year: Number(data.expirationDate.split('/')[1]),
+        card_holder_id: data.cardHolderId,
+        cvv: data.cvv,
         client: {
           email: user?.data?.email || '',
           address_line_1: order?.data?.shipping_address?.address || '',
@@ -284,7 +283,7 @@ export default function OrderPage() {
         items: itemsWithDelivery.map((item) => ({
           code: item.code,
           name: item.name,
-          unit_price: item.unit_price,
+          unit_price: getPrice(item.unit_price),
           type: 'I',
           units_number: item.units_number,
           unit_type: item.unit_type,
@@ -320,7 +319,6 @@ export default function OrderPage() {
           toast.error(error.message)
         },
       })
-      
     } catch (error: unknown) {
       toast.error(error as string)
     }
@@ -370,9 +368,9 @@ export default function OrderPage() {
       if (completedPaymentRef.current === track_id) {
         return
       }
-      
+
       completedPaymentRef.current = track_id
-      
+
       completePayment(
         {
           track_id: track_id,
@@ -380,27 +378,32 @@ export default function OrderPage() {
         },
         {
           onSuccess: async (response) => {
-            if(response.error_code === 0){
+            if (
+              response.error_code === 0 &&
+              response.transaction_result.processor_response_code === '000'
+            ) {
               payServiceCreate({
                 TransactionId: response.transaction_result.transaction_id,
                 orderId: order?.data?.order_number?.toString() as string,
                 clientId: user?.data?.id?.toString() as string,
                 txn_currency_code: order?.data?.currency_code || Currency.ILS,
-                card_number: form.getValues('cardNumber'),
-                expire_month: form.getValues('expirationDate').split('/')[0],
-                expire_year: form.getValues('expirationDate').split('/')[1],
-                cvv: form.getValues('cvv'),
+                card_number: '1234123412341234',
+                expire_month: '12',
+                expire_year: '12',
+                cvv: '123',
                 clientEmail: user?.data?.email as string,
                 language: lang as Code,
-                items: getItemsWithDelivery(orderItems, deliveryPrice).map((item) => ({
-                  code: item.code,
-                  name: item.name,
-                  unit_price: item.unit_price,
-                  unit_type: item.unit_type,
-                  units_number: item.units_number,
-                  currency_code: item.currency_code,
-                  attributes: [],
-                })),
+                items: getItemsWithDelivery(orderItems, deliveryPrice).map(
+                  (item) => ({
+                    code: item.code,
+                    name: item.name,
+                    unit_price: getPrice(item.unit_price),
+                    unit_type: item.unit_type,
+                    units_number: item.units_number,
+                    currency_code: item.currency_code,
+                    attributes: [],
+                  }),
+                ),
               })
               const shipmentNumber: string = await OrderService.createShipment(
                 getShipmentData(
@@ -431,7 +434,7 @@ export default function OrderPage() {
         },
       )
     }
-    
+
     if (
       status === 'success' &&
       track_id &&
@@ -441,7 +444,7 @@ export default function OrderPage() {
     ) {
       handleCompletePayment(track_id)
     }
-    if(status === 'cancel'){
+    if (status === 'cancel') {
       toast.error('Payment canceled')
     }
   }, [
@@ -576,6 +579,20 @@ export default function OrderPage() {
                     </FormItem>
                   )}
                 />
+                {currency === Currency.ILS && (
+                  <FormField
+                    control={form.control}
+                    name="cardHolderId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input placeholder={t.cardHolderId} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                )}
                 <FormField
                   control={form.control}
                   name="terms"
@@ -602,9 +619,18 @@ export default function OrderPage() {
                   className="uppercase"
                   variant="default"
                   size="lg"
-                  disabled={isPending || isUsingGiftCard || isCompletingPayment || isPayingService}
+                  disabled={
+                    isPending ||
+                    isUsingGiftCard ||
+                    isCompletingPayment ||
+                    isPayingService
+                  }
                 >
-                  {(isPending || isCompletingPayment || isPayingService) ? <Spinner /> : t.pay}
+                  {isPending || isCompletingPayment || isPayingService ? (
+                    <Spinner />
+                  ) : (
+                    t.pay
+                  )}
                 </Button>
               </form>
             </Form>

@@ -13,6 +13,7 @@ export const paymentFormSchema = z.object({
   phone: z.string().min(1, 'Phone number is required'),
   expirationDate: z.string().min(1, 'Expiration date is required'),
   cvv: z.string().min(1, 'CVV is required'),
+  cardHolderId: z.string().min(1, 'Card holder id is required'),
   terms: z.boolean().refine((data) => data, {
     message: 'You must accept the terms and conditions',
   }),
