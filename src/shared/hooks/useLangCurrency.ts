@@ -48,7 +48,11 @@ export const useLangCurrency = () => {
           setCurrency(Currency.ILS)
           setAllowedCurrencies([Currency.ILS])
         } else {
-          setCurrency(Currency.USD)
+          if (currency !== Currency.ILS) {
+            setCurrency(currency)
+          } else {
+            setCurrency(Currency.USD)
+          }
           setAllowedCurrencies([
             Currency.GBP,
             Currency.CHF,

@@ -35,6 +35,7 @@ import {
   Code,
   Currency,
   PAYMENT_ERROR_CODES,
+  SorryModal,
   Typography,
   useDictionary,
   useLangCurrency,
@@ -169,7 +170,7 @@ export default function OrderPage() {
   const [deliveryPrice, setDeliveryPrice] = useState(0)
   const [finalAmount, setFinalAmount] = useState(0)
   const [openSuccessPaymentModal, setOpenSuccessPaymentModal] = useState(false)
-
+  const [openSorryModal, setOpenSorryModal] = useState(false)
   const { mutate: applyGiftCardMutation, isPending: isUsingGiftCard } =
     useMutation({
       mutationFn: (code: string) => GiftCardService.applyGiftCard(code),
@@ -229,7 +230,7 @@ export default function OrderPage() {
       expirationDate: '',
       cvv: '',
       terms: false,
-      cardHolderId: lang === Code.EN ? '201551074' : '',
+      cardHolderId: lang === Code.EN ? '123456789' : '',
     },
     resolver: zodResolver(paymentFormSchema),
   })
@@ -269,7 +270,7 @@ export default function OrderPage() {
     const itemsWithDelivery = getItemsWithDelivery(orderItems, deliveryPrice)
     try {
       const payData = getPaySettings({
-        txn_currency_code: order?.data?.currency_code || Currency.ILS,
+        txn_currency_code: currency || Currency.ILS,
         card_number: data.cardNumber,
         expire_month: Number(data.expirationDate.split('/')[0]),
         expire_year: Number(data.expirationDate.split('/')[1]),
@@ -288,7 +289,7 @@ export default function OrderPage() {
           units_number: item.units_number,
           unit_type: item.unit_type,
           price_type: 'G',
-          currency_code: item.currency_code,
+          currency_code: currency,
           to_txn_currency_exchange_rate: 1,
         })),
         auth_3ds_redirect: {
@@ -382,33 +383,11 @@ export default function OrderPage() {
               response.error_code === 0 &&
               response.transaction_result.processor_response_code === '000'
             ) {
-              payServiceCreate({
-                TransactionId: response.transaction_result.transaction_id,
-                orderId: order?.data?.order_number?.toString() as string,
-                clientId: user?.data?.id?.toString() as string,
-                txn_currency_code: order?.data?.currency_code || Currency.ILS,
-                card_number: '1234123412341234',
-                expire_month: '12',
-                expire_year: '12',
-                cvv: '123',
-                clientEmail: user?.data?.email as string,
-                language: lang as Code,
-                items: getItemsWithDelivery(orderItems, deliveryPrice).map(
-                  (item) => ({
-                    code: item.code,
-                    name: item.name,
-                    unit_price: getPrice(item.unit_price),
-                    unit_type: item.unit_type,
-                    units_number: item.units_number,
-                    currency_code: item.currency_code,
-                    attributes: [],
-                  }),
-                ),
-              })
               const shipmentNumber: string = await OrderService.createShipment(
                 getShipmentData(
                   order as OrderResponseStrapi,
                   user as UseQueryResult<User, Error>,
+                  currency || Currency.ILS,
                 ),
               ).then((response) => response)
               if (shipmentNumber) {
@@ -425,6 +404,31 @@ export default function OrderPage() {
               } else {
                 toast.error('Failed to create shipment')
               }
+              payServiceCreate({
+                TransactionId: response.transaction_result.transaction_id,
+                orderId: order?.data?.order_number?.toString() as string,
+                clientId: user?.data?.id?.toString() as string,
+                txn_currency_code: currency || Currency.ILS,
+                card_number: '1234',
+                expire_month: '12',
+                expire_year: '12',
+                cvv: '123',
+                clientEmail: user?.data?.email as string,
+                language: lang as Code,
+                items: getItemsWithDelivery(orderItems, deliveryPrice).map(
+                  (item) => ({
+                    code: item.code,
+                    name: item.name,
+                    unit_price: getPrice(item.unit_price),
+                    unit_type: item.unit_type,
+                    units_number: item.units_number,
+                    currency_code: currency,
+                    attributes: [],
+                  }),
+                ),
+              })
+            } else {
+              setOpenSorryModal(true)
             }
           },
           onError: (error) => {
@@ -443,9 +447,8 @@ export default function OrderPage() {
       completedPaymentRef.current !== track_id
     ) {
       handleCompletePayment(track_id)
-    }
-    if (status === 'cancel') {
-      toast.error('Payment canceled')
+    } else if (status && status !== 'success') {
+      setOpenSorryModal(true)
     }
   }, [
     status,
@@ -454,6 +457,7 @@ export default function OrderPage() {
     user?.data?.id,
     completePayment,
     changeOrderStatusToPaidMutation,
+    setOpenSorryModal,
   ])
 
   return (
@@ -573,7 +577,12 @@ export default function OrderPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder={t.cvv} maxLength={3} {...field} />
+                        <Input
+                          type="password"
+                          placeholder={t.cvv}
+                          maxLength={3}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -739,6 +748,7 @@ export default function OrderPage() {
           </div>
         </div>
       </div>
+      <SorryModal isOpen={openSorryModal} onOpenChange={setOpenSorryModal} />
       <SuccessPaymentModal
         open={openSuccessPaymentModal}
         onOpenChange={handleCloseSuccessPaymentModal}

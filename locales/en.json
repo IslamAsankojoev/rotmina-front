@@ -570,6 +570,12 @@
     "packagingCommitment": "Rotmina will continue to be attentive to the needs of the environment and remain committed to constantly improving its practices to prevent environmental harm. The brand will stay mindful and committed to technological developments and advancements in sustainability, always striving for new ways to reduce its environmental impact and to be part of a global solution.",
     "packagingData": "The data is supported by reports from established environmental organizations such as the:",
     "packagingOrganizations": "Environmental Protection Agency (EPA), World Resources Institute (WRI), both of which focus on sustainability, emission reduction, and global waste reduction."
+  },
+  "sorryModal": {
+    "title": "Sorry",
+    "description1": "Something went wrong",
+    "description2": "Your order cannot be confirmed",
+    "buttonText": "TRY AGAIN"
   }
 }
 

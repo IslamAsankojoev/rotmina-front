@@ -10,10 +10,7 @@ import {
   DialogContent,
 } from '@/shadcn/components/ui/dialog'
 import { SiteImagesApi } from '@/src/features'
-import {
-  Typography,
-  useScreenSize,
-} from '@/src/shared'
+import { Typography, useDictionary, useScreenSize } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { X } from 'lucide-react'
@@ -21,12 +18,9 @@ import { X } from 'lucide-react'
 export interface SorryModalProps {
   isOpen: boolean
   onOpenChange: (open: boolean) => void
-  title: string
-  description: string
-  buttonText?: string
 }
 
-export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description = 'Something went wrongYour order cannot be confirmed', buttonText = 'TRY AGAIN' }: SorryModalProps) {
+export function SorryModal({ isOpen, onOpenChange }: SorryModalProps) {
   const [open, setOpen] = useState(false)
   const { data: siteImages } = useQuery({
     queryKey: ['site-images'],
@@ -37,6 +31,14 @@ export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description 
     [siteImages],
   )
   const { md } = useScreenSize()
+  const { dictionary } = useDictionary()
+  const t = (dictionary as unknown as Record<string, Record<string, string>>)
+    .sorryModal || {
+    title: 'Sorry',
+    description1: 'Something went wrong',
+    description2: 'Your order cannot be confirmed',
+    buttonText: 'Try again',
+  }
 
   useEffect(() => {
     setOpen(isOpen)
@@ -61,26 +63,26 @@ export function SorryModal({ isOpen, onOpenChange, title = 'Sorry', description 
               src={image as string}
               alt="Order Confirmation"
               style={{ objectFit: 'cover' }}
-              className="w-full h-full"
+              className="h-full w-full"
             />
           </div>
           <div className="relative bg-white p-10 md:h-full md:w-1/2">
             <div className="flex h-full flex-col items-center justify-center gap-2">
               <Typography variant="text_title" className="text-center">
-                {title}
+                {t.title}
               </Typography>
               <Typography
                 variant="text_main"
                 className="text-center font-bold text-[#FF3F3F]"
               >
-                {description}
+                {t.description1} <br /> {t.description2}
               </Typography>
               <Button
                 onClick={() => setOpen(false)}
                 variant="link"
                 className="text-primary uppercase underline"
               >
-                {buttonText}
+                {t.buttonText}
               </Button>
             </div>
             <DialogClose asChild>

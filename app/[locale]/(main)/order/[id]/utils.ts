@@ -111,7 +111,7 @@ export const getAddress = (address: string) => {
   }
 }
 
-export const getShipmentData = (order: OrderResponseStrapi, user: UseQueryResult<User, Error>) => {
+export const getShipmentData = (order: OrderResponseStrapi, user: UseQueryResult<User, Error>, currency: Currency) => {
   const {apartment, floor, entrance, houseNum, streetName} = getAddress(order?.data?.shipping_address?.address || '')
   return {
     clientId: user?.data?.id || 0,
@@ -126,7 +126,7 @@ export const getShipmentData = (order: OrderResponseStrapi, user: UseQueryResult
     telSecond: user?.data?.phone || '',
     email: user?.data?.email || '',
     productsPrice: Number(order?.data?.total_amount || 0),
-    productPriceCurrency: order?.data?.currency_code || Currency.ILS,
+    productPriceCurrency: currency || Currency.ILS,
     shipmentWeight: 0,
     govina: {
       code: 0,
