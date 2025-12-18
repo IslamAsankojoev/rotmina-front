@@ -281,7 +281,7 @@ export default function OrderPage() {
           return {
             code: item.code,
             name: item.name,
-            unit_price: 0.1,
+            unit_price: getPrice(item.unit_price),
             type: item.type,
             units_number: item.units_number,
             unit_type: item.unit_type,
