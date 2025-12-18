@@ -31,6 +31,7 @@ export interface Address {
   city: string
   address: string
   is_default: boolean
+  zip_code: string
 }
 
 // Types for payment details
@@ -50,7 +51,7 @@ export interface OrderItem {
   price_snapshot: string
   quantity: number
   subtotal: number
-  type: 'product' | 'giftcard' | 'personalStylist'
+  type: 'product' | 'giftcard' | 'personalStylist' | 'shipment' | 'discount'
   gift_card?: GiftCard
   personal_stylist?: PersonalStylist
   variant?: ProductVariant & {
@@ -102,7 +103,7 @@ export interface OrderItem {
 export interface CreateOrderItem {
   id: string
   documentId?: string
-  type: 'product' | 'giftcard' | 'personalStylist'
+  type: 'product' | 'giftcard' | 'personalStylist' | 'shipment' | 'discount'
   variant?: {
     id: number
     documentId: string
@@ -368,7 +369,6 @@ export interface CreateShipmentRequest {
   HouseNum: string
   apartment: string
   floor: string
-  entrance: string
   telFirst: string
   telSecond: string
   email: string
@@ -519,62 +519,57 @@ export interface PayServiceCreateRequest {
 }
 
 export interface PayServiceCreateResponse {
-  success: boolean
-  data: {
-    error_code: number
-    message: string
-    transaction_result: {
-      processor_response_code: keyof typeof PAYMENT_ERROR_CODES
-      transaction_id: string
-      transaction_resource: number
-      Responsecvv: string
-      Responseid: string
-      amount: number
-      DBFIsForeign: string
-      auth_number: string
-      card_type: string
-      card_type_name: string
-      currency_code: Currency
-      expiry_month: string
-      expiry_year: string
-      payment_plan: string
-      credit_card_owner_id: string
-      card_issuer: string
-      token: string
-      last_4: string
-      card_mask: string
-      card_locality: string
-      txn_type: string
-      tranmode: string
+  value: {
+    id: string
+    client: Record<string, unknown>
+    number: number
+    type: number
+    signed: boolean
+    lang: string
+    taxAuthorityConfirmationInitiated: boolean
+    counter: number
+    url: {
+      origin: string
+      he: string
+      en: string
     }
-    original_request: {
-      terminal_name: string
-      txn_currency_code: string
-      pan_entry_mode: string
-      card_number: string
-      expire_month: number
-      expire_year: number
-      cvv: string
-      payment_plan: number
-      response_language: string
-      activate_3ds: string
-      items: {
-        code: string
-        name: string
-        type: string
-        unit_price: number
-        unit_type: number
-        price_type: string
-        units_number: number
-        currency_code: Currency
-        discount_type: string
-        discount: number
-        vat_percent: number
-        attributes: Array<{
-          name: string
-          value: string
-        }>
-      }[]
+    taxAuthorityConfirmationLastError: number
+    vatRate: number
+  }
+  formatters: object[]
+  contentTypes: object[]
+  declaredType: null
+  statusCode: number
+}
+
+export interface CreateShipmentToGoRequest {
+  ShipDetails: {
+    OrderDetails: {
+      orderId: string
     }
+    currency: Currency
+    insuranceAmount: number
+    Recipient: {
+      name: string
+      contactPerson: string
+      country: string
+      city: string
+      street: string
+      houseNumber: string
+      postalCode: string
+      phone: string
+      phonePrefix: string
+      email: string
+    }
+    Packages: {
+      quantity: string
+      weight: '1'
+      length: '1'
+      width: '1'
+      height: '1'
+      name: string
+      customValue: string
+      productId: number // product id
+    }[]
   }
 }

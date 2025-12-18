@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
         destination: `${process.env.API_PAY_SERVICE}/api/IsraelShippment/:path`,
       },
       {
+        source: '/api/shipment-to-go/:path',
+        destination: `${process.env.API_PAY_SERVICE}/api/ShippingToGo/:path`,
+      },
+      {
         source: '/api/tranzilla/:path',
         destination: `https://api.tranzila.com/v1/transaction/credit_card/:path`,
       },

@@ -196,7 +196,7 @@
     "name": "NAME",
     "surname": "SURNAME",
     "email": "EMAIL",
-    "phone": "PHONE",
+    "phone": "+PREFIX PHONE",
     "next": "Next"
   },
   "addressForm": {
@@ -251,7 +251,9 @@
     "minItemPriceError": "Each item must cost at least 1",
     "minPaymentAmountError": "Minimum payment amount is 1",
     "paymentNotAvailable": "This payment method is not available yet",
-    "cardHolderId": "CARD HOLDER ID"
+    "cardHolderId": "CARD HOLDER ID",
+    "giftCardAmountExceedsOrderTotal": "Gift card amount exceeds order total, please add more items to your order",
+    "alreadyAppliedGiftCard": "Already applied gift card"
   },
   "productPage": {
     "home": "HOME",

@@ -13,7 +13,7 @@ import {
 import { Input } from '@/shadcn/components/ui/input'
 import { Label } from '@/shadcn/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/shadcn/components/ui/radio-group'
-import { Typography, useDictionary } from '@/src/shared'
+import { Code, Currency, Typography, useDictionary, useLangCurrency } from '@/src/shared'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -34,6 +34,7 @@ export const AddressForm = ({
   setShippingAddress,
   selectedAddress,
 }: OrderFormProps) => {
+  const { lang, currency } = useLangCurrency()
   const { dictionary } = useDictionary()
   const t = (dictionary as unknown as Record<string, Record<string, string>>)
     .addressForm || {
@@ -57,6 +58,8 @@ export const AddressForm = ({
     queryFn: () => AddressService.getMyAddresses(),
   })
 
+  const isIsrael = lang === Code.HE || currency === Currency.ILS
+
   const form = useForm<z.infer<typeof addressFormSchema>>({
     defaultValues: {
       city: '',
@@ -64,7 +67,7 @@ export const AddressForm = ({
       houseNum: '',
       apartment: '',
       floor: '',
-      entrance: '',
+      country: isIsrael ? 'ישראל' : '',
       zip_code: '',
     },
     resolver: zodResolver(addressFormSchema),
@@ -75,7 +78,7 @@ export const AddressForm = ({
       AddressService.addAddress({
         city: data.city,
         zip_code: data.zip_code,
-        address: `${data.streetName} | ${data.houseNum} | ${data.entrance} | ${data.floor} | ${data.apartment}`,
+        address: `${data.streetName} | ${data.houseNum} | ${data.country} | ${data.floor} | ${data.apartment}`,
       }),
     onSuccess: () => {
       toast.success(t.addressAddedSuccess)
@@ -174,6 +177,20 @@ export const AddressForm = ({
       <div className="mt-8 flex flex-col gap-6">
         <Form {...form}>
           <div className="flex gap-4">
+          <div className="flex-1">
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="COUNTRY" disabled={isIsrael} {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <div className="flex-1">
               <FormField
                 control={form.control}
@@ -188,20 +205,7 @@ export const AddressForm = ({
                 )}
               />
             </div>
-            <div className="flex-1">
-              <FormField
-                control={form.control}
-                name="streetName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input placeholder="STREET NAME" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            
           </div>
           <div className="flex gap-4">
             <div className="flex-1">
@@ -221,11 +225,11 @@ export const AddressForm = ({
             <div className="flex-1">
               <FormField
                 control={form.control}
-                name="entrance"
+                name="streetName"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="ENTRANCE" {...field} />
+                      <Input placeholder="STREET NAME" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

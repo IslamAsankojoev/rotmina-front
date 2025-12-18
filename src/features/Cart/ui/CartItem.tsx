@@ -134,7 +134,7 @@ export const CartItem = ({
           onClick={() => onRemoveItem(item?.id)}
           className={clsx(
             'text-greyy absolute top-0 p-0 hover:text-black',
-            isRTL ? 'left-0' : 'right-0',
+            isRTL ? 'left-0!' : 'right-0!',
           )}
         >
           {t.remove}
@@ -226,7 +226,7 @@ export const CartItem = ({
           onClick={() => onRemoveItem(item?.id)}
           className={clsx(
             'text-greyy absolute top-0 p-0 hover:text-black',
-            isRTL ? 'left-0' : 'right-0',
+            isRTL ? 'left-0!' : 'right-0!',
           )}
         >
           {t.remove}
@@ -307,7 +307,7 @@ export const CartItem = ({
           onClick={() => onRemoveItem(item?.id)}
           className={clsx(
             'text-greyy absolute top-0 p-0 hover:text-black',
-            isRTL ? 'left-0' : 'right-0',
+            isRTL ? 'left-0!' : 'right-0!',
           )}
         >
           {t.remove}

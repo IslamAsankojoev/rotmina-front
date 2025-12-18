@@ -251,7 +251,9 @@
     "minItemPriceError": "כל פריט חייב לעלות לפחות 1",
     "minPaymentAmountError": "סכום התשלום המינימלי הוא 1",
     "paymentNotAvailable": "אמצעי תשלום זה עדיין לא זמין",
-    "cardHolderId": "מספר תעודת זהות"
+    "cardHolderId": "מספר תעודת זהות",
+    "giftCardAmountExceedsOrderTotal": "סכום הכרטיס המתנה גדול מסכום ההזמנה, תוכלי להוסיף פריטים נוספים להזמנה",
+    "alreadyAppliedGiftCard": "כרטיס מתנה כבר חולף"
   },
   "productPage": {
     "home": "בית",

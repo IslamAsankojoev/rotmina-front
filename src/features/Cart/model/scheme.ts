@@ -25,6 +25,6 @@ export const addressFormSchema = z.object({
   houseNum: z.string().min(1, 'House number is required'),
   apartment: z.string(),
   floor: z.string(),
-  entrance: z.string(),
+  country: z.string(),
   zip_code: z.string().min(1, 'Zipcode is required'),
 })

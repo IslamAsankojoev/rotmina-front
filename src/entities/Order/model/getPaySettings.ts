@@ -16,7 +16,7 @@ interface PaySettings {
     code: string
     name: string
     unit_price: number
-    type: 'I'
+    type: string
     units_number: number
     unit_type: number
     price_type: 'G'

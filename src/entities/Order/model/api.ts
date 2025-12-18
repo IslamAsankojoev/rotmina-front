@@ -7,6 +7,7 @@ import type {
   CompletePaymentResponse,
   CreateOrderRequest,
   CreateShipmentRequest,
+  CreateShipmentToGoRequest,
   OrderListResponse,
   OrderPaymentStatus,
   OrderResponse,
@@ -113,4 +114,10 @@ export const OrderService = {
       .post(apiMap.createShipment, { json: request })
       .text()
       .then((text) => text?.match(/\d+/)?.[0] || ''),
+
+  createShipmentToGo: (request: CreateShipmentToGoRequest): Promise<string> =>
+    api
+      .post(apiMap.createShipmentToGo, { json: request })
+      .text()
+      .then((text) => text || ''),
 }

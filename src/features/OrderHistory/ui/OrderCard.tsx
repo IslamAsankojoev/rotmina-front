@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import GiftCardImage from '@/public/assets/gift.png'
 import PersonalStylistImage from '@/public/assets/personal-stylist.webp'
+import ShipmentImage from '@/public/assets/shpment.jpg'
 import ShirtImage from '@/public/assets/products/shirt.webp'
 import {
   Accordion,
@@ -18,7 +19,7 @@ import {
   TableCell,
   TableRow,
 } from '@/shadcn/components/ui/table'
-import { OrderItem } from '@/src/features/OrderHistory/model/types'
+import { Order, OrderItem } from '@/src/features/OrderHistory/model/types'
 import {
   Typography,
   useDictionary,
@@ -29,10 +30,9 @@ import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 
 import { OrderDeleteModal } from '../..'
-import { OrderWithPaymentStatus } from './OrderList'
 
 interface OrderCardProps {
-  order: OrderWithPaymentStatus
+  order: Order
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
@@ -55,6 +55,8 @@ export const OrderCard = ({ order }: OrderCardProps) => {
   const { getPrice, currency } = useLangCurrency()
   const router = useRouter()
   const [openDeleteModal, setOpenDeleteModal] = useState(false)
+  const [discountPrice, setDiscountPrice] = useState<number>(0)
+
 
   const renderPayButtonOrStatus = () => {
     if (order.payment_status === 'paid') {
@@ -107,8 +109,18 @@ export const OrderCard = ({ order }: OrderCardProps) => {
     }
     if (item.type === 'giftcard') return GiftCardImage.src
     if (item.type === 'personalStylist') return PersonalStylistImage.src
+    if (item.type === 'shipment') return ShipmentImage.src
+    if(item.type === 'discount') return GiftCardImage.src
     return ShirtImage.src
   }
+
+  useEffect(()=>{
+    if (order.order_items?.find((item) => item.type === 'discount')) {
+      setDiscountPrice(Number(order.order_items?.find((item) => item.type === 'discount')?.price_snapshot || 0))
+    } else {
+      setDiscountPrice(0)
+    }
+  }, [order])
 
   return (
     <TableRow key={order.order_number} className="w-full">
@@ -144,7 +156,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       {renderShipmentStatus()}
                     </TableCell>
                     <TableCell className={isRTL ? 'text-right' : 'text-left'}>
-                      {getPrice(Number(order.total_amount))} {currency}
+                      {getPrice(Number(order.total_amount) - discountPrice)} {currency}
                     </TableCell>
                     <TableCell className={isRTL ? 'text-right' : 'text-left'}>
                       {renderPayButtonOrStatus()}
@@ -159,7 +171,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                   {order.order_items.map((item) => (
                     <div
                       key={item.documentId}
-                      className="mb-2 flex flex-col justify-between"
+                      className="mb-2 flex flex-col justify-start"
                     >
                       <div className="relative h-[260px] w-full">
                         <img
@@ -184,7 +196,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                         >
                           <span>{item.title_snapshot}</span>
                         </Typography>
-                        <Typography
+                        {(item.type !== 'shipment' && item.type !== 'discount') && <Typography
                           variant="text_mini_footer"
                           className={isRTL ? 'text-right' : 'text-left'}
                         >
@@ -197,7 +209,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                             {t.sku}
                           </span>
                           {item.sku_snapshot}
-                        </Typography>
+                        </Typography>}
                         <Typography
                           variant="text_mini_footer"
                           className={isRTL ? 'text-right' : 'text-left'}
@@ -212,7 +224,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                           </span>
                           {getPrice(Number(item.price_snapshot))} {currency}
                         </Typography>
-                        <Typography
+                        {(item.type !== 'shipment' && item.type !== 'discount') && <Typography
                           variant="text_mini_footer"
                           className={isRTL ? 'text-right' : 'text-left'}
                         >
@@ -225,8 +237,8 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                             {t.amount}
                           </span>{' '}
                           {item.quantity}
-                        </Typography>
-                        <Typography
+                        </Typography>}
+                        {item.type !== 'shipment' && item.type !== 'discount' && <Typography
                           variant="text_mini_footer"
                           className={isRTL ? 'text-right' : 'text-left'}
                         >
@@ -242,6 +254,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                             {getPrice(item.subtotal)} {currency}
                           </span>
                         </Typography>
+                        }
                       </div>
                     </div>
                   ))}

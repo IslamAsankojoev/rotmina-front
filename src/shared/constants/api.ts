@@ -70,6 +70,7 @@ export const apiMap = {
 
   // Shipment
   createShipment: 'shipment/create',
+  createShipmentToGo: 'shipment-to-go/create',
 
   payOrder: 'tranzilla/create',
   completePayment: 'tranzilla/3ds/complete',

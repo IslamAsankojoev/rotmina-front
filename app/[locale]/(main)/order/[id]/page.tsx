@@ -50,7 +50,12 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { getItemsWithDelivery, getOrderItems, getShipmentData } from './utils'
+import {
+  getAddress,
+  getOrderItems,
+  getShipmentData,
+  getShipmentToGoData,
+} from './utils'
 
 enum PaymentMethods {
   CARD = 'card',
@@ -111,6 +116,12 @@ export default function OrderPage() {
     minPaymentAmountError: 'Minimum payment amount is 1',
     paymentNotAvailable: 'This payment method is not available yet',
     cardHolderId: 'CARD HOLDER ID',
+    giftCardAmountExceedsOrderTotal:
+      'Gift card amount exceeds order total, please add more items to your order',
+    alreadyAppliedGiftCard: 'Already applied gift card',
+    shipment: 'Shipment',
+    shipmentToGo: 'Shipment ToGo',
+    discount: 'Discount',
   }
 
   const paymentMethods = [
@@ -166,14 +177,14 @@ export default function OrderPage() {
   const [giftCardCode, setGiftCardCode] = useState('')
   const [debouncedGiftCardCode, setDebouncedGiftCardCode] = useState('')
   const [appliedGiftCard, setAppliedGiftCard] = useState<GiftCard | null>(null)
-  const [totalPriceWithGiftCard, setTotalPriceWithGiftCard] = useState(0)
-  const [deliveryPrice, setDeliveryPrice] = useState(0)
-  const [finalAmount, setFinalAmount] = useState(0)
   const [openSuccessPaymentModal, setOpenSuccessPaymentModal] = useState(false)
   const [openSorryModal, setOpenSorryModal] = useState(false)
+  const [appliedDiscountCode, setAppliedDiscountCode] = useState<boolean>(false)
+  const [discountPrice, setDiscountPrice] = useState<number>(0)
   const { mutate: applyGiftCardMutation, isPending: isUsingGiftCard } =
     useMutation({
-      mutationFn: (code: string) => GiftCardService.applyGiftCard(code),
+      mutationFn: (code: string) =>
+        GiftCardService.applyGiftCard(code, id as string),
     })
 
   const { mutate: changeOrderStatusToPaidMutation } = useMutation({
@@ -203,12 +214,15 @@ export default function OrderPage() {
   })
 
   const handleApplyGiftCard = () => {
-    if (giftCardData) {
-      setAppliedGiftCard(giftCardData)
-      setTotalPriceWithGiftCard(
-        Number(order?.data?.total_amount || 0) -
-          Number(giftCardData?.amount || 0),
-      )
+    if (giftCardData && !giftCardData.is_used) {
+      applyGiftCardMutation(debouncedGiftCardCode, {
+        onSuccess: () => {
+          setAppliedGiftCard(giftCardData)
+        },
+        onError: (error) => {
+          toast.error(error.message)
+        },
+      })
     }
   }
 
@@ -250,24 +264,6 @@ export default function OrderPage() {
   })
 
   const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
-    const itemsWithLowPrice = orderItems.filter((item) => item.unit_price < 1)
-    if (itemsWithLowPrice.length > 0) {
-      toast.error(
-        `${t.minItemPriceError} ${order?.data?.currency_code || 'ILS'}`,
-        { position: 'top-center' },
-      )
-      return
-    }
-
-    if (finalAmount < 1) {
-      toast.error(
-        `${t.minPaymentAmountError} ${order?.data?.currency_code || 'ILS'}`,
-        { position: 'top-center' },
-      )
-      return
-    }
-
-    const itemsWithDelivery = getItemsWithDelivery(orderItems, deliveryPrice)
     try {
       const payData = getPaySettings({
         txn_currency_code: currency || Currency.ILS,
@@ -281,23 +277,24 @@ export default function OrderPage() {
           address_line_1: order?.data?.shipping_address?.address || '',
           address_line_2: order?.data?.shipping_address?.address || '',
         },
-        items: itemsWithDelivery.map((item) => ({
-          code: item.code,
-          name: item.name,
-          unit_price: getPrice(item.unit_price),
-          type: 'I',
-          units_number: item.units_number,
-          unit_type: item.unit_type,
-          price_type: 'G',
-          currency_code: currency,
-          to_txn_currency_exchange_rate: 1,
-        })),
+        items: orderItems.map((item) => {
+          return {
+            code: item.code,
+            name: item.name,
+            unit_price: 0.1,
+            type: item.type,
+            units_number: item.units_number,
+            unit_type: item.unit_type,
+            price_type: 'G',
+            currency_code: currency,
+            to_txn_currency_exchange_rate: 1,
+          }
+        }),
         auth_3ds_redirect: {
           url: `${process.env.URL}/${lang}/order/${id}`,
           params: [],
         },
       })
-
       payOrder(payData as PayOrderRequest, {
         onSuccess: async (response) => {
           if (response.error_code === 0) {
@@ -325,6 +322,63 @@ export default function OrderPage() {
     }
   }
 
+  const renderGiftCardMessage = () => {
+    if (appliedDiscountCode) {
+      return (
+        <Typography variant="text_main" className="text-sm text-green-600">
+          {t.alreadyAppliedGiftCard}
+        </Typography>
+      )
+    }
+    if (
+      giftCardData &&
+      Number(giftCardData.amount || 0) > Number(order?.data?.total_amount || 0)
+    ) {
+      return (
+        <Typography variant="text_main" className="text-sm text-red-600">
+          {t.giftCardAmountExceedsOrderTotal}
+        </Typography>
+      )
+    }
+    if (giftCardData && giftCardData?.is_used) {
+      return (
+        <Typography variant="text_main" className="text-sm text-red-600">
+          {t.giftCardAlreadyUsed}
+        </Typography>
+      )
+    }
+    if (giftCardData && !giftCardData?.is_used) {
+      return (
+        <Typography variant="text_main" className="text-sm text-green-600">
+          {t.giftCardExists}
+        </Typography>
+      )
+    }
+    if (giftCardError && !isSearchingGiftCard) {
+      return (
+        <Typography variant="text_main" className="text-sm text-red-600">
+          {t.giftCardNotFound}
+        </Typography>
+      )
+    }
+    return null
+  }
+
+  useEffect(() => {
+    if (order?.data?.order_items?.find((item) => item.type === 'discount')) {
+      setAppliedDiscountCode(true)
+      setDiscountPrice(
+        Number(
+          order?.data?.order_items?.find((item) => item.type === 'discount')
+            ?.price_snapshot || 0,
+        ),
+      )
+    } else {
+      setAppliedDiscountCode(false)
+      setDiscountPrice(0)
+    }
+  }, [order])
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedGiftCardCode(giftCardCode)
@@ -334,38 +388,9 @@ export default function OrderPage() {
   }, [giftCardCode])
 
   useEffect(() => {
-    if (giftCardCode !== appliedGiftCard?.code) {
-      setAppliedGiftCard(null)
-    }
-  }, [giftCardCode, appliedGiftCard?.code])
-
-  useEffect(() => {
-    if (currency === 'ILS') {
-      if (order?.data?.total_amount && order?.data?.total_amount <= 499) {
-        setDeliveryPrice(30)
-      } else {
-        setDeliveryPrice(0)
-      }
-    } else {
-      setDeliveryPrice(165)
-    }
-  }, [currency, order?.data?.total_amount])
-
-  useEffect(() => {
-    setFinalAmount(
-      (appliedGiftCard
-        ? totalPriceWithGiftCard
-        : Number(order?.data?.total_amount || 0)) + deliveryPrice,
-    )
-  }, [
-    appliedGiftCard,
-    totalPriceWithGiftCard,
-    order?.data?.total_amount,
-    deliveryPrice,
-  ])
-
-  useEffect(() => {
     const handleCompletePayment = async (track_id: string) => {
+      const address = getAddress(order?.data?.shipping_address?.address || '')
+
       if (completedPaymentRef.current === track_id) {
         return
       }
@@ -383,28 +408,50 @@ export default function OrderPage() {
               response.error_code === 0 &&
               response.transaction_result.processor_response_code === '000'
             ) {
-              const shipmentNumber: string = await OrderService.createShipment(
-                getShipmentData(
-                  order as OrderResponseStrapi,
-                  user as UseQueryResult<User, Error>,
-                  currency || Currency.ILS,
-                ),
-              ).then((response) => response)
-              if (shipmentNumber) {
-                if (Number(shipmentNumber) > 0) {
-                  changeOrderStatusToPaidMutation({
-                    orderId: order?.data?.documentId || '',
-                    shipmentTracking: shipmentNumber,
-                  })
+              let shipmentTracking = ''
+              // Create shipment for Israel
+              if (address.country === 'ישראל' && currency === Currency.ILS) {
+                const shipmentNumber: string =
+                  await OrderService.createShipment(
+                    getShipmentData(
+                      order as OrderResponseStrapi,
+                      user as UseQueryResult<User, Error>,
+                      currency || Currency.ILS,
+                    ),
+                  ).then((response) => response)
+                if (shipmentNumber) {
+                  if (Number(shipmentNumber) > 0) {
+                    shipmentTracking = shipmentNumber
+                  } else {
+                    toast.success(
+                      'We cant deliver your order to this address. Please contact us.',
+                    )
+                  }
                 } else {
-                  toast.success(
-                    'We cant deliver your order to this address. Please contact us.',
-                  )
+                  toast.error('Failed to create shipment')
                 }
-              } else {
-                toast.error('Failed to create shipment')
               }
-              payServiceCreate({
+              // Create shipment for ToGo
+              else if (
+                address.country !== 'ישראל' &&
+                currency !== Currency.ILS
+              ) {
+                const shipmentSuccessText: string =
+                  await OrderService.createShipmentToGo(
+                    getShipmentToGoData(
+                      order as OrderResponseStrapi,
+                      user as UseQueryResult<User, Error>,
+                      currency || Currency.ILS,
+                    ),
+                  ).then((response) => response)
+                if (shipmentSuccessText === 'Shipment created.') {
+                  shipmentTracking = ''
+                } else {
+                  toast.error('Failed to create shipment ToGo')
+                }
+              }
+              // Pay service create
+               payServiceCreate({
                 TransactionId: response.transaction_result.transaction_id,
                 orderId: order?.data?.order_number?.toString() as string,
                 clientId: user?.data?.id?.toString() as string,
@@ -415,18 +462,27 @@ export default function OrderPage() {
                 cvv: '123',
                 clientEmail: user?.data?.email as string,
                 language: lang as Code,
-                items: getItemsWithDelivery(orderItems, deliveryPrice).map(
-                  (item) => ({
-                    code: item.code,
-                    name: item.name,
-                    unit_price: getPrice(item.unit_price),
-                    unit_type: item.unit_type,
-                    units_number: item.units_number,
-                    currency_code: currency,
-                    attributes: [],
-                  }),
-                ),
+                items: orderItems.map((item) => ({
+                  code: item.code,
+                  name: item.name,
+                  unit_price: getPrice(item.unit_price),
+                  unit_type: item.unit_type,
+                  units_number: item.units_number,
+                  currency_code: currency,
+                  attributes: [],
+                })),
+              }, {
+                onSuccess: (response) => {
+                  if (response.statusCode === 200 && response.value.id !== '') {
+                    changeOrderStatusToPaidMutation({
+                      orderId: order?.data?.documentId || '',
+                      shipmentTracking: shipmentTracking,
+                    })
+                  }
+                },
               })
+              
+              
             } else {
               setOpenSorryModal(true)
             }
@@ -658,7 +714,7 @@ export default function OrderPage() {
                       placeholder={t.giftCard}
                       value={giftCardCode}
                       onChange={(e) => setGiftCardCode(e.target.value)}
-                      disabled={!!appliedGiftCard}
+                      disabled={!!appliedGiftCard || appliedDiscountCode}
                     />
                     <Button
                       variant="link"
@@ -667,44 +723,15 @@ export default function OrderPage() {
                       disabled={
                         !giftCardData ||
                         isSearchingGiftCard ||
-                        giftCardData?.is_used
+                        giftCardData?.is_used ||
+                        Number(giftCardData?.amount || 0) >
+                          Number(order?.data?.total_amount || 0)
                       }
                     >
                       {isSearchingGiftCard ? <Spinner /> : t.apply}
                     </Button>
                   </div>
-                  {isSearchingGiftCard && (
-                    <Typography
-                      variant="text_main"
-                      className="text-sm text-gray-500"
-                    >
-                      {t.searching}
-                    </Typography>
-                  )}
-                  {giftCardData && giftCardData?.is_used && (
-                    <Typography
-                      variant="text_main"
-                      className="text-sm text-red-600"
-                    >
-                      {t.giftCardAlreadyUsed}
-                    </Typography>
-                  )}
-                  {giftCardData && !giftCardData?.is_used && (
-                    <Typography
-                      variant="text_main"
-                      className="text-sm text-green-600"
-                    >
-                      {t.giftCardExists}
-                    </Typography>
-                  )}
-                  {giftCardError && !isSearchingGiftCard && (
-                    <Typography
-                      variant="text_main"
-                      className="text-sm text-red-600"
-                    >
-                      {t.giftCardNotFound}
-                    </Typography>
-                  )}
+                  {renderGiftCardMessage()}
                 </div>
               </div>
               <div className="mt-10 flex w-full flex-col items-center gap-4">
@@ -721,11 +748,7 @@ export default function OrderPage() {
                   <Typography variant="text_main" className="uppercase">
                     {t.delivery}
                   </Typography>
-                  <Typography variant="text_main">
-                    {deliveryPrice === 0
-                      ? t.includes
-                      : `${getPrice(deliveryPrice)} ${currency}`}
-                  </Typography>
+                  <Typography variant="text_main">{t.includes}</Typography>
                 </div>
                 {currency === 'ILS' && (
                   <div className="flex w-full items-center justify-between gap-4">
@@ -735,12 +758,25 @@ export default function OrderPage() {
                     <Typography variant="text_main">{t.default}</Typography>
                   </div>
                 )}
+                {discountPrice > 0 && (
+                  <div className="flex w-full items-center justify-between gap-4">
+                    <Typography variant="text_main" className="uppercase">
+                      Discount
+                    </Typography>
+                    <Typography variant="text_main">
+                      {getPrice(discountPrice)} {currency}
+                    </Typography>
+                  </div>
+                )}
                 <div className="flex w-full items-center justify-between gap-4">
                   <Typography variant="text_main" className="uppercase">
                     {t.total}
                   </Typography>
                   <Typography variant="text_main">
-                    {getPrice(finalAmount)} {currency}
+                    {getPrice(
+                      Number(order?.data?.total_amount || 0) - discountPrice,
+                    )}{' '}
+                    {currency}
                   </Typography>
                 </div>
               </div>
