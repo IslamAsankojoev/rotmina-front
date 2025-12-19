@@ -281,7 +281,7 @@ export default function OrderPage() {
           return {
             code: item.code,
             name: item.name,
-            unit_price: getPrice(item.unit_price),
+            unit_price: getPrice(Number(item.unit_price)),
             type: item.type,
             units_number: item.units_number,
             unit_type: item.unit_type,
@@ -410,7 +410,7 @@ export default function OrderPage() {
             ) {
               let shipmentTracking = ''
               // Create shipment for Israel
-              if (address.country === 'ישראל' && currency === Currency.ILS) {
+              if (currency === Currency.ILS) {
                 const shipmentNumber: string =
                   await OrderService.createShipment(
                     getShipmentData(
@@ -432,10 +432,7 @@ export default function OrderPage() {
                 }
               }
               // Create shipment for ToGo
-              else if (
-                address.country !== 'ישראל' &&
-                currency !== Currency.ILS
-              ) {
+              else {
                 const shipmentSuccessText: string =
                   await OrderService.createShipmentToGo(
                     getShipmentToGoData(
@@ -451,38 +448,42 @@ export default function OrderPage() {
                 }
               }
               // Pay service create
-               payServiceCreate({
-                TransactionId: response.transaction_result.transaction_id,
-                orderId: order?.data?.order_number?.toString() as string,
-                clientId: user?.data?.id?.toString() as string,
-                txn_currency_code: currency || Currency.ILS,
-                card_number: '1234',
-                expire_month: '12',
-                expire_year: '12',
-                cvv: '123',
-                clientEmail: user?.data?.email as string,
-                language: lang as Code,
-                items: orderItems.map((item) => ({
-                  code: item.code,
-                  name: item.name,
-                  unit_price: getPrice(item.unit_price),
-                  unit_type: item.unit_type,
-                  units_number: item.units_number,
-                  currency_code: currency,
-                  attributes: [],
-                })),
-              }, {
-                onSuccess: (response) => {
-                  if (response.statusCode === 200 && response.value.id !== '') {
-                    changeOrderStatusToPaidMutation({
-                      orderId: order?.data?.documentId || '',
-                      shipmentTracking: shipmentTracking,
-                    })
-                  }
+              payServiceCreate(
+                {
+                  TransactionId: response.transaction_result.transaction_id,
+                  orderId: order?.data?.order_number?.toString() as string,
+                  clientId: user?.data?.id?.toString() as string,
+                  txn_currency_code: currency || Currency.ILS,
+                  card_number: '1234',
+                  expire_month: '12',
+                  expire_year: '12',
+                  cvv: '123',
+                  clientEmail: user?.data?.email as string,
+                  language: lang as Code,
+                  items: orderItems.map((item) => ({
+                    code: item.code,
+                    name: item.name,
+                    unit_price: getPrice(item.unit_price),
+                    unit_type: item.unit_type,
+                    units_number: item.units_number,
+                    currency_code: currency,
+                    attributes: [],
+                  })),
                 },
-              })
-              
-              
+                {
+                  onSuccess: (response) => {
+                    if (
+                      response.statusCode === 200 &&
+                      response.value.id !== ''
+                    ) {
+                      changeOrderStatusToPaidMutation({
+                        orderId: order?.data?.documentId || '',
+                        shipmentTracking: shipmentTracking,
+                      })
+                    }
+                  },
+                },
+              )
             } else {
               setOpenSorryModal(true)
             }

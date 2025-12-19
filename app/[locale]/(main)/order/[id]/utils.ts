@@ -19,15 +19,15 @@ export const getOrderItems = (
 
       switch (item?.type) {
         case 'giftcard':
-          code = `GIFT-${item?.price_snapshot}`
-          name = `${t.giftCardFor} ${item.gift_card?.recipientsName}.`
+          code = `${item?.sku_snapshot}`
+          name = `Gift Card for ${item.gift_card?.recipientsName}.`
           unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
           type = 'I'
           break
 
         case 'personalStylist':
-          code = `STYLIST-${item?.personal_stylist?.minutes}`
-          name = `${t.personalStylist} (${item?.personal_stylist?.minutes} ${t.minutes})`
+          code = `${item?.sku_snapshot}`
+          name = `Personal Stylist (${item?.personal_stylist?.minutes} minutes)`
           unit_price = parseFloat(
             item?.personal_stylist?.price?.toString() || '0',
           )
@@ -44,22 +44,22 @@ export const getOrderItems = (
           break
 
         case 'shipment':
-          code = `SHIPMENT-${item?.price_snapshot}`
-          name = `${t.shipment} (${item?.price_snapshot} ${t.currency})`
+          code = `${item?.sku_snapshot}`
+          name = `Shipment`
           unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
           type = 'S'
           break
 
         case 'discount':
-          code = `DISCOUNT-${item?.price_snapshot}`
-          name = `${t.discount} (${item?.price_snapshot} ${t.currency})`
+          code = `${item?.sku_snapshot}`
+          name = `Discount`
           unit_price = -parseFloat(item?.price_snapshot?.toString() || '0')
           type = 'C'
           break
 
         default:
-          code = `UNKNOWN-${item?.type}`
-          name = t.unknownProduct as unknown as string
+          code = `${item?.sku_snapshot}`
+          name = `Unknown product`
           unit_price = parseFloat(item?.price_snapshot?.toString() || '0')
           type = 'I'
       }
@@ -97,6 +97,9 @@ export const getShipmentData = (
   const { apartment, floor, country, houseNum, streetName } = getAddress(
     order?.data?.shipping_address?.address || '',
   )
+
+  const totalAmountOnlyProducts = order?.data?.order_items?.filter((item) => item.type !== 'discount' && item.type !== 'shipment' && item.type !== 'personalStylist' && item.type !== 'giftcard').reduce((acc, item) => acc + Number(item.price_snapshot) * item.quantity, 0) || 0;
+
   return {
     clientId: user?.data?.id || 0,
     orderId: order?.data?.order_number || 0,
@@ -109,7 +112,7 @@ export const getShipmentData = (
     telFirst: user?.data?.phone || '',
     telSecond: user?.data?.phone || '',
     email: user?.data?.email || '',
-    productsPrice: Number(order?.data?.total_amount || 0),
+    productsPrice: totalAmountOnlyProducts,
     productPriceCurrency: currency || Currency.ILS,
     shipmentWeight: 0,
     govina: {
@@ -120,7 +123,7 @@ export const getShipmentData = (
     },
     ordererName: 'Rotmina',
     nameTo: user?.data?.username || '',
-    cityCode: '100',
+    cityCode: '03',
     streetCode: '200',
     packsHaloch: '',
   }
@@ -154,7 +157,7 @@ export const getShipmentToGoData = (
         email: user?.data?.email || '',
       },
       Packages:
-        order?.data?.order_items?.map((item) => ({
+        order?.data?.order_items?.filter((item) => item.type !== 'discount' && item.type !== 'shipment' && item.type !== 'personalStylist' && item.type !== 'giftcard')?.map((item) => ({
           quantity: item?.quantity?.toString() || '1',
           weight: '1',
           length: '1',

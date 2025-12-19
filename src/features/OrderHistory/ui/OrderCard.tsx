@@ -190,11 +190,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                         <Typography
                           variant="text_mini_footer"
                           className={clsx(
-                            'mt-2 font-bold',
+                            'mt-2 font-bold text-wrap',
                             isRTL ? 'text-right' : 'text-left',
                           )}
                         >
-                          <span>{item.title_snapshot}</span>
+                          {item.title_snapshot}
                         </Typography>
                         {(item.type !== 'shipment' && item.type !== 'discount') && <Typography
                           variant="text_mini_footer"
