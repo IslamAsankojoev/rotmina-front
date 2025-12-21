@@ -8,6 +8,8 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from '@/shadcn/components/ui/dialog'
 import { SiteImagesApi } from '@/src/features'
 import { Typography, useDictionary, useScreenSize } from '@/src/shared'
@@ -46,6 +48,11 @@ export function SorryModal({ isOpen, onOpenChange }: SorryModalProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogHeader className="sr-only">
+        <DialogTitle className="sr-only">
+          {t.title}
+        </DialogTitle>
+      </DialogHeader>
       <DialogContent
         showCloseButton={false}
         className="min-h-[600px] rounded-none border-none p-0 sm:max-w-3xl"

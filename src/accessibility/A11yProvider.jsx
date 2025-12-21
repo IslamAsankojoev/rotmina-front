@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 
-import { Accessibility } from 'lucide-react'
+import { Accessibility, Brain, Circle, Contrast, EyeOff, ImageOff, Link2, Minus, Plus, Volume1 } from 'lucide-react'
 
 import './a11y.css'
 import {
@@ -250,29 +250,35 @@ function Icon({ name }) {
   switch (name) {
     case 'contrast':
       return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path d="M12 3a9 9 0 100 18V3z" fill="currentColor" />
-          <circle
-            cx="12"
-            cy="12"
-            r="9"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-        </svg>
+        <Contrast />
       )
     case 'sound':
       return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M3 10v4h4l5 5V5l-5 5H3z" />
-          <path
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            d="M16 7c1.5 1.5 1.5 8.5 0 10"
-          />
-        </svg>
+        <Volume1 />
+      )
+    case 'links':
+      return (
+        <Link2 />
+      )
+    case 'tplus':
+      return (
+        <Plus />
+      )
+    case 'tminus':
+      return (
+        <Minus />
+      )
+    case 'gray':
+      return (
+        <Circle />
+      )
+    case 'hideimg':
+      return (
+        <ImageOff />
+      )
+    case 'df':
+      return (
+        <Brain />
       )
     default:
       return null

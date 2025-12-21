@@ -11,7 +11,7 @@ import {
   useA11y,
 } from '@/src/accessibility/useA11y.js'
 
-import { Accessibility } from 'lucide-react'
+import { Accessibility, Brain, Circle, Contrast, ImageOff, Link2, Minus, Plus, Volume1 } from 'lucide-react'
 
 /* -------------------- Provider -------------------- */
 export function A11yProvider({ children }) {
@@ -260,99 +260,35 @@ function Icon({ name }) {
   switch (name) {
     case 'contrast':
       return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path d="M12 3a9 9 0 100 18V3z" fill="currentColor" />
-          <circle
-            cx="12"
-            cy="12"
-            r="9"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          />
-        </svg>
-      )
-    case 'links':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M10.6 13.4a1 1 0 01-1.4 0l-2.6-2.6a3 3 0 014.2-4.2l1.1 1.1-1.4 1.4-1.1-1.1a1 1 0 10-1.4 1.4l2.6 2.6a1 1 0 010 1.4z"
-          />
-          <path
-            fill="currentColor"
-            d="M13.4 10.6a1 1 0 011.4 0l2.6 2.6a3 3 0 11-4.2 4.2l-1.1-1.1 1.4-1.4 1.1 1.1a1 1 0 101.4-1.4l-2.6-2.6a1 1 0 010-1.4z"
-          />
-        </svg>
-      )
-    case 'tplus':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path
-            d="M5 12h14M12 5v14"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-          />
-        </svg>
-      )
-    case 'tminus':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path
-            d="M5 12h14"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-          />
-        </svg>
-      )
-    case 'gray':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9" fill="currentColor" opacity=".4" />
-        </svg>
-      )
-    case 'hideimg':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path
-            d="M3 5h18v14H3z"
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-          />
-          <path d="M3 19L21 5" stroke="currentColor" strokeWidth="2" />
-        </svg>
-      )
-    case 'df':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <text x="4" y="17" fontSize="14" fill="currentColor">
-            Df
-          </text>
-        </svg>
-      )
-    case 'moon':
-      return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path
-            fill="currentColor"
-            d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"
-          />
-        </svg>
+        <Contrast />
       )
     case 'sound':
       return (
-        <svg width="22" height="22" viewBox="0 0 24 24">
-          <path fill="currentColor" d="M3 10v4h4l5 5V5l-5 5H3z" />
-          <path
-            stroke="currentColor"
-            strokeWidth="2"
-            fill="none"
-            d="M16 7c1.5 1.5 1.5 8.5 0 10"
-          />
-        </svg>
+        <Volume1 />
+      )
+    case 'links':
+      return (
+        <Link2 />
+      )
+    case 'tplus':
+      return (
+        <Plus />
+      )
+    case 'tminus':
+      return (
+        <Minus />
+      )
+    case 'gray':
+      return (
+        <Circle />
+      )
+    case 'hideimg':
+      return (
+        <ImageOff />
+      )
+    case 'df':
+      return (
+        <Brain />
       )
     default:
       return null

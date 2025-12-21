@@ -77,13 +77,13 @@ export const CartItem = ({
             className="text-greyy text-mini-footer md:text-main flex items-center gap-2 uppercase"
           >
             {t.color}{' '}
-            <div
-              className="h-8 w-8 rounded-full"
+            <span
+              className="h-8 w-8 rounded-full inline-block"
               style={{
                 background: `url(${item?.variant?.color?.image?.url}) no-repeat center center`,
                 backgroundSize: 'cover',
               }}
-            ></div>
+            ></span>
           </Typography>
         </div>
 

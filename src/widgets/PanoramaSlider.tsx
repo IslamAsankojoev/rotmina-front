@@ -10,7 +10,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 type Slide = { src: string; alt: string; price?: string }
 
 export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
-  const data = slides.length < 10 ? [...slides, ...slides, ...slides] : slides
+  const data = slides?.length < 10 ? [...slides, ...slides, ...slides] : slides
   const rafId = useRef<number | null>(null)
   const swiperRef = useRef<import('swiper').Swiper | null>(null)
 
@@ -24,7 +24,7 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
       const tRad = (rotate * Math.PI) / 180
       const halfAngleSin = Math.sin(tRad / 2)
 
-      for (let i = 0; i < swiper.slides.length; i += 1) {
+      for (let i = 0; i < swiper.slides?.length; i += 1) {
         const slideEl = swiper.slides[i] as HTMLElement & { progress: number }
         const progress = slideEl.progress ?? 0
         const c = swiper.slidesSizesGrid?.[i] ?? slideEl.offsetWidth ?? 0

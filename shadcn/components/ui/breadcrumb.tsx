@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { cn } from '@/shadcn/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
-import { ChevronRight, MoreHorizontal } from 'lucide-react'
+import { MoreHorizontal } from 'lucide-react'
 
 function Breadcrumb({ ...props }: React.ComponentProps<'nav'>) {
   return <nav aria-label="breadcrumb" data-slot="breadcrumb" {...props} />
@@ -66,9 +66,9 @@ function BreadcrumbSeparator({
   children,
   className,
   ...props
-}: React.ComponentProps<'li'>) {
+}: React.ComponentProps<'span'>) {
   return (
-    <li
+    <span
       data-slot="breadcrumb-separator"
       role="presentation"
       aria-hidden="true"
@@ -76,7 +76,7 @@ function BreadcrumbSeparator({
       {...props}
     >
       {children ?? '/'}
-    </li>
+    </span>
   )
 }
 

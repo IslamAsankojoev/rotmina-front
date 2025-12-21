@@ -129,6 +129,11 @@ export const VariantSelectionModal = ({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogHeader className="sr-only">
+        <DialogTitle className="sr-only">
+          Select Color & Size
+        </DialogTitle>
+      </DialogHeader>
       <DialogContent className="rounded-none">
         <DialogHeader>
           <DialogTitle>

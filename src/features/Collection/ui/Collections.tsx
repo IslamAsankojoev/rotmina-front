@@ -48,7 +48,7 @@ export const Collections = () => {
   const openCollection = collections.find(
     (collection: Collection) => collection.documentId === openCollectionId,
   )
-  const displayImage = openCollection?.image?.url || CollectionImage
+  const displayImage = openCollection?.image?.url || CollectionImage.src
 
   return (
     <div className="mb-20 flex flex-col gap-4 md:flex-row">

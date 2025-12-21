@@ -8,7 +8,18 @@ import { Arima, Libre_Caslon_Text } from 'next/font/google'
 
 interface TypographyProps extends HTMLProps<HTMLParagraphElement> {
   children: React.ReactNode
-  tag?: 'p' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  tag?:
+    | 'p'
+    | 'span'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6'
+    | 'strong'
+    | 'em'
+    | 'small'
   variant?:
     | 'text_main'
     | 'text_mini_footer'
@@ -42,8 +53,14 @@ const variantStyles: Record<string, string> = {
   text_categories: clsx('text-categories', `${arima.className}`),
   text_title: clsx('text-title', `${libreCaslonText.className}`),
   text_mobile_title: clsx('text-mobile-title', `${libreCaslonText.className}`),
-  text_pageTitle: clsx('text-mobile-title md:text-pageTitle', `${libreCaslonText.className}`),
-  text_mobile_title2: clsx('text-mobile-title2', `${libreCaslonText.className}`),
+  text_pageTitle: clsx(
+    'text-mobile-title md:text-pageTitle',
+    `${libreCaslonText.className}`,
+  ),
+  text_mobile_title2: clsx(
+    'text-mobile-title2',
+    `${libreCaslonText.className}`,
+  ),
 }
 
 export const Typography: FC<TypographyProps> = ({

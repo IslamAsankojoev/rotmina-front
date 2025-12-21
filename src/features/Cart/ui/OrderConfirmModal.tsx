@@ -6,6 +6,8 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from '@/shadcn/components/ui/dialog'
 import { OrderResponse } from '@/src/entities/Order'
 import {
@@ -55,6 +57,11 @@ export function OrderConfirmModal({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogHeader className="sr-only">
+        <DialogTitle className="sr-only">
+          {t.title}
+        </DialogTitle>
+      </DialogHeader>
       <DialogContent
         showCloseButton={false}
         className="min-h-[600px] rounded-none border-none p-0 sm:max-w-3xl"

@@ -635,7 +635,6 @@ export default function OrderPage() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          type="password"
                           placeholder={t.cvv}
                           maxLength={3}
                           {...field}

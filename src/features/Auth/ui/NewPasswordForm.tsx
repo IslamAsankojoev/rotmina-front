@@ -73,6 +73,7 @@ export const NewPasswordForm = () => {
                     <InputGroup>
                       <InputGroupInput
                         placeholder={t.newPassword}
+                        autoComplete="new-password"
                         type={showPassword ? 'text' : 'password'}
                         {...field}
                       />
@@ -100,6 +101,7 @@ export const NewPasswordForm = () => {
                     <InputGroup>
                       <InputGroupInput
                         placeholder={t.confirmPassword}
+                        autoComplete="new-password"
                         type={showPasswordConfirmation ? 'text' : 'password'}
                         {...field}
                       />

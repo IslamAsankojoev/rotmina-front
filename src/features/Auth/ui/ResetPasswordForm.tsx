@@ -57,7 +57,7 @@ export const ResetPasswordForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder={t.email} {...field} />
+                    <Input placeholder={t.email} autoComplete="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

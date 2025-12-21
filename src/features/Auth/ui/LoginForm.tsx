@@ -68,7 +68,7 @@ export const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input placeholder={t.email} type="email" {...field} />
+                    <Input placeholder={t.email} type="email" autoComplete="email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,6 +83,7 @@ export const LoginForm = () => {
                     <InputGroup>
                       <InputGroupInput
                         placeholder={t.password}
+                        autoComplete="current-password"
                         type={showPassword ? 'text' : 'password'}
                         {...field}
                       />

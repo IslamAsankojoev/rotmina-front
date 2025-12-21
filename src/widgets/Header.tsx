@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
-import { Sheet, SheetContent, SheetTrigger } from '@/shadcn/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/shadcn/components/ui/sheet'
 import {
   CurrencySwitcher,
   LanguageSwitcher,
@@ -217,6 +217,11 @@ export const Header = () => {
                   className="p-4"
                   showCloseButton={false}
                 >
+                  <SheetHeader className="sr-only">
+                    <SheetTitle className="sr-only">
+                      <Typography variant="text_title" className="sr-only">{t.close}</Typography>
+                    </SheetTitle>
+                  </SheetHeader>
                   <div className="flex h-full flex-col justify-between">
                     <div className="flex flex-col">
                       <div className="mt-2 mb-6 flex items-center justify-between">

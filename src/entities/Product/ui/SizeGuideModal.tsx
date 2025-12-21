@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
+  DialogTitle,
   DialogTrigger,
 } from '@/shadcn/components/ui/dialog'
 import { Typography, useDictionary, useLocale } from '@/src/shared'
@@ -31,6 +32,11 @@ export const SizeGuideModal = () => {
   const BustImage = locale === 'he' ? BustImageHE : BustImageEN
   return (
     <Dialog>
+      <DialogHeader className="sr-only">
+        <DialogTitle className="sr-only">
+          {t.title}
+        </DialogTitle>
+      </DialogHeader>
       <DialogTrigger asChild>
         <button className="cursor-pointer uppercase">{t.title}</button>
       </DialogTrigger>

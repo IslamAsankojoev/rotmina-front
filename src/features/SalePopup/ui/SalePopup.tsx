@@ -7,6 +7,8 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from '@/shadcn/components/ui/dialog'
 import { Typography, useScreenSize } from '@/src/shared'
 import { useQuery } from '@tanstack/react-query'
@@ -60,6 +62,11 @@ export function SalePopup() {
         className="h-full max-h-full max-w-full rounded-none border-none p-0 sm:max-w-3xl md:max-h-[600px]"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
+        <DialogHeader className="sr-only">
+          <DialogTitle className="sr-only">
+            {data?.data?.title}
+          </DialogTitle>
+        </DialogHeader>
         <div
           className={clsx('flex items-center justify-center gap-4 p-8 md:p-0')}
           style={{
