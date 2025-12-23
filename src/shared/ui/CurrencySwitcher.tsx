@@ -21,8 +21,12 @@ export const CurrencySwitcher = () => {
     setOpen(false)
   }
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open)
+  }
+
   return (
-    <Popover open={open} onOpenChange={setOpen} modal={true}>
+    <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
       <PopoverTrigger asChild>
         <Typography
           className="w-6 min-w-6 cursor-pointer uppercase"

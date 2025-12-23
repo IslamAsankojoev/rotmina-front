@@ -19,6 +19,10 @@ export function LanguageSwitcher() {
   const router = useRouter()
   const [open, setOpen] = useState(false)
 
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open)
+  }
+
   const handleLanguageChange = (newLang: Code) => {
     setLang(newLang)
 
@@ -26,17 +30,18 @@ export function LanguageSwitcher() {
     if (segments[1] === 'en' || segments[1] === 'he') {
       segments[1] = newLang
       const newPath = segments.join('/')
+      setOpen(false)
       router.push(newPath)
     } else {
+      setOpen(false)
       router.push(`/${newLang}${pathname}`)
     }
-    setOpen(false)
   }
 
   const currentLang = pathname.split('/')[1] === 'he' ? Code.HE : Code.EN
 
   return (
-    <Popover open={open} onOpenChange={setOpen} modal={true}>
+    <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
       <PopoverTrigger asChild>
         <Typography
           className="w-6 min-w-6 cursor-pointer uppercase"
