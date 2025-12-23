@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <url>
+    <loc>https://www.rotmina.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en" />
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he" />
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/shop</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/shop" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/shop" />
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/shop</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/shop" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/shop" />
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/collection</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/collection" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/collection" />
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/collection</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/collection" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/collection" />
+    <lastmod>2025-12-22</lastmod>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/my-story</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/my-story" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/my-story" />
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/my-story</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/my-story" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/my-story" />
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/eco</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/eco" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/eco" />
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/eco</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/eco" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/eco" />
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/gift-card</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/gift-card" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/gift-card" />
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/gift-card</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/gift-card" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/gift-card" />
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/personal-stylist</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/personal-stylist" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/personal-stylist" />
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/personal-stylist</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/personal-stylist" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/personal-stylist" />
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.rotmina.com/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/contact" />
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://www.rotmina.com/he/contact</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.rotmina.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="he" href="https://www.rotmina.com/he/contact" />
+    <priority>0.70</priority>
+  </url>
+
+  <url><loc>https://www.rotmina.com/en/terms-of-conditions</loc><priority>0.50</priority></url>
+  <url><loc>https://www.rotmina.com/en/privacy-&amp;-accessibility</loc><priority>0.50</priority></url>
+  <url><loc>https://www.rotmina.com/en/international-shipping</loc><priority>0.50</priority></url>
+  <url><loc>https://www.rotmina.com/en/returns-&amp;-exchanges</loc><priority>0.50</priority></url>
+
+</urlset>

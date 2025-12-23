@@ -1,11 +1,12 @@
-import { cookies } from 'next/headers'
 import React from 'react'
 
 import MyStoryImage from '@/public/assets/my-story.webp'
+import { SiteImagesApi } from '@/src/features'
 import { Breadcrumbs, Typography } from '@/src/shared'
 import { getDictionary } from '@/src/shared/utils/dictionaries'
-import { getServerLocale, addLocaleToPath } from '@/src/shared/utils/locale'
-import { SiteImagesApi } from '@/src/features'
+import { addLocaleToPath, getServerLocale } from '@/src/shared/utils/locale'
+import { Metadata } from 'next'
+import { cookies } from 'next/headers'
 
 const getImage = async () => {
   try {
@@ -15,6 +16,15 @@ const getImage = async () => {
     console.error(error)
     return MyStoryImage.src
   }
+}
+
+export const metadata: Metadata = {
+  title:
+    'Rotmina House offers luxury vegan fashion with elegant, refined lines. Explore timeless designer clothing made from premium cruelty-free materials.',
+  description:
+    'Shop cruelty-free dresses, suits & coats made with premium eco-friendly fabrics. Worldwide shipping.',
+  keywords:
+    'luxury vegan clothing, luxury fashion brand, ethical fashion brand, luxury women’s fashion New-York, new collection 2025, women’s collection 2025, cruelty-free fashion, designer clothing Italy online, Rotmina designer clothing, Rotmina, שמלת ערב טבעונית יוקרתית משלוח עד הבית, Lucem Project, מותג אופנה רותמינה, premium vegan winter coat for women, sustainable designer clothing',
 }
 
 export default async function MyStory({
@@ -47,6 +57,7 @@ export default async function MyStory({
           ]}
         />
       </div>
+      <h1 className="sr-only">My Story</h1>
       <div className="container">
         <div className="flex flex-col gap-8 md:!flex-row md:gap-12" dir="ltr">
           <div className="flex-1 pt-10">
@@ -55,7 +66,7 @@ export default async function MyStory({
                 src={image}
                 alt="product-image"
                 style={{ objectFit: 'contain' }}
-                className="w-full h-full"
+                className="h-full w-full"
               />
             </div>
           </div>
