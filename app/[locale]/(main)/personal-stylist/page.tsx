@@ -63,7 +63,7 @@ export default async function PersonalStylist({
             <div className="relative h-[500px] w-full md:h-[600px]">
               <img
                 src={image}
-                alt="product-image"
+                alt="Rotmina Personal Stylist - Hero Image"
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />

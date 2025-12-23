@@ -283,7 +283,6 @@ export const HeaderWithAnimate = () => {
 
   return (
     <>
-      {/* Начальный логотип по центру экрана (только для главной страницы) */}
       {isHomePage && (
         <>
         <div 

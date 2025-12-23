@@ -80,7 +80,7 @@ export function SalePopup() {
           <div className="relative hidden h-full md:block md:w-1/2">
             <img
               src={data?.data?.image?.url || ''}
-              alt={data?.data?.image?.alternativeText || ''}
+              alt={`Rotmina Sale Popup - Image`}
               style={{ objectFit: 'cover' }}
               className="w-full h-full"
             />

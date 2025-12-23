@@ -18,7 +18,7 @@ export const VariantImages = ({ variant }: { variant: ProductVariant }) => {
             className="relative h-[500px] w-full md:h-[900px]"
             key={image.id}
           >
-            <img src={image.url} alt={image.name} style={{ objectFit: 'cover' }} className="w-full h-full" />
+            <img src={image.url} alt={`Rotmina Variant Images`} style={{ objectFit: 'cover' }} className="w-full h-full" />
           </div>
         ))}
       </div>
@@ -28,7 +28,7 @@ export const VariantImages = ({ variant }: { variant: ProductVariant }) => {
             <div className="relative h-[500px] w-[90%]">
               <img
                 src={variant?.images?.[0]?.url}
-                alt={variant?.images?.[0]?.name}
+                alt={`Rotmina Variant Images - Image`}
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />
@@ -49,7 +49,7 @@ export const VariantImages = ({ variant }: { variant: ProductVariant }) => {
                   <div className="relative h-[500px] w-full">
                     <img
                       src={image?.url}
-                      alt={image?.name}
+                      alt={`Rotmina Variant Images - Image`}
                       style={{ objectFit: 'cover' }}
                       className="w-full h-full"
                     />

@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     'Shop cruelty-free dresses, suits & coats made with premium eco-friendly fabrics. Worldwide shipping.',
   keywords:
     'luxury vegan clothing, luxury fashion brand, ethical fashion brand, luxury women’s fashion New-York, new collection 2025, women’s collection 2025, cruelty-free fashion, designer clothing Italy online, Rotmina designer clothing, Rotmina, שמלת ערב טבעונית יוקרתית משלוח עד הבית, Lucem Project, מותג אופנה רותמינה, premium vegan winter coat for women, sustainable designer clothing',
+  alternates: {
+    canonical: 'https://www.rotmina.com/en/shop',
+  },
 }
 
 export default async function Shop({

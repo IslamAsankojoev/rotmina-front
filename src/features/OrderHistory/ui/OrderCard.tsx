@@ -176,7 +176,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                       <div className="relative h-[260px] w-full">
                         <img
                           src={getImage(item)}
-                          alt={item.title_snapshot}
+                          alt={`Rotmina Order Card - Image`}
                           style={{ objectFit: 'cover' }}
                           className="w-full h-full"
                         />

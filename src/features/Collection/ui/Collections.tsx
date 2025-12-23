@@ -55,6 +55,7 @@ export const Collections = () => {
       <div className="relative order-2 flex h-96 w-full items-center justify-center md:order-1 md:h-[700px] md:flex-1">
         <img
           src={displayImage as string}
+          alt={`Rotmina Collections Image`}
           style={{ objectFit: 'cover' }}
           className="w-full h-full"
         />
@@ -97,7 +98,7 @@ export const Collections = () => {
                   </Typography>
                   <img
                     src={collection.image?.url || ''}
-                    alt={collection.name}
+                    alt={`Rotmina Collection Image`}
                     width={200}
                     height={200}
                     style={{ objectFit: 'cover', objectPosition: 'center' }}

@@ -68,7 +68,7 @@ export function SorryModal({ isOpen, onOpenChange }: SorryModalProps) {
           <div className="relative hidden h-full md:block md:w-1/2">
             <img
               src={image as string}
-              alt="Order Confirmation"
+              alt="Rotmina Sorry Modal - Image"
               style={{ objectFit: 'cover' }}
               className="h-full w-full"
             />

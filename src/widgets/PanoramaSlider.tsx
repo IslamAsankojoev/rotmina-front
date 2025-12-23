@@ -48,18 +48,15 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
       }
     }
 
-    // При инициализации применяем сразу, без RAF
     if (immediate) {
       apply()
       return
     }
 
-    // Отменяем предыдущий requestAnimationFrame если он есть
     if (rafId.current !== null) {
       cancelAnimationFrame(rafId.current)
     }
 
-    // Используем requestAnimationFrame для плавных обновлений
     rafId.current = requestAnimationFrame(apply)
   }, [])
 
@@ -94,13 +91,11 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
         }}
         onSwiper={(swiper) => {
           swiperRef.current = swiper
-          // Применяем трансформации сразу при инициализации
           setTimeout(() => {
             applyTransforms(swiper, true)
           }, 0)
         }}
         onInit={(swiper) => {
-          // Дополнительный вызов после полной инициализации
           setTimeout(() => {
             applyTransforms(swiper, true)
           }, 100)
@@ -119,15 +114,11 @@ export default function PanoramaSlider({ slides }: { slides: Slide[] }) {
             <div className="img-wrap h-[360px] md:h-[460px] lg:h-[560px]">
               <img
                 src={s.src}
-                alt={s.alt}
+                alt={`Rotmina Product Slider - Image`}
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />
             </div>
-            {/* <div className="meta !text-black">
-              <span className="title">{s.alt}</span>
-              {s.price && <span className="price">{s.price}</span>}
-            </div> */}
           </SwiperSlide>
         ))}
       </Swiper>

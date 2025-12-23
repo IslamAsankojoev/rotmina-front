@@ -43,7 +43,7 @@ export default async function ECO({
         </Typography>
       </div>
       <div className="relative h-[450px] w-full min-h-[450px]">
-        <img src={EcoImage.src} alt="eco-image" style={{ objectFit: 'cover' }} className="w-full h-full" />
+        <img src={EcoImage.src} alt="Rotmina ECO - Hero - Flowers" style={{ objectFit: 'cover' }} className="w-full h-full" />
       </div>
       <div className="container mt-10">
         <div className="flex flex-col gap-8 md:flex-row md:gap-12" dir='ltr'>
@@ -122,7 +122,7 @@ export default async function ECO({
             <div className="relative h-full w-full min-h-[550px]">
               <img
                 src={EcoSheep.src}
-                alt="product-image"
+                alt="Rotmina ECO - Animal Welfare - Sheep"
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />
@@ -134,7 +134,7 @@ export default async function ECO({
         <div className="flex flex-col-reverse gap-8 md:flex-row md:gap-12" dir='ltr'>
           <div className="flex min-h-full flex-1 items-center justify-center">
             <div className="relative h-full w-full min-h-[550px]">
-              <img src={EcoCurv.src} alt="product-image" style={{ objectFit: 'cover' }} className="w-full h-full" />
+              <img src={EcoCurv.src} alt="Rotmina ECO - Packaging - Curv" style={{ objectFit: 'cover' }} className="w-full h-full" />
             </div>
           </div>
           <div className="flex-1 md:p-4">

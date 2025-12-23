@@ -66,7 +66,7 @@ export default async function GiftCard({
               <div className="relative h-[250px] w-[420px] max-w-full overflow-hidden rounded-md">
                 <img
                   src={GiftCardImage.src}
-                  alt="product-image"
+                  alt="Rotmina Gift Card - Card Image"
                   style={{ objectFit: 'cover' }}
                   className="w-full h-full"
                 />

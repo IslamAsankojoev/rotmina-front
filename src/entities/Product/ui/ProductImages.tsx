@@ -22,7 +22,7 @@ export const ProductImages = ({
             className="relative h-[500px] w-full md:h-[900px]"
             key={image.id}
           >
-            <img src={image.url} alt={image.name} style={{ objectFit: 'cover' }} className="w-full h-full" />
+            <img src={image.url} alt={`Rotmina Product Images`} style={{ objectFit: 'cover' }} className="w-full h-full" />
           </div>
         ))}
       </div>
@@ -32,7 +32,7 @@ export const ProductImages = ({
             <div className="relative h-[500px] w-[90%]">
               <img
                 src={images?.[0]?.url}
-                alt={images?.[0]?.name}
+                alt={`Rotmina Product Images - Image`}
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />
@@ -53,7 +53,7 @@ export const ProductImages = ({
                   <div className="relative h-[500px] w-full">
                     <img
                       src={image?.url}
-                      alt={image?.name}
+                      alt={`Rotmina Product Images - Image`}
                       style={{ objectFit: 'cover' }}
                       className='w-full h-full'
                     />

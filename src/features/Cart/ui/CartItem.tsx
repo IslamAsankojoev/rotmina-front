@@ -52,7 +52,7 @@ export const CartItem = ({
       <div className="relative h-[150px] w-[110px]">
         <img
           src={item?.variant?.images?.[0]?.url || '/assets/products/shirt.webp'}
-          alt={item?.productTitle}
+          alt={`Rotmina Cart Item - Product Image`}
           style={{ objectFit: 'cover' }}
           className="w-full h-full"
         />
@@ -149,7 +149,7 @@ export const CartItem = ({
       <div className="relative h-[150px] w-[110px]">
         <img
           src={GiftCardImage.src}
-          alt="Gift Card"
+          alt="Rotmina Cart Item - Gift Card Image"
           style={{ objectFit: 'cover' }}
           className="w-full h-full"
         />
@@ -241,7 +241,7 @@ export const CartItem = ({
       <div className="relative h-[150px] w-[110px] flex-shrink-0">
         <img
           src={PersonalStylistImage.src}
-          alt="Personal Stylist"
+          alt="Rotmina Cart Item - Personal Stylist Image"
           style={{ objectFit: 'cover' }}
           className="w-full h-full"
         />

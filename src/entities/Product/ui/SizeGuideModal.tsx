@@ -71,7 +71,7 @@ export const SizeGuideModal = () => {
                 <div className="relative order-2 min-h-56 w-full flex-1 md:order-1 md:w-1/2">
                   <img
                     src={BustImage.src}
-                    alt="bust"
+                    alt="Rotmina Size Guide - Bust Image"
                     style={{ objectFit: 'cover' }}
                     className="w-full h-full"
                   />

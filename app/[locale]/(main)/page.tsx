@@ -14,6 +14,13 @@ import { cookies } from 'next/headers'
 import 'swiper/css'
 import 'swiper/css/effect-coverflow'
 import 'swiper/css/navigation'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://www.rotmina.com/en',
+  },
+}
 
 export default async function Home({
   params,
@@ -70,7 +77,7 @@ export default async function Home({
           src={Hero.src}
           style={{ objectFit: 'cover' }}
           className="w-full h-full"
-          alt="hero"
+          alt="Rotmina Home - Hero"
         />
       </div>
       <div className="relative flex h-screen w-full items-center justify-center md:hidden">
@@ -78,7 +85,7 @@ export default async function Home({
           src={Hero.src}
           style={{ objectFit: 'cover', objectPosition: '70% 0%' }}
           className="w-full h-full"
-          alt="hero"
+          alt="Rotmina Home - Hero"
         />
       </div>
       <div className="relative flex w-full items-center justify-center py-20">
@@ -119,7 +126,7 @@ export default async function Home({
       <div className="relative my-10 flex h-[264px] w-full items-center justify-center md:my-24 md:h-[519px]">
         <img
           src={NatureImage.src}
-          alt="nature"
+          alt="Rotmina Nature - separator"
           className='w-full h-full'
           style={{ objectFit: 'cover', objectPosition: '0% 20%' }}
         />
@@ -136,7 +143,7 @@ export default async function Home({
                   <img
                     src={RabbitImage.src}
                     style={{ objectFit: 'cover' }}
-                    alt="rabbit-in-heart"
+                    alt="Rotmina Home - Rabbit in Heart"
                     className='w-full h-full'
                   />
                 </div>
@@ -152,7 +159,7 @@ export default async function Home({
                   <img
                     src={LeavesImage.src}
                     style={{ objectFit: 'cover' }}
-                    alt="two-leaves"
+                    alt="Rotmina Home - Two Leaves"
                     className='w-full h-full'
                   />
                 </div>

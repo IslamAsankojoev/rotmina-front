@@ -46,7 +46,7 @@ export default async function ReturnsAndExchanges({
             <div className="relative h-full min-h-[500px] w-full md:min-h-[600px]">
               <img
                 src={image}
-                alt="product-image"
+                alt="Rotmina Returns & Exchanges - Hero Image"
                 style={{ objectFit: 'cover' }}
                 className="w-full h-full"
               />

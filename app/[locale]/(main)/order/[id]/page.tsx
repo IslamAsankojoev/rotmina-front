@@ -565,7 +565,7 @@ export default function OrderPage() {
                 >
                   <img
                     src={method.image}
-                    alt={method.label}
+                    alt={`Rotmina Order - ${method.label} - Icon`}
                     width={100}
                     height={48}
                     className="h-[18px] w-auto object-contain"

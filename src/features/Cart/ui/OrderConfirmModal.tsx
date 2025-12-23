@@ -77,7 +77,7 @@ export function OrderConfirmModal({
           <div className="relative hidden h-full md:block md:w-1/2">
             <img
               src={image}
-              alt="Order Confirmation"
+              alt="Rotmina Order Confirmation - Image"
               style={{ objectFit: 'cover' }}
               className="w-full h-full"
             />

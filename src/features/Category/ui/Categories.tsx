@@ -29,7 +29,7 @@ export const Categories = () => {
           <div className="relative h-full w-full">
             <img
               src={category?.image?.url || ''}
-              alt={category?.name || ''}
+              alt={`Rotmina Categories Image`}
               style={{ objectFit: 'cover' }}
               className="w-full h-full saturate-0 transition-all duration-1000 group-hover:scale-[1.3] group-hover:saturate-100"
             />

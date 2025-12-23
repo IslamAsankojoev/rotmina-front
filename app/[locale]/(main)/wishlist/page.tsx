@@ -73,7 +73,7 @@ export default function WishlistPage() {
               <div className="relative h-[300px] w-full md:h-full md:min-h-[544px]">
                 <img
                   src={product?.variants?.[0]?.images?.[0]?.url || ''}
-                  alt={product?.title}
+                  alt={`Rotmina Wishlist - ${product?.title} - Image`}
                   style={{ objectFit: 'cover' }}
                   className="w-full h-full"
                 />

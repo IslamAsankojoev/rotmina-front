@@ -175,7 +175,7 @@ export const Header = () => {
                   xl ? (!scrolled ? 'h-28 w-74' : 'h-16 w-40') : 'h-16 w-40',
                 )}
               >
-                <Image src={Logo} alt="logo" fill />
+                <Image src={Logo} alt="Rotmina Logo" fill />
               </div>
             </Link>
             <div className="hidden items-center justify-between xl:flex">
@@ -184,7 +184,7 @@ export const Header = () => {
                   href={localizePath('/eco')}
                   className="cursor-pointer text-lg font-medium"
                 >
-                  <Image src={Leaf} width={24} height={24} alt="leaf" />
+                  <Image src={Leaf} width={24} height={24} alt="Rotmina Eco - Leaf" />
                 </Link>
                 <Link
                   href={localizePath('/account')}
@@ -231,7 +231,7 @@ export const Header = () => {
                           className="flex h-10 w-10 cursor-pointer items-center justify-center text-lg font-medium"
                         >
                           <div className="relative size-10">
-                            <Image src={Leaf} fill alt="leaf" />
+                            <Image src={Leaf} fill alt="Rotmina Eco - Leaf" />
                           </div>
                         </Link>
                         <Link

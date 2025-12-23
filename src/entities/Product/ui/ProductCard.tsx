@@ -124,7 +124,7 @@ export const ProductCard = ({
         <div className="relative h-[300px] w-full overflow-hidden md:h-full md:min-h-[544px]">
           <img
             src={getCurrentImage()}
-            alt={product?.title}
+            alt={`Rotmina Product Card - Image`}
             style={{ objectFit: 'cover' }}
             className="transition-all duration-300 w-full h-full"
           />
