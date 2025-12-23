@@ -1,13 +1,13 @@
 'use client'
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/shadcn/components/ui/dropdown-menu'
+import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shadcn/components/ui/popover'
 
 import { Code } from '../constants'
 import { useLangCurrency } from '../hooks'
@@ -17,6 +17,7 @@ export function LanguageSwitcher() {
   const { setLang } = useLangCurrency()
   const pathname = usePathname()
   const router = useRouter()
+  const [open, setOpen] = useState(false)
 
   const handleLanguageChange = (newLang: Code) => {
     setLang(newLang)
@@ -29,33 +30,37 @@ export function LanguageSwitcher() {
     } else {
       router.push(`/${newLang}${pathname}`)
     }
+    setOpen(false)
   }
 
   const currentLang = pathname.split('/')[1] === 'he' ? Code.HE : Code.EN
 
   return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
+      <PopoverTrigger asChild>
         <Typography
           className="w-6 min-w-6 cursor-pointer uppercase"
           variant="text_main"
         >
           {currentLang}
         </Typography>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-fit min-w-fit rounded-none">
-        <DropdownMenuRadioGroup
-          value={currentLang}
-          onValueChange={(value) => handleLanguageChange(value as Code)}
-        >
-          <DropdownMenuRadioItem className="uppercase" value={Code.EN}>
+      </PopoverTrigger>
+      <PopoverContent className="w-fit min-w-fit rounded-none p-1">
+        <div className="flex w-fit flex-col">
+          <button
+            onClick={() => handleLanguageChange(Code.EN)}
+            className={`hover:bg-accent hover:text-accent-foreground relative flex cursor-pointer items-center gap-2 rounded-sm px-4 py-1.5 text-sm uppercase outline-hidden select-none`}
+          >
             {Code.EN}
-          </DropdownMenuRadioItem>
-          <DropdownMenuRadioItem className="uppercase" value={Code.HE}>
+          </button>
+          <button
+            onClick={() => handleLanguageChange(Code.HE)}
+            className={`hover:bg-accent hover:text-accent-foreground relative flex cursor-pointer items-center gap-2 rounded-sm px-4 py-1.5 text-sm uppercase outline-hidden select-none`}
+          >
             {Code.HE}
-          </DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          </button>
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }

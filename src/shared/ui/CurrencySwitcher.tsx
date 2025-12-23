@@ -1,12 +1,12 @@
 'use client'
 
+import { useState } from 'react'
+
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from '@/shadcn/components/ui/dropdown-menu'
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shadcn/components/ui/popover'
 
 import { Currency } from '../constants'
 import { useLangCurrency } from '../hooks'
@@ -14,26 +14,36 @@ import { Typography } from './Typography'
 
 export const CurrencySwitcher = () => {
   const { currency, setCurrency, allowedCurrencies } = useLangCurrency()
+  const [open, setOpen] = useState(false)
+
+  const handleCurrencyChange = (value: Currency) => {
+    setCurrency(value)
+    setOpen(false)
+  }
+
   return (
-    <DropdownMenu modal={false}>
-      <DropdownMenuTrigger asChild>
-        <Typography className="cursor-pointer uppercase min-w-6 w-6" variant="text_main">
+    <Popover open={open} onOpenChange={setOpen} modal={true}>
+      <PopoverTrigger asChild>
+        <Typography
+          className="w-6 min-w-6 cursor-pointer uppercase"
+          variant="text_main"
+        >
           {currency}
         </Typography>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-fit rounded-none min-w-fit">
-        <DropdownMenuRadioGroup
-          value={currency}
-          onValueChange={(value) => setCurrency(value as Currency)}
-          className='w-fit'
-        >
-          {allowedCurrencies.map((currency) => (
-            <DropdownMenuRadioItem className="uppercase" value={currency} key={currency}>
-              {currency}
-            </DropdownMenuRadioItem>
+      </PopoverTrigger>
+      <PopoverContent className="w-fit min-w-fit rounded-none p-1">
+        <div className="flex w-fit flex-col">
+          {allowedCurrencies.map((curr) => (
+            <button
+              key={curr}
+              onClick={() => handleCurrencyChange(curr as Currency)}
+              className={`hover:bg-accent hover:text-accent-foreground relative flex cursor-pointer items-center gap-2 rounded-sm px-4 py-1.5 text-sm uppercase outline-hidden select-none`}
+            >
+              {curr}
+            </button>
           ))}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }
