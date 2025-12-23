@@ -15,7 +15,7 @@ import { Typography } from './Typography'
 export const CurrencySwitcher = () => {
   const { currency, setCurrency, allowedCurrencies } = useLangCurrency()
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Typography className="cursor-pointer uppercase min-w-6 w-6" variant="text_main">
           {currency}

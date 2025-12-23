@@ -4,7 +4,14 @@ import { useEffect, useState } from 'react'
 
 import Leaf from '@/public/assets/leaves.png'
 import Logo from '@/public/assets/rotmina-logo.png'
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/shadcn/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/shadcn/components/ui/sheet'
 import {
   CurrencySwitcher,
   LanguageSwitcher,
@@ -15,6 +22,7 @@ import {
   useScreenSize,
 } from '@/src/shared'
 import clsx from 'clsx'
+import ky from 'ky'
 import {
   Facebook,
   Instagram,
@@ -31,7 +39,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { MiniCart } from '../features'
-import ky from 'ky'
+
 // const especiallyLinks = ['/login', '/signup', '/reset-password', '/forgot-password', '/']
 
 const getLeftMenu = (t: {
@@ -184,7 +192,12 @@ export const Header = () => {
                   href={localizePath('/eco')}
                   className="cursor-pointer text-lg font-medium"
                 >
-                  <Image src={Leaf} width={24} height={24} alt="Rotmina Eco - Leaf" />
+                  <Image
+                    src={Leaf}
+                    width={24}
+                    height={24}
+                    alt="Rotmina Eco - Leaf"
+                  />
                 </Link>
                 <Link
                   href={localizePath('/account')}
@@ -219,8 +232,13 @@ export const Header = () => {
                 >
                   <SheetHeader className="sr-only">
                     <SheetTitle className="sr-only">
-                      <Typography variant="text_title" className="sr-only">{t.close}</Typography>
+                      <Typography variant="text_title" className="sr-only">
+                        {t.close}
+                      </Typography>
                     </SheetTitle>
+                    <SheetDescription className="sr-only">
+                      Rotmina Mobile Navigation Menu
+                    </SheetDescription>
                   </SheetHeader>
                   <div className="flex h-full flex-col justify-between">
                     <div className="flex flex-col">

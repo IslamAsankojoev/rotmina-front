@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/shadcn/components/ui/dialog'
@@ -66,6 +67,9 @@ export function SalePopup() {
           <DialogTitle className="sr-only">
             {data?.data?.title}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Rotmina Sale Popup
+          </DialogDescription>
         </DialogHeader>
         <div
           className={clsx('flex items-center justify-center gap-4 p-8 md:p-0')}

@@ -2,6 +2,7 @@ import { Toaster } from '@/shadcn/components/ui/sonner'
 import { A11yProvider } from '@/src/accessibility'
 import type { Metadata } from 'next'
 import { Arima } from 'next/font/google'
+import Script from 'next/script'
 import 'swiper/css'
 import 'swiper/css/bundle'
 import 'swiper/css/navigation'
@@ -58,6 +59,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${arima.className} antialiased`}>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-NZQTBKVGYN"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-NZQTBKVGYN');
+          `}
+        </Script>
         <A11yProvider>
           <main id="main">{children}</main>
         </A11yProvider>

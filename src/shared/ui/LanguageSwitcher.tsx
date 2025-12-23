@@ -34,7 +34,7 @@ export function LanguageSwitcher() {
   const currentLang = pathname.split('/')[1] === 'he' ? Code.HE : Code.EN
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Typography
           className="w-6 min-w-6 cursor-pointer uppercase"

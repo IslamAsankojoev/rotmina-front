@@ -10,7 +10,7 @@ import {
 } from '@/shadcn/components/ui/popover'
 import { ScrollArea } from '@/shadcn/components/ui/scroll-area'
 import { Separator } from '@/shadcn/components/ui/separator'
-import { Sheet, SheetContent } from '@/shadcn/components/ui/sheet'
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/shadcn/components/ui/sheet'
 import { useCartActions, useCartInfo } from '@/src/app/store'
 import { Typography, useLangCurrency, useScreenSize, useDictionary } from '@/src/shared'
 import { X } from 'lucide-react'
@@ -151,6 +151,14 @@ export const MiniCart = () => {
       ) : (
         <>
           <Sheet open={isOpen} onOpenChange={handleOpenChange}>
+            <SheetHeader>
+              <SheetTitle className="sr-only">
+                Rotmina Cart
+              </SheetTitle>
+              <SheetDescription className="sr-only">
+                Rotmina Mini Cart
+              </SheetDescription>
+            </SheetHeader>
             <SheetContent
               side="full-right"
               className="p-4"
