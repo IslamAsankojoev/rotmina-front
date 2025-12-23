@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import {
   Popover,
@@ -14,9 +14,8 @@ import { useLangCurrency } from '../hooks'
 import { Typography } from './Typography'
 
 export function LanguageSwitcher() {
-  const { setLang } = useLangCurrency()
+  const { setLang, lang } = useLangCurrency()
   const pathname = usePathname()
-  const router = useRouter()
   const [open, setOpen] = useState(false)
 
   const handleOpenChange = (open: boolean) => {
@@ -30,15 +29,11 @@ export function LanguageSwitcher() {
     if (segments[1] === 'en' || segments[1] === 'he') {
       segments[1] = newLang
       const newPath = segments.join('/')
-      setOpen(false)
-      router.push(newPath)
+      window.location.href = `${window.location.origin}${newPath}`
     } else {
-      setOpen(false)
-      router.push(`/${newLang}${pathname}`)
+      window.location.href = `${window.location.origin}/${newLang}${pathname}`
     }
   }
-
-  const currentLang = pathname.split('/')[1] === 'he' ? Code.HE : Code.EN
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange} modal={true}>
@@ -47,10 +42,10 @@ export function LanguageSwitcher() {
           className="w-6 min-w-6 cursor-pointer uppercase"
           variant="text_main"
         >
-          {currentLang}
+          {lang}
         </Typography>
       </PopoverTrigger>
-      <PopoverContent className="w-fit min-w-fit rounded-none p-1">
+      <PopoverContent className="w-fit min-w-fit rounded-none p-1" side="bottom">
         <div className="flex w-fit flex-col">
           <button
             onClick={() => handleLanguageChange(Code.EN)}

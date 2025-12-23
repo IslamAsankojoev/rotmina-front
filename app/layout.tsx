@@ -19,7 +19,7 @@ const arima = Arima({
 export const metadata: Metadata = {
   title: 'Luxury Vegan Women’s Clothing | Rotmina® Designer Brand',
   description: "Rotmina House offers luxury vegan fashion with elegant, refined lines. Explore timeless designer clothing made from premium cruelty-free materials.",
-  keywords: "luxury vegan clothing, luxury fashion brand, ethical fashion brand, luxury women’s fashion New-York, new collection 2025, women’s collection 2025, cruelty-free fashion, designer clothing Italy online, Rotmina designer clothing, Rotmina, שמלת ערב טבעונית יוקרתית משלוח עד הבית, Lucem Project, מותג אופנה רותמינה, premium vegan winter coat for women, sustainable designer clothing",
+  keywords: "luxury vegan clothing, beauty, beauty collection, luxury fashion brand, ethical fashion brand, luxury women’s fashion New-York, new collection 2025, women’s collection 2025, cruelty-free fashion, designer clothing Italy online, Rotmina designer clothing, Rotmina, שמלת ערב טבעונית יוקרתית משלוח עד הבית, Lucem Project, מותג אופנה רותמינה, premium vegan winter coat for women, sustainable designer clothing",
   openGraph: {
     title: 'Luxury Vegan Women’s Clothing | Rotmina® Designer Brand',
     type: 'website',
